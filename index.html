@@ -92,7 +92,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            width: 185px;
+            width: 200px;
             z-index: 20;
             overflow: hidden;
         }
@@ -285,13 +285,6 @@
             font-size: 12px;
             padding: 4px;
         }
-
-        .empty-state {
-            text-align: center; 
-            color: var(--text-muted); 
-            font-size: 13px; 
-            padding: 20px 0;
-        }
     </style>
 </head>
 <body>
@@ -302,51 +295,60 @@
         <div class="menu-wrapper">
             <button class="menu-icon-btn" onclick="toggleMenu()" title="Menu">⋮</button>
             <div id="dropdownMenu" class="dropdown-menu">
-                <div class="dropdown-item" onclick="openModal('chapter')">➕ Add Chapter</div>
-                <div class="dropdown-item" onclick="openModal('subchapter')">➕ Add Sub-Chapter</div>
+                <div class="dropdown-item" onclick="openModal('main_chapter')">➕ Add Main Chapter</div>
+                <div class="dropdown-item" onclick="openModal('sub_heading')">➕ Add Sub-Heading</div>
+                <div class="dropdown-item" onclick="openModal('quiz_item')">➕ Add Quiz/Chapter Link</div>
                 <div class="dropdown-item" id="reorderMenuItem" onclick="toggleReorderMode()">🔄 Rearrange Order</div>
-                <div class="dropdown-item danger" id="removeChapterMenu" onclick="toggleDeleteMode('chapter')">🗑️ Remove Chapter</div>
-                <div class="dropdown-item danger" id="removeSubMenu" onclick="toggleDeleteMode('subchapter')">🗑️ Remove Sub-Chapter</div>
+                <div class="dropdown-item danger" id="removeMenu" onclick="toggleDeleteMode()">🗑️ Remove Item</div>
             </div>
         </div>
     </div>
 
     <header>
         <h1>NUTHANA GK</h1>
-        <p class="subtitle" id="pageSubtitle">Select Chapter to Practice</p>
+        <p class="subtitle" id="pageSubtitle">Select Main Chapter</p>
     </header>
 
     <div class="list-container" id="listContainer"></div>
 
     <div id="addModal" class="modal">
         <div class="modal-content">
-            <h3 id="modalHeading">Add New Chapter</h3>
-            <div id="chapterSelectWrapper" style="display:none; display:flex; flex-direction:column; gap:4px;">
-                <label style="font-size: 11px; color: var(--text-muted);">Select Parent Chapter:</label>
-                <select id="parentChapterSelect"></select>
+            <h3 id="modalHeading">Add Item</h3>
+            <div id="parentSelectWrapper" style="display:none; flex-direction:column; gap:4px;">
+                <label style="font-size: 11px; color: var(--text-muted);" id="parentLabel">Select Parent:</label>
+                <select id="parentSelect" onchange="updateSubParentOptions()"></select>
             </div>
-            <input type="text" id="userInputName" placeholder="e.g. World History" autocomplete="off">
+            <div id="subParentSelectWrapper" style="display:none; flex-direction:column; gap:4px;">
+                <label style="font-size: 11px; color: var(--text-muted);">Select Sub-Heading:</label>
+                <select id="subParentSelect"></select>
+            </div>
+            <input type="text" id="userInputName" placeholder="Enter name..." autocomplete="off">
             <button type="button" onclick="handleFormSubmit()">Create</button>
             <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
         </div>
     </div>
 
     <script>
-        let quizDatabase = JSON.parse(localStorage.getItem('history_quiz_data')) || {
-            "Ancient History": ["Indus Valley Civilization", "Vedic Period", "Maurya Empire"],
-            "Medieval History": ["Delhi Sultanate", "Mughal Empire", "Maratha Empire"],
-            "Modern History": ["Indian National Movement", "British Raj", "Post Independence"]
+        // 3-Tier Database structure: Main Chapter -> Sub-Heading -> Quiz Items
+        let quizDatabase = JSON.parse(localStorage.getItem('history_quiz_data_v3')) || {
+            "History": {
+                "Ancient History": ["Indus Valley Civilization", "Vedic Period", "Maurya Empire"],
+                "Medieval History": ["Delhi Sultanate", "Mughal Empire"]
+            },
+            "Geography": {
+                "Physical Geography": ["Mountains", "Rivers"]
+            }
         };
 
-        let currentView = 'chapters'; 
-        let selectedChapter = null;
-        let deleteTargetType = null; // 'chapter' or 'subchapter'
+        let currentView = 'main'; // 'main', 'subheadings', 'items'
+        let selectedMain = null;
+        let selectedSub = null;
         let isDeleteMode = false;
         let isReorderMode = false;
-        let modalTargetType = 'chapter'; // 'chapter' or 'subchapter'
+        let modalType = 'main_chapter';
 
         function saveData() {
-            localStorage.setItem('history_quiz_data', JSON.stringify(quizDatabase));
+            localStorage.setItem('history_quiz_data_v3', JSON.stringify(quizDatabase));
         }
 
         function toggleMenu() {
@@ -365,8 +367,7 @@
             const titleEl = document.querySelector('header h1');
             const subtitleEl = document.getElementById('pageSubtitle');
             const backBtn = document.getElementById('navBackBtn');
-            const removeChapterMenu = document.getElementById('removeChapterMenu');
-            const removeSubMenu = document.getElementById('removeSubMenu');
+            const removeMenu = document.getElementById('removeMenu');
             const reorderMenuItem = document.getElementById('reorderMenuItem');
             
             container.innerHTML = '';
@@ -374,67 +375,80 @@
 
             if (isDeleteMode) {
                 container.classList.add('delete-mode');
+                removeMenu.innerHTML = "✅ Done Removing";
                 reorderMenuItem.style.display = 'none';
-                if (deleteTargetType === 'chapter') {
-                    removeChapterMenu.innerHTML = "✅ Done Removing Chapters";
-                    removeSubMenu.style.display = 'none';
-                } else {
-                    removeSubMenu.innerHTML = "✅ Done Removing Sub-Chapters";
-                    removeChapterMenu.style.display = 'none';
-                }
             } else if (isReorderMode) {
                 container.classList.add('reorder-mode');
                 reorderMenuItem.innerHTML = "✅ Done Rearranging";
-                removeChapterMenu.style.display = 'flex';
-                removeSubMenu.style.display = 'flex';
+                removeMenu.style.display = 'none';
             } else {
-                removeChapterMenu.innerHTML = "🗑️ Remove Chapter";
-                removeChapterMenu.style.display = 'flex';
-                removeSubMenu.innerHTML = "🗑️ Remove Sub-Chapter";
-                removeSubMenu.style.display = 'flex';
+                removeMenu.innerHTML = "🗑️ Remove Item";
+                removeMenu.style.display = 'flex';
                 reorderMenuItem.innerHTML = "🔄 Rearrange Order";
                 reorderMenuItem.style.display = 'flex';
             }
 
-            if (currentView === 'chapters') {
+            if (currentView === 'main') {
                 titleEl.innerText = "NUTHANA GK";
-                subtitleEl.innerText = isDeleteMode ? `⚠️ Click any ${deleteTargetType} to delete` : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter to Practice");
+                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any item to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Main Chapter");
                 backBtn.style.display = 'none';
 
-                const chapters = Object.keys(quizDatabase);
-                chapters.forEach((chap, index) => {
+                const mains = Object.keys(quizDatabase);
+                mains.forEach((mainKey, index) => {
                     let controlsHTML = isReorderMode ? 
                         `<div class="reorder-controls">
                             ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                            ${index < chapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                            ${index < mains.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
                         </div>` : 
-                        `<span class="arrow">${(isDeleteMode && deleteTargetType === 'chapter') ? '✕' : '→'}</span>`;
+                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
-                        <div class="card-item" onclick="handleCardClick('${chap}')">
-                            <span>${chap}</span>
+                        <div class="card-item" onclick="handleCardClick('${mainKey}')">
+                            <span>${mainKey}</span>
                             ${controlsHTML}
                         </div>
                     `;
                 });
 
-            } else if (currentView === 'subchapters') {
-                titleEl.innerText = selectedChapter;
-                subtitleEl.innerText = isDeleteMode ? `⚠️ Click any ${deleteTargetType} to delete` : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Chapter / Test Series");
+            } else if (currentView === 'subheadings') {
+                titleEl.innerText = selectedMain;
+                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any sub-heading to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Heading");
                 backBtn.style.display = 'inline-block';
 
-                const subchapters = quizDatabase[selectedChapter] || [];
-                subchapters.forEach((sub, index) => {
+                const subs = quizDatabase[selectedMain] ? Object.keys(quizDatabase[selectedMain]) : [];
+                subs.forEach((subKey, index) => {
                     let controlsHTML = isReorderMode ? 
                         `<div class="reorder-controls">
                             ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                            ${index < subchapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                            ${index < subs.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
                         </div>` : 
-                        `<span class="arrow">${(isDeleteMode && deleteTargetType === 'subchapter') ? '✕' : '→'}</span>`;
+                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
-                        <div class="card-item" onclick="handleCardClick('${sub}')">
-                            <span>${sub}</span>
+                        <div class="card-item" onclick="handleCardClick('${subKey}')">
+                            <span>${subKey}</span>
+                            ${controlsHTML}
+                        </div>
+                    `;
+                });
+
+            } else if (currentView === 'items') {
+                titleEl.innerText = selectedSub;
+                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any chapter link to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter / Test Series");
+                backBtn.style.display = 'inline-block';
+
+                const items = (quizDatabase[selectedMain] && quizDatabase[selectedMain][selectedSub]) ? quizDatabase[selectedMain][selectedSub] : [];
+                items.forEach((item, index) => {
+                    let controlsHTML = isReorderMode ? 
+                        `<div class="reorder-controls">
+                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
+                            ${index < items.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                        </div>` : 
+                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
+
+                    container.innerHTML += `
+                        <div class="card-item" onclick="handleCardClick('${item}')">
+                            <span>${item}</span>
                             ${controlsHTML}
                         </div>
                     `;
@@ -444,129 +458,165 @@
 
         function moveItem(index, direction, event) {
             event.stopPropagation();
-            if (currentView === 'chapters') {
+            if (currentView === 'main') {
                 let keys = Object.keys(quizDatabase);
-                let targetIndex = index + direction;
+                let target = index + direction;
                 let temp = keys[index];
-                keys[index] = keys[targetIndex];
-                keys[targetIndex] = temp;
+                keys[index] = keys[target];
+                keys[target] = temp;
                 let newDb = {};
                 keys.forEach(k => { newDb[k] = quizDatabase[k]; });
                 quizDatabase = newDb;
-            } else if (currentView === 'subchapters') {
-                let subs = quizDatabase[selectedChapter];
-                let targetIndex = index + direction;
-                let temp = subs[index];
-                subs[index] = subs[targetIndex];
-                subs[targetIndex] = temp;
+            } else if (currentView === 'subheadings') {
+                let subs = quizDatabase[selectedMain];
+                let keys = Object.keys(subs);
+                let target = index + direction;
+                let temp = keys[index];
+                keys[index] = keys[target];
+                keys[target] = temp;
+                let newSubs = {};
+                keys.forEach(k => { newSubs[k] = subs[k]; });
+                quizDatabase[selectedMain] = newSubs;
+            } else if (currentView === 'items') {
+                let list = quizDatabase[selectedMain][selectedSub];
+                let target = index + direction;
+                let temp = list[index];
+                list[index] = list[target];
+                list[target] = temp;
             }
             saveData();
             renderUI();
         }
 
-        function handleCardClick(itemName) {
+        function handleCardClick(name) {
             if (isDeleteMode) {
-                if (deleteTargetType === 'chapter') {
-                    if (confirm(`Permanently delete chapter "${itemName}" and all its sub-chapters?`)) {
-                        delete quizDatabase[itemName];
-                        if (selectedChapter === itemName) {
-                            currentView = 'chapters';
-                            selectedChapter = null;
-                        }
+                if (currentView === 'main') {
+                    if (confirm(`Delete main chapter "${name}" and everything inside it?`)) {
+                        delete quizDatabase[name];
                         saveData();
                     }
-                } else if (deleteTargetType === 'subchapter') {
-                    // Figure out which chapter contains this sub-chapter if we are in chapter view
-                    let parentChap = selectedChapter;
-                    if (!parentChap) {
-                        for (let chap in quizDatabase) {
-                            if (quizDatabase[chap].includes(itemName)) {
-                                parentChap = chap;
-                                break;
-                            }
-                        }
+                } else if (currentView === 'subheadings') {
+                    if (confirm(`Delete sub-heading "${name}" and its items?`)) {
+                        delete quizDatabase[selectedMain][name];
+                        saveData();
                     }
-                    if (parentChap && confirm(`Permanently delete sub-chapter "${itemName}"?`)) {
-                        quizDatabase[parentChap] = quizDatabase[parentChap].filter(s => s !== itemName);
+                } else if (currentView === 'items') {
+                    if (confirm(`Delete item "${name}"?`)) {
+                        quizDatabase[selectedMain][selectedSub] = quizDatabase[selectedMain][selectedSub].filter(i => i !== name);
                         saveData();
                     }
                 }
                 renderUI();
             } else if (!isReorderMode) {
-                if (currentView === 'chapters') {
-                    selectedChapter = itemName;
-                    currentView = 'subchapters';
+                if (currentView === 'main') {
+                    selectedMain = name;
+                    currentView = 'subheadings';
                     renderUI();
-                } else if (currentView === 'subchapters') {
-                    if (itemName === "Indus Valley Civilization") {
+                } else if (currentView === 'subheadings') {
+                    selectedSub = name;
+                    currentView = 'items';
+                    renderUI();
+                } else if (currentView === 'items') {
+                    if (name === "Indus Valley Civilization") {
                         window.location.href = "quiz.html";
                     } else {
-                        let fileName = itemName.toLowerCase().replace(/\s+/g, '_') + '.html';
+                        let fileName = name.toLowerCase().replace(/\s+/g, '_') + '.html';
                         window.location.href = fileName;
                     }
                 }
             }
         }
 
-        function toggleDeleteMode(targetType) {
-            if (isDeleteMode && deleteTargetType === targetType) {
-                isDeleteMode = false;
-                deleteTargetType = null;
-            } else {
-                isDeleteMode = true;
-                deleteTargetType = targetType;
-                isReorderMode = false;
-            }
+        function toggleDeleteMode() {
+            isDeleteMode = !isDeleteMode;
+            isReorderMode = false;
             renderUI();
         }
 
         function toggleReorderMode() {
             isReorderMode = !isReorderMode;
             isDeleteMode = false;
-            deleteTargetType = null;
             renderUI();
         }
 
         function goBack() {
             isDeleteMode = false;
             isReorderMode = false;
-            deleteTargetType = null;
-            currentView = 'chapters';
-            selectedChapter = null;
+            if (currentView === 'items') {
+                currentView = 'subheadings';
+                selectedSub = null;
+            } else if (currentView === 'subheadings') {
+                currentView = 'main';
+                selectedMain = null;
+            }
             renderUI();
         }
 
         function openModal(type) {
             isDeleteMode = false;
             isReorderMode = false;
-            deleteTargetType = null;
-            modalTargetType = type;
+            modalType = type;
             document.getElementById('userInputName').value = '';
-            
-            const heading = document.getElementById('modalHeading');
-            const selectWrapper = document.getElementById('chapterSelectWrapper');
-            const selectEl = document.getElementById('parentChapterSelect');
 
-            if (type === 'chapter') {
-                heading.innerText = "Add New Chapter";
-                selectWrapper.style.display = 'none';
-                document.getElementById('userInputName').placeholder = "e.g. World History";
-            } else {
-                heading.innerText = "Add New Sub-Chapter";
-                selectWrapper.style.display = 'flex';
-                selectEl.innerHTML = '';
-                Object.keys(quizDatabase).forEach(chap => {
+            const heading = document.getElementById('modalHeading');
+            const parentWrapper = document.getElementById('parentSelectWrapper');
+            const subParentWrapper = document.getElementById('subParentSelectWrapper');
+            const parentSelect = document.getElementById('parentSelect');
+
+            parentWrapper.style.display = 'none';
+            subParentWrapper.style.display = 'none';
+
+            if (type === 'main_chapter') {
+                heading.innerText = "Add Main Chapter";
+                document.getElementById('userInputName').placeholder = "e.g. History";
+            } else if (type === 'sub_heading') {
+                heading.innerText = "Add Sub-Heading";
+                parentWrapper.style.display = 'flex';
+                document.getElementById('parentLabel').innerText = "Select Main Chapter:";
+                parentSelect.innerHTML = '';
+                Object.keys(quizDatabase).forEach(m => {
                     let opt = document.createElement('option');
-                    opt.value = chap;
-                    opt.innerText = chap;
-                    if (selectedChapter === chap) opt.selected = true;
-                    selectEl.appendChild(opt);
+                    opt.value = m;
+                    opt.innerText = m;
+                    if (selectedMain === m) opt.selected = true;
+                    parentSelect.appendChild(opt);
                 });
-                document.getElementById('userInputName').placeholder = "e.g. Revolt of 1857";
+                document.getElementById('userInputName').placeholder = "e.g. Ancient History";
+            } else if (type === 'quiz_item') {
+                heading.innerText = "Add Chapter/Quiz Link";
+                parentWrapper.style.display = 'flex';
+                subParentWrapper.style.display = 'flex';
+                document.getElementById('parentLabel').innerText = "Select Main Chapter:";
+                
+                parentSelect.innerHTML = '';
+                Object.keys(quizDatabase).forEach(m => {
+                    let opt = document.createElement('option');
+                    opt.value = m;
+                    opt.innerText = m;
+                    if (selectedMain === m) opt.selected = true;
+                    parentSelect.appendChild(opt);
+                });
+                updateSubParentOptions();
+                document.getElementById('userInputName').placeholder = "e.g. Vedic Period";
             }
 
             document.getElementById('addModal').style.display = 'flex';
             document.getElementById('userInputName').focus();
+        }
+
+        function updateSubParentOptions() {
+            const mainChoice = document.getElementById('parentSelect').value;
+            const subSelect = document.getElementById('subParentSelect');
+            subSelect.innerHTML = '';
+            if (quizDatabase[mainChoice]) {
+                Object.keys(quizDatabase[mainChoice]).forEach(s => {
+                    let opt = document.createElement('option');
+                    opt.value = s;
+                    opt.innerText = s;
+                    if (selectedSub === s) opt.selected = true;
+                    subSelect.appendChild(opt);
+                });
+            }
         }
 
         function closeModal() {
@@ -574,19 +624,28 @@
         }
 
         function handleFormSubmit() {
-            const inputVal = document.getElementById('userInputName').value.trim();
-            if (!inputVal) return;
+            const val = document.getElementById('userInputName').value.trim();
+            if (!val) return;
 
-            if (modalTargetType === 'chapter') {
-                if (!quizDatabase[inputVal]) {
-                    quizDatabase[inputVal] = [];
+            if (modalType === 'main_chapter') {
+                if (!quizDatabase[val]) {
+                    quizDatabase[val] = {};
                     saveData();
                 }
-            } else if (modalTargetType === 'subchapter') {
-                const targetChap = document.getElementById('parentChapterSelect').value;
-                if (targetChap && quizDatabase[targetChap]) {
-                    if (!quizDatabase[targetChap].includes(inputVal)) {
-                        quizDatabase[targetChap].push(inputVal);
+            } else if (modalType === 'sub_heading') {
+                const main = document.getElementById('parentSelect').value;
+                if (main && quizDatabase[main]) {
+                    if (!quizDatabase[main][val]) {
+                        quizDatabase[main][val] = [];
+                        saveData();
+                    }
+                }
+            } else if (modalType === 'quiz_item') {
+                const main = document.getElementById('parentSelect').value;
+                const sub = document.getElementById('subParentSelect').value;
+                if (main && sub && quizDatabase[main] && quizDatabase[main][sub]) {
+                    if (!quizDatabase[main][sub].includes(val)) {
+                        quizDatabase[main][sub].push(val);
                         saveData();
                     }
                 }
