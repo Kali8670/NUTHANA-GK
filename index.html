@@ -92,7 +92,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            width: 155px;
+            width: 185px;
             z-index: 20;
             overflow: hidden;
         }
@@ -250,7 +250,7 @@
             color: var(--accent-green);
         }
 
-        .modal-content input {
+        .modal-content select, .modal-content input {
             background: #0b131a;
             border: 1px solid #22303c;
             padding: 11px;
@@ -261,7 +261,7 @@
             transition: border-color 0.2s;
         }
 
-        .modal-content input:focus {
+        .modal-content select:focus, .modal-content input:focus {
             border-color: var(--accent-green);
         }
 
@@ -302,9 +302,11 @@
         <div class="menu-wrapper">
             <button class="menu-icon-btn" onclick="toggleMenu()" title="Menu">⋮</button>
             <div id="dropdownMenu" class="dropdown-menu">
-                <div class="dropdown-item" onclick="openModal()">➕ Add Item</div>
+                <div class="dropdown-item" onclick="openModal('chapter')">➕ Add Chapter</div>
+                <div class="dropdown-item" onclick="openModal('subchapter')">➕ Add Sub-Chapter</div>
                 <div class="dropdown-item" id="reorderMenuItem" onclick="toggleReorderMode()">🔄 Rearrange Order</div>
-                <div class="dropdown-item danger" id="removeMenuItem" onclick="toggleDeleteMode()">🗑️ Remove</div>
+                <div class="dropdown-item danger" id="removeChapterMenu" onclick="toggleDeleteMode('chapter')">🗑️ Remove Chapter</div>
+                <div class="dropdown-item danger" id="removeSubMenu" onclick="toggleDeleteMode('subchapter')">🗑️ Remove Sub-Chapter</div>
             </div>
         </div>
     </div>
@@ -319,6 +321,10 @@
     <div id="addModal" class="modal">
         <div class="modal-content">
             <h3 id="modalHeading">Add New Chapter</h3>
+            <div id="chapterSelectWrapper" style="display:none; display:flex; flex-direction:column; gap:4px;">
+                <label style="font-size: 11px; color: var(--text-muted);">Select Parent Chapter:</label>
+                <select id="parentChapterSelect"></select>
+            </div>
             <input type="text" id="userInputName" placeholder="e.g. World History" autocomplete="off">
             <button type="button" onclick="handleFormSubmit()">Create</button>
             <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
@@ -334,8 +340,10 @@
 
         let currentView = 'chapters'; 
         let selectedChapter = null;
+        let deleteTargetType = null; // 'chapter' or 'subchapter'
         let isDeleteMode = false;
         let isReorderMode = false;
+        let modalTargetType = 'chapter'; // 'chapter' or 'subchapter'
 
         function saveData() {
             localStorage.setItem('history_quiz_data', JSON.stringify(quizDatabase));
@@ -357,7 +365,8 @@
             const titleEl = document.querySelector('header h1');
             const subtitleEl = document.getElementById('pageSubtitle');
             const backBtn = document.getElementById('navBackBtn');
-            const removeMenuItem = document.getElementById('removeMenuItem');
+            const removeChapterMenu = document.getElementById('removeChapterMenu');
+            const removeSubMenu = document.getElementById('removeSubMenu');
             const reorderMenuItem = document.getElementById('reorderMenuItem');
             
             container.innerHTML = '';
@@ -365,22 +374,31 @@
 
             if (isDeleteMode) {
                 container.classList.add('delete-mode');
-                removeMenuItem.innerHTML = "✅ Done Removing";
                 reorderMenuItem.style.display = 'none';
+                if (deleteTargetType === 'chapter') {
+                    removeChapterMenu.innerHTML = "✅ Done Removing Chapters";
+                    removeSubMenu.style.display = 'none';
+                } else {
+                    removeSubMenu.innerHTML = "✅ Done Removing Sub-Chapters";
+                    removeChapterMenu.style.display = 'none';
+                }
             } else if (isReorderMode) {
                 container.classList.add('reorder-mode');
                 reorderMenuItem.innerHTML = "✅ Done Rearranging";
-                removeMenuItem.style.display = 'none';
+                removeChapterMenu.style.display = 'flex';
+                removeSubMenu.style.display = 'flex';
             } else {
-                removeMenuItem.innerHTML = "🗑️ Remove";
-                removeMenuItem.style.display = 'flex';
+                removeChapterMenu.innerHTML = "🗑️ Remove Chapter";
+                removeChapterMenu.style.display = 'flex';
+                removeSubMenu.innerHTML = "🗑️ Remove Sub-Chapter";
+                removeSubMenu.style.display = 'flex';
                 reorderMenuItem.innerHTML = "🔄 Rearrange Order";
                 reorderMenuItem.style.display = 'flex';
             }
 
             if (currentView === 'chapters') {
                 titleEl.innerText = "NUTHANA GK";
-                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any chapter to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter to Practice");
+                subtitleEl.innerText = isDeleteMode ? `⚠️ Click any ${deleteTargetType} to delete` : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter to Practice");
                 backBtn.style.display = 'none';
 
                 const chapters = Object.keys(quizDatabase);
@@ -390,7 +408,7 @@
                             ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
                             ${index < chapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
                         </div>` : 
-                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
+                        `<span class="arrow">${(isDeleteMode && deleteTargetType === 'chapter') ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
                         <div class="card-item" onclick="handleCardClick('${chap}')">
@@ -402,7 +420,7 @@
 
             } else if (currentView === 'subchapters') {
                 titleEl.innerText = selectedChapter;
-                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any sub-chapter to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Chapter / Test Series");
+                subtitleEl.innerText = isDeleteMode ? `⚠️ Click any ${deleteTargetType} to delete` : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Chapter / Test Series");
                 backBtn.style.display = 'inline-block';
 
                 const subchapters = quizDatabase[selectedChapter] || [];
@@ -412,7 +430,7 @@
                             ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
                             ${index < subchapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
                         </div>` : 
-                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
+                        `<span class="arrow">${(isDeleteMode && deleteTargetType === 'subchapter') ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
                         <div class="card-item" onclick="handleCardClick('${sub}')">
@@ -448,14 +466,28 @@
 
         function handleCardClick(itemName) {
             if (isDeleteMode) {
-                if (currentView === 'chapters') {
-                    if (confirm(`Permanently delete "${itemName}"?`)) {
+                if (deleteTargetType === 'chapter') {
+                    if (confirm(`Permanently delete chapter "${itemName}" and all its sub-chapters?`)) {
                         delete quizDatabase[itemName];
+                        if (selectedChapter === itemName) {
+                            currentView = 'chapters';
+                            selectedChapter = null;
+                        }
                         saveData();
                     }
-                } else if (currentView === 'subchapters') {
-                    if (confirm(`Permanently delete "${itemName}"?`)) {
-                        quizDatabase[selectedChapter] = quizDatabase[selectedChapter].filter(s => s !== itemName);
+                } else if (deleteTargetType === 'subchapter') {
+                    // Figure out which chapter contains this sub-chapter if we are in chapter view
+                    let parentChap = selectedChapter;
+                    if (!parentChap) {
+                        for (let chap in quizDatabase) {
+                            if (quizDatabase[chap].includes(itemName)) {
+                                parentChap = chap;
+                                break;
+                            }
+                        }
+                    }
+                    if (parentChap && confirm(`Permanently delete sub-chapter "${itemName}"?`)) {
+                        quizDatabase[parentChap] = quizDatabase[parentChap].filter(s => s !== itemName);
                         saveData();
                     }
                 }
@@ -466,9 +498,8 @@
                     currentView = 'subchapters';
                     renderUI();
                 } else if (currentView === 'subchapters') {
-                    // Direct link to your test file (move your quiz file to the main root folder for best results)
                     if (itemName === "Indus Valley Civilization") {
-                        window.location.href = "quiz.html"; // Change this to your actual uploaded test filename
+                        window.location.href = "quiz.html";
                     } else {
                         let fileName = itemName.toLowerCase().replace(/\s+/g, '_') + '.html';
                         window.location.href = fileName;
@@ -477,31 +508,63 @@
             }
         }
 
-        function toggleDeleteMode() {
-            isDeleteMode = !isDeleteMode;
-            isReorderMode = false;
+        function toggleDeleteMode(targetType) {
+            if (isDeleteMode && deleteTargetType === targetType) {
+                isDeleteMode = false;
+                deleteTargetType = null;
+            } else {
+                isDeleteMode = true;
+                deleteTargetType = targetType;
+                isReorderMode = false;
+            }
             renderUI();
         }
 
         function toggleReorderMode() {
             isReorderMode = !isReorderMode;
             isDeleteMode = false;
+            deleteTargetType = null;
             renderUI();
         }
 
         function goBack() {
             isDeleteMode = false;
             isReorderMode = false;
+            deleteTargetType = null;
             currentView = 'chapters';
             selectedChapter = null;
             renderUI();
         }
 
-        function openModal() {
+        function openModal(type) {
             isDeleteMode = false;
             isReorderMode = false;
+            deleteTargetType = null;
+            modalTargetType = type;
             document.getElementById('userInputName').value = '';
-            document.getElementById('modalHeading').innerText = currentView === 'chapters' ? "Add New Chapter" : "Add New Sub-Chapter";
+            
+            const heading = document.getElementById('modalHeading');
+            const selectWrapper = document.getElementById('chapterSelectWrapper');
+            const selectEl = document.getElementById('parentChapterSelect');
+
+            if (type === 'chapter') {
+                heading.innerText = "Add New Chapter";
+                selectWrapper.style.display = 'none';
+                document.getElementById('userInputName').placeholder = "e.g. World History";
+            } else {
+                heading.innerText = "Add New Sub-Chapter";
+                selectWrapper.style.display = 'flex';
+                selectEl.innerHTML = '';
+                Object.keys(quizDatabase).forEach(chap => {
+                    let opt = document.createElement('option');
+                    opt.value = chap;
+                    opt.innerText = chap;
+                    if (selectedChapter === chap) opt.selected = true;
+                    selectEl.appendChild(opt);
+                });
+                document.getElementById('userInputName').placeholder = "e.g. Revolt of 1857";
+            }
+
             document.getElementById('addModal').style.display = 'flex';
             document.getElementById('userInputName').focus();
         }
@@ -514,15 +577,16 @@
             const inputVal = document.getElementById('userInputName').value.trim();
             if (!inputVal) return;
 
-            if (currentView === 'chapters') {
+            if (modalTargetType === 'chapter') {
                 if (!quizDatabase[inputVal]) {
                     quizDatabase[inputVal] = [];
                     saveData();
                 }
-            } else if (currentView === 'subchapters') {
-                if (selectedChapter && quizDatabase[selectedChapter]) {
-                    if (!quizDatabase[selectedChapter].includes(inputVal)) {
-                        quizDatabase[selectedChapter].push(inputVal);
+            } else if (modalTargetType === 'subchapter') {
+                const targetChap = document.getElementById('parentChapterSelect').value;
+                if (targetChap && quizDatabase[targetChap]) {
+                    if (!quizDatabase[targetChap].includes(inputVal)) {
+                        quizDatabase[targetChap].push(inputVal);
                         saveData();
                     }
                 }
