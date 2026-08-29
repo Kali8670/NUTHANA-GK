@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History GK Quiz - Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0b131a;
+            --card-bg: linear-gradient(145deg, #131c25, #10171f);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-hover: #00ff88;
+            --accent-green: #00ff88;
+            --accent-red: #ff4d4d;
+            --accent-blue: #38bdf8;
+            --text-main: #ffffff;
+            --text-muted: #8899a6;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top Corner Navigation & Menu Controls */
+        .admin-container {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .btn-small {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--accent-green);
+            padding: 6px 12px;
+            font-size: 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-small:hover {
+            background: var(--accent-green);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Menu Button & Dropdown Styles */
+        .menu-wrapper {
+            position: relative;
+        }
+
+        .menu-icon-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .menu-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background: #131c25;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 155px;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .dropdown-item {
+            padding: 10px 14px;
+            font-size: 12px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-green);
+        }
+
+        .dropdown-item.danger:hover {
+            color: var(--accent-red);
+        }
+
+        header {
+            text-align: center;
+            margin-top: 65px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: var(--accent-green);
+            font-size: 22px;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+        }
+
+        .list-container {
+            width: 90%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 40px;
+        }
+
+        .card-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 18px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card-item:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.12);
+        }
+
+        .delete-mode .card-item:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.15);
+        }
+
+        .reorder-mode .card-item {
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .reorder-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .reorder-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--accent-blue);
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reorder-btn:hover {
+            background: var(--accent-blue);
+            color: var(--bg-color);
+        }
+
+        .arrow {
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .card-item:hover .arrow {
+            color: var(--accent-green);
+            transform: translateX(3px);
+        }
+
+        .delete-mode .card-item:hover .arrow {
+            color: var(--accent-red);
+            transform: none;
+        }
+
+        /* Modal Overlay Design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 9, 13, 0.8);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #131c25;
+            padding: 22px;
+            border-radius: 12px;
+            border: 1px solid var(--accent-green);
+            width: 85%;
+            max-width: 310px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-content h3 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            color: var(--accent-green);
+        }
+
+        .modal-content input {
+            background: #0b131a;
+            border: 1px solid #22303c;
+            padding: 11px;
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .modal-content input:focus {
+            border-color: var(--accent-green);
+        }
+
+        .modal-content button[type="submit"] {
+            background: var(--accent-green);
+            color: var(--bg-color);
+            border: none;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .modal-content button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 4px;
+        }
+
+        .cancel-btn:hover {
+            color: var(--text-main);
+        }
+
+        .empty-state {
+            text-align: center; 
+            color: var(--text-muted); 
+            font-size: 13px; 
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Corner Controls & Hidden Menu Symbol -->
+    <div class="admin-container">
+        <button class="btn-small" id="navBackBtn" style="display: none;" onclick="goBack()">← Back</button>
+        
+        <div class="menu-wrapper">
+            <button class="menu-icon-btn" onclick="toggleMenu()" title="Menu">⋮</button>
+            <div id="dropdownMenu" class="dropdown-menu">
+                <div class="dropdown-item" onclick="openModal()">➕ Add Item</div>
+                <div class="dropdown-item" id="reorderMenuItem" onclick="toggleReorderMode()">🔄 Rearrange Order</div>
+                <div class="dropdown-item danger" id="removeMenuItem" onclick="toggleDeleteMode()">🗑️ Remove</div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <h1 id="pageTitle">HISTORY GK</h1>
+        <p class="subtitle" id="pageSubtitle">Select Chapter to Practice</p>
+    </header>
+
+    <!-- Dynamic Options List Container -->
+    <div class="list-container" id="listContainer">
+        <!-- JavaScript renders list items dynamically here -->
+    </div>
+
+    <!-- Modal Form Popup -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalHeading">Add New Chapter</h3>
+            <input type="text" id="userInputName" placeholder="e.g. World History" autocomplete="off">
+            <button type="button" onclick="handleFormSubmit()">Create</button>
+            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let quizDatabase = JSON.parse(localStorage.getItem('history_quiz_data')) || {
+            "Ancient History": ["Indus Valley Civilization", "Vedic Period", "Maurya Empire"],
+            "Medieval History": ["Delhi Sultanate", "Mughal Empire", "Maratha Empire"],
+            "Modern History": ["Indian National Movement", "British Raj", "Post Independence"]
+        };
+
+        let currentView = 'chapters'; 
+        let selectedChapter = null;
+        let isDeleteMode = false;
+        let isReorderMode = false;
+
+        function saveData() {
+            localStorage.setItem('history_quiz_data', JSON.stringify(quizDatabase));
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-icon-btn')) {
+                document.getElementById('dropdownMenu').style.display = 'none';
+            }
+        }
+
+        function renderUI() {
+            const container = document.getElementById('listContainer');
+            const titleEl = document.getElementById('pageTitle');
+            const subtitleEl = document.getElementById('pageSubtitle');
+            const backBtn = document.getElementById('navBackBtn');
+            const removeMenuItem = document.getElementById('removeMenuItem');
+            const reorderMenuItem = document.getElementById('reorderMenuItem');
+            
+            container.innerHTML = '';
+
+            container.classList.remove('delete-mode', 'reorder-mode');
+
+            if (isDeleteMode) {
+                container.classList.add('delete-mode');
+                removeMenuItem.innerHTML = "✅ Done Removing";
+                reorderMenuItem.style.display = 'none';
+            } else if (isReorderMode) {
+                container.classList.add('reorder-mode');
+                reorderMenuItem.innerHTML = "✅ Done Rearranging";
+                removeMenuItem.style.display = 'none';
+            } else {
+                removeMenuItem.innerHTML = "🗑️ Remove";
+                removeMenuItem.style.display = 'flex';
+                reorderMenuItem.innerHTML = "🔄 Rearrange Order";
+                reorderMenuItem.style.display = 'flex';
+            }
+
+            if (currentView === 'chapters') {
+                titleEl.innerText = "HISTORY GK";
+                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any chapter to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter to Practice");
+                backBtn.style.display = 'none';
+
+                const chapters = Object.keys(quizDatabase);
+                if (chapters.length === 0) {
+                    container.innerHTML = `<div class="empty-state">No chapters found. Use the '⋮' menu above to add.</div>`;
+                    return;
+                }
+
+                chapters.forEach((chap, index) => {
+                    let controlsHTML = '';
+                    if (isReorderMode) {
+                        controlsHTML = `
+                            <div class="reorder-controls">
+                                ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
+                                ${index < chapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                            </div>
+                        `;
+                    } else {
+                        controlsHTML = `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
+                    }
+
+                    container.innerHTML += `
+                        <div class="card-item" onclick="handleCardClick('${chap}')">
+                            <span>${chap}</span>
+                            ${controlsHTML}
+                        </div>
+                    `;
+                });
+
+            } else if (currentView === 'subchapters') {
+                titleEl.innerText = selectedChapter;
+                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any sub-chapter to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Chapter / Test Series");
+                backBtn.style.display = 'inline-block';
+
+                const subchapters = quizDatabase[selectedChapter] || [];
+                if (subchapters.length === 0) {
+                    container.innerHTML = `<div class="empty-state">No sub-chapters found. Use the '⋮' menu above to add!</div>`;
+                    return;
+                }
+
+                subchapters.forEach((sub, index) => {
+                    let controlsHTML = '';
+                    if (isReorderMode) {
+                        controlsHTML = `
+                            <div class="reorder-controls">
+                                ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
+                                ${index < subchapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                            </div>
+                        `;
+                    } else {
+                        controlsHTML = `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
+                    }
+
+                    container.innerHTML += `
+                        <div class="card-item" onclick="handleCardClick('${sub}')">
+                            <span>${sub}</span>
+                            ${controlsHTML}
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function moveItem(index, direction, event) {
+            event.stopPropagation(); // Prevent opening/deleting when clicking reorder arrows
+            
+            if (currentView === 'chapters') {
+                let keys = Object.keys(quizDatabase);
+                let targetIndex = index + direction;
+                
+                // Swap keys in object order
+                let temp = keys[index];
+                keys[index] = keys[targetIndex];
+                keys[targetIndex] = temp;
+                
+                let newDb = {};
+                keys.forEach(k => { newDb[k] = quizDatabase[k]; });
+                quizDatabase = newDb;
+                
+            } else if (currentView === 'subchapters') {
+                let subs = quizDatabase[selectedChapter];
+                let targetIndex = index + direction;
+                
+                let temp = subs[index];
+                subs[index] = subs[targetIndex];
+                subs[targetIndex] = temp;
+            }
+            
+            saveData();
+            renderUI();
+        }
+
+        function handleCardClick(itemName) {
+            if (isDeleteMode) {
+                if (currentView === 'chapters') {
+                    if (confirm(`Permanently delete "${itemName}" and all its sub-chapters?`)) {
+                        delete quizDatabase[itemName];
+                        saveData();
+                    }
+                } else if (currentView === 'subchapters') {
+                    if (confirm(`Permanently delete "${itemName}"?`)) {
+                        quizDatabase[selectedChapter] = quizDatabase[selectedChapter].filter(s => s !== itemName);
+                        saveData();
+                    }
+                }
+                renderUI();
+            } else if (!isReorderMode) {
+                if (currentView === 'chapters') {
+                    selectedChapter = itemName;
+                    currentView = 'subchapters';
+                    renderUI();
+                } else if (currentView === 'subchapters') {
+                    let fileName = itemName.toLowerCase().replace(/\s+/g, '_') + '.html';
+                    window.location.href = fileName;
+                }
+            }
+        }
+
+        function toggleDeleteMode() {
+            isDeleteMode = !isDeleteMode;
+            isReorderMode = false;
+            renderUI();
+        }
+
+        function toggleReorderMode() {
+            isReorderMode = !isReorderMode;
+            isDeleteMode = false;
+            renderUI();
+        }
+
+        function goBack() {
+            isDeleteMode = false;
+            isReorderMode = false;
+            currentView = 'chapters';
+            selectedChapter = null;
+            renderUI();
+        }
+
+        function openModal() {
+            isDeleteMode = false;
+            isReorderMode = false;
+            document.getElementById('userInputName').value = '';
+            const heading = document.getElementById('modalHeading');
+            if (currentView === 'chapters') {
+                heading.innerText = "Add New Chapter";
+                document.getElementById('userInputName').placeholder = "e.g. World History";
+            } else if (currentView === 'subchapters') {
+                heading.innerText = "Add New Sub-Chapter";
+                document.getElementById('userInputName').placeholder = "e.g. Revolt of 1857";
+            }
+            document.getElementById('addModal').style.display = 'flex';
+            document.getElementById('userInputName').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function handleFormSubmit() {
+            const inputVal = document.getElementById('userInputName').value.trim();
+            if (!inputVal) return;
+
+            if (currentView === 'chapters') {
+                if (!quizDatabase[inputVal]) {
+                    quizDatabase[inputVal] = [];
+                    saveData();
+                }
+            } else if (currentView === 'subchapters') {
+                if (selectedChapter && quizDatabase[selectedChapter]) {
+                    if (!quizDatabase[selectedChapter].includes(inputVal)) {
+                        quizDatabase[selectedChapter].push(inputVal);
+                        saveData();
+                    }
+                }
+            }
+            closeModal();
+            renderUI();
+        }
+
+        // Initialize display on load
+        renderUI();
+    </script>
+</body>
+</html>
