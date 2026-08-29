@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History GK Quiz - Dashboard</title>
+    <title>Nuthana GK - Dashboard</title>
     <style>
         :root {
             --bg-color: #0b131a;
@@ -29,7 +29,6 @@
             min-height: 100vh;
         }
 
-        /* Top Corner Navigation & Menu Controls */
         .admin-container {
             position: absolute;
             top: 15px;
@@ -59,7 +58,6 @@
             box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
-        /* Menu Button & Dropdown Styles */
         .menu-wrapper {
             position: relative;
         }
@@ -219,7 +217,6 @@
             transform: none;
         }
 
-        /* Modal Overlay Design */
         .modal {
             display: none;
             position: fixed;
@@ -280,10 +277,6 @@
             transition: opacity 0.2s;
         }
 
-        .modal-content button[type="submit"]:hover {
-            opacity: 0.9;
-        }
-
         .cancel-btn {
             background: transparent;
             color: var(--text-muted);
@@ -291,10 +284,6 @@
             cursor: pointer;
             font-size: 12px;
             padding: 4px;
-        }
-
-        .cancel-btn:hover {
-            color: var(--text-main);
         }
 
         .empty-state {
@@ -307,7 +296,6 @@
 </head>
 <body>
 
-    <!-- Top Corner Controls & Hidden Menu Symbol -->
     <div class="admin-container">
         <button class="btn-small" id="navBackBtn" style="display: none;" onclick="goBack()">← Back</button>
         
@@ -322,16 +310,12 @@
     </div>
 
     <header>
-        <h1 id="pageTitle">_NUTHANA GK_</h1>
+        <h1>NUTHANA GK</h1>
         <p class="subtitle" id="pageSubtitle">Select Chapter to Practice</p>
     </header>
 
-    <!-- Dynamic Options List Container -->
-    <div class="list-container" id="listContainer">
-        <!-- JavaScript renders list items dynamically here -->
-    </div>
+    <div class="list-container" id="listContainer"></div>
 
-    <!-- Modal Form Popup -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <h3 id="modalHeading">Add New Chapter</h3>
@@ -370,14 +354,13 @@
 
         function renderUI() {
             const container = document.getElementById('listContainer');
-            const titleEl = document.getElementById('pageTitle');
+            const titleEl = document.querySelector('header h1');
             const subtitleEl = document.getElementById('pageSubtitle');
             const backBtn = document.getElementById('navBackBtn');
             const removeMenuItem = document.getElementById('removeMenuItem');
             const reorderMenuItem = document.getElementById('reorderMenuItem');
             
             container.innerHTML = '';
-
             container.classList.remove('delete-mode', 'reorder-mode');
 
             if (isDeleteMode) {
@@ -396,28 +379,18 @@
             }
 
             if (currentView === 'chapters') {
-                titleEl.innerText = "HISTORY GK";
+                titleEl.innerText = "NUTHANA GK";
                 subtitleEl.innerText = isDeleteMode ? "⚠️ Click any chapter to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter to Practice");
                 backBtn.style.display = 'none';
 
                 const chapters = Object.keys(quizDatabase);
-                if (chapters.length === 0) {
-                    container.innerHTML = `<div class="empty-state">No chapters found. Use the '⋮' menu above to add.</div>`;
-                    return;
-                }
-
                 chapters.forEach((chap, index) => {
-                    let controlsHTML = '';
-                    if (isReorderMode) {
-                        controlsHTML = `
-                            <div class="reorder-controls">
-                                ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                                ${index < chapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
-                            </div>
-                        `;
-                    } else {
-                        controlsHTML = `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
-                    }
+                    let controlsHTML = isReorderMode ? 
+                        `<div class="reorder-controls">
+                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
+                            ${index < chapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                        </div>` : 
+                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
                         <div class="card-item" onclick="handleCardClick('${chap}')">
@@ -433,23 +406,13 @@
                 backBtn.style.display = 'inline-block';
 
                 const subchapters = quizDatabase[selectedChapter] || [];
-                if (subchapters.length === 0) {
-                    container.innerHTML = `<div class="empty-state">No sub-chapters found. Use the '⋮' menu above to add!</div>`;
-                    return;
-                }
-
                 subchapters.forEach((sub, index) => {
-                    let controlsHTML = '';
-                    if (isReorderMode) {
-                        controlsHTML = `
-                            <div class="reorder-controls">
-                                ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                                ${index < subchapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
-                            </div>
-                        `;
-                    } else {
-                        controlsHTML = `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
-                    }
+                    let controlsHTML = isReorderMode ? 
+                        `<div class="reorder-controls">
+                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
+                            ${index < subchapters.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
+                        </div>` : 
+                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
 
                     container.innerHTML += `
                         <div class="card-item" onclick="handleCardClick('${sub}')">
@@ -462,30 +425,23 @@
         }
 
         function moveItem(index, direction, event) {
-            event.stopPropagation(); // Prevent opening/deleting when clicking reorder arrows
-            
+            event.stopPropagation();
             if (currentView === 'chapters') {
                 let keys = Object.keys(quizDatabase);
                 let targetIndex = index + direction;
-                
-                // Swap keys in object order
                 let temp = keys[index];
                 keys[index] = keys[targetIndex];
                 keys[targetIndex] = temp;
-                
                 let newDb = {};
                 keys.forEach(k => { newDb[k] = quizDatabase[k]; });
                 quizDatabase = newDb;
-                
             } else if (currentView === 'subchapters') {
                 let subs = quizDatabase[selectedChapter];
                 let targetIndex = index + direction;
-                
                 let temp = subs[index];
                 subs[index] = subs[targetIndex];
                 subs[targetIndex] = temp;
             }
-            
             saveData();
             renderUI();
         }
@@ -493,7 +449,7 @@
         function handleCardClick(itemName) {
             if (isDeleteMode) {
                 if (currentView === 'chapters') {
-                    if (confirm(`Permanently delete "${itemName}" and all its sub-chapters?`)) {
+                    if (confirm(`Permanently delete "${itemName}"?`)) {
                         delete quizDatabase[itemName];
                         saveData();
                     }
@@ -510,8 +466,13 @@
                     currentView = 'subchapters';
                     renderUI();
                 } else if (currentView === 'subchapters') {
-                    let fileName = itemName.toLowerCase().replace(/\s+/g, '_') + '.html';
-                    window.location.href = fileName;
+                    // Direct link to your test file (move your quiz file to the main root folder for best results)
+                    if (itemName === "Indus Valley Civilization") {
+                        window.location.href = "quiz.html"; // Change this to your actual uploaded test filename
+                    } else {
+                        let fileName = itemName.toLowerCase().replace(/\s+/g, '_') + '.html';
+                        window.location.href = fileName;
+                    }
                 }
             }
         }
@@ -540,14 +501,7 @@
             isDeleteMode = false;
             isReorderMode = false;
             document.getElementById('userInputName').value = '';
-            const heading = document.getElementById('modalHeading');
-            if (currentView === 'chapters') {
-                heading.innerText = "Add New Chapter";
-                document.getElementById('userInputName').placeholder = "e.g. World History";
-            } else if (currentView === 'subchapters') {
-                heading.innerText = "Add New Sub-Chapter";
-                document.getElementById('userInputName').placeholder = "e.g. Revolt of 1857";
-            }
+            document.getElementById('modalHeading').innerText = currentView === 'chapters' ? "Add New Chapter" : "Add New Sub-Chapter";
             document.getElementById('addModal').style.display = 'flex';
             document.getElementById('userInputName').focus();
         }
@@ -577,7 +531,6 @@
             renderUI();
         }
 
-        // Initialize display on load
         renderUI();
     </script>
 </body>
