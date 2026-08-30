@@ -358,14 +358,14 @@
                 let { data, error } = await supabaseClient
                     .from('quiz_structure')
                     .select('*')
-                    .limit(1);
+                    .eq('id', 1)
+                    .maybeSingle();
 
                 if (error) {
                     console.error("Error loading from Supabase:", error);
-                } else if (data && data.length > 0 && data[0].data && Object.keys(data[0].data).length > 0) {
-                    quizDatabase = data[0].data;
+                } else if (data && data.data && Object.keys(data.data).length > 0) {
+                    quizDatabase = data.data;
                 } else {
-                    // If row exists but is empty, save the default structure into it
                     await saveData();
                 }
             } catch (err) {
@@ -376,23 +376,15 @@
 
         async function saveData() {
             try {
-                let { data, error } = await supabaseClient
+                let { error } = await supabaseClient
                     .from('quiz_structure')
-                    .select('id')
-                    .limit(1);
+                    .upsert({ id: 1, data: quizDatabase });
 
-                if (data && data.length > 0) {
-                    await supabaseClient
-                        .from('quiz_structure')
-                        .update({ data: quizDatabase })
-                        .eq('id', data[0].id);
-                } else {
-                    await supabaseClient
-                        .from('quiz_structure')
-                        .insert([{ data: quizDatabase }]);
+                if (error) {
+                    console.error("Error saving to Supabase:", error);
                 }
             } catch (err) {
-                console.error("Error saving to Supabase:", err);
+                console.error("Unexpected error during save:", err);
             }
         }
 
@@ -538,17 +530,17 @@
                 if (currentView === 'main') {
                     if (confirm(`Delete main chapter "${name}" and everything inside it?`)) {
                         delete quizDatabase[name];
-                        await saveData();
+                        await saveData(); // properly awaited
                     }
                 } else if (currentView === 'subheadings') {
                     if (confirm(`Delete sub-heading "${name}" and its items?`)) {
                         delete quizDatabase[selectedMain][name];
-                        await saveData();
+                        await saveData(); // properly awaited
                     }
                 } else if (currentView === 'items') {
                     if (confirm(`Delete item "${name}"?`)) {
                         quizDatabase[selectedMain][selectedSub] = quizDatabase[selectedMain][selectedSub].filter(i => i !== name);
-                        await saveData();
+                        await saveData(); // properly awaited
                     }
                 }
                 renderUI();
@@ -675,14 +667,14 @@
             if (modalType === 'main_chapter') {
                 if (!quizDatabase[val]) {
                     quizDatabase[val] = {};
-                    await saveData();
+                    await saveData(); // properly awaited
                 }
             } else if (modalType === 'sub_heading') {
                 const main = document.getElementById('parentSelect').value;
                 if (main && quizDatabase[main]) {
                     if (!quizDatabase[main][val]) {
                         quizDatabase[main][val] = [];
-                        await saveData();
+                        await saveData(); // properly awaited
                     }
                 }
             } else if (modalType === 'quiz_item') {
@@ -691,7 +683,7 @@
                 if (main && sub && quizDatabase[main] && quizDatabase[main][sub]) {
                     if (!quizDatabase[main][sub].includes(val)) {
                         quizDatabase[main][sub].push(val);
-                        await saveData();
+                        await saveData(); // properly awaited
                     }
                 }
             }
