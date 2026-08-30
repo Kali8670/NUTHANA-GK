@@ -362,29 +362,36 @@
                     .maybeSingle();
 
                 if (error) {
-                    console.error("Error loading from Supabase:", error);
+                    console.error("Load error:", error);
                 } else if (data && data.data && Object.keys(data.data).length > 0) {
                     quizDatabase = data.data;
                 } else {
                     await saveData();
                 }
             } catch (err) {
-                console.error("Unexpected error:", err);
+                console.error("Unexpected load error:", err);
             }
             renderUI();
         }
 
+        // Bulletproof save: Deletes old ID 1 entry and inserts fresh data
         async function saveData() {
             try {
+                await supabaseClient
+                    .from('quiz_structure')
+                    .delete()
+                    .eq('id', 1);
+
                 let { error } = await supabaseClient
                     .from('quiz_structure')
-                    .upsert({ id: 1, data: quizDatabase });
+                    .insert([{ id: 1, data: quizDatabase }]);
 
                 if (error) {
-                    console.error("Error saving to Supabase:", error);
+                    console.error("Save error:", error);
+                    alert("Cloud sync error: " + error.message);
                 }
             } catch (err) {
-                console.error("Unexpected error during save:", err);
+                console.error("Unexpected save error:", err);
             }
         }
 
@@ -530,17 +537,17 @@
                 if (currentView === 'main') {
                     if (confirm(`Delete main chapter "${name}" and everything inside it?`)) {
                         delete quizDatabase[name];
-                        await saveData(); // properly awaited
+                        await saveData();
                     }
                 } else if (currentView === 'subheadings') {
                     if (confirm(`Delete sub-heading "${name}" and its items?`)) {
                         delete quizDatabase[selectedMain][name];
-                        await saveData(); // properly awaited
+                        await saveData();
                     }
                 } else if (currentView === 'items') {
                     if (confirm(`Delete item "${name}"?`)) {
                         quizDatabase[selectedMain][selectedSub] = quizDatabase[selectedMain][selectedSub].filter(i => i !== name);
-                        await saveData(); // properly awaited
+                        await saveData();
                     }
                 }
                 renderUI();
@@ -667,14 +674,14 @@
             if (modalType === 'main_chapter') {
                 if (!quizDatabase[val]) {
                     quizDatabase[val] = {};
-                    await saveData(); // properly awaited
+                    await saveData();
                 }
             } else if (modalType === 'sub_heading') {
                 const main = document.getElementById('parentSelect').value;
                 if (main && quizDatabase[main]) {
                     if (!quizDatabase[main][val]) {
                         quizDatabase[main][val] = [];
-                        await saveData(); // properly awaited
+                        await saveData();
                     }
                 }
             } else if (modalType === 'quiz_item') {
@@ -683,7 +690,7 @@
                 if (main && sub && quizDatabase[main] && quizDatabase[main][sub]) {
                     if (!quizDatabase[main][sub].includes(val)) {
                         quizDatabase[main][sub].push(val);
-                        await saveData(); // properly awaited
+                        await saveData();
                     }
                 }
             }
