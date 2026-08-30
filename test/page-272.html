@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16 Mahajanapadas & Magadha Empire CBT Mock Test</title>
+<style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #f4f6f9; color: #333; }
+    
+    /* Header */
+    .header { background-color: #003366; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 18px; font-weight: 600; }
+    .timer-box { background-color: white; color: #d9534f; padding: 4px 10px; font-weight: bold; border-radius: 4px; font-size: 14px; border: 1px solid #d9534f; }
+    
+    /* Layout */
+    .container { display: flex; flex-direction: row; height: calc(100vh - 48px); }
+    .main-content { flex: 1; padding: 20px; overflow-y: auto; background-color: #fff; }
+    .sidebar { width: 320px; background-color: #f8f9fa; border-left: 1px solid #dee2e6; padding: 15px; overflow-y: auto; }
+
+    .sub-header { font-size: 13px; color: #004085; font-weight: bold; border-bottom: 1px solid #cce5ff; padding-bottom: 6px; margin-bottom: 15px; }
+
+    /* Question & Options */
+    .question-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #222; line-height: 1.5; }
+    .options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+    .option-btn { display: flex; align-items: center; padding: 10px 15px; border: 1px solid #ced4da; border-radius: 6px; background-color: #fff; cursor: pointer; text-align: left; font-size: 14px; transition: 0.2s; }
+    .option-btn:hover { background-color: #e9ecef; }
+    
+    /* Answer States */
+    .option-btn.correct { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
+    .option-btn.wrong { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+
+    /* Explanation Box */
+    .explanation-box { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; margin-top: 15px; display: none; white-space: pre-line; }
+    .explanation-box.correct-bg { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+    
+    /* Controls */
+    .controls { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; }
+    .btn { padding: 8px 16px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .btn-nav { background-color: #0056b3; color: white; }
+    .btn-retest { background-color: #dc3545; color: white; }
+
+    /* Sidebar Styling */
+    .sidebar-title { font-size: 14px; text-align: center; margin-bottom: 5px; font-weight: bold; }
+    .score-board { text-align: center; font-size: 14px; margin-bottom: 15px; color: #555; }
+    .palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .palette-btn { padding: 8px 0; background-color: #fff; border: 1px solid #ced4da; border-radius: 4px; text-align: center; font-size: 12px; cursor: pointer; font-weight: bold; }
+    .palette-btn.active { border: 2px solid #0056b3; }
+    .palette-btn.answered-correct { background-color: #28a745; color: white; border-color: #28a745; }
+    .palette-btn.answered-wrong { background-color: #dc3545; color: white; border-color: #dc3545; }
+
+    @media (max-width: 768px) {
+        .container { flex-direction: column; }
+        .sidebar { width: 100%; height: auto; border-left: none; border-top: 1px solid #ccc; }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>16 Mahajanapadas & Magadha Empire Quiz</h1>
+    <div class="timer-box">Time Remaining: <span id="timer">30:00</span></div>
+</div>
+
+<div class="container">
+    <div class="main-content">
+        <div class="sub-header" id="sub-header">Page 1 - Question 1 of 28</div>
+        
+        <div class="question-title" id="question-text"></div>
+        <div class="options-container" id="options-container"></div>
+        
+        <div class="explanation-box" id="explanation-box"></div>
+
+        <div class="controls">
+            <button class="btn btn-nav" onclick="prevQuestion()">Previous</button>
+            <button class="btn btn-retest" onclick="resetTest()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+            <button class="btn btn-nav" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-title">Question Palette</div>
+        <div class="score-board">Score: <span id="score">0</span> / 28</div>
+        <div class="palette-grid" id="palette-grid"></div>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    { q: "1. ಪ್ರಾಚೀನ ಭಾರತದಲ್ಲಿದ್ದ ಒಟ್ಟು ಮಹಾ ಜನಪದಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?", options: ["A) 12", "B) 16", "C) 18", "D) 20"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) 16.\nಪ್ರಾಚೀನ ಭಾರತದಲ್ಲಿ ಒಟ್ಟು 16 ಮಹಾ ಜನಪದಗಳು ಬೆಳೆದು ಬಂದವು." },
+    { q: "2. 16 ಮಹಾ ಜನಪದಗಳ ಹೆಸರುಗಳು ಮೊಟ್ಟ ಮೊದಲ ಬಾರಿಗೆ ಬೌದ್ಧ ಮತ್ತು ಜೈನರ ಯಾವ ಗ್ರಂಥಗಳಲ್ಲಿ ಕಂಡುಬಂದಿವೆ?", options: ["A) ಬೌದ್ಧರ ಅಂಗುತ್ತರ ನಿಕಾಯ ಮತ್ತು ಜೈನರ ಭಗವತಿ ಸೂತ್ರ", "B) ಬೌದ್ಧರ ವಿನಯ ಪಿಟಕ ಮತ್ತು ಜೈನರ ಕಲ್ಪಸೂತ್ರ", "C) ಬೌದ್ಧರ ಮಹಾವಂಶ ಮತ್ತು ಜೈನರ ಪರಿಶಿಷ್ಟಪರ್ವನ್", "D) ಬೌದ್ಧರ ದೀಪವಂಶ ಮತ್ತು ಜೈನರ ತತ್ವಾರ್ಥ ಸೂತ್ರ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಬೌದ್ಧರ ಅಂಗುತ್ತರ ನಿಕಾಯ ಮತ್ತು ಜೈನರ ಭಗವತಿ ಸೂತ್ರ." },
+    { q: "3. 'ಅಂಗ' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶ ಯಾವುದು?", options: ["A) ಚಂಪಾ - ಪೂರ್ವ ಬಿಹಾರ", "B) ರಾಜಗೃಹ - ದಕ್ಷಿಣ ಬಿಹಾರ", "C) ಬನಾರಸ - ವಾರಣಾಸಿ", "D) ಇಂದ್ರಪ್ರಸ್ಥ - ದೆಹಲಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಚಂಪಾ - ಪೂರ್ವ ಬಿಹಾರ." },
+    { q: "4. 'ಮಗಧ' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶ ಯಾವುದು?", options: ["A) ಅಯೋಧ್ಯ - ಔದ್", "B) ರಾಜಗೃಹ - ದಕ್ಷಿಣ ಬಿಹಾರ", "C) ತಕ್ಷಶಿಲೆ - ರಾವಲಪಿಂಡಿ", "D) ಚಂಪಾ - ಪೂ.ಬಿಹಾರ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ರಾಜಗೃಹ - ದಕ್ಷಿಣ ಬಿಹಾರ." },
+    { q: "5. 'ಕಾಶಿ' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶವನ್ನು ಗುರುತಿಸಿ:", options: ["A) ಇಂದ್ರಪ್ರಸ್ಥ - ದೆಹಲಿ", "B) ಬನಾರಸ - ವಾರಣಾಸಿ", "C) ಅಯೋಧ್ಯ - ಔದ್", "D) ತಕ್ಷಶಿಲೆ - ರಾವಲಪಿಂಡಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಬನಾರಸ - ವಾರಣಾಸಿ." },
+    { q: "6. 'ಕೋಸಲ' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶ ಯಾವುದು?", options: ["A) ಅಯೋಧ್ಯ - ಔದ್", "B) ಚಂಪಾ - ಪೂ.ಬಿಹಾರ", "C) ಬನಾರಸ - ವಾರಣಾಸಿ", "D) ರಾಜಗೃಹ - ದಕ್ಷಿಣ ಬಿಹಾರ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಅಯೋಧ್ಯ - ಔದ್." },
+    { q: "7. 'ಕುರು' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶವನ್ನು ಗುರುತಿಸಿ:", options: ["A) ತಕ್ಷಶಿಲೆ - ರಾವಲಪಿಂಡಿ", "B) ಇಂದ್ರಪ್ರಸ್ಥ - ದೆಹಲಿ", "C) ಅಯೋಧ್ಯ - ಔದ್", "D) ಚಂಪಾ - ಪೂರ್ವ ಬಿಹಾರ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಇಂದ್ರಪ್ರಸ್ಥ - ದೆಹಲಿ." },
+    { q: "8. 'ಗಾಂಧಾರ' ಮಹಾಜನಪದದ ರಾಜಧಾನಿ ಮತ್ತು ಪ್ರಸ್ತುತ ಪ್ರದೇಶ ಯಾವುದು?", options: ["A) ತಕ್ಷಶಿಲೆ - ರಾವಲಪಿಂಡಿ (ಪಾಕಿಸ್ತಾನ)", "B) ಇಂದ್ರಪ್ರಸ್ಥ - ದೆಹಲಿ", "C) ಬನಾರಸ - ವಾರಣಾಸಿ", "D) ರಾಜಗೃಹ - ದಕ್ಷಿಣ ಬಿಹಾರ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ತಕ್ಷಶಿಲೆ - ರಾವಲಪಿಂಡಿ (ಪಾಕಿಸ್ತಾನ)." },
+    { q: "9. 16 ಜನಪದಗಳಲ್ಲಿ ಪ್ರಬಲ ಸಾಮ್ರಾಜ್ಯವಾಗಿ ಬೆಳೆದು ಬಂದ ಜನಪದ ಯಾವುದು?", options: ["A) ಗಾಂಧಾರ", "B) ಕುರು", "C) ಮಗಧ", "D) ಕಾಶಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಮಗಧ.\n16 ಜನಪದಗಳಲ್ಲಿ ಮಗಧವು ಬಲಿಷ್ಠ ಸಾಮ್ರಾಜ್ಯವಾಗಿ ಬೆಳೆದು ಬಂದಿತು." },
+    { q: "10. ಮಗಧ ಸಾಮ್ರಾಜ್ಯದ ಸಂಸ್ಥಾಪಕರು ಯಾರು?", options: ["A) ಬಿಂಬಸಾರ ಮತ್ತು ಅಜಾತಶತ್ರು", "B) ಜರಾಸಂಧ ಮತ್ತು ಬೃಹದ್ರಥ", "C) ಶಿಶುನಾಗ ಮತ್ತು ಕಾಲಾಶೋಕ", "D) ಮಹಾಪದ್ಮನಂದ ಮತ್ತು ಧನನಂದ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಜರಾಸಂಧ ಮತ್ತು ಬೃಹದ್ರಥ." },
+    { q: "11. ಮಗಧ ಸಾಮ್ರಾಜ್ಯವನ್ನಾಳಿದ ಮೊದಲ ಸಂತತಿ ಯಾವುದು?", options: ["A) ನಾಗ ಸಂತತಿ", "B) ನಂದ ಸಂತತಿ", "C) ಹರ್ಯಂಕ ಸಂತತಿ", "D) ಮೌರ್ಯ ಸಂತತಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಹರ್ಯಂಕ ಸಂತತಿ." },
+    { q: "12. ಹರ್ಯಂಕ ಸಂತತಿಯ ಸ್ಥಾಪಕ ಯಾರು?", options: ["A) ಅಜಾತಶತ್ರು", "B) ಬಿಂಬಸಾರ", "C) ನಾಗದಾಸಕ", "D) ಕಾಲಾಶೋಕ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಬಿಂಬಸಾರ." },
+    { q: "13. ಬಿಂಬಸಾರನಿಗೆ ಕಾಶಿಯನ್ನು ಬಳುವಳಿಯಾಗಿ ತಂದ ಕೋಸಲಾದೇವಿ ಯಾರ ಮಗಳು ಮತ್ತು ಸಹೋದರಿಯಾಗಿದ್ದಳು?", options: ["A) ಮಹಾಕೋಸಲನ ಮಗಳು, ಪ್ರಸೇನಜಿತನ ಸಹೋದರಿ", "B) ಚೇತನನ ಮಗಳು, ಉದಯನನ ಸಹೋದರಿ", "C) ಮುದ್ರಕನ ಮಗಳು, ಬಿಂಬಸಾರನ ಸಹೋದರಿ", "D) ಪ್ರದ್ಯೋತನ ಮಗಳು, ಪ್ರಸೇನಜಿತನ ಪತ್ನಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಮಹಾಕೋಸಲನ ಮಗಳು, ಪ್ರಸೇನಜಿತನ ಸಹೋದರಿ." },
+    { q: "14. ಬಿಂಬಸಾರನು ಯಾರ ಸಹಾಯದಿಂದ ತನ್ನ ಸಾಮ್ರಾಜ್ಯವನ್ನು ನೇಪಾಳದ ಗಡಿಯವರೆಗೆ ವಿಸ್ತರಿಸಿದನು?", options: ["A) ಮೊದಲ ಪತ್ನಿ ಕೋಸಲಾದೇವಿ", "B) ಎರಡನೆಯ ಪತ್ನಿ ಚೆಲ್ಲಣಾ (ವೈಶಾಲಿಯ ಅರಸ ಚೇತಕನ ಮಗಳು)", "C) ಮೂರನೇ ಪತ್ನಿ ಖೇಮಾ", "D) ಪತ್ನಿ ವೈದೇಹಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಎರಡನೆಯ ಪತ್ನಿ ಚೆಲ್ಲಣಾ (ವೈಶಾಲಿಯ ಅರಸ ಚೇತಕನ ಮಗಳು)." },
+    { q: "15. ಬಿಂಬಸಾರನು ಬೌದ್ಧ ಧರ್ಮ ಸ್ವೀಕರಿಸಲು ಕಾರಣಳಾದ ಮೂರನೇ ಪತ್ನಿ ಖೇಮಾ ಯಾರ ಮಗಳಾಗಿದ್ದಳು?", options: ["A) ಕೋಸಲದ ದೊರೆ ಮಹಾಕೋಸಲನ ಮಗಳು", "B) ವೈಶಾಲಿಯ ದೊರೆ ಚೇತಕನ ಮಗಳು", "C) ಮದ್ರ ರಾಜ್ಯದ ಅರಸ ಮುದ್ರಕನ ಮಗಳು", "D) ಅವಂತಿಯ ದೊರೆ ಪ್ರದ್ಯೋತನ ಮಗಳು"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಮದ್ರ ರಾಜ್ಯದ ಅರಸ ಮುದ್ರಕನ ಮಗಳು." },
+    { q: "16. ಅವಂತಿಯ ದೊರೆ ಪ್ರದ್ಯೋತನ ಕಾಮಾಲೆ ರೋಗ ಗುಣಪಡಿಸಲು ಬಿಂಬಸಾರ ತನ್ನ ಆಸ್ಥಾನದ ಯಾವ ವೈದ್ಯನನ್ನು ಕಳುಹಿಸಿದನು?", options: ["A) ಚರಕ", "B) ಜೀವಕ", "C) ಸುಶ್ರುತ", "D) ಧನ್ವಂತರಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಜೀವಕ." },
+    { q: "17. ಬಿಂಬಸಾರನು ಅಂಗದ ದೊರೆ ಬ್ರಹ್ಮದತ್ತನನ್ನು ಸೋಲಿಸಿ ಚಂಪಾವನ್ನು ವಶಪಡಿಸಿಕೊಂಡು ಯಾರನ್ನು ಅಧಿಕಾರಿಯಾಗಿ ನೇಮಿಸಿದನು?", options: ["A) ತನ್ನ ಮಗ ಕುನಿಕನನ್ನು", "B) ತನ್ನ ಮಗ ಅಜಾತಶತ್ರುವನ್ನು", "C) ನಾಗದಾಸಕನನ್ನು", "D) ಜೀವಕನನ್ನು"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ತನ್ನ ಮಗ ಕುನಿಕನನ್ನು." },
+    { q: "18. ಬಿಂಬಸಾರ ಬಂಧನದಲ್ಲಿದ್ದಾಗ ಅವನ ಯೋಗಕ್ಷೇಮ ನೋಡಿಕೊಂಡ ಪತ್ನಿ ಯಾರು?", options: ["A) ಕೋಸಲಾದೇವಿ", "B) ಚೆಲ್ಲಣಾ", "C) ಖೇಮಾ", "D) ವೈದೇಹಿ"], correct: 3, exp: "ಸರಿಯಾದ ಉತ್ತರ: D) ವೈದೇಹಿ." },
+    { q: "19. ಹರ್ಯಂಕ ಸಂತತಿಯ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು ಹಾಗೂ ಅವನ ಬಿರುದು ಏನಾಗಿತ್ತು?", options: ["A) ಬಿಂಬಸಾರ - ಚಕ್ರವರ್ತಿ", "B) ಅಜಾತಶತ್ರು - ಪಿತೃಹಂತಕ", "C) ನಾಗದಾಸಕ - ಅಮಿತಘಾತ", "D) ಕಾಲಾಶೋಕ - ಕಾಕವರ್ಮ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಅಜಾತಶತ್ರು - ಪಿತೃಹಂತಕ (ಆಡಳಿತ: ಕ್ರಿ.ಪೂ. 492–460)." },
+    { q: "20. ಅಜಾತಶತ್ರುವು ಯಾರ ಮಗಳಾದ 'ವಜ್ರೆರಾಯನ್ನು' ವಿವಾಹವಾದನು?", options: ["A) ತನ್ನ ಸಹೋದರಮಾವ ಪ್ರಸೇನಜಿತನ ಮಗಳನ್ನು", "B) ಚೇತಕನ ಮಗಳನ್ನು", "C) ಬ್ರಹ್ಮದತ್ತನ ಮಗಳನ್ನು", "D) ಪ್ರದ್ಯೋತನ ಮಗಳನ್ನು"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ತನ್ನ ಸಹೋದರಮಾವ ಪ್ರಸೇನಜಿತನ ಮಗಳನ್ನು." },
+    { q: "21. ಅಜಾತಶತ್ರು ಲಿಚ್ಛವಿಗಳ ಒಕ್ಕೂಟವನ್ನು ಸಂಹಾರ ಮಾಡಲು ಬಳಸಿದ 'ಮಹಾಶಿಲಾ ಕಂಟಕ' ಮತ್ತು 'ರಥ ಮುಸಲ' ಅಸ್ತ್ರಗಳ ವೈಶಿಷ್ಟ್ಯವೇನು?", options: ["A) ಮಹಾಶಿಲಾ ಕಂಟಕ: ಕಲ್ಲು ಎಸೆಯುವ ಯಂತ್ರ | ರಥ ಮುಸಲ: ಮುಳ್ಳಿನಾಕಾರದ ಲೋಹದ ಕವಚವಿದ್ದ ರಥ", "B) ಮಹಾಶಿಲಾ ಕಂಟಕ: ಬೆಂಕಿ ಎಸೆಯುವ ಅಸ್ತ್ರ | ರಥ ಮುಸಲ: ವಿಷಪೂರಿತ ಬಾಣ", "C) ಮಹಾಶಿಲಾ ಕಂಟಕ: ಕತ್ತಿ ಯಂತ್ರ | ರಥ ಮುಸಲ: ರಥ ಧ್ವಜ", "D) ಮಹಾಶಿಲಾ ಕಂಟಕ: ಕವಚ | ರಥ ಮುಸಲ: ಕಲ್ಲು ಒಡೆಯುವ ಯಂತ್ರ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಮಹಾಶಿಲಾ ಕಂಟಕ (ಕಲ್ಲು ಎಸೆಯುವ ಯಂತ್ರ) ಮತ್ತು ರಥ ಮುಸಲ (ಗಾಲಿಗಳಿಗೆ ಮುಳ್ಳಿನ ಲೋಹದ ಕವಚ ತೊಡಿಸಿದ ರಥ)." },
+    { q: "22. ಕ್ರಿ.ಪೂ. 483 ರಲ್ಲಿ ರಾಜಗೃಹದಲ್ಲಿ ಮೊದಲ ಬೌದ್ಧ ಸಮ್ಮೇಳನ ಏರ್ಪಡಿಸಿದ ಅರಸ ಯಾರು?", options: ["A) ಬಿಂಬಸಾರ", "B) ಅಜಾತಶತ್ರು", "C) ಕಾಲಾಶೋಕ", "D) ಅಶೋಕ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಅಜಾತಶತ್ರು." },
+    { q: "23. ಹರ್ಯಂಕ ಸಂತತಿಯ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["A) ನಾಗದಾಸಕ", "B) ಬಿಂಬಸಾರ", "C) ಕಾಲಾಶೋಕ", "D) ಮಹಾಪದ್ಮನಂದ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ನಾಗದಾಸಕ." },
+    { q: "24. 'ನಾಗ ಸಂತತಿ'ಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಸ್ಥಾಪಕ, ಪ್ರಸಿದ್ಧ ಅರಸ, ಮತ್ತು ಕೊನೆಯ ಅರಸರನ್ನು ಸರಿಯಾಗಿ ಗುರುತಿಸಿ:", options: ["A) ಸ್ಥಾಪಕ: ಶಿಶುನಾಗ | ಪ್ರಸಿದ್ಧ: ಕಾಲಾಶೋಕ/ಕಾಕವರ್ಮ | ಕೊನೆಯ ಅರಸ: ನಂದಿವರ್ಧನ/ಮಹಾನಂದಿನ", "B) ಸ್ಥಾಪಕ: ಕಾಲಾಶೋಕ | ಪ್ರಸಿದ್ಧ: ಶಿಶುನಾಗ | ಕೊನೆಯ ಅರಸ: ನಾಗದಾಸಕ", "C) ಸ್ಥಾಪಕ: ಮಹಾಪದ್ಮನಂದ | ಪ್ರಸಿದ್ಧ: ಧನನಂದ | ಕೊನೆಯ ಅರಸ: ಶಿಶುನಾಗ", "D) ಸ್ಥಾಪಕ: ನಂದಿವರ್ಧನ | ಪ್ರಸಿದ್ಧ: ಕಾಕವರ್ಮ | ಕೊನೆಯ ಅರಸ: ಅಜಾತಶತ್ರು"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಸ್ಥಾಪಕ: ಶಿಶುನಾಗ, ಪ್ರಸಿದ್ಧ ಅರಸ: ಕಾಲಾಶೋಕ/ಕಾಕವರ್ಮ (2ನೇ ಬೌದ್ಧ ಸಮ್ಮೇಳನ ಏರ್ಪಡಿಸಿದವ), ಕೊನೆಯ ಅರಸ: ನಂದಿವರ್ಧನ/ಮಹಾನಂದಿನ." },
+    { q: "25. 'ನಂದ ಸಂತತಿ'ಯ ಸ್ಥಾಪಕ ಯಾರು?", options: ["A) ಧನನಂದ", "B) ಮಹಾಪದ್ಮನಂದ", "C) ಕೌಟಿಲ್ಯ", "D) ಶಿಶುನಾಗ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಮಹಾಪದ್ಮನಂದ." },
+    { q: "26. ಜೈನ ಮೂಲಗಳ ಪ್ರಕಾರ ಮಹಾಪದ್ಮನಂದನ ನಂತರ ಎಷ್ಟು ಜನ ಆಡಳಿತ ನಡೆಸಿದರು ಮತ್ತು ಕೊನೆಯ ದೊರೆ ಯಾರಾಗಿದ್ದನು?", options: ["A) 8 ಜನ ಆಡಳಿತ ನಡೆಸಿದರು - ಧನನಂದ", "B) 10 ಜನ ಆಡಳಿತ ನಡೆಸಿದರು - ಕಾಲಾಶೋಕ", "C) 5 ಜನ ಆಡಳಿತ ನಡೆಸಿದರು - ನಂದಿವರ್ಧನ", "D) 6 ಜನ ಆಡಳಿತ ನಡೆಸಿದರು - ಚಂದ್ರಗುಪ್ತ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) 8 ಜನ ಆಡಳಿತ ಮಾಡಿದರು, ಕೊನೆಯ ದೊರೆ ಧನನಂದ." },
+    { q: "27. ಧನನಂದನಿಂದ ಆಸ್ಥಾನದಲ್ಲಿ ಅವಮಾನಕ್ಕೊಳಗಾದ ಪ್ರಸಿದ್ಧ ವ್ಯಕ್ತಿ ಯಾರು?", options: ["A) ಕೌಟಿಲ್ಯ (ಚಾಣಕ್ಯ)", "B) ಜೀವಕ", "C) ಬ್ರಹ್ಮದತ್ತ", "D) ಅಸ್ಮಿತ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಕೌಟಿಲ್ಯ." },
+    { q: "28. ಕಪಿಲವಸ್ತು ಮತ್ತು ವೈಶಾಲಿಗೆ ಸಂಬಂಧಿಸಿದ ಪ್ರಸಿದ್ಧ ಗಣರಾಜ್ಯ/ಪಂಗಡಗಳನ್ನು ಸರಿಯಾಗಿ ಹೊಂದಿಸಿ:", options: ["A) ಕಪಿಲವಸ್ತು - ಶಾಕ್ಯರು | ವೈಶಾಲಿ - ಲಿಚ್ಛವಿಗಳು", "B) ಕಪಿಲವಸ್ತು - ಲಿಚ್ಛವಿಗಳು | ವೈಶಾಲಿ - ಶಾಕ್ಯರು", "C) ಕಪಿಲವಸ್ತು - ಮಲ್ಲರು | ವೈಶಾಲಿ - ಕುರು", "D) ಕಪಿಲವಸ್ತು - ಅಂಗ | ವೈಶಾಲಿ - ಕಾಶಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಕಪಿಲವಸ್ತು - ಶಾಕ್ಯರು, ವೈಶಾಲಿ - ಲಿಚ್ಛವಿಗಳು." }
+];
+
+let currentIndex = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+
+function loadQuestion(index) {
+    currentIndex = index;
+    const q = quizData[index];
+    
+    document.getElementById('sub-header').innerText = `Page ${index + 1} - Question ${index + 1} of ${quizData.length}`;
+    document.getElementById('question-text').innerText = q.q;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+
+    const expBox = document.getElementById('explanation-box');
+    expBox.style.display = 'none';
+    expBox.className = 'explanation-box';
+
+    q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+
+        if (userAnswers[index] !== null) {
+            btn.disabled = true;
+            if (optIdx === q.correct) {
+                btn.classList.add('correct');
+            }
+            if (userAnswers[index] === optIdx && optIdx !== q.correct) {
+                btn.classList.add('wrong');
+            }
+        } else {
+            btn.onclick = () => selectOption(optIdx);
+        }
+
+        optionsContainer.appendChild(btn);
+    });
+
+    if (userAnswers[index] !== null) {
+        expBox.style.display = 'block';
+        if (userAnswers[index] === q.correct) {
+            expBox.classList.add('correct-bg');
+            expBox.innerText = "ಸರಿ! (Correct)\n" + q.exp;
+        } else {
+            expBox.innerText = "ತಪ್ಪು! (Incorrect)\n" + q.exp;
+        }
+    }
+
+    updatePalette();
+}
+
+function selectOption(optionIndex) {
+    userAnswers[currentIndex] = optionIndex;
+    loadQuestion(currentIndex);
+    calculateScore();
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) loadQuestion(currentIndex - 1);
+}
+
+function nextQuestion() {
+    if (currentIndex < quizData.length - 1) loadQuestion(currentIndex + 1);
+}
+
+function updatePalette() {
+    const grid = document.getElementById('palette-grid');
+    grid.innerHTML = '';
+
+    quizData.forEach((_, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'palette-btn';
+        btn.innerText = idx + 1;
+
+        if (idx === currentIndex) btn.classList.add('active');
+
+        if (userAnswers[idx] !== null) {
+            if (userAnswers[idx] === quizData[idx].correct) {
+                btn.classList.add('answered-correct');
+            } else {
+                btn.classList.add('answered-wrong');
+            }
+        }
+
+        btn.onclick = () => loadQuestion(idx);
+        grid.appendChild(btn);
+    });
+}
+
+function calculateScore() {
+    let score = 0;
+    userAnswers.forEach((ans, idx) => {
+        if (ans === quizData[idx].correct) score++;
+    });
+    document.getElementById('score').innerText = score;
+}
+
+function resetTest() {
+    if (confirm("ನಿಮ್ಮ ಪರೀಕ್ಷೆಯನ್ನು ಮರುಪ್ರಾರಂಭಿಸಲು ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ? (Are you sure you want to restart the retest?)")) {
+        userAnswers = new Array(quizData.length).fill(null);
+        document.getElementById('score').innerText = "0";
+        loadQuestion(0);
+    }
+}
+
+// Timer functionality
+let totalSeconds = 30 * 60;
+setInterval(() => {
+    if (totalSeconds > 0) {
+        totalSeconds--;
+        let m = Math.floor(totalSeconds / 60);
+        let s = totalSeconds % 60;
+        document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+}, 1000);
+
+// Initial initialization
+loadQuestion(0);
+</script>
+</body>
+</html>
