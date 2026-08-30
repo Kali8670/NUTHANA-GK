@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karnataka PC & SSC CBT Exam Mock Test - 41 Questions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #1a365d;
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 15px;
+        }
+
+        .main-quiz {
+            flex: 2.5;
+            min-width: 300px;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .sidebar {
+            flex: 1.2;
+            min-width: 280px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+
+        .question-title {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #1a202c;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e2e8f0;
+            padding: 14px 16px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            color: #2d3748;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029;
+        }
+
+        .explanation-box {
+            display: none;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+
+        .explanation-box.wrong {
+            background-color: #fff5f5;
+            color: #c53030;
+            border: 1px solid #feb2b2;
+        }
+
+        .explanation-box.right {
+            background-color: #f0fff4;
+            color: #276749;
+            border: 1px solid #9ae6b4;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background-color: #0d6efd;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+        .btn:disabled {
+            background-color: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .btn-retest {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .palette-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1.05rem;
+            color: #2d3748;
+        }
+
+        .score-board {
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: 1rem;
+            color: #1a365d;
+            font-weight: bold;
+            background: #ebf8ff;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .grid-btn {
+            padding: 10px 4px;
+            border: 1px solid #cbd5e0;
+            background: #f7fafc;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .grid-btn.answered {
+            background-color: #3182ce;
+            color: white;
+            border-color: #3182ce;
+        }
+
+        .grid-btn.active {
+            outline: 3px solid #d69e2e;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span>Karnataka PC & SSC CBT Exam Mock Test</span>
+        <span>ಕೋಶೀಯ ವಿಜ್ಞಾನ (Cytology) - 41 Qs</span>
+    </div>
+
+    <div class="container">
+        <!-- Main Quiz Section -->
+        <div class="main-quiz">
+            <div class="question-title" id="question-text">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+            <div class="options-container" id="options-container"></div>
+            
+            <div id="explanation-box" class="explanation-box"></div>
+
+            <div class="nav-buttons">
+                <button class="btn" id="prev-btn" onclick="prevQuestion()">Previous</button>
+                <button class="btn btn-retest" onclick="resetQuiz()">Retest 🔄</button>
+                <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <!-- Palette & Sidebar Section -->
+        <div class="sidebar">
+            <div class="palette-title">Question Palette</div>
+            <div class="score-board" id="score-board">Score: 0 / 41</div>
+            <div class="grid" id="question-palette"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                q: "1. ಕೋಶ ಸಿದ್ಧಾಂತವನ್ನು (Cell Theory) ಯಾರು ಮತ್ತು ಯಾವಾಗ ಮಂಡಿಸಿದರು?",
+                options: ["1665 ರಲ್ಲಿ ರಾಬರ್ಟ್ ಹುಕ್", "1838–39 ರಲ್ಲಿ ಥಿಯೋಡಾರ್ ಶ್ವಾನ್ & ಜೇಕಬ್ ಸ್ಲೈಡನ್", "1674 ರಲ್ಲಿ ಲೀವನ್‌ಹುಕ್", "1931 ರಲ್ಲಿ ಸಿಂಗರ್ & ನಿಕಲ್ಸನ್"],
+                correct: 1,
+                exp: "1838–39 ರಲ್ಲಿ ಥಿಯೋಡಾರ್ ಶ್ವಾನ್ & ಜೇಕಬ್ ಸ್ಲೈಡನ್ ಕೋಶ ಸಿದ್ಧಾಂತವನ್ನು ಮಂಡಿಸಿದರು."
+            },
+            {
+                q: "2. ಜೀವಕೋಶಗಳ ರಚನೆ ಮತ್ತು ಕಾರ್ಯಗಳ ಕುರಿತು ಅಧ್ಯಯನ ಮಾಡುವುದನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["ಹಿಸ್ಟಾಲಜಿ", "ಸೈಟಾಲಜಿ (ಕೋಶೀಯ ವಿಜ್ಞಾನ)", "ಮೈಕ್ರೋಬಯಾಲಜಿ", "ಬಾಟನಿ"],
+                correct: 1,
+                exp: "ಜೀವಕೋಶಗಳ ರಚನೆ ಮತ್ತು ಕಾರ್ಯಗಳ ಕುರಿತು ಅಧ್ಯಯನ ಮಾಡುವುದನ್ನು ಕೋಶೀಯ ವಿಜ್ಞಾನ ಅಥವಾ ಸೈಟಾಲಜಿ ಎನ್ನುವರು."
+            },
+            {
+                q: "3. ಕೋಶೀಯ ವಿಜ್ಞಾನದ ಪಿತಾಮಹ (Father of Cytology) ಯಾರು?",
+                options: ["ಅರಿಸ್ಟಾಟಲ್", "ಥಿಯೋ ಫ್ರಾಸ್ಟಸ್", "ರಾಬರ್ಟ್ ಹುಕ್", "ಪ್ಯಾಲಡೆ"],
+                correct: 2,
+                exp: "ಕೋಶೀಯ ವಿಜ್ಞಾನದ ಪಿತಾಮಹ ರಾಬರ್ಟ್ ಹುಕ್."
+            },
+            {
+                q: "4. ಜೀವಕೋಶವನ್ನು ಮೊದಲು ಕಂಡುಹಿಡಿದು ಹೆಸರಿಸಿದವರು ಯಾರು?",
+                options: ["ರಾಬರ್ಟ್ ಹುಕ್ (1665)", "ರಾಬರ್ಟ್ ಬ್ರೌನ್", "ಲೀವನ್‌ಹುಕ್", "ಪೋರ್ಟರ್"],
+                correct: 0,
+                exp: "1665 ರಲ್ಲಿ ರಾಬರ್ಟ್ ಹುಕ್ ಜೀವಕೋಶವನ್ನು ಕಂಡುಹಿಡಿದು ಹೆಸರಿಸಿದರು."
+            },
+            {
+                q: "5. ಪ್ರಥಮ ಬಾರಿಗೆ ಸಜೀವಕೋಶವನ್ನು ಕಂಡುಹಿಡಿದ ವಿಜ್ಞಾನಿ ಯಾರು?",
+                options: ["ರಾಬರ್ಟ್ ಹುಕ್", "ಲೀವನ್‌ಹುಕ್", "ಶ್ವಾನ್", "ಸ್ಲೈಡನ್"],
+                correct: 1,
+                exp: "ಸಜೀವಕೋಶವನ್ನು ಕಂಡುಹಿಡಿದ ವಿಜ್ಞಾನಿ : ಲೀವನ್‌ಹುಕ್."
+            },
+            {
+                q: "6. ಜೀವಕೋಶಗಳ ಗಾತ್ರವನ್ನು ಅಳೆಯುವ ಮಾನ (Unit) ಯಾವುದು?",
+                options: ["ಮಿಲಿಮೀಟರ್", "ಮೈಕ್ರಾನ್", "ನ್ಯಾನೋಮೀಟರ್", "ಸೈಟೋಮೀಟರ್"],
+                correct: 1,
+                exp: "ಜೀವಕೋಶಗಳ ಗಾತ್ರವನ್ನು ಅಳೆಯುವ ಮಾನ ಮೈಕ್ರಾನ್ ಆಗಿದೆ."
+            },
+            {
+                q: "7. ಜೀವಕೋಶಗಳನ್ನು ಎಣಿಸಲು ಬಳಸುವ ಉಪಕರಣ/ಮಾನ ಯಾವುದು?",
+                options: ["ಸೈಟೋಮೀಟರ್", "ಮೈಕ್ರೋಸ್ಕೋಪ್", "ಬ್ಯಾರೋಮೀಟರ್", "ಥರ್ಮೋಮೀಟರ್"],
+                correct: 0,
+                exp: "ಜೀವಕೋಶಗಳನ್ನು ಎಣಿಸುವ ಮಾನ – ಸೈಟೋಮೀಟರ್."
+            },
+            {
+                q: "8. ವಯಸ್ಕ ವ್ಯಕ್ತಿಯಲ್ಲಿರುವ ಜೀವಕೋಶಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["10 ಬಿಲಿಯನ್", "50 ಬಿಲಿಯನ್", "100 ಟ್ರಿಲಿಯನ್ (10^12)", "1 ಮಿಲಿಯನ್"],
+                correct: 2,
+                exp: "ವಯಸ್ಕ ಮತ್ತು ಆರೋಗ್ಯವಂತ ವ್ಯಕ್ತಿಯಲ್ಲಿ 100 ಟ್ರಿಲಿಯನ್ ಜೀವಕೋಶಗಳು ಕಂಡುಬರುತ್ತವೆ."
+            },
+            {
+                q: "9. ಅತೀ ದೊಡ್ಡ ಜೀವಕೋಶ (Largest Cell) ಯಾವುದು?",
+                options: ["ಮಾನವನ ನರಕೋಶ", "ಆಸ್ಟ್ರಿಚ್ ಪಕ್ಷಿ / ಉಷ್ಟ್ರಪಕ್ಷಿಯ ಮೊಟ್ಟೆ", "ಮೈಕೋಪ್ಲಾಸ್ಮಾ", "ನೀಲಿ ತಿಮಿಂಗಿಲ"],
+                correct: 1,
+                exp: "ಅತೀ ದೊಡ್ಡ ಜೀವಕೋಶ – ಆಸ್ಟ್ರಿಚ್ ಪಕ್ಷಿ / ಉಷ್ಟ್ರಪಕ್ಷಿಯ ಮೊಟ್ಟೆ."
+            },
+            {
+                q: "10. ಅತೀ ಚಿಕ್ಕ ಜೀವಕೋಶ (Smallest Cell) ಯಾವುದು?",
+                options: ["ಬ್ಯಾಕ್ಟೀರಿಯಾ", "ಅಮೀಬಾ", "ಮೈಕೋ ಪ್ಲಾಸಂ ಗ್ಯಾಲಿ ಸೆಪ್ಟಿಕಂ", "ವೈರಸ್"],
+                correct: 2,
+                exp: "ಅತೀ ಚಿಕ್ಕ ಜೀವಕೋಶ – ಮೈಕೋ ಪ್ಲಾಸಂ ಗ್ಯಾಲಿ ಸೆಪ್ಟಿಕಂ."
+            },
+            {
+                q: "11. ಪ್ರೋಕ್ಯಾರಿಯೋಟ್ಸ್ (Prokaryotes) ಜೀವಕೋಶಗಳ ವಿಶೇಷತೆ ಏನು?",
+                options: ["ನಿಖರವಾದ ನ್ಯೂಕ್ಲಿಯಸ್ ಇರುತ್ತದೆ", "ನ್ಯೂಕ್ಲಿಯಸ್ ನಿರ್ದಿಷ್ಟ ಪೊರೆಯಿಂದ ಆವೃತವಾಗಿರುವುದಿಲ್ಲ", "ಕೋಶಭಿತ್ತಿ ಇರುವುದಿಲ್ಲ", "ಮೈಟೋಕಾಂಡ್ರಿಯಾ ಇರುತ್ತದೆ"],
+                correct: 1,
+                exp: "ಪ್ರೋಕ್ಯಾರಿಯೋಟ್ಸ್‌ಗಳಲ್ಲಿ ನ್ಯೂಕ್ಲಿಯಸ್ ನಿರ್ದಿಷ್ಟವಾದ ನ್ಯೂಕ್ಲಿಯರ್ ಪೊರೆಯಿಂದ ಆವೃತವಾಗಿರುವುದಿಲ್ಲ. ಉದಾ : ಬ್ಯಾಕ್ಟೀರಿಯಾ, ನೀಲಿ ಮತ್ತು ಹಸಿರು ಶೈವಲಗಳು."
+            },
+            {
+                q: "12. ಯುಕ್ಯಾರಿಯೋಟ್ಸ್ (Eukaryotes) ಜೀವಕೋಶಗಳಿಗೆ ಉದಾಹರಣೆ ಯಾವುದು?",
+                options: ["ಬ್ಯಾಕ್ಟೀರಿಯಾ ಮಾತ್ರ", "ನೀಲಿ-ಹಸಿರು ಶೈವಲಗಳು", "ಅಮೀಬಾ, ನಾಯಿಕೊಡೆ, ಸಸ್ಯ ಮತ್ತು ಪ್ರಾಣಿ ಜೀವಕೋಶಗಳು", "ವೈರಸ್ ಮಾತ್ರ"],
+                correct: 2,
+                exp: "ಯುಕ್ಯಾರಿಯೋಟ್ಸ್‌ಗಳಲ್ಲಿ ನ್ಯೂಕ್ಲಿಯಸ್ ನಿರ್ದಿಷ್ಟವಾದ ನ್ಯೂಕ್ಲಿಯರ್ ಪೊರೆಯಿಂದ ಆವೃತವಾಗಿರುತ್ತದೆ. ಉದಾ : ಅಮೀಬಾ, ನಾಯಿಕೊಡೆ, ಸಸ್ಯ ಮತ್ತು ಪ್ರಾಣಿ ಜೀವಕೋಶಗಳು."
+            },
+            {
+                q: "13. ಕೋಶ ಪೊರೆಯನ್ನು (Plasma Membrane) ಕಂಡುಹಿಡಿದ ವಿಜ್ಞಾನಿ ಯಾರು?",
+                options: ["ಶ್ವಾನ್", "ರಾಬರ್ಟ್ ಬ್ರೌನ್", "ಪೋರ್ಟರ್", "ಸಿಂಗರ್"],
+                correct: 0,
+                exp: "ಜೀವಕೋಶದ ಅತ್ಯಂತ ಹೊರಗಿನ ತೆಳುವಾದ ಪೊರೆಯನ್ನು ಕೋಶ ಪೊರೆ ಎನ್ನುವರು. ಇದನ್ನ ಕಂಡುಹಿಡಿದ ವಿಜ್ಞಾನಿ : ಶ್ವಾನ್."
+            },
+            {
+                q: "14. 'ಫ್ಲೂಯಿಡ್ ಮೊಸಾಯಿಕ್ ಸಿದ್ಧಾಂತ'ವನ್ನು (Fluid Mosaic Model) ಮಂಡಿಸಿದವರು ಯಾರು?",
+                options: ["ವಾನ್ ಬೆನೆಡನ್ & ಪ್ಯಾಲಡೆ", "ಸಿಂಗರ್ & ನಿಕಲ್ಸನ್", "ಸ್ಲೈಡನ್ & ಶ್ವಾನ್", "ರಾಬರ್ಟ್ ಹುಕ್ & ಬ್ರೌನ್"],
+                correct: 1,
+                exp: "ಕೋಶಪೊರೆಯು ಕಾರ್ಬೋಹೈಡ್ರೇಟ್, ಪ್ರೋಟೀನ್ ಮತ್ತು ಲಿಪಿಡ್‌ಗಳಿಂದ ಮಾಡಲ್ಪಟ್ಟಿದೆ ಎಂದು ತಿಳಿಸುವ ಸಿದ್ಧಾಂತ. ಇದನ್ನು ಮಂಡಿಸಿದವರು ಸಿಂಗರ್ & ನಿಕಲ್ಸನ್."
+            },
+            {
+                q: "15. ಕೋಶಪೊರೆಯ ಮೂಲಕ ವಸ್ತುಗಳು ಚಲಿಸುವ ಕ್ರಿಯೆಗೆ ಏನೆನ್ನುತ್ತಾರೆ?",
+                options: ["ವಿಸರಣೆ (Diffusion)", "ಅಭಿಸರಣೆ", "ಕ್ರಿಯಾತ್ಮಕ ಸಾಗಾಣಿಕೆ", "ಫಾಗೋಸೈಟೋಸಿಸ್"],
+                correct: 0,
+                exp: "ವಿಸರಣೆ (Diffusion) ಕೋಶಪೊರೆಯ ಮೂಲಕ ವಸ್ತುಗಳು ಚಲಿಸುವ ಕ್ರಿಯೆಗಳಲ್ಲಿ ಒಂದಾಗಿದೆ."
+            },
+            {
+                q: "16. ಕೋಶಪೊರೆಯ ಮೂಲಕ ದ್ರವ ಅಥವಾ ನೀರಿನ ಚಲನೆಯ ಕ್ರಿಯೆ ಯಾವುದು?",
+                options: ["ವಿಸರಣೆ", "ಅಭಿಸರಣೆ (Osmosis)", "ಕ್ರಿಯಾತ್ಮಕ ಸಾಗಾಣಿಕೆ", "ಪಿನೋಸೈಟೋಸಿಸ್"],
+                correct: 1,
+                exp: "ಕೋಶಪೊರೆಯ ಮೂಲಕ ದ್ರವ ಅಥವಾ ನೀರಿನ ಚಲನೆಯ ಕ್ರಿಯೆಯನ್ನು ಅಭಿಸರಣೆ (Osmosis) ಎನ್ನುತ್ತಾರೆ."
+            },
+            {
+                q: "17. ಶಕ್ತಿಯ ಬಳಕೆಯೊಂದಿಗೆ ಕೋಶಪೊರೆಯ ಮೂಲಕ ವಸ್ತುಗಳು ಚಲಿಸುವ ಕ್ರಿಯೆ ಯಾವುದು?",
+                options: ["ವಿಸರಣೆ", "ಅಭಿಸರಣೆ", "ಕ್ರಿಯಾತ್ಮಕ ಸಾಗಾಣಿಕೆ (Active Transport)", "ಪಿನೋಸೈಟೋಸಿಸ್"],
+                correct: 2,
+                exp: "ಶಕ್ತಿಯ ಬಳಕೆಯೊಂದಿಗೆ ಕೋಶಪೊರೆಯ ಮೂಲಕ ವಸ್ತುಗಳು ಚಲಿಸುವ ಕ್ರಿಯೆಯನ್ನು ಕ್ರಿಯಾತ್ಮಕ ಸಾಗಾಣಿಕೆ ಎನ್ನುವರು."
+            },
+            {
+                q: "18. ಕೋಶ ಭಿತ್ತಿ (Cell Wall) ಎಲ್ಲಿ ಕಂಡುಬರುತ್ತದೆ ಮತ್ತು ಯಾವುದರಿಂದ ಮಾಡಲ್ಪಟ್ಟಿದೆ?",
+                options: ["ಪ್ರಾಣಿ ಜೀವಕೋಶದಲ್ಲಷ್ಟೇ ಇರುತ್ತದೆ", "ಸಸ್ಯ, ಬ್ಯಾಕ್ಟೀರಿಯಾ, ಶಿಲೀಂಧ್ರಗಳ ಹೊರಭಾಗದಲ್ಲಿದ್ದು ಸೆಲ್ಯುಲೋಸ್‌ನಿಂದಾಗಿದೆ", "ನರಕೋಶದಲ್ಲಷ್ಟೇ ಇರುತ್ತದೆ", "ವೈರಸ್‌ಗಳಲ್ಲಷ್ಟೇ ಇರುತ್ತದೆ"],
+                correct: 1,
+                exp: "ಸಸ್ಯ ಜೀವಕೋಶ, ಬ್ಯಾಕ್ಟೀರಿಯಾ ಮತ್ತು ಶಿಲೀಂಧ್ರಗಳ ಹೊರಭಾಗದಲ್ಲಿ ಕಂಡುಬರುತ್ತದೆ (ಪ್ರಾಣಿ ಜೀವಕೋಶದಲ್ಲಿರುವುದಿಲ್ಲ). ಇದು ಸೆಲ್ಯುಲೋಸ್ ಮತ್ತು ಹೆಮಿಸೆಲ್ಯುಲೋಸ್‌ನಿಂದಾಗಿದೆ."
+            },
+            {
+                q: "19. ಜೀವಕೋಶದ 'ಶಕ್ತಿ ಉತ್ಪಾದನಾ ಕೇಂದ್ರ' (Powerhouse of the cell) ಯಾವುದು?",
+                options: ["ರೈಬೋಸೋಮ್", "ಮೈಟೋಕಾಂಡ್ರಿಯಾ", "ಲೈಸೋಸೋಮ್", "ನ್ಯೂಕ್ಲಿಯಸ್"],
+                correct: 1,
+                exp: "ಮೈಟೋಕಾಂಡ್ರಿಯಾದಲ್ಲಿ ಆಹಾರವು ಆಮ್ಲಜನಕದ ಸಹಾಯದಿಂದ ದಹನ ಹೊಂದಿ ಶಕ್ತಿ ಉತ್ಪತ್ತಿಯಾಗುತ್ತದೆ. ಆದ್ದರಿಂದ ಇದನ್ನು 'ಜೀವಕೋಶದ ಶಕ್ತಿ ಉತ್ಪಾದನಾ ಕೇಂದ್ರ' ಎನ್ನುವರು."
+            },
+            {
+                q: "20. ಜೀವಕೋಶದ 'ಶಕ್ತಿಯ ನಾಣ್ಯ' ಎಂದು ಯಾವುದನ್ನು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["DNA", "ATP കಣಗಳು (Adenosine Triphosphate)", "RNA", "ಲಿಪಿಡ್"],
+                correct: 1,
+                exp: "ಮೈಟೋಕಾಂಡ್ರಿಯಾದಲ್ಲಿ ಉತ್ಪತ್ತಿಯಾಗುವ ಶಕ್ತಿಯು ATP ರೂಪದಲ್ಲಿರುತ್ತದೆ. ಇದನ್ನು ಜೀವಕೋಶದ ಶಕ್ತಿಯ ನಾಣ್ಯ ಎನ್ನುವರು."
+            },
+            {
+                q: "21. ಜೀವಕೋಶದ ಅತಿ ಚಿಕ್ಕ ಕಣದಂಗವಾದ ರೈಬೋಸೋಮ್ ಅನ್ನು ಕಂಡುಹಿಡಿದವರು ಯಾರು?",
+                options: ["ಪ್ಯಾಲಡೆ (Palade)", "ಕ್ರಿಶ್ಚಿಯನ್ ಡಿ-ದುವೆ", "ಪೋರ್ಟರ್", "ರಾಬರ್ಟ್ ಬ್ರೌನ್"],
+                correct: 0,
+                exp: "ಜೀವಕೋಶದ ಅತಿ ಚಿಕ್ಕ ಕಣದಂಗ ರೈಬೋಸೋಮ್. ಇದನ್ನು ಕಂಡುಹಿಡಿದವರು – ಪ್ಯಾಲಡೆ (Palade)."
+            },
+            {
+                q: "22. ಜೀವಕೋಶದ 'ಪ್ರೋಟೀನ್ ಉತ್ಪಾದನಾ ಕೇಂದ್ರ' (Protein Factory) ಯಾವುದು?",
+                options: ["ಮೈಟೋಕಾಂಡ್ರಿಯಾ", "ಗಾಲ್ಗಿ ಸಂಕೀರ್ಣ", "ರೈಬೋಸೋಮ್", "ಸೆಂಟ್ರಿಯೋಲ್"],
+                correct: 2,
+                exp: "ರೈಬೋಸೋಮ್‌ಗಳು ಅಮೈನೋ ಆಮ್ಲಗಳನ್ನು ಜೋಡಿಸಿ ಪ್ರೋಟೀನ್ ಉತ್ಪತ್ತಿ ಮಾಡುತ್ತವೆ. ಆದ್ದರಿಂದ ಇವುಗಳನ್ನು ಪ್ರೋಟೀನ್ ಉತ್ಪಾದನಾ ಕೇಂದ್ರ ಎನ್ನುತ್ತಾರೆ."
+            },
+            {
+                q: "23. ಜೀವಕೋಶದ 'ರಾಸಾಯನಿಕ ಕಾರ್ಖಾನೆ' (Chemical Factory) ಎಂದು ಯಾವುದನ್ನು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["ಗಾಲ್ಗಿ ಸಂಕೀರ್ಣ (Golgi Apparatus)", "ಎಂಡೋಪ್ಲಾಸ್ಮಿಕ್ ರೆಟಿಕ್ಯುಲಂ", "ಲೈಸೋಸೋಮ್", "ರೈಬೋಸೋಮ್"],
+                correct: 0,
+                exp: "ಗಾಲ್ಗಿ ಸಂಕೀರ್ಣದಲ್ಲಿ ರಾಸಾಯನಿಕ ವಸ್ತುಗಳು ಸ್ರವಿಕೆಯಾಗುವುದರಿಂದ ಇದನ್ನು 'ರಾಸಾಯನಿಕ ಕಾರ್ಖಾನೆ' ಎನ್ನುವರು."
+            },
+            {
+                q: "24. ಸೆಂಟ್ರಿಯೋಲ್ (Centriole) ಅನ್ನು ಕಂಡುಹಿಡಿದವರು ಯಾರು?",
+                options: ["ವ್ಯಾನ್ ಬೆನೆಡನ್ (Van Beneden)", "ರಾಬರ್ಟ್ ಹುಕ್", "ಕ್ರಿಶ್ಚಿಯನ್ ಡಿ-ದುವೆ", "ಪೋರ್ಟರ್"],
+                correct: 0,
+                exp: "ಸೆಂಟ್ರಿಯೋಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿದವರು – ವ್ಯಾನ್ ಬೆನೆಡನ್ (Van Beneden)."
+            },
+            {
+                q: "25. ಸೆಂಟ್ರಿಯೋಲ್ ಎಲ್ಲಿ ಕಂಡುಬರುವುದಿಲ್ಲ?",
+                options: ["ಪ್ರಾಣಿ ಜೀವಕೋಶ", "ಸಸ್ಯ ಜೀವಕೋಶ", "ಮಾನವನ ಜೀವಕೋಶ", "ನರಕೋಶ"],
+                correct: 1,
+                exp: "ಸೆಂಟ್ರಿಯೋಲ್ ಜೀವಕೋಶ ವಿಭಜನೆಯಲ್ಲಿ ಪಾಲ್ಗೊಳ್ಳುತ್ತದೆ. ಇದು ಸಸ್ಯ ಜೀವಕೋಶದಲ್ಲಿ ಕಂಡುಬರುವುದಿಲ್ಲ (ಪ್ರಾಣಿ ಕೋಶದಲ್ಲಷ್ಟೇ ಇರುತ್ತದೆ)."
+            },
+            {
+                q: "26. ಜೀವಕೋಶದ 'ಆತ್ಮಹತ್ಯಾ ಚೀಲ' (Suicidal Bag) ಯಾವುದು?",
+                options: ["ರೈಬೋಸೋಮ್", "ಮೈಟೋಕಾಂಡ್ರಿಯಾ", "ಲೈಸೋಸೋಮ್", "ನ್ಯೂಕ್ಲಿಯಸ್"],
+                correct: 2,
+                exp: "ಕ್ರಿಶ್ಚಿಯನ್ ಡಿ-ದುವೆ ಕಂಡುಹಿಡಿದರು. ಜೀವಕೋಶವು ಹಾನಿಗೊಳಗಾದಾಗ ಲೈಸೋಸೋಮ್‌ಗಳು ಒಡೆದು ಇಡೀ ಜೀವಕೋಶವನ್ನೇ ನಾಶಮಾಡುತ್ತವೆ. ಆದ್ದರಿಂದ ಇದನ್ನು 'ಆತ್ಮಹತ್ಯಾ ಚೀಲ' ಎನ್ನುವರು."
+            },
+            {
+                q: "27. ಕಪ್ಪೆಯ ರೂಪ ಪರಿವರ್ತನೆಯಲ್ಲಿ ಬಾಲ ಅದೃಶ್ಯಗೊಳ್ಳಲು ಕಾರಣವಾದ ಕಣದಂಗ ಯಾವುದು?",
+                options: ["ಮೈಟೋಕಾಂಡ್ರಿಯಾ", "ಲೈಸೋಸೋಮ್", "ಗಾಲ್ಗಿ ಸಂಕೀರ್ಣ", "ಸೆಂಟ್ರಿಯೋಲ್"],
+                correct: 1,
+                exp: "ಕಪ್ಪೆಯ ರೂಪ ಪರಿವರ್ತನೆಯಲ್ಲಿ ಕಪ್ಪೆಯ ಬಾಲ ಅದೃಶ್ಯಗೊಳ್ಳಲು ಕಾರಣವಾದ ಕಣದಂಗ – ಲೈಸೋಸೋಮ್."
+            },
+            {
+                q: "28. ಜೀವಕೋಶದ 'ಸಾರಿಗೆ ವ್ಯವಸ್ಥೆ' (Transport System) ಎಂದು ಯಾವುದನ್ನು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["ಎಂಡೋಪ್ಲಾಸ್ಮಿಕ್ ರೆಟಿಕ್ಯುಲಂ (ER)", "ಲೈಸೋಸೋಮ್", "ರೈಬೋಸೋಮ್", "ನ್ಯೂಕ್ಲಿಯಸ್"],
+                correct: 0,
+                exp: "ಎಂಡೋಪ್ಲಾಸ್ಮಿಕ್ ರೆಟಿಕ್ಯುಲಂ (ER) ಅನ್ನು ಪೋರ್ಟರ್ ಕಂಡುಹಿಡಿದರು. ಇದು ಜೀವಕೋಶದ ಸಾರಿಗೆ ವ್ಯವಸ್ಥೆಯಾಗಿದೆ."
+            },
+            {
+                q: "29. ಜೀವಕೋಶದ ಅಸ್ಥಿಪಂಜರ (Cytoskeleton / Framework) ಎಂದು ಯಾವುದನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?",
+                options: ["ಕೋಶಭಿತ್ತಿ", "ಎಂಡೋಪ್ಲಾಸ್ಮಿಕ್ ರೆಟಿಕ್ಯುಲಂ (ER)", "ಕೋಶಪೊರೆ", "ಸೈಟೋಪ್ಲಾಸಂ"],
+                correct: 1,
+                exp: "ER ಅನ್ನು ಜೀವಕೋಶದ ಅಸ್ಥಿಪಂಜರ (Skeletal framework of the cell) ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                q: "30. ಒರಟಾದ ER (Rough ER) ನ ಮುಖ್ಯ ಕಾರ್ಯವೇನು?",
+                options: ["ಪ್ರೋಟೀನ್ ಉತ್ಪಾದನೆ", "ಲಿಪಿಡ್ ಉತ್ಪಾದನೆ", "ಶಕ್ತಿ ಉತ್ಪಾದನೆ", "ನೀರಿನ ಸಾಗಾಣಿಕೆ"],
+                correct: 0,
+                exp: "ಒರಟಾದ ER ನ ಮೇಲ್ಮೈ ಮೇಲೆ ರೈಬೋಸೋಮ್‌ಗಳು ಅಂಟಿಕೊಂಡಿರುತ್ತವೆ. ಇವು ಪ್ರೋಟೀನ್‌ಗಳನ್ನು ಉತ್ಪಾದಿಸುತ್ತವೆ."
+            },
+            {
+                q: "31. ನಯವಾದ ER (Smooth ER) ನ ಮುಖ್ಯ ಕಾರ್ಯವೇನು?",
+                options: ["ಪ್ರೋಟೀನ್ ಉತ್ಪಾದನೆ", "ಲಿಪಿಡ್‌ಗಳನ್ನು (ಕೊಬ್ಬು) ಉತ್ಪಾದಿಸುವುದು", "ಶಕ್ತಿ ಉತ್ಪಾದನೆ", "DNA ಉತ್ಪಾದನೆ"],
+                correct: 1,
+                exp: "ನಯವಾದ ER ನ ಮೇಲ್ಮೈ ಮೇಲೆ ರೈಬೋಸೋಮ್‌ಗಳು ಇರುವುದಿಲ್ಲ. ಇವು ಲಿಪಿಡ್‌ಗಳನ್ನು (ಕೊಬ್ಬು) ಉತ್ಪಾದಿಸುತ್ತವೆ."
+            },
+            {
+                q: "32. ಕೋಶಕೇಂದ್ರ ಅಥವಾ ನ್ಯೂಕ್ಲಿಯಸ್ ಅನ್ನು ಕಂಡುಹಿಡಿದವರು ಯಾರು?",
+                options: ["ರಾಬರ್ಟ್ ಬ್ರೌನ್", "ರಾಬರ್ಟ್ ಹುಕ್", "ಲೀವನ್‌ಹುಕ್", "ಪೋರ್ಟರ್"],
+                correct: 0,
+                exp: "ಕೋಶಕೇಂದ್ರ / ನ್ಯೂಕ್ಲಿಯಸ್ ಅನ್ನು ಕಂಡುಹಿಡಿದವರು – ರಾಬರ್ಟ್ ಬ್ರೌನ್."
+            },
+            {
+                q: "33. DNA ದ ಭಾಗಗಳನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["ವರ್ಣತಂತು", "ವಂಶವಾಹಿ (ಜೀನ್ಸ್)", "ಹಿಸ್ಟೋನ್", "ರೈಬೋಸೋಮ್"],
+                correct: 1,
+                exp: "ಪ್ರತಿಯೊಂದು ವರ್ಣತಂತು DNA ಮತ್ತು ಹಿಸ್ಟೋನ್ ಪ್ರೋಟೀನ್‌ಗಳಿಂದ ಮಾಡಲ್ಪಟ್ಟಿರುತ್ತದೆ. DNA ದ ಭಾಗಗಳನ್ನು ವಂಶವಾಹಿ (ಜೀನ್ಸ್) ಎನ್ನುವರು."
+            },
+            {
+                q: "34. ಕೋಶಭಿತ್ತಿಯ ಘಟಕಗಳು (Cell Wall Components) ಯಾವುವು?",
+                options: ["ಕೇವಲ ಪ್ರೋಟೀನ್", "ಸೆಲ್ಯುಲೋಸ್, ಹೆಮಿಸೆಲ್ಯುಲೋಸ್, ಲಿಗ್ನಿನ್ ಮತ್ತು ಪೆಕ್ಟಿನ್", "ಕೇವಲ ಕೊಬ್ಬು", "ಕೇವಲ ನೀರು"],
+                correct: 1,
+                exp: "ಕೋಶಭಿತ್ತಿಯು ನಿರ್ಜೀವ ವಸ್ತುಗಳಾದ ಸೆಲ್ಯುಲೋಸ್, ಹೆಮಿಸೆಲ್ಯುಲೋಸ್, ಲಿಗ್ನಿನ್ ಮತ್ತು ಪೆಕ್ಟಿನ್‌ಗಳಿಂದ ಮಾಡಲ್ಪಟ್ಟಿದೆ."
+            },
+            {
+                q: "35. ಅತ್ಯಂತ ದೊಡ್ಡದಾದ ಜೀವಕೋಶ ಯಾವುದು?",
+                options: ["ಮಾನವನ ನರಕೋಶ", "ಆಸ್ಟ್ರಿಚ್ ಪಕ್ಷಿಯ ಮೊಟ್ಟೆ", "ಮೈಕೋಪ್ಲಾಸ್ಮಾ", "ಬ್ಯಾಕ್ಟೀರಿಯಾ"],
+                correct: 1,
+                exp: "ಅತ್ಯಂತ ದೊಡ್ಡದಾದ ಜೀವಕೋಶ – ಆಸ್ಟ್ರಿಚ್ ಪಕ್ಷಿಯ ಮೊಟ್ಟೆ."
+            },
+            {
+                q: "36. ಅತ್ಯಂತ ಚಿಕ್ಕದಾದ ಜೀವಕೋಶ ಯಾವುದು?",
+                options: ["ಅಮೀಬಾ", "ಮೈಕೋಪ್ಲಾಸ್ಮಾ ಗ್ಯಾಲಿಸೆಪ್ಟಿಕಂ", "ಯುಗ್ಲೀನಾ", "ಪ್ಯಾರಾಮೀಷಿಯಂ"],
+                correct: 1,
+                exp: "ಅತ್ಯಂತ ಚಿಕ್ಕದಾದ ಜೀವಕೋಶ – ಮೈಕೋಪ್ಲಾಸ್ಮಾ ಗ್ಯಾಲಿಸೆಪ್ಟಿಕಂ."
+            },
+            {
+                q: "37. ಆನುವಂಶಿಕತೆಯ ಮೂಲಘಟಕ (Basic Unit of Heredity) ಯಾವುದು?",
+                options: ["DNA", "RNA", "ಜೀನ್ (Gene)", "ವರ್ಣತಂತು"],
+                correct: 2,
+                exp: "ಆನುವಂಶಿಕ ಮೂಲಘಟಕಗಳು – ಜೀನ್ (Gene)."
+            },
+            {
+                q: "38. ಆನುವಂಶೀಯ ವಸ್ತು (Genetic Material) ಯಾವುದು?",
+                options: ["RNA", "ಡಿ.ಎನ್.ಎ (DNA)", "ಪ್ರೋಟೀನ್", "ಲಿಪಿಡ್"],
+                correct: 1,
+                exp: "ಆನುವಂಶೀಯ ವಸ್ತುಗಳು – ಡಿ.ಎನ್.ಎ (DNA)."
+            },
+            {
+                q: "39. ವರ್ಣತಂತುಗಳು (Chromosomes) ಯಾವುದರಿಂದ ಕೂಡಿವೆ?",
+                options: ["ಡಿ.ಎನ್.ಎ ಮತ್ತು ಹಿಸ್ಟೋನ್ (ಪ್ರೋಟೀನ್)", "RNA ಮತ್ತು ಕೊಬ್ಬು", "ಸೆಲ್ಯುಲೋಸ್ ಮತ್ತು ನೀರು", "ಕೇವಲ ವಿಟಮಿನ್"],
+                correct: 0,
+                exp: "ವರ್ಣತಂತುಗಳು – ಡಿ.ಎನ್.ಎ ಮತ್ತು ಹಿಸ್ಟೋನ್ (ಪ್ರೋಟೀನ್) ಗಳಿಂದ ಕೂಡಿವೆ."
+            },
+            {
+                q: "40. ಮಗುವಿನ ಲಿಂಗ ನಿರ್ಧಾರ ಮಾಡುವ ವರ್ಣತಂತುಗಳು ಯಾರಿಂದ ಬರುತ್ತವೆ?",
+                options: ["ತಾಯಿಯ ವರ್ಣತಂತುಗಳು", "ತಂದೆಯ ವರ್ಣತಂತುಗಳು (X ಅಥವಾ Y)", "ತಾಯಿಯ ಜೀನ್ಸ್‌ಗಳು", "ಪೋಷಕರಿಬ್ಬರಿಂದ ಸಮನಾಗಿ"],
+                correct: 1,
+                exp: "ಮಗುವಿನ ಲಿಂಗವನ್ನು ನಿರ್ಧಾರ ಮಾಡುವ ವರ್ಣತಂತುಗಳು – ತಂದೆಯ ವರ್ಣತಂತುಗಳು (X ಅಥವಾ Y)."
+            },
+            {
+                q: "41. ಮಾನವನ ದೇಹದಲ್ಲಿ ವಿಭಜನೆ ಆಗದ ಜೀವಕೋಶ (Non-dividing Cell) ಯಾವುದು?",
+                options: ["ಯಕೃತ್ತಿನ ಕೋಶ", "ಚರ್ಮದ ಕೋಶ", "ನರಕೋಶ (ನ್ಯೂರಾನ್)", "ರಕ್ತದ ಕೆಂಪು ಕಣ"],
+                correct: 2,
+                exp: "ಮಾನವನ ದೇಹದಲ್ಲಿ ವಿಭಜನೆ ಆಗದ ಜೀವಕೋಶ – ನರಕೋಶ (ನ್ಯೂರಾನ್)."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        function loadQuiz() {
+            renderPalette();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = quizData[currentQuestion];
+            document.getElementById("question-text").innerText = qData.q;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            const expBox = document.getElementById("explanation-box");
+            expBox.style.display = "none";
+
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = opt;
+
+                if (userAnswers[currentQuestion] !== null) {
+                    if (index === qData.correct) {
+                        btn.classList.add("correct");
+                    }
+                    if (userAnswers[currentQuestion] === index && index !== qData.correct) {
+                        btn.classList.add("incorrect");
+                    }
+                    btn.disabled = true;
+                } else {
+                    btn.onclick = () => selectOption(index);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            if (userAnswers[currentQuestion] !== null) {
+                expBox.style.display = "block";
+                if (userAnswers[currentQuestion] === qData.correct) {
+                    expBox.className = "explanation-box right";
+                    expBox.innerHTML = `<b>ಸರಿಯಾದ ಉತ್ತರ! (Correct)</b><br>${qData.exp}`;
+                } else {
+                    expBox.className = "explanation-box wrong";
+                    expBox.innerHTML = `<b>ತಪ್ಪು ಉತ್ತರ (Incorrect)</b><br>ಸರಿಯಾದ ಉತ್ತರ: <b>${qData.options[qData.correct]}</b><br>ವಿವರಣೆ: ${qData.exp}`;
+                }
+            }
+
+            document.getElementById("prev-btn").disabled = currentQuestion === 0;
+            document.getElementById("next-btn").disabled = currentQuestion === quizData.length - 1;
+
+            updatePaletteUI();
+            updateScore();
+        }
+
+        function selectOption(index) {
+            userAnswers[currentQuestion] = index;
+            showQuestion();
+        }
+
+        function renderPalette() {
+            const palette = document.getElementById("question-palette");
+            palette.innerHTML = "";
+            quizData.forEach((_, index) => {
+                const btn = document.createElement("div");
+                btn.className = "grid-btn";
+                btn.innerText = index + 1;
+                btn.onclick = () => {
+                    currentQuestion = index;
+                    showQuestion();
+                };
+                palette.appendChild(btn);
+            });
+        }
+
+        function updatePaletteUI() {
+            const buttons = document.querySelectorAll(".grid-btn");
+            buttons.forEach((btn, idx) => {
+                btn.classList.remove("active", "answered");
+                if (idx === currentQuestion) btn.classList.add("active");
+                if (userAnswers[idx] !== null) btn.classList.add("answered");
+            });
+        }
+
+        function updateScore() {
+            let score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === quizData[idx].correct) score++;
+            });
+            document.getElementById("score-board").innerText = `Score: ${score} / ${quizData.length}`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function resetQuiz() {
+            userAnswers = new Array(quizData.length).fill(null);
+            currentQuestion = 0;
+            loadQuiz();
+        }
+
+        // Initialize quiz on page load
+        loadQuiz();
+    </script>
+</body>
+</html>
