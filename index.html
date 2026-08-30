@@ -331,13 +331,11 @@
     </div>
 
     <script>
-        // Initialize Supabase Client
         const SUPABASE_URL = 'https://svynlmgcfbpkbpqircmdf.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2eW5sbWdjZmJwa2JxaXJjbWRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwMjM1NDIsImV4cCI6MjEwMzU5OTU0Mn0.CupsEfS6o1j9tUZd5gom72jOnzkSggTD0swEjpugNYc';
         
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Default structure fallback
         let quizDatabase = {
             "History": {
                 "Ancient History": ["Indus Valley Civilization", "Vedic Period", "Maurya Empire"],
@@ -348,14 +346,13 @@
             }
         };
 
-        let currentView = 'main'; // 'main', 'subheadings', 'items'
+        let currentView = 'main';
         let selectedMain = null;
         let selectedSub = null;
         let isDeleteMode = false;
         let isReorderMode = false;
         let modalType = 'main_chapter';
 
-        // Load Data from Supabase Cloud Database on startup
         async function loadData() {
             try {
                 let { data, error } = await supabaseClient
@@ -365,11 +362,11 @@
 
                 if (error) {
                     console.error("Error loading from Supabase:", error);
-                } else if (data && data.length > 0 && data[0].data) {
+                } else if (data && data.length > 0 && data[0].data && Object.keys(data[0].data).length > 0) {
                     quizDatabase = data[0].data;
                 } else {
-                    // If table is empty, insert the default structure
-                    await supabaseClient.from('quiz_structure').insert([{ data: quizDatabase }]);
+                    // If row exists but is empty, save the default structure into it
+                    await saveData();
                 }
             } catch (err) {
                 console.error("Unexpected error:", err);
@@ -377,23 +374,19 @@
             renderUI();
         }
 
-        // Save Data to Supabase Cloud Database
         async function saveData() {
             try {
-                // Check if a row exists
                 let { data, error } = await supabaseClient
                     .from('quiz_structure')
                     .select('id')
                     .limit(1);
 
                 if (data && data.length > 0) {
-                    // Update existing row
                     await supabaseClient
                         .from('quiz_structure')
                         .update({ data: quizDatabase })
                         .eq('id', data[0].id);
                 } else {
-                    // Insert new row if none exists
                     await supabaseClient
                         .from('quiz_structure')
                         .insert([{ data: quizDatabase }]);
@@ -706,7 +699,6 @@
             renderUI();
         }
 
-        // Initialize and pull data from cloud on load
         loadData();
     </script>
 </body>
