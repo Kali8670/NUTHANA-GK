@@ -2,15 +2,15 @@
   "chapters": [
     {
       "name": "History",
-      "link": "tests/ಇತಿಹಾಸದ-ಅರ್ಥ.html"
+      "link": "test/ಇತಿಹಾಸದ-ಅರ್ಥ.html"
     },
     {
       "name": "Geography",
-      "link": "tests/geography-main.html"
+      "link": "test/geography-main.html"
     },
     {
       "name": "Mental Ability",
-      "link": "tests/mental-ability-main.html"
+      "link": "test/mental-ability-main.html"
     }
   ]
 }
