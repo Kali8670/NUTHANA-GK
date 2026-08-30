@@ -1,0 +1,16 @@
+{
+  "chapters": [
+    {
+      "name": "History",
+      "link": "tests/history-main.html"
+    },
+    {
+      "name": "Geography",
+      "link": "tests/geography-main.html"
+    },
+    {
+      "name": "Mental Ability",
+      "link": "tests/mental-ability-main.html"
+    }
+  ]
+}
