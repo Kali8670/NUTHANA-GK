@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karnataka History CBT Exam Mock Test</title>
+    <style>
+        :root {
+            --primary-color: #0b3c5d;
+            --secondary-color: #328cc1;
+            --bg-color: #f4f6f9;
+            --border-color: #dcdcdc;
+            --correct-bg: #d4edda;
+            --correct-border: #c3e6cb;
+            --correct-text: #155724;
+            --wrong-bg: #f8d7da;
+            --wrong-border: #f5c6cb;
+            --wrong-text: #721c24;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .timer-box {
+            background-color: #d9534f;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 50px);
+            overflow: hidden;
+        }
+
+        .question-area {
+            flex: 3;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .question-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .question-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .option-container {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+
+        .option-container:hover {
+            background-color: #f1f5f9;
+        }
+
+        .option-container.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct-border);
+            color: var(--correct-text);
+            font-weight: bold;
+        }
+
+        .option-container.wrong {
+            background-color: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: var(--wrong-text);
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .nav-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #246b97;
+        }
+
+        .btn-retest {
+            background-color: #f0ad4e;
+            color: white;
+        }
+
+        .btn-retest:hover {
+            background-color: #ec971f;
+        }
+
+        .palette-area {
+            flex: 1;
+            background: #fdfdfd;
+            padding: 15px;
+            overflow-y: auto;
+            border-left: 1px solid var(--border-color);
+            min-width: 250px;
+        }
+
+        .palette-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .grid-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .palette-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 8px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .palette-btn.current {
+            border: 2px solid var(--primary-color);
+        }
+
+        .palette-btn.answered-correct {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .palette-btn.answered-wrong {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .palette-area {
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>Karnataka History CBT Exam Mock Test</div>
+        <div class="timer-box" id="timer">Time Remaining: 30:00</div>
+    </div>
+
+    <div class="main-container">
+        <div class="question-area">
+            <div class="question-meta" id="q-meta">Question 1 of 65</div>
+            <div class="question-title" id="q-title">Loading question...</div>
+            
+            <div id="options-list"></div>
+
+            <div class="explanation-box" id="explanation-box">
+                <strong>ವಿವರಣೆ (Explanation):</strong> <span id="explanation-text"></span>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="prev-btn" onclick="changeQuestion(-1)">Previous</button>
+                <button class="btn btn-primary" id="next-btn" onclick="changeQuestion(1)">Next</button>
+                <button class="btn btn-retest" id="retest-btn" onclick="resetQuiz()" style="display:none;">Retest (ಪುನಃ ಪರೀಕ್ಷಿಸಿ)</button>
+            </div>
+        </div>
+
+        <div class="palette-area">
+            <div class="palette-header">
+                <span>Question Palette</span>
+                <span id="score-display">Score: 0 / 65</span>
+            </div>
+            <div class="grid-palette" id="palette-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { q: "ಇತಿಹಾಸದ ಪಿತಾಮಹ ಎಂದು ಯಾರನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["ಕಲ್ಹಣ", "ಹೆರೋಡೋಟಸ್", "ಮೆಗಾಸ್ತನೀಸ್", "ಟಾಲೆಮಿ"], answer: 1, exp: "ಹೆರೋಡೋಟಸ್ ಅವರನ್ನು ಇತಿಹಾಸದ ಪಿತಾಮಹ ಎನ್ನುವರು." },
+            { q: "ಹೆರೋಡೋಟಸ್ ಯಾವ ಅರಸನ ಆಸ್ಥಾನದಲ್ಲಿದ್ದನು?", options: ["ಮೌರ್ಯ ಚಂದ್ರಗುಪ್ತ", "ಗ್ರೀಕ್ ದೊರೆ ಪೆರಿಕ್ಲಿಸ್", "ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ", "ಹರ್ಷವರ್ಧನ"], answer: 1, exp: "ಗ್ರೀಕ್ ದೊರೆ ಪೆರಿಕ್ಲಿಸ್ ಎಂಬ ಅರಸನ ಆಸ್ಥಾನದಲ್ಲಿದ್ದನು." },
+            { q: "ಹೆರೋಡೋಟಸ್ ಬರೆದ ಪ್ರಸಿದ್ಧ ಗ್ರಂಥ ಯಾವುದು?", options: ["ರಾಜತರಂಗಿಣಿ", "ಹಿಸ್ಟೋರಿಯಾ", "ಇಂಡಿಕಾ", "ಅರ್ಥಶಾಸ್ತ್ರ"], answer: 1, exp: "ಹಿಸ್ಟೋರಿಯಾ ಈತನ ಪ್ರಮುಖ ಗ್ರಂಥ." },
+            { q: "ಹಿಸ್ಟೋರಿಯಾ ಗ್ರಂಥವು ಯಾವ ವಿಷಯದ ಬಗ್ಗೆ ತಿಳಿಸುತ್ತದೆ?", options: ["ಪರ್ಷಿಯನ್ ಕದನಗಳ ಇತಿಹಾಸ", "ಮೌರ್ಯರ ಆಡಳಿತ", "ದಕ್ಷಿಣ ಭಾರತದ ವ್ಯವಹಾರ", "ಕಾಶ್ಮೀರದ ಇತಿಹಾಸ"], answer: 0, exp: "ಪರ್ಷಿಯನ್ ಕದನಗಳ ಇತಿಹಾಸವನ್ನು ಇದು ತಿಳಿಸುತ್ತದೆ." },
+            { q: "ಭಾರತದ ಇತಿಹಾಸದ ಪಿತಾಮಹ ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಕಲ್ಹಣ", "ಪಾಣಿನಿ", "ಪತಂಜಲಿ", "ಬಾಣಭಟ್ಟ"], answer: 0, exp: "ಕಲ್ಹಣನನ್ನು ಭಾರತದ ಇತಿಹಾಸದ ಪಿತಾಮಹ ಎನ್ನುವರು." },
+            { q: "ಕಲ್ಹಣನ ಕಾಲಘಟ್ಟ ಯಾವ ಶತಮಾನಕ್ಕೆ ಸೇರಿದೆ?", options: ["10 ನೇ ಶತಮಾನ", "11 ನೇ ಶತಮಾನ", "12 ನೇ ಶತಮಾನ", "13 ನೇ ಶತಮಾನ"], answer: 2, exp: "ಕಲ್ಹಣನ ಕಾಲ 12 ನೇ ಶತಮಾನ." },
+            { q: "ಕಲ್ಹಣನು ಸಂಸ್ಕೃತ ಭಾಷೆಯಲ್ಲಿ ರಚಿಸಿದ ಪ್ರಸಿದ್ಧ ಕೃತಿ ಯಾವುದು?", options: ["ರಾಜತರಂಗಿಣಿ", "ಅಷ್ಟಾಧ್ಯಾಯಿ", "ಮುದ್ರಾರಾಕ್ಷಸ", "ಮಹಾಭಾಷ್ಯ"], answer: 0, exp: "ಈತನ ಕೃತಿ - ರಾಜತರಂಗಿಣಿ (ಸಂಸ್ಕೃತ)." },
+            { q: "ಕಲ್ಹಣನ 'ರಾಜತರಂಗಿಣಿ' ಕೃತಿಯು ನಿರ್ದಿಷ್ಟವಾಗಿ ಯಾವ ಪ್ರದೇಶದ ಇತಿಹಾಸವನ್ನು ತಿಳಿಸುತ್ತದೆ?", options: ["ಕರ್ನಾಟಕ", "ಕಾಶ್ಮೀರ", "ಗುಜರಾತ್", "ಬಂಗಾಲ"], answer: 1, exp: "ಇದು ಕಾಶ್ಮೀರದ ಇತಿಹಾಸವನ್ನು ತಿಳಿಸುತ್ತದೆ." },
+            { q: "'The City of God' ಮತ್ತು 'Confessions' ಕೃತಿಗಳ ಕರ್ತೃ ಯಾರು?", options: ["ಕಲ್ಹಣ", "ಪ್ಲೇಟೋ", "ಸೈಂಟ್ ಅಗಸ್ಟೀನ್ / ಸಂಬಂಧಿತ ವಿದ್ವಾಂಸ", "ಕಾರ್ಲ್ ಮಾರ್ಕ್ಸ್"], answer: 2, exp: "ಈತನ ಕೃತಿಗಳು 1) The City of God. 2) Confessions." },
+            { q: "'Politics' ಕೃತಿಯ ಕರ್ತೃ ಯಾರು?", options: ["ಅರಿಸ್ಟಾಟಲ್", "ಪ್ಲೇಟೋ", "ಕೌಟಿಲ್ಯ", "ಮಾರ್ಕ್ಸ್"], answer: 0, exp: "ಈತನ ಕೃತಿ - Politics(ಪೊಲಿಟಿಕ್ಸ್)." },
+            { q: "'ದಾಸ್ ಕ್ಯಾಪಿಟಲ್' ಮತ್ತು 'ಕಮ್ಯುನಿಸ್ಟ್ ಮ್ಯಾನಿಫೆಸ್ಟೋ' ಕೃತಿಗಳನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಕಾರ್ಲ್ ಮಾರ್ಕ್ಸ್", "ವಿಶಾಖದತ್ತ", "ಟಾಲೆಮಿ"], answer: 1, exp: "ಈತನ ಕೃತಿಗಳು 1) ದಾಸ್ ಕ್ಯಾಪಿಟಲ್ 2) ಕಮ್ಯುನಿಸ್ಟ್ ಮ್ಯಾನಿಫೆಸ್ಟೋ." },
+            { q: "'ಡಿಸ್ಕವರಿ ಆಫ್ ಇಂಡಿಯಾ' ಮತ್ತು 'ದಿ ಗ್ಲಿಂಪ್ಸಸ್ ಆಫ್ ವರ್ಲ್ಡ್ ಹಿಸ್ಟರಿ' ಕೃತಿಗಳ ರಚನೆಕಾರರು ಯಾರು?", options: ["ಮಹಾತ್ಮ ಗಾಂಧಿ", "ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಸುಭಾಷ್ ಚಂದ್ರ ಬೋಸ್", "ಅಂಬೇಡ್ಕರ್"], answer: 1, exp: "ಕೃತಿಗಳು 1) ಡಿಸ್ಕವರಿ ಆಫ್ ಇಂಡಿಯಾ. 2) ದಿ ಗ್ಲಿಂಪ್ಸಸ್ ಆಫ್ ವರ್ಲ್ಡ್ ಹಿಸ್ಟರಿ." },
+            { q: "ಕೌಟಿಲ್ಯನ 'ಅರ್ಥಶಾಸ್ತ್ರ' ಯಾವ ರಾಜವಂಶದ ಕಾಲವನ್ನು ಕುರಿತಾಗಿದೆ?", options: ["ಗುಪ್ತರು", "ಮೌರ್ಯರು", "ಚಾಲುಕ್ಯರು", "ಚೋಳರು"], answer: 1, exp: "ಕೌಟಿಲ್ಯನ – ಅರ್ಥಶಾಸ್ತ್ರ – ಮೌರ್ಯರ ಕಾಲ." },
+            { q: "ಪಾಣಿನಿಯ 'ಅಷ್ಟಾಧ್ಯಾಯಿ' ಯಾವ ಕಾಲಕ್ಕೆ ಸೇರಿದೆ?", options: ["ಮೌರ್ಯರ ಕಾಲ", "ಗುಪ್ತರ ಕಾಲ", "ವರ್ಧನರ ಕಾಲ", "ಶುಂಗರ ಕಾಲ"], answer: 0, exp: "ಪಾಣಿನಿಯ – ಅಷ್ಟಾಧ್ಯಾಯಿ – ಮೌರ್ಯರ ಕಾಲ." },
+            { q: "ವಿಶಾಖದತ್ತನ 'ಮುದ್ರಾರಾಕ್ಷಸ' ನಾಟಕವು ಯಾವ ಕಾಲಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಮೌರ್ಯರ ಕಾಲ", "ಗುಪ್ತರ ಕಾಲ", "ಶುಂಗರ ಕಾಲ", "ಸಾಮ್ರಾಜ್ಯ ಕಾಲ"], answer: 0, exp: "ವಿಶಾಖದತ್ತನ – ಮುದ್ರಾರಾಕ್ಷಸ – ಮೌರ್ಯರ ಕಾಲ." },
+            { q: "ಪತಂಜಲಿಯ 'ಮಹಾಭಾಷ್ಯ' ಯಾವ ಕಾಲದ ಮಾಹಿತಿಯನ್ನು ನೀಡುತ್ತದೆ?", options: ["ಮೌರ್ಯರ ಕಾಲ", "ಶುಂಗರ ಕಾಲ", "ಗುಪ್ತರ ಕಾಲ", "ವರ್ಧನರ ಕಾಲ"], answer: 1, exp: "ಪತಂಜಲಿಯ – ಮಹಾಭಾಷ್ಯ – ಶುಂಗರ ಕಾಲ." },
+            { q: "ಬಾಣಭಟ್ಟನು ರಚಿಸಿದ 'ಹರ್ಷಚರಿತ' ಯಾವ ಅರಸನ ಕಾಲದ್ದಾಗಿದೆ?", options: ["ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿ", "ಅಶೋಕ", "ವರ್ಧನರ ಕಾಲ (ಹರ್ಷವರ್ಧನ)", "ಸಮುದ್ರಗುಪ್ತ"], answer: 2, exp: "ಬಾಣಭಟ್ಟ – ಹರ್ಷಚರಿತ – ವರ್ಧನರ ಕಾಲ." },
+            { q: "ಕಾಳಿದಾಸನ 'ಮಾಳವಿಕಾಗ್ನಿಮಿತ್ರ' ಕೃತಿಯು ಯಾವ ಕಾಲಕ್ಕೆ ಸೇರಿದೆ?", options: ["ಗುಪ್ತರ ಕಾಲ", "ಮೌರ್ಯರ ಕಾಲ", "ಚೋಳರ ಕಾಲ", "ರಾಷ್ಟ್ರಕೂಟರ ಕಾಲ"], answer: 0, exp: "ಕಾಳಿದಾಸ – ಮಾಳವಿಕಾಗ್ನಿಮಿತ್ರ – ಗುಪ್ತರ ಕಾಲ." },
+            { q: "ದಂಡಿಯ 'ದಶಕುಮಾರಚರಿತೆ' ಯಾವ ರಾಜವಂಶದ ಕಾಲದಲ್ಲಿದೆ?", options: ["ಗುಪ್ತರ ಕಾಲ", "ಮೌರ್ಯರ ಕಾಲ", "ಶುಂಗರ ಕಾಲ", "ಕುಶಾಣರ ಕಾಲ"], answer: 0, exp: "ದಂಡಿಯ – ದಶಕುಮಾರಚರಿತೆ – ಗುಪ್ತರ ಕಾಲ." },
+            { q: "ಶೂದ್ರಕನ 'ಮೃಚ್ಛಕಟಿಕ' ಕೃತಿಯು ಯಾವ ಕಾಲಕ್ಕೆ ಸೇರಿದೆ?", options: ["ಗುಪ್ತರ ಕಾಲ", "ಮೌರ್ಯರ ಕಾಲ", "ವರ್ಧನರ ಕಾಲ", "ಚಾಲುಕ್ಯರ ಕಾಲ"], answer: 0, exp: "ಶೂದ್ರಕನ – ಮೃಚ್ಛಕಟಿಕ – ಗುಪ್ತರ ಕಾಲ." },
+            { q: "ಚಾಂದ್ ಬರ್ದಾಯಿ ಬರೆದ 'ಪೃಥ್ವಿರಾಜ್ ರಾಸೋ' ಯಾರ ಕಾಲವನ್ನು ಕುರಿತಿದೆ?", options: ["ಪೃಥ್ವಿರಾಜ್ ಚವ್ಹಾಣ ಕಾಲ", "ಅಕ್ಬರ್ ಕಾಲ", "ಅಶೋಕನ ಕಾಲ", "ಹರ್ಷವರ್ಧನನ ಕಾಲ"], answer: 0, exp: "ಚಾಂದ್ ಬರ್ದಾಯಿ – ಪೃಥ್ವಿರಾಜ್ ರಾಸೋ – ಪೃಥ್ವಿರಾಜ್ ಚವ್ಹಾಣ ಕಾಲ." },
+            { q: "ಹೆರೋಡೋಟಸ್ ಬರೆದ 'ಹಿಸ್ಟೋರಿಯಾ' ಕೃತಿಯಲ್ಲಿ ಯಾವ ವಿಷಯದ ಉಲ್ಲೇಖವಿದೆ?", options: ["ದಕ್ಷಿಣ ಭಾರತದ ವ್ಯಾಪಾರ", "ವಾಯುವ್ಯ ಭಾರತದ ಸ್ಥಿತಿಗತಿ ಮತ್ತು ಇಂಡೋ-ಪರ್ಷಿಯನ್ ಸಂಬಂಧಗಳು", "ಗುಪ್ತರ ಆಡಳಿತ", "ಚೋಳರ ನೌಕಾಪಡೆ"], answer: 1, exp: "ಹೆರೋಡೋಟಸ್ – ಹಿಸ್ಟೋರಿಯಾ – ವಾಯುವ್ಯ ಭಾರತದ ಸ್ಥಿತಿಗತಿ ಮತ್ತು ಇಂಡೋ-ಪರ್ಷಿಯನ್ ಸಂಬಂಧಗಳು." },
+            { q: "ಮೆಗಾಸ್ತನೀಸ್ ಬರೆದ 'ಇಂಡಿಕಾ' ಕೃತಿಯು ಯಾರ ಕಾಲವನ್ನು ತಿಳಿಸುತ್ತದೆ?", options: ["ಚಂದ್ರಗುಪ್ತ ಮೌರ್ಯನ ಕಾಲ", "ಅಶೋಕನ ಕಾಲ", "ಕನಿಷ್ಠನ ಕಾಲ", "ಸಮುದ್ರಗುಪ್ತನ ಕಾಲ"], answer: 0, exp: "ಮೆಗಾಸ್ತನೀಸ್ (ಗ್ರೀಕ್) – ಇಂಡಿಕಾ – ಚಂದ್ರಗುಪ್ತ ಮೌರ್ಯನ ಕಾಲ." },
+            { q: "ಟಾಲೆಮಿಯ 'ಜಿಯೋಗ್ರಫಿ' ಕೃತಿಯು ಯಾವುದನ್ನು ತಿಳಿಸುತ್ತದೆ?", options: ["ಉತ್ತರ ಭಾರತದ ನದಿಗಳು", "ಭಾರತದ ಭೌಗೋಳಿಕ ಲಕ್ಷಣ ಮತ್ತು ದಕ್ಷಿಣ ಭಾರತದ ವ್ಯವಹಾರ", "ಹಿಮಾಲಯ ಶಿಖರಗಳು", "ಬೌದ್ಧ ಧರ್ಮದ ಪ್ರಚಾರ"], answer: 1, exp: "ಟಾಲೆಮಿ (ಗ್ರೀಕ್) – ಜಿಯೋಗ್ರಫಿ – ಭಾರತದ ಭೌಗೋಳಿಕ ಲಕ್ಷಣ ಮತ್ತು ದಕ್ಷಿಣ ಭಾರತದ ವ್ಯವಹಾರ." },
+            { q: "ಫಾಹಿಯಾನ್ ಬರೆದ 'ಫೋ-ಕೋ-ಕಿ' ಗ್ರಂಥವು ಯಾವ ಅರಸನ ಆಡಳಿತವನ್ನು ತಿಳಿಸುತ್ತದೆ?", options: ["ಗುಪ್ತ ಸಾಮ್ರಾಟ್ 2ನೇ ಚಂದ್ರಗುಪ್ತ", "ಅಶೋಕ", "ಹರ್ಷವರ್ಧನ", "ಕನಿಷ್ಕ"], answer: 0, exp: "ಫಾಹಿಯಾನ್ (ಚೀನಾ) – ಫೋ-ಕೋ-ಕಿ – ಗುಪ್ತ ಸಾಮ್ರಾಟ್ 2ನೇ ಚಂದ್ರಗುಪ್ತನ ಆಡಳಿತ." },
+            { q: "ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗ್ ಬರೆದ 'ಸಿ.ಯು.ಕಿ.' ಗ್ರಂಥವು ಯಾರ ಕಾಲವನ್ನು ವಿವರಿಸುತ್ತದೆ?", options: ["ಚಂದ್ರಗುಪ್ತ ಮೌರ್ಯ", "ಹರ್ಷವರ್ಧನ ಮತ್ತು 2ನೇ ಪುಲಿಕೇಶಿ", "ಸಮುದ್ರಗುಪ್ತ", "ರಾಜರಾಜ ಚೋಳ"], answer: 1, exp: "ಹ್ಯೂಯೆನ್‌ತ್ಸಾಂಗ್(ಚೀನಾ) – ಸಿ.ಯು.ಕಿ. – ಹರ್ಷವರ್ಧನ, 2ನೇ ಪುಲಿಕೇಶಿಯ ಕಾಲ." },
+            { q: "'ಪೆರಿಪ್ಲಸ್ ಆಫ್ ಎರಿತ್ರಿಯನ್ ಸಿ' ಕೃತಿಯ ಕರ್ತೃ ಯಾರು?", options: ["ಟಾಲೆಮಿ", "ಅನಾಮಧೇಯ", "ಮೆಗಾಸ್ತನೀಸ್", "ಪ್ಲಿನಿ"], answer: 1, exp: "ಅನಾಮಧೇಯ – ಪೆರಿಪ್ಲಸ್ ಆಫ್ ಎರಿತ್ರಿಯನ್ ಸಿ – ಭಾರತೀಯ ನೌಕಾ ಕೇಂದ್ರಗಳ ಬಗ್ಗೆ ಉಲ್ಲೇಖಿಸುತ್ತದೆ." },
+            { q: "ಕ್ರಿ.ಶ. 1784ರಲ್ಲಿ ರಾಯಲ್ ಏಷಿಯಾಟಿಕ್ ಸೊಸೈಟಿ ಸ್ಥಾಪಿಸಿ ಪುರಾತತ್ವ ಶೋಧನೆಗೆ ನೆರವಾದವರು ಯಾರು?", options: ["ವಿಲಿಯಂ ಜೋನ್ಸ್", "ರಾಬರ್ಟ್ ಬ್ರೂಸ್ ಫುಟ್", "ಜೇಮ್ಸ್ ಪ್ರಿನ್ಸೆಪ್", "ಅಲೆಕ್ಸಾಂಡರ್ ಕನ್ನಿಂಗ್ಹ್ಯಾಮ್"], answer: 0, exp: "ಕ್ರಿ.ಶ. 1784ರಲ್ಲಿ ವಿಲಿಯಂ ಜೋನ್ಸ್ ರಾಯಲ್ ಏಷಿಯಾಟಿಕ್ ಸೊಸೈಟಿ ಎಂಬ ಸಂಸ್ಥೆಯನ್ನು ಸ್ಥಾಪಿಸಿ ಪುರಾತತ್ವ ಅವಶೇಷಗಳ ಶೋಧನೆಗೆ ನೆರವಾದರು." },
+            { q: "ಪ್ರಾಗೈತಿಹಾಸದ ಪಿತಾಮಹ ಎಂದು ಯಾರನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["ವಿಲಿಯಂ ಜೋನ್ಸ್", "ರಾಬರ್ಟ್ ಬ್ರೂಸ್ ಫುಟ್", "ಜಾನ್ ಮಾರ್ಷಲ್", "ಮಾರ್ಟಿಮರ್ ವೀಲರ್"], answer: 1, exp: "ರಾಬರ್ಟ್ ಬ್ರೂಸ್ ಫುಟ್ ಅವರನ್ನು ಪ್ರಾಗೈತಿಹಾಸದ ಪಿತಾಮಹ ಎನ್ನುವರು." },
+            { q: "ನಾಣ್ಯಗಳ ಅಧ್ಯಯನವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಎಪಿಗ್ರಾಫಿ", "ನ್ಯೂಮಿಸ್‌ಮ್ಯಾಟಿಕ್ಸ್ (Numismatics)", "ಪ್ಯಾಲಿಯೋಗ್ರಫಿ", "ಆರ್ಕಿಯಾಲಜಿ"], answer: 1, exp: "ನಾಣ್ಯಗಳ ಅಧ್ಯಯನವನ್ನು ನ್ಯೂಮಿಸ್‌ಮ್ಯಾಟಿಕ್ಸ್ (Numismatics) ಎನ್ನುವರು." },
+            { q: "ಬುದ್ಧನು ಲುಂಬಿನಿಯಲ್ಲಿ ಜನಿಸಿದನೆಂದು ತಿಳಿಸುವ ಶಾಸನ ಯಾವುದು?", options: ["ರುಮ್ಮಿಂಡೈ ಶಾಸನ (ನೇಪಾಳ)", "ಮಸ್ಕಿ ಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ", "ಗಿರ್ನಾರ್ ಶಾಸನ"], answer: 0, exp: "ರುಮ್ಮಿಂಡೈ ಶಾಸನ (ನೇಪಾಳ) - ಬುದ್ಧನು ಲುಂಬಿನಿಯಲ್ಲಿ ಜನಿಸಿದ ಎಂದು ತಿಳಿಸುತ್ತದೆ." },
+            { q: "ಅಶೋಕನಿಗೆ 'ದೇವನಾಂಪ್ರಿಯ' ಮತ್ತು 'ಪ್ರಿಯದರ್ಶಿ' ಎಂಬ ಬಿರುದುಗಳಿವೆಯೆಂದು ತಿಳಿಸುವ ಶಾಸನಗಳು ಯಾವುವು?", options: ["ಅಲಹಾಬಾದ್ ಸ್ತಂಭಶಾಸನ", "ಮಸ್ಕಿ ಮತ್ತು ಗುಜರ್ರಾ ಶಾಸನ", "ಹಾಥಿಗುಂಪಾ ಶಾಸನ", "ಉತ್ತರ ಮೇರೂರು ಶಾಸನ"], answer: 1, exp: "ಮಸ್ಕಿ ಮತ್ತು ಗುಜರ್ರಾ ಶಾಸನ - ದೇವನಾಂಪ್ರಿಯ ಮತ್ತು ಪ್ರಿಯದರ್ಶಿ ಅಶೋಕನ ಬಿರುದು ಎಂಬ ಸಂಗತಿ." },
+            { q: "ಕಲಿಂಗ ದೊರೆ ಖಾರವೇಲನ ಸಾಧನೆಗಳನ್ನು ತಿಳಿಸುವ ಶಾಸನ ಯಾವುದು?", options: ["ಹಾಥಿಗುಂಪಾ ಶಾಸನ (ಒರಿಸ್ಸಾ)", "ಗಿರ್ನಾರ್ ಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ", "ಉತ್ತರ ಮೇರೂರು ಶಾಸನ"], answer: 0, exp: "ಹಾಥಿಗುಂಪಾ ಶಾಸನ (ಒರಿಸ್ಸಾ) - ಕಲಿಂಗ ದೊರೆ ಖಾರವೇಲನ ಸಾಧನೆಗಳು." },
+            { q: "ಸಮುದ್ರಗುಪ್ತನ ದಿಗ್ವಿಜಯಗಳನ್ನು ತಿಳಿಸುವ ಶಾಸನ ಯಾವುದು?", options: ["ಅಲಹಾಬಾದ್ ಸ್ತಂಭಶಾಸನ", "ಮಸ್ಕಿ ಶಾಸನ", "ರುಮ್ಮಿಂಡೈ ಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ"], answer: 0, exp: "ಅಲಹಾಬಾದ್ ಸ್ತಂಭಶಾಸನ - ಸಮುದ್ರಗುಪ್ತನ ದಿಗ್ವಿಜಯಗಳು." },
+            { q: "ಶಕರ ದೊರೆ ಒಂದನೇ ರುದ್ರದಾಮನ್ ಸುದರ್ಶನ ಕೆರೆಯನ್ನು ಜೀರ್ಣೋದ್ಧಾರ ಮಾಡಿದ ಮಾಹಿತಿ ನೀಡುವ ಶಾಸನ?", options: ["ಗಿರ್ನಾರ್ ಶಾಸನ (ಗುಜರಾತ್)", "ಹಾಥಿಗುಂಪಾ ಶಾಸನ", "ಮಸ್ಕಿ ಶಾಸನ", "ಉತ್ತರ ಮೇರೂರು ಶಾಸನ"], answer: 0, exp: "ಗಿರ್ನಾರ್ ಶಾಸನ (ಗುಜರಾತ್) - ಶಕರ ದೊರೆ ಒಂದನೇ ರುದ್ರದಾಮನ್ ಸುದರ್ಶನ ಕೆರೆಯನ್ನು ಜೀರ್ಣೋದ್ಧಾರ ಮಾಡಿದ ಮಾಹಿತಿ." },
+            { q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಇತಿಹಾಸ ಹಾಗೂ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯ ದಿಗ್ವಿಜಯವನ್ನು ತಿಳಿಸುವ ಶಾಸನ ಯಾವುದು?", options: ["ಐಹೊಳೆ ಶಾಸನ", "ಅಲಹಾಬಾದ್ ಶಾಸನ", "ಗಿರ್ನಾರ್ ಶಾಸನ", "ರುಮ್ಮಿಂಡೈ ಶಾಸನ"], answer: 0, exp: "ಐಹೊಳೆ ಶಾಸನ - ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಇತಿಹಾಸ ಇಮ್ಮಡಿ ಪುಲಿಕೇಶಿಯ ದಿಗ್ವಿಜಯ." },
+            { q: "ಚೋಳರ ಗ್ರಾಮಾಡಳಿತದ ಬಗ್ಗೆ ಸಂಪೂರ್ಣ ಮಾಹಿತಿ ನೀಡುವ ತಾಮ್ರ ಶಾಸನ ಯಾವುದು?", options: ["ಉತ್ತರ ಮೇರೂರು ತಾಮ್ರ ಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ", "ಹಾಥಿಗುಂಪಾ ಶಾಸನ", "ಮಸ್ಕಿ ಶಾಸನ"], answer: 0, exp: "ಉತ್ತರ ಮೇರೂರು ತಾಮ್ರ ಶಾಸನ - ಚೋಳರ ಗ್ರಾಮಾಡಳಿತವನ್ನು ತಿಳಿಸುತ್ತದೆ." },
+            { q: "ಜೈನ ಸಾಹಿತ್ಯದ ಪ್ರಕಾರ ಮೊದಲ ತೀರ್ಥಂಕರ ಆದಿನಾಥ/ವೃಷಭನಾಥನ ಮಗನ ಹೆಸರೇನು?", options: ["ಭರತ", "ಬಾಹುಬಲಿ", "ಚಂದ್ರಪ್ರಭ", "ಮಹಾವೀರ"], answer: 0, exp: "ಜೈನ ಸಾಹಿತ್ಯದ ಪ್ರಕಾರ – ಮೊದಲ ತೀರ್ಥಂಕರನಾದ ಆದಿನಾಥ/ವೃಷಭನಾಥನ ಮಗ ಭರತ ಆಳ್ವಿಕೆ ಮಾಡಿದ್ದರಿಂದ ಇದಕ್ಕೆ ಭಾರತ ಎಂಬ ಹೆಸರು ಬಂದಿತು." },
+            { q: "ಪುರಾಣಗಳ ಪ್ರಕಾರ ಯಾವ ರಾಜಕುಮಾರನ ಹೆಸರಿನಿಂದ ದೇಶಕ್ಕೆ 'ಭಾರತ' ಎಂಬ ಹೆಸರು ಬಂತು?", options: ["ದುಷ್ಯಂತ ಮತ್ತು ಶಕುಂತಲೆಯರ ಮಗ ಭರತ", "ಭರತ ಚಕ್ರವರ್ತಿ", "ರಾಮ", "ಅರ್ಜುನ"], answer: 0, exp: "ಪುರಾಣಗಳ ಪ್ರಕಾರ – ದುಷ್ಯಂತ ಮತ್ತು ಶಕುಂತಲೆಯರ ಮಗ ಭರತ ಚಕ್ರವರ್ತಿ ಆಳ್ವಿಕೆ ಮಾಡಿದ್ದರಿಂದ ಈ ದೇಶಕ್ಕೆ ಭಾರತ ಎಂಬ ಹೆಸರು ಬಂದಿತು." },
+            { q: "ಭಾರತಕ್ಕೆ 'ಹಿಂದುಸ್ಥಾನ' ಎಂದು ಕರೆದವರು ಯಾರು?", options: ["ಪರ್ಷಿಯನ್ನರು / ಅರಬ್ಬರು", "ಗ್ರೀಕರು", "ಚೀನಿಯರು", "ರೋಮನರು"], answer: 0, exp: "ಭಾರತಕ್ಕೆ ಹಿಂದುಸ್ಥಾನ ಎಂದು ಕರೆದವರು - ಪರ್ಷಿಯನ್ನರು / ಅರಬ್ಬರು." },
+            { q: "ಭಾರತಕ್ಕೆ 'ಇಂಡಿಯಾ' ಎಂದು ಹೆಸರಿಟ್ಟವರು ಯಾರು?", options: ["ಗ್ರೀಕರು", "ಪರ್ಷಿಯನ್ನರು", "ರೋಮನರು", "ಅರಬ್ಬರು"], answer: 0, exp: "ಭಾರತಕ್ಕೆ ಇಂಡಿಯಾ ಎಂದು ಕರೆದವರು - ಗ್ರೀಕರು." },
+            { q: "ಮಂಗೋಲಾಯ್ಡ್ ಜನಾಂಗದವರು ಭಾರತದ ಯಾವ ಭಾಗದಲ್ಲಿ ಕಂಡುಬರುತ್ತಾರೆ?", options: ["ಈಶಾನ್ಯ ಭಾರತ", "ಪಶ್ಚಿಮ ಭಾರತ", "ಉತ್ತರ ಭಾರತ", "ದಕ್ಷಿಣ ಭಾರತ"], answer: 0, exp: "ಮಂಗೋಲಾಯ್ಡ್ – ಈಶಾನ್ಯ ಭಾರತ." },
+            { q: "ಪ್ರೋಟೋ ಆಸ್ಟ್ರಲಾಯ್ಡ್ ಜನಾಂಗದವರು ಹೆಚ್ಚಾಗಿ ಎಲ್ಲಿ ನೆಲೆಸಿದ್ದರು?", options: ["ಪಶ್ಚಿಮ ಭಾರತ", "ಈಶಾನ್ಯ ಭಾರತ", "ಅಂಡಮಾನ್", "ಉತ್ತರ ಭಾರತ"], answer: 0, exp: "ಪ್ರೋಟೋ ಆಸ್ಟ್ರಲಾಯ್ಡ್ – ಪಶ್ಚಿಮ ಭಾರತ." },
+            { q: "ನಾರ್ಡಿಕ್ (ಆರ್ಯ) ಜನಾಂಗದವರು ಪ್ರಮುಖವಾಗಿ ಯಾವ ಭಾಗದವರು?", options: ["ಉತ್ತರ ಭಾರತ", "ದಕ್ಷಿಣ ಭಾರತ", "ಅಂಡಮಾನ್ ದ್ವೀಪ", "ಈಶಾನ್ಯ ಭಾರತ"], answer: 0, exp: "ನಾರ್ಡಿಕ್ (ಆರ್ಯ) – ಉತ್ತರ ಭಾರತ." },
+            { q: "ಮೆಡಿಟೇರಿಯನ್ (ದ್ರಾವಿಡ) ಜನಾಂಗದವರು ಹೆಚ್ಚಾಗಿ ಭಾರತದ ಯಾವ ಭಾಗದಲ್ಲಿ ನೆಲೆಸಿದ್ದಾರೆ?", options: ["ದಕ್ಷಿಣ ಭಾರತ", "ಉತ್ತರ ಭಾರತ", "ಈಶಾನ್ಯ ಭಾರತ", "ಪಶ್ಚಿಮ ಭಾರತ"], answer: 0, exp: "ಮೆಡಿಟೇರಿಯನ್ (ದ್ರಾವಿಡ) – ದಕ್ಷಿಣ ಭಾರತ." },
+            { q: "ನಿಗ್ರಿಟೋ ಜನಾಂಗದವರು ಭಾರತದಲ್ಲಿ ಮುಖ್ಯವಾಗಿ ಎಲ್ಲಿ ಕಂಡುಬರುತ್ತಾರೆ?", options: ["ಅಂಡಮಾನ್ ಮತ್ತು ನಿಕೋಬಾರ್ ದ್ವೀಪ", "ಲಕ್ಷದ್ವೀಪ", "ಗೋವಾ", "ಕೇರಳ"], answer: 0, exp: "ನಿಗ್ರಿಟೋ – ಅಂಡಮಾನ್ ಮತ್ತು ನಿಕೋಬಾರ್ ದ್ವೀಪ." },
+            { q: "ಹಳೆಯ ಶಿಲಾಯುಗದ ಮಾನವನು ಒರಟಾದ ಬೆಣಚುಕಲ್ಲಿನ ಆಯುಧ ಬಳಸಿದ್ದರಿಂದ ಆತನನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["Quartzite Man (ಬೆಣಚು ಕಲ್ಲಿನ ಮಾನವ)", "ಕಾಪರ್ ಮ್ಯಾನ್", "ಬ್ರಾಂಜ್ ಮ್ಯಾನ್", "ಮೆಗಾಲಿಥಿಕ್ ಮ್ಯಾನ್"], answer: 0, exp: "ಈ ಯುಗದ ಮಾನವ ಒರಟಾದ ಬೆಣಚುಕಲ್ಲಿನ ಆಯುಧ ಬಳಸುತ್ತಿದ್ದರಿಂದ ಈತನಿಗೆ ಬೆಣಚು ಕಲ್ಲಿನ ಮಾನವ Quartzite Man ಎನ್ನುವರು." },
+            { q: "ಹಳೆಯ ಶಿಲಾಯುಗದ ಕೊನೆಯ ಭಾಗದಲ್ಲಿ ಯಾವ ಮಹತ್ವದ ಆವಿಷ್ಕಾರ ನಡೆಯಿತು?",  options: ["ಬೆಂಕಿಯ ಉಪಯೋಗ", "ಚಕ್ರದ ಆವಿಷ್ಕಾರ", "ಕಬ್ಬಿಣದ ಬಳಕೆ", "ಬರಹದ ಕಲೆ"], answer: 0, exp: "ಈ ಯುಗದ ಕೊನೆಗೆ ಬೆಂಕಿಯ ಉಪಯೋಗ ಕಂಡುಬಂದಿತು." },
+            { q: "ಕರ್ನಾಟಕದಲ್ಲಿ ಹಳೆಯ ಶಿಲಾಯುಗದ ಅವಶೇಷಗಳು ಕಂಡುಬಂದ ಸ್ಥಳಗಳಲ್ಲಿ ಈ ಕೆಳಗಿನ ಯಾವುದು ಸೇರಿದೆ?", options: ["ಹುಣಸಗಿ (ಯಾದಗಿರಿ)", "ಬ್ರಹ್ಮಗಿರಿ", "ಟಿ. ನರಸೀಪುರ", "ಕೊಣ್ಣೂರು"], answer: 0, exp: "ಕರ್ನಾಟಕದ – ಲಿಂಗಸೂರು, ಕಿಬ್ಬನಹಳ್ಳಿ, ನಿಟ್ಟೂರು, ಯಾದವಾಡ, ಹುಣಸಗಿ." },
+            { q: "ಹಳೆಯ ಶಿಲಾಯುಗ ಮತ್ತು ನೂತನ ಶಿಲಾಯುಗದ ಮಧ್ಯ ಕಾಲಘಟ್ಟವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಮಧ್ಯಶಿಲಾಯುಗ / ಸೂಕ್ಷ್ಮ ಶಿಲಾಯುಗ", "ತಾಮ್ರ ಯುಗ", "ಕಂಚಿನ ಯುಗ", "ಲೋಹ ಯುಗ"], answer: 0, exp: "ಮಧ್ಯಶಿಲಾಯುಗ / ಸೂಕ್ಷ್ಮ ಶಿಲಾಯುಗ - ಇದು ಹಳೆಯ ಶಿಲಾಯುಗ ಮತ್ತು ನೂತನ ಶಿಲಾಯುಗದ ಮಧ್ಯ ಇರುವುದರಿಂದ." },
+            { q: "ಮಧ್ಯಶಿಲಾಯುಗದಲ್ಲಿ ಕಲ್ಲಿನ ಆಯುಧಗಳಿಗೆ ಯಾವ ಕಲ್ಲನ್ನು ಬಳಸುತ್ತಿದ್ದರು?", options: ["ಕ್ಯಾಲ್ಸೆಡನಿ ಮತ್ತು ಸಿಲಿಕೇಟ್ ಶಿಲೆಗಳು", "ಬೆಣಚುಕಲ್ಲು ಮಾತ್ರ", "ಮಣ್ಣು", "ಮರ"], answer: 0, exp: "ಈ ಯುಗದಲ್ಲಿ ಆಯುಧಕ್ಕೆ ಬೆಣಚುಕಲ್ಲನ್ನು ಉಪಯೋಗಿಸದೆ ಕ್ಯಾಲ್ಸೆಡನಿ ಎಂಬ ಪ್ರಶಸ್ತ ಶಿಲೆ ಬಳಸುತ್ತಿದ್ದರು." },
+            { q: "ಮಧ್ಯಶಿಲಾಯುಗದ ಮಾನವನ ಮತ್ತೊಂದು ಪ್ರಮುಖ ಅಭ್ಯಾಸವೇನು?", options: ["ಹೆಣ ಹೂಳುವುದನ್ನು ಕಲಿತನು", "ಬೆಳ್ಳಿ ನಾಣ್ಯ ಮುದ್ರಿಸಿದನು", "ದೇವಸ್ಥಾನ ಕಟ್ಟಿದನು", "ಪಿರಮಿಡ್ ನಿರ್ಮಿಸಿದನು"], answer: 0, exp: "ಈ ಯುಗದ ಮಾನವ ಹೆಣ ಹೂಳುವುದನ್ನು ಕಲಿತನು." },
+            { q: "ಬ್ರಹ್ಮಗಿರಿ ನೆಲೆ ಎಲ್ಲಿದೆ?", options: ["ಚಿತ್ರದುರ್ಗ", "ಮೈಸೂರು", "ಬೆಳಗಾವಿ", "ರಾಯಚೂರು"], answer: 0, exp: "ಬ್ರಹ್ಮಗಿರಿ (ಚಿತ್ರದುರ್ಗ)." },
+            { q: "ನೂತನ ಶಿಲಾಯುಗಕ್ಕೆ ಸೇರಿದ ಟಿ. ನರಸೀಪುರ ನೆಲೆ ಎಲ್ಲಿದೆ?", options: ["ಮೈಸೂರು", "ತುಮಕೂರು", "ಬಳ್ಳಾರಿ", "ಯಾದಗಿರಿ"], answer: 0, exp: "ಟಿ. ನರಸೀಪುರ (ಮೈಸೂರು)." },
+            { q: "ಮಾನವನಿಗೆ ಪರಿಚಯವಾದ ಮೊದಲ ಲೋಹ ಯಾವುದು?", options: ["ಚಿನ್ನ", "ತಾಮ್ರ", "ಕಬ್ಬಿಣ", "ಕಂಚು"], answer: 0, exp: "ಮಾನವನಿಗೆ ಪರಿಚಯವಾದ ಮೊದಲ ಲೋಹ ಚಿನ್ನ." },
+            { q: "ಮಾನವ ಬಳಸಿದ ಮೊದಲ ಲೋಹ ಯಾವುದು?", options: ["ತಾಮ್ರ", "ಚಿನ್ನ", "ಬೆಳ್ಳಿ", "ಸೀಸ"], answer: 0, exp: "ಮಾನವ ಬಳಸಿದ ಮೊದಲ ಲೋಹ ತಾಮ್ರ." },
+            { q: "ತಾಮ್ರ ಯುಗವನ್ನು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["Chalcolithic Age", "Megalithic Age", "Neolithic Age", "Paleolithic Age"], answer: 0, exp: "ಅ) ತಾಮ್ರ ಯುಗ - Chalcolithic Age." },
+            { q: "ಕಬ್ಬಿಣ ಯುಗವನ್ನು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["Megalithic Age", "Chalcolithic Age", "Bronze Age", "Stone Age"], answer: 0, exp: "ಬ) ಕಬ್ಬಿಣ ಯುಗ – Megalithic Age." },
+            { q: "'Chalco' ಎಂದರೆ ಗ್ರೀಕ್ ಭಾಷೆಯಲ್ಲಿ ಏನೆಂದು ಅರ್ಥ?", options: ["ತಾಮ್ರ", "ಶಿಲೆ", "ಕಬ್ಬಿಣ", "ಚಿನ್ನ"], answer: 0, exp: "Chalco ಎಂದರೆ ತಾಮ್ರ." },
+            { q: "'Lithic' ಪದದ ಅರ್ಥವೇನು?", options: ["ಶಿಲೆ", "ಲೋಹ", "ಮಣ್ಣು", "ನೀರು"], answer: 0, exp: "Lithic ಎಂದರೆ ಶಿಲೆ." },
+            { q: "ಕಂಚು ತಯಾರಿಸಲು ತಾಮ್ರದೊಂದಿಗೆ ಯಾವ ಲೋಹವನ್ನು 9:1 ಅನುಪಾತದಲ್ಲಿ ಬೆರೆಸುತ್ತಿದ್ದರು?", options: ["ತವರ", "ಸೀಸ", "ಯತು", "ಅಲ್ಯೂಮಿನಿಯಂ"], answer: 0, exp: "ಈ ಯುಗದಲ್ಲಿ ತಾಮ್ರದೊಂದಿಗೆ (9:1) ತವರವನ್ನು ಬಳಸಿಕೊಂಡು ಕಂಚನ್ನು ತಯಾರಿಸಿದರು." },
+            { q: "ತಮಿಳುನಾಡಿನ ತಿನ್ನವೇಲಿ ಜಿಲ್ಲೆಯ ಆದಿಚ್ಚನಲ್ಲೂರಿನಲ್ಲಿ ಯಾವ ಲೋಹದ ಅವಶೇಷಗಳು ಕಂಡುಬಂದಿವೆ?", options: ["ಕಬ್ಬಿಣ", "ತಾಮ್ರ", "ಚಿನ್ನ", "ಬೆಳ್ಳಿ"], answer: 0, exp: "ತಮಿಳುನಾಡಿನ ತಿನ್ನವೇಲಿ ಜಿಲ್ಲೆಯ ಆದಿಚ್ಚನಲ್ಲೂರಿನಲ್ಲಿ ಕಬ್ಬಿಣದ ಅವಶೇಷಗಳು ಕಂಡುಬಂದಿವೆ." },
+            { q: "ಮಾನವನು ಬೃಹತ್ ಬಂಡೆಗಳನ್ನು ಕೊರೆದು ಸಮಾಧಿಗಳನ್ನು ನಿರ್ಮಿಸುತ್ತಿದ್ದ ಸಂಸ್ಕೃತಿಯನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಬೃಹತ್ ಶಿಲಾ ಸಂಸ್ಕೃತಿ (Megalithic Culture)", "ಸೂಕ್ಷ್ಮ ಶಿಲಾ ಸಂಸ್ಕೃತಿ", "ಹಳೆಯ ಶಿಲಾ ಸಂಸ್ಕೃತಿ", "ನೂತನ ಶಿಲಾ ಸಂಸ್ಕೃತಿ"], answer: 0, exp: "ಮಾನವ ಈ ಯುಗದಲ್ಲಿ ಬೃಹತ್ ಬಂಡೆಗಳನ್ನು ಕೊರೆದು ಸಮಾಧಿಗಳನ್ನು ನಿರ್ಮಿಸುತ್ತಿದ್ದನು." },
+            { q: "ಕರ್ನಾಟಕದಲ್ಲಿ ಬೃಹತ್ ಶಿಲಾ ಸಂಸ್ಕೃತಿಯ ಸಮಾಧಿಗಳು ಕಂಡುಬಂದ ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ ಪ್ರಸಿದ್ಧ ಸ್ಥಳ ಯಾವುದು?", options: ["ಕೊಣ್ಣೂರು", "ಲಿಂಗಸೂರು", "ಹುಣಸಗಿ", "ನಿಟ್ಟೂರು"], answer: 0, exp: "ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ ಕೊಣ್ಣೂರು." },
+            { q: "ಬೃಹತ್ ಶಿಲಾ ಸಂಸ್ಕೃತಿಯ ಸಮಾಧಿಗಳು ಪತ್ತೆಯಾದ ಯಾದಗಿರಿ ಜಿಲ್ಲೆಯ ಪ್ರಮುಖ ಸ್ಥಳ ಯಾವುದು?", options: ["ರಾಜನ ಕೊಳೂರು", "ಕಿಬ್ಬನಹಳ್ಳಿ", "ಬ್ರಹ್ಮಗಿರಿ", "ಟಿ. ನರಸೀಪುರ"], answer: 0, exp: "ಯಾದಗಿರಿ ಜಿಲ್ಲೆಯ ರಾಜನ ಕೊಳೂರು." }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let isCompleted = false;
+
+        function initQuiz() {
+            buildPalette();
+            loadQuestion(0);
+        }
+
+        function buildPalette() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < quizData.length; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = i + 1;
+                btn.onclick = () => jumpToQuestion(i);
+                grid.appendChild(btn);
+            }
+            updatePaletteStyles();
+        }
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = quizData[index];
+
+            document.getElementById('q-meta').innerText = `Question ${index + 1} of ${quizData.length}`;
+            document.getElementById('q-title').innerText = `${index + 1}. ${q.q}`;
+
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option-container';
+                div.innerText = `${String.fromCharCode(65 + i)}. ${opt}`;
+                
+                if (userAnswers[index] !== null) {
+                    if (i === q.answer) {
+                        div.classList.add('correct');
+                    } else if (i === userAnswers[index]) {
+                        div.classList.add('wrong');
+                    }
+                } else {
+                    div.onclick = () => selectOption(i);
+                }
+                optionsList.appendChild(div);
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            if (userAnswers[index] !== null) {
+                document.getElementById('explanation-text').innerText = q.exp;
+                expBox.style.display = 'block';
+            } else {
+                expBox.style.display = 'none';
+            }
+
+            document.getElementById('prev-btn').style.display = index === 0 ? 'none' : 'inline-block';
+            document.getElementById('next-btn').style.display = index === quizData.length - 1 ? 'none' : 'inline-block';
+            
+            updatePaletteStyles();
+        }
+
+        function selectOption(selectedIndex) {
+            if (userAnswers[currentQuestion] !== null) return;
+
+            userAnswers[currentQuestion] = selectedIndex;
+            const correctIndex = quizData[currentQuestion].answer;
+
+            if (selectedIndex === correctIndex) {
+                score++;
+            }
+
+            document.getElementById('score-display').innerText = `Score: ${score} / ${quizData.length}`;
+            loadQuestion(currentQuestion);
+            
+            if (userAnswers.every(ans => ans !== null)) {
+                isCompleted = true;
+                document.getElementById('retest-btn').style.display = 'inline-block';
+            }
+        }
+
+        function changeQuestion(direction) {
+            const nextIndex = currentQuestion + direction;
+            if (nextIndex >= 0 && nextIndex < quizData.length) {
+                loadQuestion(nextIndex);
+            }
+        }
+
+        function jumpToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        function updatePaletteStyles() {
+            const buttons = document.querySelectorAll('.palette-btn');
+            buttons.forEach((btn, idx) => {
+                btn.classList.remove('current', 'answered-correct', 'answered-wrong');
+                
+                if (idx === currentQuestion) {
+                    btn.classList.add('current');
+                }
+
+                if (userAnswers[idx] !== null) {
+                    if (userAnswers[idx] === quizData[idx].answer) {
+                        btn.classList.add('answered-correct');
+                    } else {
+                        btn.classList.add('answered-wrong');
+                    }
+                }
+            });
+        }
+
+        function resetQuiz() {
+            userAnswers = new Array(quizData.length).fill(null);
+            score = 0;
+            isCompleted = false;
+            document.getElementById('score-display').innerText = `Score: 0 / ${quizData.length}`;
+            document.getElementById('retest-btn').style.display = 'none';
+            loadQuestion(0);
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
