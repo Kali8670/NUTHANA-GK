@@ -79,6 +79,61 @@
           ]
         }
       ]
+    },
+    {
+      "name": "General Science",
+      "subSubjects": [
+        {
+          "name": "Biology (ಜೀವಶಾಸ್ತ್ರ)",
+          "chapters": [
+            { "title": "ಜೀವಶಾಸ್ತ್ರದ ಪರಿಚಯ", "fileUrl": "test/page-631.html" },
+            { "title": "ಕೋಶೀಯ ವಿಜ್ಞಾನ", "fileUrl": "test/page-632.html" },
+            { "title": "ಸೂಕ್ಷ್ಮಜೀವಿಗಳು", "fileUrl": "test/page-635.html" },
+            { "title": "ವೈರಸ್", "fileUrl": "test/page-635-virus.html" },
+            { "title": "ಬ್ಯಾಕ್ಟೀರಿಯಾ", "fileUrl": "test/page-638.html" },
+            { "title": "ನರವ್ಯೂಹ", "fileUrl": "test/page-640.html" },
+            { "title": "ರಕ್ತ", "fileUrl": "test/page-642.html" },
+            { "title": "ರಕ್ತದ ಗುಂಪುಗಳು", "fileUrl": "test/page-643.html" },
+            { "title": "ಹೃದಯ", "fileUrl": "test/page-644.html" },
+            { "title": "ಜೀರ್ಣಕ್ರಿಯೆ", "fileUrl": "test/page-645.html" },
+            { "title": "ಗ್ರಂಥಿಗಳು", "fileUrl": "test/page-646.html" },
+            { "title": "ಉಸಿರಾಟಕ್ರಿಯೆ", "fileUrl": "test/page-647.html" },
+            { "title": "ವಿಸರ್ಜನೆ", "fileUrl": "test/page-647-excretion.html" },
+            { "title": "ಆಹಾರದ ಘಟಕಗಳು", "fileUrl": "test/page-648.html" },
+            { "title": "ಪ್ರಮುಖ ಪ್ರೋಟೀನ್‌ಗಳು", "fileUrl": "test/page-651.html" },
+            { "title": "ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ", "fileUrl": "test/page-652.html" },
+            { "title": "ಸಸ್ಯದ ಹಾರ್ಮೋನ್‌ಗಳು", "fileUrl": "test/page-653.html" },
+            { "title": "ವಿಜ್ಞಾನದ ಪ್ರಮುಖ ಶಾಖೆಗಳು", "fileUrl": "test/page-655.html" }
+          ]
+        },
+        {
+          "name": "Physics (ಭೌತಶಾಸ್ತ್ರ)",
+          "chapters": [
+            { "title": "ಕಾಂತತ್ವ", "fileUrl": "test/page-657.html" },
+            { "title": "ಚಲನ ಶಾಸ್ತ್ರ", "fileUrl": "test/page-660.html" },
+            { "title": "ರಾಕೆಟ್ ಮತ್ತು ಕೃತಕ ಉಪಗ್ರಹಗಳು", "fileUrl": "test/page-663.html" },
+            { "title": "ಗುರುತ್ವ", "fileUrl": "test/page-665.html" },
+            { "title": "ವಿದ್ಯುಚ್ಛಕ್ತಿ", "fileUrl": "test/page-667.html" },
+            { "title": "ಉಷ್ಣ", "fileUrl": "test/page-670.html" },
+            { "title": "ಶಬ್ದ", "fileUrl": "test/page-672.html" },
+            { "title": "ಬೆಳಕು", "fileUrl": "test/page-674.html" },
+            { "title": "ವಿದ್ಯುತ್ಕಾಂತೀಯ ವಿಕಿರಣ", "fileUrl": "test/page-678.html" }
+          ]
+        },
+        {
+          "name": "Chemistry (ರಸಾಯನಶಾಸ್ತ್ರ)",
+          "chapters": [
+            { "title": "ಪರಮಾಣುವಿನ ರಚನೆ", "fileUrl": "test/page-681.html" },
+            { "title": "ಧಾತುಗಳ ಆವರ್ತನೀಯ ವರ್ಗೀಕರಣ", "fileUrl": "test/page-683.html" },
+            { "title": "ಲೋಹಗಳು ಮತ್ತು ಅಲೋಹಗಳು", "fileUrl": "test/page-687.html" },
+            { "title": "ಸಂಶ್ಲೇಷಿತ ವಸ್ತುಗಳು", "fileUrl": "test/page-698.html" },
+            { "title": "ಕಾರ್ಬನ್ ಮತ್ತು ಅದರ ಸಂಯುಕ್ತಗಳು", "fileUrl": "test/page-704.html" },
+            { "title": "ವಿಕಿರಣ ಪಟುತ್ವ", "fileUrl": "test/page-709.html" },
+            { "title": "ರಾಸಾಯನಿಕ ಗೊಬ್ಬರಗಳು", "fileUrl": "test/page-712.html" },
+            { "title": "ಧಾತುಗಳು, ಸಂಯುಕ್ತಗಳು, ಮಿಶ್ರಣಗಳು", "fileUrl": "test/page-716.html" }
+          ]
+        }
+      ]
     }
   ]
 }
