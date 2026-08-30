@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karnataka PC & SSC CBT Exam Mock Test</title>
+<style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #f4f6f9; color: #333; }
+    
+    /* Header */
+    .header { background-color: #003366; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 16px; font-weight: 600; }
+    .timer-box { background-color: white; color: #d9534f; padding: 4px 10px; font-weight: bold; border-radius: 4px; font-size: 14px; border: 1px solid #d9534f; }
+    
+    /* Layout */
+    .container { display: flex; flex-direction: row; height: calc(100vh - 45px); }
+    .main-content { flex: 1; padding: 20px; overflow-y: auto; background-color: #fff; }
+    .sidebar { width: 320px; background-color: #f8f9fa; border-left: 1px solid #dee2e6; padding: 15px; overflow-y: auto; }
+
+    .sub-header { font-size: 12px; color: #004085; font-weight: bold; border-bottom: 1px solid #cce5ff; padding-bottom: 5px; margin-bottom: 15px; }
+
+    /* Question & Options */
+    .question-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #222; }
+    .options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+    .option-btn { display: flex; align-items: center; padding: 10px 15px; border: 1px solid #ced4da; border-radius: 6px; background-color: #fff; cursor: pointer; text-align: left; font-size: 14px; transition: 0.2s; }
+    .option-btn:hover { background-color: #e9ecef; }
+    
+    /* Answer States */
+    .option-btn.correct { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
+    .option-btn.wrong { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+
+    /* Explanation Box */
+    .explanation-box { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; margin-top: 15px; display: none; }
+    .explanation-box.correct-bg { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+    
+    /* Controls */
+    .controls { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; }
+    .btn { padding: 8px 16px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .btn-nav { background-color: #0056b3; color: white; }
+    .btn-retest { background-color: #dc3545; color: white; }
+
+    /* Sidebar Styling */
+    .sidebar-title { font-size: 14px; text-align: center; margin-bottom: 5px; font-weight: bold; }
+    .score-board { text-align: center; font-size: 13px; margin-bottom: 15px; color: #555; }
+    .palette-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .palette-btn { padding: 8px 0; background-color: #fff; border: 1px solid #ced4da; border-radius: 4px; text-align: center; font-size: 12px; cursor: pointer; font-weight: bold; }
+    .palette-btn.active { border: 2px solid #0056b3; }
+    .palette-btn.answered-correct { background-color: #28a745; color: white; border-color: #28a745; }
+    .palette-btn.answered-wrong { background-color: #dc3545; color: white; border-color: #dc3545; }
+
+    @media (max-width: 768px) {
+        .container { flex-direction: column; }
+        .sidebar { width: 100%; height: auto; border-left: none; border-top: 1px solid #ccc; }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Karnataka PC & SSC CBT Exam Mock Test</h1>
+    <div class="timer-box">Time Remaining: <span id="timer">45:00</span></div>
+</div>
+
+<div class="container">
+    <div class="main-content">
+        <div class="sub-header" id="sub-header">Page 1 - Question 1 of 53</div>
+        
+        <div class="question-title" id="question-text"></div>
+        <div class="options-container" id="options-container"></div>
+        
+        <div class="explanation-box" id="explanation-box"></div>
+
+        <div class="controls">
+            <button class="btn btn-nav" onclick="prevQuestion()">Previous</button>
+            <button class="btn btn-retest" onclick="resetTest()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+            <button class="btn btn-nav" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-title">Question Palette</div>
+        <div class="score-board">Score: <span id="score">0</span> / 53</div>
+        <div class="palette-grid" id="palette-grid"></div>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    { q: "1. ಭಾರತದ ನಾಗರಿಕತೆಯ ತೊಟ್ಟಿಲು ಎಂದು ಯಾವ ನದಿಯನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["A) ಗಂಗಾ ನದಿ", "B) ಸಿಂಧೂ ನದಿ", "C) ಕಾವೇರಿ ನದಿ", "D) ಗೋದಾವರಿ ನದಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಸಿಂಧೂ ನದಿ. ಸಿಂಧೂ ನದಿಯನ್ನು ಭಾರತದ ನಾಗರಿಕತೆಯ ತೊಟ್ಟಿಲು ಎಂದು ಕರೆಯುತ್ತಾರೆ. ಜಗತ್ತಿನ ಮೊಟ್ಟ ಮೊದಲ ನಾಗರಿಕತೆ ಈಜಿಪ್ಟ್ ನಾಗರಿಕತೆಯಾದರೆ ಭಾರತದ ಮೊಟ್ಟ ಮೊದಲ ನಾಗರಿಕತೆ ಸಿಂಧೂ ನಾಗರಿಕತೆ." },
+    { q: "2. 1826ರಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಕುರುಹುಗಳನ್ನು ಪತ್ತೆ ಹಚ್ಚಿದ ಬ್ರಿಟಿಷ್ ಪ್ರವಾಸಿಗ ಯಾರು?", options: ["A) ಚಾರ್ಲ್ಸ್ ಮಸನ್", "B) ಜಾನ್ ಮಾರ್ಷಲ್", "C) ಅಲೆಕ್ಸಾಂಡರ್ ಕನ್ನಿಂಗ್ ಹ್ಯಾಂ", "D) ಲಾರ್ಡ್ ಕರ್ಜನ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಚಾರ್ಲ್ಸ್ ಮಸನ್. 1826ರಲ್ಲಿ ಬ್ರಿಟಿಷ್ ಪ್ರವಾಸಿಗ ಚಾರ್ಲ್ಸ್ ಮಸನ್ ಮೊದಲ ಬಾರಿಗೆ ಈ ನಾಗರಿಕತೆಯ ಕುರುಹುಗಳನ್ನು ಪತ್ತೆ ಹಚ್ಚಿದ." },
+    { q: "3. ಪಂಜಾಬಿನಿಂದ ಪಾಕಿಸ್ತಾನದ ಲಾಹೋರ್‌ಗೆ ರೈಲು ಮಾರ್ಗ ನಿರ್ಮಿಸುವಾಗ ಸುಟ್ಟ ಇಟ್ಟಿಗೆಗಳು ಪತ್ತೆಯಾದ ವರ್ಷ ಯಾವುದು?", options: ["A) 1826", "B) 1856", "C) 1862", "D) 1904"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) 1856. ಕ್ರಿ.ಶ. 1856 ರಲ್ಲಿ ಪಂಜಾಬಿನಿಂದ ಲಾಹೋರ್‌ಗೆ ರೈಲು ಮಾರ್ಗ ನಿರ್ಮಿಸುವ ಸಂದರ್ಭದಲ್ಲಿ ಮೊಟ್ಟ ಮೊದಲ ಬಾರಿಗೆ ಸುಟ್ಟ ಇಟ್ಟಿಗೆಗಳು ಪತ್ತೆಯಾದವು." },
+    { q: "4. 1856ರಲ್ಲಿ ರೈಲು ಮಾರ್ಗ ನಿರ್ಮಾಣದ ಸಂದರ್ಭದಲ್ಲಿ ಸುಟ್ಟ ಇಟ್ಟಿಗೆಗಳನ್ನು ನೋಡಿದ ಬ್ರಿಟಿಷ್ ಇಂಜಿನಿಯರ್‌ಗಳು ಯಾರು?", options: ["A) ದಯಾರಾಂ ಮತ್ತು ಬ್ಯಾನರ್ಜಿ", "B) ಜಾನ್ ಮತ್ತು ವಿಲಿಯಂ ಬ್ರಂಟನ್", "C) ಮ್ಯಾಕ್ಸ್ ಮುಲ್ಲರ್ ಮತ್ತು ವಿಲಿಯಂ ಜೊನ್ಸ್", "D) ರಾಬರ್ಟ್ ರೈಕ್ಸ್ ಮತ್ತು ಸ್ಲೀಮನ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಜಾನ್ ಮತ್ತು ವಿಲಿಯಂ ಬ್ರಂಟನ್. ಸುಟ್ಟ ಇಟ್ಟಿಗೆಗಳನ್ನು ನೋಡಿದ ಬ್ರಿಟಿಷ್ ಇಂಜಿನಿಯರ್‌ಗಳು ಜಾನ್ ಮತ್ತು ವಿಲಿಯಂ ಬ್ರಂಟನ್." },
+    { q: "5. 'ಭಾರತೀಯ ಪುರಾತತ್ವ ಇಲಾಖೆಯ ಪಿತಾಮಹ' ಎಂದು ಯಾರನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["A) ಸರ್ ಜಾನ್ ಮಾರ್ಷಲ್", "B) ಲಾರ್ಡ್ ಕರ್ಜನ್", "C) ಅಲೆಕ್ಸಾಂಡರ್ ಕನ್ನಿಂಗ್ ಹ್ಯಾಂ", "D) ಆರ್.ಡಿ. ಬ್ಯಾನರ್ಜಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಅಲೆಕ್ಸಾಂಡರ್ ಕನ್ನಿಂಗ್ ಹ್ಯಾಂ. 1862 ರಲ್ಲಿ ಮೊಟ್ಟ ಮೊದಲ ಬಾರಿಗೆ ಅಧ್ಯಯನ ಕೈಗೊಂಡ ಅಲೆಕ್ಸಾಂಡರ್ ಕನ್ನಿಂಗ್ ಹ್ಯಾಂ ಅವರನ್ನು ಭಾರತೀಯ ಪುರಾತತ್ವ ಇಲಾಖೆಯ ಪಿತಾಮಹ ಎನ್ನುತ್ತಾರೆ." },
+    { q: "6. 1920ರಲ್ಲಿ ಭಾರತೀಯ ಪುರಾತತ್ವ ಇಲಾಖೆಯ ಮಹಾನಿರ್ದೇಶಕರಾಗಿ ನೇಮಕಗೊಂಡವರು ಯಾರು?", options: ["A) ಲಾರ್ಡ್ ಕರ್ಜನ್", "B) ಸರ್ ಜಾನ್ ಮಾರ್ಷಲ್", "C) ಚಾರ್ಲ್ಸ್ ಮಸನ್", "D) ಎಸ್.ಆರ್.ರಾವ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಸರ್ ಜಾನ್ ಮಾರ್ಷಲ್. 1904ರಲ್ಲಿ ಕರ್ಜನ್ ಇಲಾಖೆ ಪ್ರಾರಂಭಿಸಿದರು. 1920 ರಲ್ಲಿ ಸರ್ ಜಾನ್ ಮಾರ್ಷಲ್‌ರವರು ಮಹಾನಿರ್ದೇಶಕರಾಗಿ ನೇಮಕಗೊಂಡರು." },
+    { q: "7. 1921-22ರಲ್ಲಿ ಹರಪ್ಪ ಮತ್ತು ಮಹೆಂಜೋದಾರೋ ನಗರಗಳನ್ನು ಕ್ರಮವಾಗಿ ಪತ್ತೆ ಹಚ್ಚಿದವರು ಯಾರು?", options: ["A) ದಯಾರಾಂ ಸಹಾನಿ & ಆರ್.ಡಿ. ಬ್ಯಾನರ್ಜಿ", "B) ಎಸ್.ಆರ್.ರಾವ್ & ವೈ.ಡಿ. ಶರ್ಮ", "C) ಜೆ.ಪಿ. ಜೋಶಿ & ಆರ್.ಎಸ್. ಬಿಸ್ತ್", "D) ಎನ್.ಜಿ.ಮಜುಂದಾರ್ & ಬಿ.ಕೆ ಠಾಪರ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ದಯಾರಾಂ ಸಹಾನಿ & ಆರ್.ಡಿ. ಬ್ಯಾನರ್ಜಿ. 1921-22ರಲ್ಲಿ ದಯಾರಾಂ ಸಹಾನಿ ಮತ್ತು ಆರ್.ಡಿ. ಬ್ಯಾನರ್ಜಿಯವರು ಕ್ರಮವಾಗಿ ಹರಪ್ಪ & ಮಹೆಂಜೋದಾರೋ ಪತ್ತೆ ಹಚ್ಚಿದರು." },
+    { q: "8. ಸಿಂಧೂ ನಾಗರಿಕತೆ ಜಗತ್ಪ್ರಸಿದ್ಧವಾಗಲು ಕಾರಣವಾದ ಲಂಡನ್‌ನ ಪತ್ರಿಕೆ ಯಾವುದು?", options: ["A) ದ ಟೈಮ್ಸ್", "B) ಇಲ್ಲುಸ್ಟೇಟೆಡ್", "C) ದ ಗಾರ್ಡಿಯನ್", "D) ಬ್ರಿಟಿಷ್ ಹೆರಾಲ್ಡ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಇಲ್ಲುಸ್ಟೇಟೆಡ್. ಸಿಂಧೂ ನಾಗರಿಕತೆ ಜಗತ್ಪ್ರಸಿದ್ಧವಾಗಲು ಕಾರಣವಾದ ಪತ್ರಿಕೆ ಇಲ್ಲುಸ್ಟೇಟೆಡ್ (ಲಂಡನ್‌ನ ಪತ್ರಿಕೆ)." },
+    { q: "9. ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಕುರುಹುಗಳು ಕಂಡುಬರದ ರಾಜ್ಯ/ಪ್ರದೇಶ ಯಾವುದು?", options: ["A) ಗುಜರಾತ್", "B) ರಾಜಸ್ಥಾನ", "C) ತಮಿಳುನಾಡು", "D) ಹರಿಯಾಣ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ತಮಿಳುನಾಡು. ಸಿಂಧೂ ನಾಗರಿಕತೆಯು ಮಹಾರಾಷ್ಟ್ರ, ಗುಜರಾತ್, ರಾಜಸ್ಥಾನ, ಯುಪಿ, ಪಂಜಾಬ್, ಹರಿಯಾಣ, ಮತ್ತು ಜಮ್ಮು-ಕಾಶ್ಮೀರಗಳಲ್ಲಿ ಹರಡಿಕೊಂಡಿದೆ." },
+    { q: "10. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ನೆಲೆಗಳು ಭಾರತದಲ್ಲಿ ಅತೀ ಹೆಚ್ಚು ಕಂಡು ಬಂದ ರಾಜ್ಯ ಯಾವುದು?", options: ["A) ಪಂಜಾಬ್", "B) ರಾಜಸ್ಥಾನ", "C) ಗುಜರಾತ್", "D) ಮಹಾರಾಷ್ಟ್ರ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಗುಜರಾತ್. ಸಿಂಧೂ ನಾಗರಿಕತೆಯು ಭಾರತದಲ್ಲಿ ಅತೀ ಹೆಚ್ಚು ಕಂಡು ಬಂದ ರಾಜ್ಯ ಗುಜರಾತ್." },
+    { q: "11. ಹರಪ್ಪ ನಗರವು ಯಾವ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಸಿಂಧೂ ನದಿ", "B) ರಾವಿ ನದಿ", "C) ಸಟ್ಲಜ್ ನದಿ", "D) ಭೋಗಾವೋ ನದಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ರಾವಿ ನದಿ. ಹರಪ್ಪ ನಗರವು ರಾವಿ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ (1921ರಲ್ಲಿ ದಯಾರಾಂ ಸಹಾನಿ ಸಂಶೋಧಿಸಿದರು, ಮಾಂಟ್‌ಗೋಮರಿ ಜಿಲ್ಲೆ)." },
+    { q: "12. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಯಾವ ನಗರವನ್ನು 'ಕಾರ್ಮಿಕರ ನಗರ' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["A) ಮಹೇಂಜೋದಾರೋ", "B) ಹರಪ್ಪ", "C) ಕಾಲಿಬಂಗಾನ್", "D) ಲೋಥಾಲ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಹರಪ್ಪ. ಹರಪ್ಪ ನಗರವನ್ನು ಕಾರ್ಮಿಕರ ನಗರ ಎಂದು ಕರೆಯುತ್ತಾರೆ." },
+    { q: "13. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ‘ಹೆಬ್ಬಾಗಿಲು ನಗರ’ ಎಂದು ಯಾವುದಕ್ಕೆ ಕರೆಯುತ್ತಾರೆ?", options: ["A) ಚನ್ಹುದಾರೋ", "B) ಧೋಲಾವೀರ", "C) ಹರಪ್ಪ", "D) ರೋಪಾರ್"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಹರಪ್ಪ. ಹರಪ್ಪಕ್ಕೆ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ 'ಹೆಬ್ಬಾಗಿಲು ನಗರ' ಎನ್ನುವರು." },
+    { q: "14. ಸಿಂಧಿ ಭಾಷೆಯಲ್ಲಿ 'ಮಡಿದವರ ದಿಬ್ಬ' ಅಥವಾ 'ಮೃತ ಗುಪ್ಪೆ' ಎಂದರೆ ಅರ್ಥವೇನು?", options: ["A) ಕಾಲಿಬಂಗಾನ್", "B) ಮಹೇಂಜೋದಾರೋ", "C) ಚನ್ಹುದಾರೋ", "D) ಲೋಥಾಲ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಮಹೇಂಜೋದಾರೋ. ಸಿಂಧಿ ಭಾಷೆಯಲ್ಲಿ ಮಹೇಂಜೋದಾರೋ ಎಂದರೆ ಮಡಿದವರ ದಿಬ್ಬ / ಮೃತರ ಗುಪ್ಪೆ ಎಂದರ್ಥ (1980ರಲ್ಲಿ ವಿಶ್ವ ಪಾರಂಪರಿಕ ಪಟ್ಟಿಗೆ ಸೇರಿದೆ)." },
+    { q: "15. 1931ರಲ್ಲಿ ಚನ್ಹುದಾರೋ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದವರು ಯಾರು?", options: ["A) ಎನ್.ಜಿ. ಮಜುಂದಾರ್", "B) ಎಸ್.ಆರ್. ರಾವ್", "C) ವೈ.ಡಿ. ಶರ್ಮ", "D) ಅಮಲಾನಂದ ಘೋಷ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಎನ್.ಜಿ. ಮಜುಂದಾರ್. 1931ರಲ್ಲಿ ಎನ್.ಜಿ.ಮಜುಂದಾರ್ ಚನ್ಹುದಾರೋ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದರು." },
+    { q: "16. ಚನ್ಹುದಾರೋ ನಗರವು ಸಿಂಧೂ ನದಿಯ ಯಾವ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಬಲದಂಡೆ", "B) ಎಡದಂಡೆ", "C) ಉತ್ತರ ದಂಡೆ", "D) ದಕ್ಷಿಣ ದಂಡೆ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಎಡದಂಡೆ. ಚನ್ಹುದಾರೋ ನಗರವು ಸಿಂಧೂ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "17. ಮಹೇಂಜೋದಾರೋ ಮತ್ತು ಚನ್ಹುದಾರೋ ಪ್ರಸ್ತುತ ಪಾಕಿಸ್ತಾನದ ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["A) ಮಾಂಟ್‌ಗೋಮರಿ", "B) ಲಾರ್ಕಾನ", "C) ಕರಾಚಿ", "D) ಇಸ್ಲಾಮಾಬಾದ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಲಾರ್ಕಾನ. ಇವೆರಡೂ ಪಾಕಿಸ್ತಾನದ ಲಾರ್ಕಾನ ಜಿಲ್ಲೆಯಲ್ಲಿವೆ." },
+    { q: "18. 1959 ರಲ್ಲಿ ಲೋಥಾಲ್ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದವರು ಯಾರು?", options: ["A) ಆರ್.ಡಿ. ಬ್ಯಾನರ್ಜಿ", "B) ಎಸ್.ಆರ್.ರಾವ್", "C) ದಯಾರಾಂ ಸಹಾನಿ", "D) ಬಿ.ಕೆ. ಠಾಪರ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಎಸ್.ಆರ್.ರಾವ್. 1959 ರಲ್ಲಿ ಎಸ್.ಆರ್.ರಾವ್ ಲೋಥಾಲ್ ಅನ್ನು ಸಂಶೋಧಿಸಿದರು." },
+    { q: "19. ಲೋಥಾಲ್ ನಗರವು ಯಾವ ನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಭೋಗಾವೋ ನದಿ", "B) ಸರಸ್ವತಿ ನದಿ", "C) ಸಟ್ಲಜ್ ನದಿ", "D) ರಾವಿ ನದಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಭೋಗಾವೋ ನದಿ. ಲೋಥಾಲ್ ಭೋಗಾವೋ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "20. ಪ್ರಸಿದ್ಧ ಬಂದರು ನಗರವಾದ ಲೋಥಾಲ್ ಯಾವ ರಾಜ್ಯದಲ್ಲಿದೆ?", options: ["A) ರಾಜಸ್ಥಾನ", "B) ಪಂಜಾಬ್", "C) ಗುಜರಾತ್", "D) ಹರಿಯಾಣ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಗುಜರಾತ್. ಲೋಥಾಲ್ ಗುಜರಾತ್ ರಾಜ್ಯದಲ್ಲಿದೆ." },
+    { q: "21. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ 'ಬಂದರು ನಗರ' ಎಂದು ಯಾವುದನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["A) ಮಹೇಂಜೋದಾರೋ", "B) ಲೋಥಾಲ್", "C) ಕಾಲಿಬಂಗಾನ್", "D) ರೋಪಾರ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಲೋಥಾಲ್. ಇಲ್ಲಿ ದೊಡ್ಡ ಹಡಗುಕಟ್ಟೆ ಕಂಡು ಬಂದಿದ್ದರಿಂದ ಇದಕ್ಕೆ ಬಂದರು ನಗರ ಎನ್ನುವರು." },
+    { q: "22. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ 'ಮ್ಯಾಂಚೆಸ್ಟರ್' ಎಂದು ಯಾವ ನಗರವನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["A) ಲೋಥಾಲ್", "B) ಹರಪ್ಪ", "C) ಚನ್ಹುದಾರೋ", "D) ಧೋಲಾವೀರ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಲೋಥಾಲ್. ಲೋಥಾಲ್ ನಗರಕ್ಕೆ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಮ್ಯಾಂಚೆಸ್ಟರ್ ಎನ್ನುತ್ತಾರೆ." },
+    { q: "23. 1953 ರಲ್ಲಿ ರೋಪಾರ್ (Ropar) ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದವರು ಯಾರು?", options: ["A) ವೈ.ಡಿ. ಶರ್ಮ", "B) ಜೆ.ಪಿ. ಜೋಶಿ", "C) ಆರ್.ಎಸ್. ಬಿಸ್ತ್", "D) ಎಸ್.ಆರ್. ರಾವ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ವೈ.ಡಿ. ಶರ್ಮ. 1953 ರಲ್ಲಿ Y.D. ಶರ್ಮ ರೋಪಾರ್ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದರು." },
+    { q: "24. ರೋಪಾರ್ ನಗರವು ಯಾವ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಸಿಂಧೂ", "B) ಸಟ್ಲಜ್", "C) ಘಗ್ಗರ್", "D) ರಾವಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಸಟ್ಲಜ್. ರೋಪಾರ್ ನಗರವು ಸಟ್ಲಜ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "25. ರೋಪಾರ್ ನಗರವು ಪ್ರಸ್ತುತ ಯಾವ ರಾಜ್ಯದಲ್ಲಿದೆ?", options: ["A) ಪಂಜಾಬ್", "B) ಹರಿಯಾಣ", "C) ಗುಜರಾತ್", "D) ರಾಜಸ್ಥಾನ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಪಂಜಾಬ್. ರೋಪಾರ್ ಪಂಜಾಬ್ ರಾಜ್ಯದಲ್ಲಿದೆ." },
+    { q: "26. ಭಾರತದ ಸ್ವಾತಂತ್ರ್ಯದ ನಂತರ ಅನ್ವೇಷಣೆಯಾದ ಮೊದಲ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ನಗರ ಯಾವುದು?", options: ["A) ಲೋಥಾಲ್", "B) ರೋಪಾರ್", "C) ಧೋಲಾವೀರ", "D) ಕಾಲಿಬಂಗಾನ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ರೋಪಾರ್. ಸ್ವಾತಂತ್ರ್ಯದ ನಂತರ (1953) ಅನ್ವೇಷಣೆಯಾದ ಮೊದಲ ನಗರ ರೋಪಾರ್." },
+    { q: "27. 1953ರಲ್ಲಿ ಕಾಲಿಬಂಗಾನ್ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದವರು ಯಾರು?", options: ["A) ಅಮಲಾನಂದ ಘೋಷ್ ಮತ್ತು ಬಿ.ಕೆ ಠಾಪರ್", "B) ದಯಾರಾಂ ಸಹಾನಿ", "C) ಎಸ್.ಆರ್. ರಾವ್", "D) ಜೆ.ಪಿ. ಜೋಶಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಅಮಲಾನಂದ ಘೋಷ್ ಮತ್ತು ಬಿ.ಕೆ ಠಾಪರ್. 1953ರಲ್ಲಿ ಇವರು ಕಾಲಿಬಂಗಾನ್ ಸಂಶೋಧಿಸಿದರು." },
+    { q: "28. ಕಾಲಿಬಂಗಾನ್ ನಗರವು ಯಾವ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಘಗ್ಗರ್ / ಸರಸ್ವತಿ", "B) ಸಿಂಧೂ", "C) ರಾವಿ", "D) ಭೋಗಾವೋ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಘಗ್ಗರ್ / ಸರಸ್ವತಿ. ಇದು ಘಗ್ಗರ್/ಸರಸ್ವತಿ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "29. ಸಿಂಧಿ ಭಾಷೆಯಲ್ಲಿ 'ಕಾಲಿಬಂಗಾನ್' ಎಂದರೆ ಅರ್ಥವೇನು?", options: ["A) ಮಡಿದವರ ದಿಬ್ಬ", "B) ಕಪ್ಪು ಬಳೆ", "C) ಹೆಬ್ಬಾಗಿಲು", "D) ಬಂದರು"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಕಪ್ಪು ಬಳೆ. ಸಿಂಧಿ ಭಾಷೆಯಲ್ಲಿ ಕಾಲಿಬಂಗಾನ್ ಎಂದರೆ ಕಪ್ಪು ಬಳೆ ಎಂದರ್ಥ." },
+    { q: "30. ಕಾಲಿಬಂಗಾನ್ ಸಿಂಧೂ ನಗರವು ಯಾವ ರಾಜ್ಯದಲ್ಲಿದೆ?", options: ["A) ಗುಜರಾತ್", "B) ರಾಜಸ್ಥಾನ", "C) ಪಂಜಾಬ್", "D) ಉತ್ತರ ಪ್ರದೇಶ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ರಾಜಸ್ಥಾನ. ಕಾಲಿಬಂಗಾನ್ ರಾಜಸ್ಥಾನ ರಾಜ್ಯದಲ್ಲಿದೆ." },
+    { q: "31. ಮನ್‌ಹೂರೆ ನದಿ ದಂಡೆಯ ಮೇಲಿರುವ ಪ್ರಸಿದ್ಧ ಸಿಂಧೂ ನೆಲೆ ಯಾವುದು?", options: ["A) ಧೋಲಾವೀರ", "B) ಲೋಥಾಲ್", "C) ಹರಪ್ಪ", "D) ರೋಪಾರ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಧೋಲಾವೀರ. ಧೋಲಾವೀರ ನಗರವು ಮನ್‌ಹೂರೆ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "32. 1991-92 ರಲ್ಲಿ ಧೋಲಾವೀರ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದವರು ಯಾರು?", options: ["A) J.P. ಜೋಶಿ ಮತ್ತು R.S. ಬಿಸ್ತ್", "B) Y.D. ಶರ್ಮ", "C) R.D. ಬ್ಯಾನರ್ಜಿ", "D) ಚಾರ್ಲ್ಸ್ ಮಸನ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) J.P. ಜೋಶಿ ಮತ್ತು R.S. ಬಿಸ್ತ್. ಇವರು ಧೋಲಾವೀರ ನಗರವನ್ನು ಸಂಶೋಧಿಸಿದರು." },
+    { q: "33. ಧೋಲಾವೀರ ನೆಲೆ ಯಾವ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["A) ಮನ್‌ಹೂರೆ ನದಿ", "B) ರಾವಿ ನದಿ", "C) ಸಟ್ಲಜ್ ನದಿ", "D) ಸಿಂಧೂ ನದಿ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಮನ್‌ಹೂರೆ ನದಿ. ಧೋಲಾವೀರ ಮನ್‌ಹೂರೆ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ." },
+    { q: "34. ಧೋಲಾವೀರ ನಗರವನ್ನು ಯುನೆಸ್ಕೋ (UNESCO) ವಿಶ್ವ ಪಾರಂಪರಿಕ ಪಟ್ಟಿಗೆ ಸೇರಿಸಿದ ವರ್ಷ ಯಾವುದು?", options: ["A) 1980", "B) 2014", "C) 2021", "D) 2019"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) 2021. 2021ರಲ್ಲಿ ಧೋಲಾವೀರವನ್ನು ವಿಶ್ವ ಪಾರಂಪರಿಕ ಪಟ್ಟಿಗೆ ಸೇರಿಸಲಾಗಿದೆ." },
+    { q: "35. ಸಿಂಧೂ ಜನರ ಆರಾಧ್ಯ ದೇವರು ಯಾರಾಗಿದ್ದರು?", options: ["A) ಪಶುಪತಿ", "B) ಇಂದ್ರ", "C) ವಿಷ್ಣು", "D) ಬ್ರಹ್ಮ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಪಶುಪತಿ. ಸಿಂಧೂ ಜನರ ಆರಾಧ್ಯ ದೇವರು ಪಶುಪತಿ (ಶಿವ)." },
+    { q: "36. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಪ್ರಾಣಿ ಯಾವುದಾಗಿತ್ತು?", options: ["A) ಕುದುರೆ", "B) ಆನೆ", "C) ಜುಟ್ಟದ ಗೂಳಿ", "D) ಹುಲಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಜುಟ್ಟದ ಗೂಳಿ. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಪ್ರಾಣಿ ಜುಟ್ಟದ ಗೂಳಿ." },
+    { q: "37. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಪಕ್ಷಿ ಯಾವುದು?", options: ["A) ನವಿಲು", "B) ಪಾರಿವಾಳ", "C) ಗಿಳಿ", "D) ಹಂಸ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಪಾರಿವಾಳ. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಪಕ್ಷಿ ಪಾರಿವಾಳ." },
+    { q: "38. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಮರ ಯಾವುದಾಗಿತ್ತು?", options: ["A) ಬೇವಿನ ಮರ", "B) ಅರಳಿಮರ", "C) ಆಲದ ಮರ", "D) ತೆಂಗಿನ ಮರ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಅರಳಿಮರ. ಸಿಂಧೂ ಜನರ ಪೂಜನೀಯ ಮರ ಅರಳಿಮರ." },
+    { q: "39. ಸಿಂಧೂ ಜನರ ಧಾರ್ಮಿಕ ಚಿಹ್ನೆ ಯಾವುದಾಗಿತ್ತು?", options: ["A) ಓಂ", "B) ತ್ರಿಶೂಲ", "C) ಸ್ವಸ್ತಿಕ್", "D) ಚಕ್ರ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಸ್ವಸ್ತಿಕ್. ಸಿಂಧೂ ಜನರ ಧಾರ್ಮಿಕ ಚಿಹ್ನೆ ಸ್ವಸ್ತಿಕ್." },
+    { q: "40. ಯಜ್ಞಕುಂಡಗಳು ಕಂಡು ಬಂದ ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಸ್ಥಳಗಳು ಯಾವುವು?", options: ["A) ಕಾಲಿಬಂಗಾನ್ ಮತ್ತು ಲೋಥಾಲ್", "B) ಹರಪ್ಪ ಮತ್ತು ಮಹೇಂಜೋದಾರೋ", "C) ರೋಪಾರ್ ಮತ್ತು ಧೋಲಾವೀರ", "D) ಕೋಟಡಜಿ ಮತ್ತು ಚನ್ಹುದಾರೋ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಕಾಲಿಬಂಗಾನ್ ಮತ್ತು ಲೋಥಾಲ್. ಈ ಎರಡು ಸ್ಥಳಗಳಲ್ಲಿ ಯಜ್ಞಕುಂಡಗಳು ಕಂಡು ಬಂದಿವೆ." },
+    { q: "41. ಸಿಂಧೂ ಜನರು ಚಿನ್ನವನ್ನು ಎಲ್ಲಿಂದ ಆಮದು ಮಾಡಿಕೊಳ್ಳುತ್ತಿದ್ದರು?", options: ["A) ರಾಜಸ್ಥಾನ", "B) ಕರ್ನಾಟಕ (ಕೋಲಾರ)", "C) ಅಫ್ಘಾನಿಸ್ತಾನ", "D) ಲಡಾಖ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಕರ್ನಾಟಕ (ಕೋಲಾರ). ಕರ್ನಾಟಕದ ಕೋಲಾರದಿಂದ ಚಿನ್ನವನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳುತ್ತಿದ್ದರು." },
+    { q: "42. ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವುದು ಸಿಂಧೂ ಜನರ ವಿದೇಶಿ ವ್ಯಾಪಾರ ವಿನಿಮಯ ಕೇಂದ್ರವಾಗಿರಲಿಲ್ಲ?", options: ["A) ಲೋಥಾಲ್", "B) ಸೂಕ್ತಜಂಡರ್", "C) ರೋಹಿಣಿ", "D) ಸುರಕೋಟ್ಟ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ರೋಹಿಣಿ. ವಿದೇಶಿ ವ್ಯಾಪಾರ ವಿನಿಮಯ ಕೇಂದ್ರಗಳೆಂದರೆ ಲೋಥಾಲ್, ಸೂಕ್ತಜಂಡರ್, ಚನ್ಹುದಾರೋ, ಸುರಕೋಟ್ಟ." },
+    { q: "43. ಸಿಂಧೂ ಜನರ ಲಿಪಿಯನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["A) ಬ್ರಾಹ್ಮಿ", "B) ಖರೋಷ್ಠಿ", "C) ಬಸ್ಟ್ರೋಫೆಡನ್", "D) ದೇವನಾಗರಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಬಸ್ಟ್ರೋಫೆಡನ್. ಚಿತ್ರಾಕಾರದ ಈ ಲಿಪಿಯ ಮೊದಲ ಸಾಲು ಎಡದಿಂದ ಬಲಕ್ಕೆ, ಉಳಿದ ಸಾಲು ಬಲದಿಂದ ಎಡಕ್ಕೆ ಇರುತ್ತಿತ್ತು. ಇದನ್ನು ಬಸ್ಟ್ರೋಫೆಡನ್ ಎನ್ನುತ್ತಾರೆ." },
+    { q: "44. ವಿದ್ವಾಂಸರ ಪ್ರಕಾರ ಸಿಂಧೂ ಜನರ ಭಾಷೆ ಯಾವ ಗುಂಪಿಗೆ ಸೇರಿದೆ?", options: ["A) ಇಂಡೋ-ಆರ್ಯನ್", "B) ದ್ರಾವಿಡ ಗುಂಪು", "C) ಸಿನೋ-ಟಿಬೆಟಿಯನ್", "D) ಆಸ್ಟ್ರೋ-ಏಶಿಯಾಟಿಕ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ದ್ರಾವಿಡ ಗುಂಪು. ವಿದ್ವಾಂಸರು ಈ ಭಾಷೆಯು ದ್ರಾವಿಡ ಗುಂಪಿಗೆ ಸೇರಿದೆ ಎಂದಿದ್ದಾರೆ." },
+    { q: "45. ಸಿಂಧೂ ನಾಗರಿಕತೆಯಲ್ಲಿ ಶವದ ಪೆಟ್ಟಿಗೆ (Wooden Coffin) ಮೊದಲು ಕಂಡು ಬಂದ ಸ್ಥಳ ಯಾವುದು?", options: ["A) ಮಹೇಂಜೋದಾರೋ", "B) ಹರಪ್ಪ", "C) ಲೋಥಾಲ್", "D) ಕಾಲಿಬಂಗಾನ್"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಮಹೇಂಜೋದಾರೋ. ಶವದ ಪೆಟ್ಟಿಗೆ ಮೊದಲು ಕಂಡು ಬಂದ ಸ್ಥಳ ಮಹೇಂಜೋದಾರೋ." },
+    { q: "46. ಸಿಂಧೂ ನಾಗರಿಕತೆಯು 'ಆರ್ಯರ ದಾಳಿ'ಯಿಂದ ನಾಶವಾಯಿತು ಎಂದು ಹೇಳಿದ ವಿದ್ವಾಂಸರು ಯಾರು?", options: ["A) ಸರ್. ಜಾನ್ ಮಾರ್ಷಲ್", "B) ಪ್ರೊ. ರಾಬರ್ಟ್ ರೈಕ್ಸ್", "C) ಪ್ರೊ. ಮಾರ್ಟಿಮರ್ ವೀಲರ್", "D) ಡಿ.ಡಿ. ಕೊಸಾಂಬಿ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಪ್ರೊ. ಮಾರ್ಟಿಮರ್ ವೀಲರ್. ಆರ್ಯರ ದಾಳಿಯಿಂದ ನಾಶವಾಯಿತು ಎಂದು ಹೇಳಿದವರು ಮಾರ್ಟಿಮರ್ ವೀಲರ್ (ಪ್ರವಾಹ-ಮಾರ್ಷಲ್, ಭೂಕಂಪ-ರಾಬರ್ಟ್ ರೈಕ್ಸ್, ಹವಾಮಾನ-ಆರ್.ಎಲ್.ಸ್ಟೀನ್, ಅಣೆಕಟ್ಟು ನಾಶ-ಕೊಸಾಂಬಿ)." },
+    { q: "47. ಸಿಂಧೂ ಜನರ ಮುದ್ರೆಗಳ ಮೇಲೆ ಹೆಚ್ಚಾಗಿ ಕಂಡುಬಂದ ಪ್ರಾಣಿ ಯಾವುದು?", options: ["A) ಆನೆ", "B) ಜುಟ್ಟದ ಗೂಳಿ", "C) ಸಿಂಹ", "D) ಜಿಂಕೆ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಜುಟ್ಟದ ಗೂಳಿ. ಮುದ್ರೆಗಳ ಮೇಲೆ ಹೆಚ್ಚಾಗಿ ಕಂಡುಬಂದ ಪ್ರಾಣಿ ಜುಟ್ಟದ ಗೂಳಿ." },
+    { q: "48. ಜಗತ್ತಿನಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಹತ್ತಿ ಬೆಳೆದ ನಾಗರಿಕತೆ ಯಾವುದು?", options: ["A) ಈಜಿಪ್ಟ್ ನಾಗರಿಕತೆ", "B) ಮೆಸೊಪಟೋಮಿಯಾ ನಾಗರಿಕತೆ", "C) ಸಿಂಧೂ ನಾಗರಿಕತೆ", "D) ಚೀನಾ ನಾಗರಿಕತೆ"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಸಿಂಧೂ ನಾಗರಿಕತೆ. ಜಗತ್ತಿನಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಹತ್ತಿ ಬೆಳೆದ ನಾಗರಿಕತೆ ಸಿಂಧೂ ನಾಗರಿಕತೆ." },
+    { q: "49. ಸಿಂಧೂ ನಾಗರಿಕತೆಯ ಜನರಿಗೆ ಗೊತ್ತಿರದ ಪ್ರಾಣಿ ಯಾವುದು?", options: ["A) ಎತ್ತು", "B) ನಾಯಿ", "C) ಕುದುರೆ", "D) ಆಡು"], correct: 2, exp: "ಸರಿಯಾದ ಉತ್ತರ: C) ಕುದುರೆ. ಇವರಿಗೆ ಗೊತ್ತಿರದ ಪ್ರಾಣಿ ಕುದುರೆ." },
+    { q: "50. ಸಿಂಧೂ ಜನರಿಗೆ ಕೆಳಗಿನ ಯಾವ ಬೆಳೆ ಮತ್ತು ಲೋಹದ ಪರಿಚಯವಿರಲಿಲ್ಲ?", options: ["A) ಗೋಧಿ ಮತ್ತು ತಾಮ್ರ", "B) ಕಬ್ಬು ಮತ್ತು ಕಬ್ಬಿಣ", "C) ಬಾರ್ಲಿ ಮತ್ತು ಚಿನ್ನ", "D) ಹತ್ತಿ ಮತ್ತು ಬೆಳ್ಳಿ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಕಬ್ಬು ಮತ್ತು ಕಬ್ಬಿಣ. ಇವರಿಗೆ ಕಬ್ಬು ಮತ್ತು ಕಬ್ಬಿಣದ ಪರಿಚಯವಿರಲಿಲ್ಲ." },
+    { q: "51. ಇಟ್ಟಿಗೆ ಸುಡುವ ಆವಿಗೆಗಳು (Brick Kilns) ಕಂಡು ಬಂದ ಸ್ಥಳ ಯಾವುದು?", options: ["A) ಹರಪ್ಪ", "B) ಮಹೇಂಜೋದಾರೋ", "C) ಲೋಥಾಲ್", "D) ರೋಪಾರ್"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಮಹೇಂಜೋದಾರೋ. ಇಟ್ಟಿಗೆ ಸುಡುವ ಆವಿಗೆಗಳು ಮಹೇಂಜೋದಾರೋದಲ್ಲಿ ಕಂಡುಬಂದವು." },
+    { q: "52. ಬೃಹತ್ತಾದ ಸಭಾ ಭವನಗಳು ಕಂಡು ಬಂದ ಸ್ಥಳ ಯಾವುದು?", options: ["A) ಮಹೇಂಜೋದಾರೋ", "B) ಕಾಲಿಬಂಗಾನ್", "C) ಧೋಲಾವೀರ", "D) ಚನ್ಹುದಾರೋ"], correct: 0, exp: "ಸರಿಯಾದ ಉತ್ತರ: A) ಮಹೇಂಜೋದಾರೋ. ಬೃಹತ್ತಾದ ಸಭಾ ಭವನಗಳು ಕಂಡು ಬಂದ ಸ್ಥಳ ಮಹೇಂಜೋದಾರೋ." },
+    { q: "53. ಸಿಂಧೂ ನಾಗರಿಕತೆಯಲ್ಲಿ ಬೆಂಕಿಯಿಂದ ನಾಶ ಹೊಂದಿದ ನಗರ ಯಾವುದು?", options: ["A) ಲೋಥಾಲ್", "B) ಕೋಟಡಜಿ", "C) ರೋಪಾರ್", "D) ಹರಪ್ಪ"], correct: 1, exp: "ಸರಿಯಾದ ಉತ್ತರ: B) ಕೋಟಡಜಿ. ಸಿಂಧೂ ನಾಗರಿಕತೆಯಲ್ಲಿ ಬೆಂಕಿಯಿಂದ ನಾಶ ಹೊಂದಿದ ನಗರ ಕೋಟಡಜಿ." }
+];
+
+let currentIndex = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+
+function loadQuestion(index) {
+    currentIndex = index;
+    const q = quizData[index];
+    
+    document.getElementById('sub-header').innerText = `Page ${index + 1} - Question ${index + 1} of ${quizData.length}`;
+    document.getElementById('question-text').innerText = q.q;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+
+    const expBox = document.getElementById('explanation-box');
+    expBox.style.display = 'none';
+    expBox.className = 'explanation-box';
+
+    q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+
+        if (userAnswers[index] !== null) {
+            btn.disabled = true;
+            if (optIdx === q.correct) {
+                btn.classList.add('correct');
+            }
+            if (userAnswers[index] === optIdx && optIdx !== q.correct) {
+                btn.classList.add('wrong');
+            }
+        } else {
+            btn.onclick = () => selectOption(optIdx);
+        }
+
+        optionsContainer.appendChild(btn);
+    });
+
+    if (userAnswers[index] !== null) {
+        expBox.style.display = 'block';
+        if (userAnswers[index] === q.correct) {
+            expBox.classList.add('correct-bg');
+            expBox.innerText = "ಸರಿ! (Correct)\n" + q.exp;
+        } else {
+            expBox.innerText = "ತಪ್ಪು! (Incorrect)\n" + q.exp;
+        }
+    }
+
+    updatePalette();
+}
+
+function selectOption(optionIndex) {
+    userAnswers[currentIndex] = optionIndex;
+    loadQuestion(currentIndex);
+    calculateScore();
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) loadQuestion(currentIndex - 1);
+}
+
+function nextQuestion() {
+    if (currentIndex < quizData.length - 1) loadQuestion(currentIndex + 1);
+}
+
+function updatePalette() {
+    const grid = document.getElementById('palette-grid');
+    grid.innerHTML = '';
+
+    quizData.forEach((_, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'palette-btn';
+        btn.innerText = idx + 1;
+
+        if (idx === currentIndex) btn.classList.add('active');
+
+        if (userAnswers[idx] !== null) {
+            if (userAnswers[idx] === quizData[idx].correct) {
+                btn.classList.add('answered-correct');
+            } else {
+                btn.classList.add('answered-wrong');
+            }
+        }
+
+        btn.onclick = () => loadQuestion(idx);
+        grid.appendChild(btn);
+    });
+}
+
+function calculateScore() {
+    let score = 0;
+    userAnswers.forEach((ans, idx) => {
+        if (ans === quizData[idx].correct) score++;
+    });
+    document.getElementById('score').innerText = score;
+}
+
+function resetTest() {
+    if (confirm("ನಿಮ್ಮ ಪರೀಕ್ಷೆಯನ್ನು ಮರುಪ್ರಾರಂಭಿಸಲು ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ? (Are you sure you want to retest?)")) {
+        userAnswers = new Array(quizData.length).fill(null);
+        document.getElementById('score').innerText = "0";
+        loadQuestion(0);
+    }
+}
+
+// Timer setup
+let totalSeconds = 45 * 60;
+setInterval(() => {
+    if (totalSeconds > 0) {
+        totalSeconds--;
+        let m = Math.floor(totalSeconds / 60);
+        let s = totalSeconds % 60;
+        document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+}, 1000);
+
+// Initial Load
+loadQuestion(0);
+</script>
+</body>
+</html>
