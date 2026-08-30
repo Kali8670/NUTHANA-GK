@@ -3,702 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuthana GK - Dashboard</title>
-    <!-- Include Supabase Client Library from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Nuthana GK</title>
     <style>
-        :root {
-            --bg-color: #0b131a;
-            --card-bg: linear-gradient(145deg, #131c25, #10171f);
-            --border-color: rgba(255, 255, 255, 0.05);
-            --border-hover: #00ff88;
-            --accent-green: #00ff88;
-            --accent-red: #ff4d4d;
-            --accent-blue: #38bdf8;
-            --text-main: #ffffff;
-            --text-muted: #8899a6;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #0d1117;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            padding: 40px 20px;
         }
 
-        .admin-container {
-            position: absolute;
-            top: 15px;
-            right: 20px;
+        .container {
+            width: 100%;
+            max-width: 480px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            z-index: 10;
         }
 
-        .btn-small {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--accent-green);
-            padding: 6px 12px;
-            font-size: 11px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-small:hover {
-            background: var(--accent-green);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        .menu-wrapper {
-            position: relative;
-        }
-
-        .menu-icon-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--text-main);
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .menu-icon-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent-green);
-            color: var(--accent-green);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 40px;
-            background: #131c25;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            width: 200px;
-            z-index: 20;
-            overflow: hidden;
-        }
-
-        .dropdown-item {
-            padding: 10px 14px;
-            font-size: 12px;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent-green);
-        }
-
-        .dropdown-item.danger:hover {
-            color: var(--accent-red);
-        }
-
-        header {
+        h1.title {
+            color: #00ff88;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
             text-align: center;
-            margin-top: 65px;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            color: var(--accent-green);
-            font-size: 22px;
-            letter-spacing: 1.2px;
-            margin-bottom: 4px;
-            text-transform: uppercase;
         }
 
         p.subtitle {
-            color: var(--text-muted);
-            font-size: 11px;
-            text-transform: uppercase;
+            color: #8b949e;
+            font-size: 13px;
+            font-weight: 600;
             letter-spacing: 1.5px;
-            margin: 0;
+            margin-bottom: 35px;
+            text-align: center;
+            text-transform: uppercase;
         }
 
-        .list-container {
-            width: 90%;
-            max-width: 440px;
+        #cards-container {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding-bottom: 40px;
+            align-items: center;
         }
 
-        .card-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 15px 18px;
-            border-radius: 12px;
+        .chapter-card {
+            width: 100%;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
             text-decoration: none;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .card-item:hover {
-            border-color: var(--border-hover);
+        .chapter-card:hover {
+            background-color: #21262d;
+            border-color: #00ff88;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.12);
         }
 
-        .delete-mode .card-item:hover {
-            border-color: var(--accent-red);
-            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.15);
+        .chapter-name {
+            font-size: 17px;
+            font-weight: 500;
         }
 
-        .reorder-mode .card-item {
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
-        .reorder-controls {
-            display: flex;
-            gap: 6px;
-        }
-
-        .reorder-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--accent-blue);
-            padding: 4px 8px;
-            font-size: 12px;
-            border-radius: 4px;
-            cursor: pointer;
+        .arrow-icon {
+            color: #8b949e;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .reorder-btn:hover {
-            background: var(--accent-blue);
-            color: var(--bg-color);
+        .chapter-card:hover .arrow-icon {
+            color: #00ff88;
         }
 
-        .arrow {
-            color: var(--text-muted);
+        .loading-text {
+            color: #8b949e;
             font-size: 14px;
-            transition: transform 0.2s ease;
-        }
-
-        .card-item:hover .arrow {
-            color: var(--accent-green);
-            transform: translateX(3px);
-        }
-
-        .delete-mode .card-item:hover .arrow {
-            color: var(--accent-red);
-            transform: none;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 30;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(5, 9, 13, 0.8);
-            backdrop-filter: blur(4px);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #131c25;
-            padding: 22px;
-            border-radius: 12px;
-            border: 1px solid var(--accent-green);
-            width: 85%;
-            max-width: 310px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .modal-content h3 {
-            margin: 0 0 4px 0;
-            font-size: 15px;
-            color: var(--accent-green);
-        }
-
-        .modal-content select, .modal-content input {
-            background: #0b131a;
-            border: 1px solid #22303c;
-            padding: 11px;
-            color: white;
-            border-radius: 6px;
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .modal-content select:focus, .modal-content input:focus {
-            border-color: var(--accent-green);
-        }
-
-        .modal-content button[type="submit"] {
-            background: var(--accent-green);
-            color: var(--bg-color);
-            border: none;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 13px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .cancel-btn {
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 4px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="admin-container">
-        <button class="btn-small" id="navBackBtn" style="display: none;" onclick="goBack()">← Back</button>
-        
-        <div class="menu-wrapper">
-            <button class="menu-icon-btn" onclick="toggleMenu()" title="Menu">⋮</button>
-            <div id="dropdownMenu" class="dropdown-menu">
-                <div class="dropdown-item" onclick="openModal('main_chapter')">➕ Add Main Chapter</div>
-                <div class="dropdown-item" onclick="openModal('sub_heading')">➕ Add Sub-Heading</div>
-                <div class="dropdown-item" onclick="openModal('quiz_item')">➕ Add Quiz/Chapter Link</div>
-                <div class="dropdown-item" id="reorderMenuItem" onclick="toggleReorderMode()">🔄 Rearrange Order</div>
-                <div class="dropdown-item danger" id="removeMenu" onclick="toggleDeleteMode()">🗑️ Remove Item</div>
-            </div>
-        </div>
-    </div>
+    <div class="container">
+        <h1 class="title">NUTHANA GK</h1>
+        <p class="subtitle">SELECT MAIN CHAPTER</p>
 
-    <header>
-        <h1>NUTHANA GK</h1>
-        <p class="subtitle" id="pageSubtitle">Loading Cloud Data...</p>
-    </header>
-
-    <div class="list-container" id="listContainer"></div>
-
-    <div id="addModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalHeading">Add Item</h3>
-            <div id="parentSelectWrapper" style="display:none; flex-direction:column; gap:4px;">
-                <label style="font-size: 11px; color: var(--text-muted);" id="parentLabel">Select Parent:</label>
-                <select id="parentSelect" onchange="updateSubParentOptions()"></select>
-            </div>
-            <div id="subParentSelectWrapper" style="display:none; flex-direction:column; gap:4px;">
-                <label style="font-size: 11px; color: var(--text-muted);">Select Sub-Heading:</label>
-                <select id="subParentSelect"></select>
-            </div>
-            <input type="text" id="userInputName" placeholder="Enter name..." autocomplete="off">
-            <button type="button" onclick="handleFormSubmit()">Create</button>
-            <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+        <div id="cards-container">
+            <p class="loading-text">Loading subjects...</p>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://svynlmgcfbpkbpqircmdf.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2eW5sbWdjZmJwa2JxaXJjbWRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwMjM1NDIsImV4cCI6MjEwMzU5OTU0Mn0.CupsEfS6o1j9tUZd5gom72jOnzkSggTD0swEjpugNYc';
-        
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        let quizDatabase = {
-            "History": {
-                "Ancient History": ["Indus Valley Civilization", "Vedic Period", "Maurya Empire"],
-                "Medieval History": ["Delhi Sultanate", "Mughal Empire"]
-            },
-            "Geography": {
-                "Physical Geography": ["Mountains", "Rivers"]
-            }
-        };
-
-        let currentView = 'main';
-        let selectedMain = null;
-        let selectedSub = null;
-        let isDeleteMode = false;
-        let isReorderMode = false;
-        let modalType = 'main_chapter';
-
-        async function loadData() {
-            try {
-                let { data, error } = await supabaseClient
-                    .from('quiz_structure')
-                    .select('*')
-                    .eq('id', 1)
-                    .maybeSingle();
-
-                if (error) {
-                    console.error("Load error:", error);
-                } else if (data && data.data && Object.keys(data.data).length > 0) {
-                    quizDatabase = data.data;
-                } else {
-                    await saveData();
+        // Automatically fetch subjects from subjects.json on GitHub
+        fetch('subjects.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Could not load subjects.json");
                 }
-            } catch (err) {
-                console.error("Unexpected load error:", err);
-            }
-            renderUI();
-        }
+                return response.json();
+            })
+            .then(data => {
+                const container = document.getElementById('cards-container');
+                container.innerHTML = ''; // Clear loading text
 
-        // Bulletproof save: Deletes old ID 1 entry and inserts fresh data
-        async function saveData() {
-            try {
-                await supabaseClient
-                    .from('quiz_structure')
-                    .delete()
-                    .eq('id', 1);
+                data.chapters.forEach(chapter => {
+                    // Create an anchor tag for each subject card
+                    const card = document.createElement('a');
+                    card.href = chapter.link;
+                    card.className = 'chapter-card';
 
-                let { error } = await supabaseClient
-                    .from('quiz_structure')
-                    .insert([{ id: 1, data: quizDatabase }]);
-
-                if (error) {
-                    console.error("Save error:", error);
-                    alert("Cloud sync error: " + error.message);
-                }
-            } catch (err) {
-                console.error("Unexpected save error:", err);
-            }
-        }
-
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.menu-icon-btn')) {
-                document.getElementById('dropdownMenu').style.display = 'none';
-            }
-        }
-
-        function renderUI() {
-            const container = document.getElementById('listContainer');
-            const titleEl = document.querySelector('header h1');
-            const subtitleEl = document.getElementById('pageSubtitle');
-            const backBtn = document.getElementById('navBackBtn');
-            const removeMenu = document.getElementById('removeMenu');
-            const reorderMenuItem = document.getElementById('reorderMenuItem');
-            
-            container.innerHTML = '';
-            container.classList.remove('delete-mode', 'reorder-mode');
-
-            if (isDeleteMode) {
-                container.classList.add('delete-mode');
-                removeMenu.innerHTML = "✅ Done Removing";
-                reorderMenuItem.style.display = 'none';
-            } else if (isReorderMode) {
-                container.classList.add('reorder-mode');
-                reorderMenuItem.innerHTML = "✅ Done Rearranging";
-                removeMenu.style.display = 'none';
-            } else {
-                removeMenu.innerHTML = "🗑️ Remove Item";
-                removeMenu.style.display = 'flex';
-                reorderMenuItem.innerHTML = "🔄 Rearrange Order";
-                reorderMenuItem.style.display = 'flex';
-            }
-
-            if (currentView === 'main') {
-                titleEl.innerText = "NUTHANA GK";
-                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any item to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Main Chapter");
-                backBtn.style.display = 'none';
-
-                const mains = Object.keys(quizDatabase);
-                mains.forEach((mainKey, index) => {
-                    let controlsHTML = isReorderMode ? 
-                        `<div class="reorder-controls">
-                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                            ${index < mains.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
-                        </div>` : 
-                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
-
-                    container.innerHTML += `
-                        <div class="card-item" onclick="handleCardClick('${mainKey}')">
-                            <span>${mainKey}</span>
-                            ${controlsHTML}
-                        </div>
+                    card.innerHTML = `
+                        <span class="chapter-name">${chapter.name}</span>
+                        <span class="arrow-icon">→</span>
                     `;
+
+                    container.appendChild(card);
                 });
-
-            } else if (currentView === 'subheadings') {
-                titleEl.innerText = selectedMain;
-                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any sub-heading to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Sub-Heading");
-                backBtn.style.display = 'inline-block';
-
-                const subs = quizDatabase[selectedMain] ? Object.keys(quizDatabase[selectedMain]) : [];
-                subs.forEach((subKey, index) => {
-                    let controlsHTML = isReorderMode ? 
-                        `<div class="reorder-controls">
-                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                            ${index < subs.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
-                        </div>` : 
-                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
-
-                    container.innerHTML += `
-                        <div class="card-item" onclick="handleCardClick('${subKey}')">
-                            <span>${subKey}</span>
-                            ${controlsHTML}
-                        </div>
-                    `;
-                });
-
-            } else if (currentView === 'items') {
-                titleEl.innerText = selectedSub;
-                subtitleEl.innerText = isDeleteMode ? "⚠️ Click any chapter link to delete" : (isReorderMode ? "↕️ Move items Up or Down" : "Select Chapter / Test Series");
-                backBtn.style.display = 'inline-block';
-
-                const items = (quizDatabase[selectedMain] && quizDatabase[selectedMain][selectedSub]) ? quizDatabase[selectedMain][selectedSub] : [];
-                items.forEach((item, index) => {
-                    let controlsHTML = isReorderMode ? 
-                        `<div class="reorder-controls">
-                            ${index > 0 ? `<button class="reorder-btn" onclick="moveItem(${index}, -1, event)">▲</button>` : ''}
-                            ${index < items.length - 1 ? `<button class="reorder-btn" onclick="moveItem(${index}, 1, event)">▼</button>` : ''}
-                        </div>` : 
-                        `<span class="arrow">${isDeleteMode ? '✕' : '→'}</span>`;
-
-                    container.innerHTML += `
-                        <div class="card-item" onclick="handleCardClick('${item}')">
-                            <span>${item}</span>
-                            ${controlsHTML}
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        async function moveItem(index, direction, event) {
-            event.stopPropagation();
-            if (currentView === 'main') {
-                let keys = Object.keys(quizDatabase);
-                let target = index + direction;
-                let temp = keys[index];
-                keys[index] = keys[target];
-                keys[target] = temp;
-                let newDb = {};
-                keys.forEach(k => { newDb[k] = quizDatabase[k]; });
-                quizDatabase = newDb;
-            } else if (currentView === 'subheadings') {
-                let subs = quizDatabase[selectedMain];
-                let keys = Object.keys(subs);
-                let target = index + direction;
-                let temp = keys[index];
-                keys[index] = keys[target];
-                keys[target] = temp;
-                let newSubs = {};
-                keys.forEach(k => { newSubs[k] = subs[k]; });
-                quizDatabase[selectedMain] = newSubs;
-            } else if (currentView === 'items') {
-                let list = quizDatabase[selectedMain][selectedSub];
-                let target = index + direction;
-                let temp = list[index];
-                list[index] = list[target];
-                list[target] = temp;
-            }
-            await saveData();
-            renderUI();
-        }
-
-        async function handleCardClick(name) {
-            if (isDeleteMode) {
-                if (currentView === 'main') {
-                    if (confirm(`Delete main chapter "${name}" and everything inside it?`)) {
-                        delete quizDatabase[name];
-                        await saveData();
-                    }
-                } else if (currentView === 'subheadings') {
-                    if (confirm(`Delete sub-heading "${name}" and its items?`)) {
-                        delete quizDatabase[selectedMain][name];
-                        await saveData();
-                    }
-                } else if (currentView === 'items') {
-                    if (confirm(`Delete item "${name}"?`)) {
-                        quizDatabase[selectedMain][selectedSub] = quizDatabase[selectedMain][selectedSub].filter(i => i !== name);
-                        await saveData();
-                    }
-                }
-                renderUI();
-            } else if (!isReorderMode) {
-                if (currentView === 'main') {
-                    selectedMain = name;
-                    currentView = 'subheadings';
-                    renderUI();
-                } else if (currentView === 'subheadings') {
-                    selectedSub = name;
-                    currentView = 'items';
-                    renderUI();
-                } else if (currentView === 'items') {
-                    if (name === "Indus Valley Civilization") {
-                        window.location.href = "quiz.html";
-                    } else {
-                        let fileName = name.toLowerCase().replace(/\s+/g, '_') + '.html';
-                        window.location.href = fileName;
-                    }
-                }
-            }
-        }
-
-        function toggleDeleteMode() {
-            isDeleteMode = !isDeleteMode;
-            isReorderMode = false;
-            renderUI();
-        }
-
-        function toggleReorderMode() {
-            isReorderMode = !isReorderMode;
-            isDeleteMode = false;
-            renderUI();
-        }
-
-        function goBack() {
-            isDeleteMode = false;
-            isReorderMode = false;
-            if (currentView === 'items') {
-                currentView = 'subheadings';
-                selectedSub = null;
-            } else if (currentView === 'subheadings') {
-                currentView = 'main';
-                selectedMain = null;
-            }
-            renderUI();
-        }
-
-        function openModal(type) {
-            isDeleteMode = false;
-            isReorderMode = false;
-            modalType = type;
-            document.getElementById('userInputName').value = '';
-
-            const heading = document.getElementById('modalHeading');
-            const parentWrapper = document.getElementById('parentSelectWrapper');
-            const subParentWrapper = document.getElementById('subParentSelectWrapper');
-            const parentSelect = document.getElementById('parentSelect');
-
-            parentWrapper.style.display = 'none';
-            subParentWrapper.style.display = 'none';
-
-            if (type === 'main_chapter') {
-                heading.innerText = "Add Main Chapter";
-                document.getElementById('userInputName').placeholder = "e.g. History";
-            } else if (type === 'sub_heading') {
-                heading.innerText = "Add Sub-Heading";
-                parentWrapper.style.display = 'flex';
-                document.getElementById('parentLabel').innerText = "Select Main Chapter:";
-                parentSelect.innerHTML = '';
-                Object.keys(quizDatabase).forEach(m => {
-                    let opt = document.createElement('option');
-                    opt.value = m;
-                    opt.innerText = m;
-                    if (selectedMain === m) opt.selected = true;
-                    parentSelect.appendChild(opt);
-                });
-                document.getElementById('userInputName').placeholder = "e.g. Ancient History";
-            } else if (type === 'quiz_item') {
-                heading.innerText = "Add Chapter/Quiz Link";
-                parentWrapper.style.display = 'flex';
-                subParentWrapper.style.display = 'flex';
-                document.getElementById('parentLabel').innerText = "Select Main Chapter:";
-                
-                parentSelect.innerHTML = '';
-                Object.keys(quizDatabase).forEach(m => {
-                    let opt = document.createElement('option');
-                    opt.value = m;
-                    opt.innerText = m;
-                    if (selectedMain === m) opt.selected = true;
-                    parentSelect.appendChild(opt);
-                });
-                updateSubParentOptions();
-                document.getElementById('userInputName').placeholder = "e.g. Vedic Period";
-            }
-
-            document.getElementById('addModal').style.display = 'flex';
-            document.getElementById('userInputName').focus();
-        }
-
-        function updateSubParentOptions() {
-            const mainChoice = document.getElementById('parentSelect').value;
-            const subSelect = document.getElementById('subParentSelect');
-            subSelect.innerHTML = '';
-            if (quizDatabase[mainChoice]) {
-                Object.keys(quizDatabase[mainChoice]).forEach(s => {
-                    let opt = document.createElement('option');
-                    opt.value = s;
-                    opt.innerText = s;
-                    if (selectedSub === s) opt.selected = true;
-                    subSelect.appendChild(opt);
-                });
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('addModal').style.display = 'none';
-        }
-
-        async function handleFormSubmit() {
-            const val = document.getElementById('userInputName').value.trim();
-            if (!val) return;
-
-            if (modalType === 'main_chapter') {
-                if (!quizDatabase[val]) {
-                    quizDatabase[val] = {};
-                    await saveData();
-                }
-            } else if (modalType === 'sub_heading') {
-                const main = document.getElementById('parentSelect').value;
-                if (main && quizDatabase[main]) {
-                    if (!quizDatabase[main][val]) {
-                        quizDatabase[main][val] = [];
-                        await saveData();
-                    }
-                }
-            } else if (modalType === 'quiz_item') {
-                const main = document.getElementById('parentSelect').value;
-                const sub = document.getElementById('subParentSelect').value;
-                if (main && sub && quizDatabase[main] && quizDatabase[main][sub]) {
-                    if (!quizDatabase[main][sub].includes(val)) {
-                        quizDatabase[main][sub].push(val);
-                        await saveData();
-                    }
-                }
-            }
-            closeModal();
-            renderUI();
-        }
-
-        loadData();
+            })
+            .catch(error => {
+                const container = document.getElementById('cards-container');
+                container.innerHTML = '<p class="loading-text" style="color: #ff5555;">Failed to load menu. Check subjects.json.</p>';
+                console.error("Error:", error);
+            });
     </script>
+
 </body>
 </html>
