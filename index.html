@@ -30,13 +30,17 @@
             align-items: center;
         }
 
+        /* Glowing Neon Title */
         h1.title {
             color: #00ff88;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             margin-bottom: 6px;
             text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6), 
+                         0 0 20px rgba(0, 255, 136, 0.4), 
+                         0 0 30px rgba(0, 255, 136, 0.2);
         }
 
         p.subtitle {
@@ -44,58 +48,83 @@
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 1.5px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             text-align: center;
             text-transform: uppercase;
         }
 
-        #cards-container {
+        #menu-container {
             width: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 15px;
         }
 
-        .chapter-card {
-            width: 100%;
+        /* Main Chapter Card */
+        .main-card {
             background-color: #161b22;
             border: 1px solid #30363d;
             border-radius: 14px;
-            padding: 18px 22px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 16px 20px;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            text-decoration: none;
-            color: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .chapter-card:hover {
-            background-color: #21262d;
+        .main-card:hover {
             border-color: #00ff88;
-            transform: translateY(-2px);
         }
 
-        .chapter-name {
-            font-size: 17px;
-            font-weight: 500;
-        }
-
-        .arrow-icon {
-            color: #8b949e;
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .chapter-card:hover .arrow-icon {
+        .arrow {
+            color: #8b949e;
+            transition: transform 0.3s;
+        }
+
+        /* Sub-subject container (hidden by default) */
+        .sub-container {
+            display: none;
+            margin-top: 15px;
+            padding-left: 10px;
+            border-left: 2px solid #30363d;
+        }
+
+        .sub-subject-title {
+            color: #00ff88;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 12px 0 8px 0;
+        }
+
+        /* Chapter Links */
+        .chapter-link {
+            display: block;
+            background-color: #21262d;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid #30363d;
+            transition: background 0.2s;
+        }
+
+        .chapter-link:hover {
+            background-color: #30363d;
             color: #00ff88;
         }
 
         .loading-text {
             color: #8b949e;
+            text-align: center;
             font-size: 14px;
             margin-top: 20px;
         }
@@ -104,45 +133,67 @@
 <body>
 
     <div class="container">
+        <!-- Glowing Title -->
         <h1 class="title">NUTHANA GK</h1>
         <p class="subtitle">SELECT MAIN CHAPTER</p>
 
-        <div id="cards-container">
-            <p class="loading-text">Loading subjects...</p>
+        <!-- Dynamic Menu Container -->
+        <div id="menu-container">
+            <p class="loading-text">Loading structure...</p>
         </div>
     </div>
 
     <script>
-        // Automatically fetch subjects from subjects.json on GitHub
         fetch('subjects.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Could not load subjects.json");
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                const container = document.getElementById('cards-container');
-                container.innerHTML = ''; // Clear loading text
+                const container = document.getElementById('menu-container');
+                container.innerHTML = '';
 
-                data.chapters.forEach(chapter => {
-                    // Create an anchor tag for each subject card
-                    const card = document.createElement('a');
-                    card.href = chapter.link;
-                    card.className = 'chapter-card';
+                data.mainSubjects.forEach(main => {
+                    const mainCard = document.createElement('div');
+                    mainCard.className = 'main-card';
 
-                    card.innerHTML = `
-                        <span class="chapter-name">${chapter.name}</span>
-                        <span class="arrow-icon">→</span>
+                    let subHtml = '';
+                    main.subSubjects.forEach(sub => {
+                        let chaptersHtml = '';
+                        sub.chapters.forEach(chap => {
+                            chaptersHtml += `<a href="${chap.fileUrl}" class="chapter-link">${chap.title}</a>`;
+                        });
+
+                        subHtml += `
+                            <div class="sub-subject-title">📁 ${sub.name}</div>
+                            <div class="chapter-list">${chaptersHtml}</div>
+                        `;
+                    });
+
+                    mainCard.innerHTML = `
+                        <div class="main-header">
+                            <span>${main.name}</span>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="sub-container">${subHtml}</div>
                     `;
 
-                    container.appendChild(card);
+                    // Toggle accordion open/close on click
+                    mainCard.addEventListener('click', () => {
+                        const subContainer = mainCard.querySelector('.sub-container');
+                        const arrow = mainCard.querySelector('.arrow');
+                        if (subContainer.style.display === 'block') {
+                            subContainer.style.display = 'none';
+                            arrow.style.transform = 'rotate(0deg)';
+                        } else {
+                            subContainer.style.display = 'block';
+                            arrow.style.transform = 'rotate(180deg)';
+                        }
+                    });
+
+                    container.appendChild(mainCard);
                 });
             })
             .catch(error => {
-                const container = document.getElementById('cards-container');
-                container.innerHTML = '<p class="loading-text" style="color: #ff5555;">Failed to load menu. Check subjects.json.</p>';
-                console.error("Error:", error);
+                document.getElementById('menu-container').innerHTML = '<p class="loading-text" style="color: #ff5555;">Error loading subjects.json format.</p>';
+                console.error(error);
             });
     </script>
 
