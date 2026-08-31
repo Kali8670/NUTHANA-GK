@@ -1,139 +1,217 @@
-{
-  "mainSubjects": [
-    {
-      "name": "History",
-      "subSubjects": [
-        {
-          "name": "Ancient History",
-          "chapters": [
-            { "title": "ಇತಿಹಾಸದ ಅರ್ಥ", "fileUrl": "test/page-251.html" },
-            { "title": "ಸಿಂಧೂ ನಾಗರಿಕತೆ", "fileUrl": "test/page-257.html" },
-            { "title": "ವೇದಗಳ ಕಾಲ ಅಥವಾ ಆರ್ಯರ ಆಗಮನ", "fileUrl": "test/page-261.html" },
-            { "title": "ಹೊಸ ಮತಗಳ ಉದಯ", "fileUrl": "test/page-267.html" },
-            { "title": "ಮಹಾಜನಪದಗಳು & ಗಣರಾಜ್ಯಗಳು", "fileUrl": "test/page-272.html" },
-            { "title": "ಭಾರತದ ಮೇಲೆ ವಿದೇಶಿಯರ ದಾಳಿಗಳು", "fileUrl": "test/page-274.html" },
-            { "title": "ಮೌರ್ಯ ಸಾಮ್ರಾಜ್ಯ", "fileUrl": "test/page-275.html" },
-            { "title": "ಶುಂಗರು", "fileUrl": "test/page-279.html" },
-            { "title": "ಕಣ್ವರು", "fileUrl": "test/page-280.html" },
-            { "title": "ಭಾರತದ ಮೇಲೆ ವಿದೇಶಿಯರ ದಾಳಿಗಳು", "fileUrl": "test/page-280-2.html" },
-            { "title": "ಗುಪ್ತರು", "fileUrl": "test/page-282.html" },
-            { "title": "ವರ್ಧನರು", "fileUrl": "test/page-286.html" },
-            { "title": "ಸಂಗಮ ಯುಗ", "fileUrl": "test/page-288.html" },
-            { "title": "ಪಲ್ಲವರು", "fileUrl": "test/page-289.html" },
-            { "title": "ಚೋಳರು", "fileUrl": "test/page-292.html" },
-            { "title": "ಧಾರ್ಮಿಕ ಸುಧಾರಣಾ ಚಳುವಲಿಗಾರರು", "fileUrl": "test/page-294.html" }
-          ]
-        },
-        {
-          "name": "Medieval History",
-          "chapters": [
-            { "title": "ಇಸ್ಲಾಂ ಧರ್ಮ", "fileUrl": "test/page-297.html" },
-            { "title": "ಭಾರತದ ಮೇಲೆ ಅರಬ್ಬರ ದಾಳಿ", "fileUrl": "test/page-298.html" },
-            { "title": "ಘಜ್ನಿ ಮನೆತನ", "fileUrl": "test/page-298-ghazni.html" },
-            { "title": "ಘೋರಿ ಮನೆತನ", "fileUrl": "test/page-300.html" },
-            { "title": "ದೆಹಲಿ ಸುಲ್ತಾನರು", "fileUrl": "test/page-301.html" },
-            { "title": "ಗುಲಾಮಿ ಸಂತತಿ", "fileUrl": "test/page-301-slave.html" },
-            { "title": "ಖಿಲ್ಜಿ ಸಂತತಿ", "fileUrl": "test/page-303.html" },
-            { "title": "ತುಘಲಕ್ ಸಂತತಿ", "fileUrl": "test/page-305.html" },
-            { "title": "ಸೈಯ್ಯದ ಸಂತತಿ", "fileUrl": "test/page-307.html" },
-            { "title": "ಲೋಧಿ ಸಂತತಿ", "fileUrl": "test/page-308.html" },
-            { "title": "ಮೊಘಲರು", "fileUrl": "test/page-311.html" },
-            { "title": "ಸೂರ ಸಂತತಿ", "fileUrl": "test/page-312.html" },
-            { "title": "ಮರಾಠರು", "fileUrl": "test/page-318.html" },
-            { "title": "ಭಕ್ತಿ ಪಂಥದ ಚಳುವಳಿ", "fileUrl": "test/page-320.html" }
-          ]
-        },
-        {
-          "name": "Modern History",
-          "chapters": [
-            { "title": "ಭಾರತಕ್ಕೆ ಬಂದ ಯುರೋಪಿಯನ್ವರು", "fileUrl": "test/page-325.html" },
-            { "title": "ಕರ್ನಾಟಕ ಯುದ್ಧಗಳು", "fileUrl": "test/page-330.html" },
-            { "title": "ಪ್ಲಾಸಿ ಕದನದ ಹಿನ್ನೆಲೆ", "fileUrl": "test/page-333.html" },
-            { "title": "ಬಕ್ಸಾರ ಕದನದ ಹಿನ್ನೆಲೆ", "fileUrl": "test/page-335.html" },
-            { "title": "ಗವರ್ನರ್, ಗವರ್ನರ್ ಜನರಲ್ ಮತ್ತು ವೈಸರಾಯರ ಆಡಳಿತ", "fileUrl": "test/page-336.html" },
-            { "title": "ಪ್ರಥಮ ಸ್ವಾತಂತ್ರ್ಯ ಸಂಗ್ರಾಮ / ಸಿಪಾಯಿ ದಂಗೆ 1857", "fileUrl": "test/page-346.html" },
-            { "title": "ಕಾಂಗ್ರೆಸ್ ಸ್ಥಾಪನೆಗೆ ಪೂರ್ವ", "fileUrl": "test/page-350.html" },
-            { "title": "ಮಂದಗಾಮಿ ಯುಗ", "fileUrl": "test/page-353.html" },
-            { "title": "ತೀವ್ರಗಾಮಿ ಯುಗ", "fileUrl": "test/page-355.html" },
-            { "title": "ಗಾಂಧಿಯುಗ", "fileUrl": "test/page-359.html" },
-            { "title": "ಸಾಮಾಜಿಕ ಮತ್ತು ಧಾರ್ಮಿಕ ಸುಧಾರಕರು ಮತ್ತು ಸುಧಾರಣೆಗಳು", "fileUrl": "test/page-369.html" },
-            { "title": "ಬ್ರಿಟಿಷ್ ಭಾರತದ ಪ್ರಮುಖ ಸಮಿತಿಗಳು, ಆಯೋಗಗಳ, ಅಧ್ಯಕ್ಷರ ಬಗ್ಗೆ ಮಾಹಿತಿ", "fileUrl": "test/page-372.html" }
-          ]
-        },
-        {
-          "name": "Karnataka History",
-          "chapters": [
-            { "title": "ಕರ್ನಾಟಕ ಹೆಸರಿನ ಪ್ರಾಚೀನತೆ", "fileUrl": "test/page-373.html" },
-            { "title": "ಶಾತವಾಹನರು", "fileUrl": "test/page-373-satavahana.html" },
-            { "title": "ಕದಂಬರು", "fileUrl": "test/page-376.html" },
-            { "title": "ಗಂಗರು", "fileUrl": "test/page-379.html" },
-            { "title": "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರು", "fileUrl": "test/page-381.html" },
-            { "title": "ರಾಷ್ಟ್ರಕೂಟರು", "fileUrl": "test/page-384.html" },
-            { "title": "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರು", "fileUrl": "test/page-387.html" },
-            { "title": "ದ್ವಾರಸಮುದ್ರ ಹೊಯ್ಸಳರು", "fileUrl": "test/page-388.html" },
-            { "title": "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯ", "fileUrl": "test/page-391.html" },
-            { "title": "ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯ", "fileUrl": "test/page-394.html" },
-            { "title": "ಮೈಸೂರಿನ ಒಡೆಯರು", "fileUrl": "test/page-397.html" },
-            { "title": "ಕರ್ನಾಟಕದ ಚಳುವಳಿ", "fileUrl": "test/page-403.html" },
-            { "title": "ಕರ್ನಾಟಕ ಏಕೀಕರಣ", "fileUrl": "test/page-406.html" }
-          ]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuthana GK</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-      ]
-    },
-    {
-      "name": "General Science",
-      "subSubjects": [
-        {
-          "name": "Biology (ಜೀವಶಾಸ್ತ್ರ)",
-          "chapters": [
-            { "title": "ಜೀವಶಾಸ್ತ್ರದ ಪರಿಚಯ", "fileUrl": "test/page-631.html" },
-            { "title": "ಕೋಶೀಯ ವಿಜ್ಞಾನ", "fileUrl": "test/page-632.html" },
-            { "title": "ಸೂಕ್ಷ್ಮಜೀವಿಗಳು", "fileUrl": "test/page-635.html" },
-            { "title": "ವೈರಸ್", "fileUrl": "test/page-635-virus.html" },
-            { "title": "ಬ್ಯಾಕ್ಟೀರಿಯಾ", "fileUrl": "test/page-638.html" },
-            { "title": "ನರವ್ಯೂಹ", "fileUrl": "test/page-640.html" },
-            { "title": "ರಕ್ತ", "fileUrl": "test/page-642.html" },
-            { "title": "ರಕ್ತದ ಗುಂಪುಗಳು", "fileUrl": "test/page-643.html" },
-            { "title": "ಹೃದಯ", "fileUrl": "test/page-644.html" },
-            { "title": "ಜೀರ್ಣಕ್ರಿಯೆ", "fileUrl": "test/page-645.html" },
-            { "title": "ಗ್ರಂಥಿಗಳು", "fileUrl": "test/page-646.html" },
-            { "title": "ಉಸಿರಾಟಕ್ರಿಯೆ", "fileUrl": "test/page-647.html" },
-            { "title": "ವಿಸರ್ಜನೆ", "fileUrl": "test/page-647-excretion.html" },
-            { "title": "ಆಹಾರದ ಘಟಕಗಳು", "fileUrl": "test/page-648.html" },
-            { "title": "ಪ್ರಮುಖ ಪ್ರೋಟೀನ್‌ಗಳು", "fileUrl": "test/page-651.html" },
-            { "title": "ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ", "fileUrl": "test/page-652.html" },
-            { "title": "ಸಸ್ಯದ ಹಾರ್ಮೋನ್‌ಗಳು", "fileUrl": "test/page-653.html" },
-            { "title": "ವಿಜ್ಞಾನದ ಪ್ರಮುಖ ಶಾಖೆಗಳು", "fileUrl": "test/page-655.html" }
-          ]
-        },
-        {
-          "name": "Physics (ಭೌತಶಾಸ್ತ್ರ)",
-          "chapters": [
-            { "title": "ಕಾಂತತ್ವ", "fileUrl": "test/page-657.html" },
-            { "title": "ಚಲನ ಶಾಸ್ತ್ರ", "fileUrl": "test/page-660.html" },
-            { "title": "ರಾಕೆಟ್ ಮತ್ತು ಕೃತಕ ಉಪಗ್ರಹಗಳು", "fileUrl": "test/page-663.html" },
-            { "title": "ಗುರುತ್ವ", "fileUrl": "test/page-665.html" },
-            { "title": "ವಿದ್ಯುಚ್ಛಕ್ತಿ", "fileUrl": "test/page-667.html" },
-            { "title": "ಉಷ್ಣ", "fileUrl": "test/page-670.html" },
-            { "title": "ಶಬ್ದ", "fileUrl": "test/page-672.html" },
-            { "title": "ಬೆಳಕು", "fileUrl": "test/page-674.html" },
-            { "title": "ವಿದ್ಯುತ್ಕಾಂತೀಯ ವಿಕಿರಣ", "fileUrl": "test/page-678.html" }
-          ]
-        },
-        {
-          "name": "Chemistry (ರಸಾಯನಶಾಸ್ತ್ರ)",
-          "chapters": [
-            { "title": "ಪರಮಾಣುವಿನ ರಚನೆ", "fileUrl": "test/page-681.html" },
-            { "title": "ಧಾತುಗಳ ಆವರ್ತನೀಯ ವರ್ಗೀಕರಣ", "fileUrl": "test/page-683.html" },
-            { "title": "ಲೋಹಗಳು ಮತ್ತು ಅಲೋಹಗಳು", "fileUrl": "test/page-687.html" },
-            { "title": "ಸಂಶ್ಲೇಷಿತ ವಸ್ತುಗಳು", "fileUrl": "test/page-698.html" },
-            { "title": "ಕಾರ್ಬನ್ ಮತ್ತು ಅದರ ಸಂಯುಕ್ತಗಳು", "fileUrl": "test/page-704.html" },
-            { "title": "ವಿಕಿರಣ ಪಟುತ್ವ", "fileUrl": "test/page-709.html" },
-            { "title": "ರಾಸಾಯನಿಕ ಗೊಬ್ಬರಗಳು", "fileUrl": "test/page-712.html" },
-            { "title": "ಧಾತುಗಳು, ಸಂಯುಕ್ತಗಳು, ಮಿಶ್ರಣಗಳು", "fileUrl": "test/page-716.html" }
-          ]
+
+        body {
+            background-color: #0d1117;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px 15px;
         }
-      ]
-    }
-  ]
-}
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Glowing Neon Title */
+        h1.title {
+            color: #00ff88;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6), 
+                         0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        p.subtitle {
+            color: #8b949e;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #menu-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Main Subject Card */
+        .main-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-card:hover {
+            border-color: #00ff88;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .arrow {
+            color: #8b949e;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Sub-subject container */
+        .sub-container {
+            display: none;
+            margin-top: 15px;
+            padding-left: 8px;
+            border-left: 2px solid #00ff88;
+        }
+
+        .sub-group {
+            margin-bottom: 12px;
+        }
+
+        .sub-subject-title {
+            color: #00ff88;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 10px 0 6px 0;
+        }
+
+        /* Chapter Links */
+        .chapter-link {
+            display: block;
+            background-color: #21262d;
+            color: #e6edf3;
+            text-decoration: none;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid #30363d;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .chapter-link:hover {
+            background-color: #30363d;
+            color: #00ff88;
+        }
+
+        .loading-text {
+            color: #8b949e;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">NUTHANA GK</h1>
+        <p class="subtitle">Select Main Subject</p>
+
+        <div id="menu-container">
+            <p class="loading-text">Loading subjects structure...</p>
+        </div>
+    </div>
+
+    <script>
+        fetch('subjects.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('menu-container');
+                container.innerHTML = '';
+
+                data.mainSubjects.forEach(main => {
+                    const mainCard = document.createElement('div');
+                    mainCard.className = 'main-card';
+
+                    let subHtml = '';
+                    main.subSubjects.forEach(sub => {
+                        let chaptersHtml = '';
+                        sub.chapters.forEach(chap => {
+                            chaptersHtml += `<a href="${chap.fileUrl}" class="chapter-link">${chap.title}</a>`;
+                        });
+
+                        // Show section title only if sub-subject name is defined
+                        if (sub.name && sub.name.trim() !== '') {
+                            subHtml += `
+                                <div class="sub-group">
+                                    <div class="sub-subject-title">📁 ${sub.name}</div>
+                                    <div class="chapter-list">${chaptersHtml}</div>
+                                </div>
+                            `;
+                        } else {
+                            subHtml += `<div class="sub-group"><div class="chapter-list">${chaptersHtml}</div></div>`;
+                        }
+                    });
+
+                    mainCard.innerHTML = `
+                        <div class="main-header">
+                            <span>${main.name}</span>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="sub-container">${subHtml}</div>
+                    `;
+
+                    // Accordion click handler
+                    const header = mainCard.querySelector('.main-header');
+                    header.addEventListener('click', () => {
+                        const subContainer = mainCard.querySelector('.sub-container');
+                        const arrow = mainCard.querySelector('.arrow');
+                        const isVisible = subContainer.style.display === 'block';
+
+                        // Close all open sub-containers
+                        document.querySelectorAll('.sub-container').forEach(sc => sc.style.display = 'none');
+                        document.querySelectorAll('.arrow').forEach(a => a.style.transform = 'rotate(0deg)');
+
+                        // Toggle current
+                        if (!isVisible) {
+                            subContainer.style.display = 'block';
+                            arrow.style.transform = 'rotate(180deg)';
+                        }
+                    });
+
+                    container.appendChild(mainCard);
+                });
+            })
+            .catch(error => {
+                document.getElementById('menu-container').innerHTML = '<p class="loading-text" style="color: #ff5555;">Error loading subjects.json file.</p>';
+                console.error(error);
+            });
+    </script>
+
+</body>
+</html>
