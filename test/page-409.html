@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONSTITUTION - CBT Mock Test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background-color: #0b2545;
+      color: #ffffff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: #00ff66;
+      letter-spacing: 1px;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+
+    .timer-box {
+      background-color: #1e3a8a;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    /* Main Container Layout */
+    .container {
+      display: flex;
+      flex: 1;
+      padding: 15px;
+      gap: 15px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column-reverse;
+      }
+    }
+
+    /* Question Card Area */
+    .quiz-area {
+      flex: 3;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .q-header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .option-btn {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 12px 15px;
+      border-radius: 5px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .option-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .option-btn.selected {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+    }
+
+    .option-btn.correct {
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+      color: #065f46;
+      font-weight: bold;
+    }
+
+    .option-btn.incorrect {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #991b1b;
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      background-color: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #166534;
+      display: none;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Controls Bar */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 15px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-prev { background-color: #2563eb; color: #fff; }
+    .btn-prev:hover { background-color: #1d4ed8; }
+
+    .btn-retest { background-color: #dc2626; color: #fff; }
+    .btn-retest:hover { background-color: #b91c1c; }
+
+    .btn-next { background-color: #2563eb; color: #fff; }
+    .btn-next:hover { background-color: #1d4ed8; }
+
+    .btn:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    /* Side Palette Area */
+    .palette-area {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 15px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .palette-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 12px;
+      color: #1e293b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .palette-btn {
+      padding: 8px 0;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .palette-btn.active {
+      border: 2px solid #2563eb;
+    }
+
+    .palette-btn.answered-correct {
+      background-color: #10b981;
+      color: #fff;
+      border-color: #059669;
+    }
+
+    .palette-btn.answered-wrong {
+      background-color: #ef4444;
+      color: #fff;
+      border-color: #dc2626;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>NUTHANA GK</h1>
+      <div class="header-subtitle">PC & SSC CBT Exam Mock Test</div>
+    </div>
+    <div class="timer-box" id="score-display">Score: 0 / 44</div>
+  </header>
+
+  <div class="container">
+    <div class="quiz-area">
+      <div>
+        <div class="q-header" id="q-number">Page 1 - Question 1 of 44</div>
+        <div class="question-text" id="q-text">ಪ್ರಶ್ನೆ ಇಲ್ಲಿ ಮೂಡಿಬರುತ್ತದೆ...</div>
+        <div class="options-container" id="options-box"></div>
+        <div class="explanation-box" id="explanation-box"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-prev" id="prev-btn" onclick="navigate(-1)">Previous</button>
+        <button class="btn btn-retest" onclick="retestQuiz()">Retest (ಪುನಃಪ್ರಯತ್ನಿಸಿ)</button>
+        <button class="btn btn-next" id="next-btn" onclick="navigate(1)">Next</button>
+      </div>
+    </div>
+
+    <div class="palette-area">
+      <div class="palette-title">Question Palette</div>
+      <div class="palette-grid" id="palette-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "1. ಬ್ರಿಟಿಷರು ಬಂಗಾಳ ಪ್ರಾಂತ್ಯದಲ್ಲಿ ದಿವಾನಿ ಹಕ್ಕುಗಳನ್ನು ಯಾವ ವರ್ಷದಲ್ಲಿ ಪಡೆದುಕೊಂಡರು?", options: ["1757", "1764", "1765", "1773"], answer: 2, exp: "1765 ರಲ್ಲಿ ಬ್ರಿಟಿಷರು ಬಂಗಾಳ ಪ್ರಾಂತ್ಯದಲ್ಲಿ ದಿವಾನಿ ಹಕ್ಕುಗಳನ್ನು ಪಡೆದುಕೊಂಡರು." },
+      { q: "2. ದಿವಾನಿ ಹಕ್ಕು ಎಂದರೆ ಬ್ರಿಟಿಷ್ ಆಡಳಿತದಲ್ಲಿ ಏನರ್ಥ?", options: ["ಕೇವಲ ಸೈನ್ಯದ ಮೇಲಿನ ಹಕ್ಕು", "ಕಂದಾಯ ಮತ್ತು ನ್ಯಾಯದ ಮೇಲಿನ ಹಕ್ಕು", "ವ್ಯಾಪಾರದ ಮೇಲಿನ ಸಂಪೂರ್ಣ ಹಕ್ಕು", "ಧಾರ್ಮಿಕ ವಿಚಾರಗಳ ಮೇಲಿನ ಹಕ್ಕು"], answer: 1, exp: "ದಿವಾನಿ ಹಕ್ಕೆಂದರೆ ಕಂದಾಯ ಮತ್ತು ನ್ಯಾಯದ ಮೇಲೆ ಬ್ರಿಟಿಷರ ಹಕ್ಕು ಎಂದರ್ಥ." },
+      { q: "3. ರಾಬರ್ಟ್ ಕ್ಲೈವ್ ಜಾರಿಗೊಳಿಸಿದ್ದ ದ್ವಿಮುಖ ಸರ್ಕಾರ ಪದ್ಧತಿಯನ್ನು ರದ್ದುಗೊಳಿಸಿದ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["ಪಿಟ್ಸ್ ಇಂಡಿಯಾ ಕಾಯ್ದೆ 1784", "ರೆಗ್ಯುಲೇಟಿಂಗ್ ಕಾಯ್ದೆ 1773", "ಚಾರ್ಟರ್ ಕಾಯ್ದೆ 1833", "1858 ರ ಕಾಯ್ದೆ"], answer: 1, exp: "1773 ರ ರೆಗ್ಯುಲೇಟಿಂಗ್ ಕಾಯ್ದೆಯು ದ್ವಿಮುಖ ಸರ್ಕಾರ ಪದ್ಧತಿಯನ್ನು ರದ್ದುಗೊಳಿಸಿತು." },
+      { q: "4. ರೆಗ್ಯುಲೇಟಿಂಗ್ ಕಾಯ್ದೆ 1773 ರ ಪ್ರಕಾರ ಬಂಗಾಳದ ಗವರ್ನರ್ ಹುದ್ದೆಯನ್ನು ಹೇಗೆ ಬದಲಾಯಿಸಲಾಯಿತು?", options: ["ವೈಸರಾಯ್", "ಭಾರತದ ಗವರ್ನರ್ ಜನರಲ್", "ಗವರ್ನರ್ ಜನರಲ್ ಆಫ್ ಬಂಗಾಳ", "ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ"], answer: 2, exp: "ಬಂಗಾಳದ ಗವರ್ನರ್‌ನನ್ನು 'ಗವರ್ನರ್ ಜನರಲ್ ಆಫ್ ಬಂಗಾಳ' ಎಂದು ನಾಮಕರಣ ಮಾಡಲಾಯಿತು." },
+      { q: "5. ಬಂಗಾಳದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ಆಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದವರು ಯಾರು?", options: ["ರಾಬರ್ಟ್ ಕ್ಲೈವ್", "ವಾರನ್ ಹೇಸ್ಟಿಂಗ್ಸ್", "ಲಾರ್ಡ್ ಕಾರ್ನ್‌ವಾಲಿಸ್", "ಲಾರ್ಡ್ ವಿಲಿಯಂ ಬೆಂಟಿಂಕ್"], answer: 1, exp: "ಬಂಗಾಳದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ವಾರನ್ ಹೇಸ್ಟಿಂಗ್ಸ್." },
+      { q: "6. ಬ್ರಿಟಿಷ್ ಈಸ್ಟ್ ಇಂಡಿಯಾ ಕಂಪನಿಯ ವಾಣಿಜ್ಯ ಮತ್ತು ರಾಜಕೀಯ ಚಟುವಟಿಕೆಗಳನ್ನು ಪ್ರತ್ಯೇಕಿಸಿದ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["ಪಿಟ್ಸ್ ಇಂಡಿಯಾ ಕಾಯ್ದೆ - 1784", "ರೆಗ್ಯುಲೇಟಿಂಗ್ ಕಾಯ್ದೆ - 1773", "1813 ರ ಚಾರ್ಟರ್ ಕಾಯ್ದೆ", "1858 ರ ಭಾರತ ಸರ್ಕಾರ ಕಾಯ್ದೆ"], answer: 0, exp: "1784 ರ ಪಿಟ್ಸ್ ಇಂಡಿಯಾ ಕಾಯ್ದೆಯು ಈ ಪ್ರತ್ಯೇಕತೆಯನ್ನು ತಂದಿತು." },
+      { q: "7. ಬಂಗಾಳದ ಗವರ್ನರ್ ಜನರಲ್‌ನನ್ನು ಇಡೀ ಭಾರತದ ಗವರ್ನರ್ ಜನರಲ್ ಆಗಿ ನಾಮಕರಣ ಮಾಡಿದ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["1773 ರ ಕಾಯ್ದೆ", "1784 ರ ಕಾಯ್ದೆ", "1833 ರ ಚಾರ್ಟರ್ ಕಾಯ್ದೆ", "1853 ರ ಕಾಯ್ದೆ"], answer: 2, exp: "1833 ರ ಚಾರ್ಟರ್ ಕಾಯ್ದೆಯು ಬಂಗಾಳದ ಗವರ್ನರ್ ಜನರಲ್‌ನನ್ನು ಭಾರತದ ಗವರ್ನರ್ ಜನರಲ್ ಆಗಿ ಬದಲಾಯಿಸಿತು." },
+      { q: "8. ಸ್ವತಂತ್ರ ಭಾರತದ ಮುಂಚಿನ ಆಡಳಿತದಲ್ಲಿ ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ಯಾರು?", options: ["ವಾರನ್ ಹೇಸ್ಟಿಂಗ್ಸ್", "ಲಾರ್ಡ್ ವಿಲಿಯಂ ಬೆಂಟಿಂಕ್", "ಲಾರ್ಡ್ ಡಾಲ್ಹೌಸಿ", "ಲಾರ್ಡ್ ಕ್ಯಾನಿಂಗ್"], answer: 1, exp: "ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ - ಲಾರ್ಡ್ ವಿಲಿಯಂ ಬೆಂಟಿಂಕ್." },
+      { q: "9. ನಾಗರಿಕ ಸೇವೆಗಳಿಗೆ ಸ್ಪರ್ಧಾತ್ಮಕ ಪರೀಕ್ಷೆ ಬರೆಯಲು ಭಾರತೀಯರಿಗೆ ಮುಕ್ತ ಅವಕಾಶ ಕಲ್ಪಿಸಿದ ಕಾಯ್ದೆ ಯಾವ ಗವರ್ನರ್ ಜನರಲ್ ಕಾಲಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಲಾರ್ಡ್ ವಿಲಿಯಂ ಬೆಂಟಿಂಕ್", "ಲಾರ್ಡ್ ರಿಪ್ಪನ್", "ಲಾರ್ಡ್ ಕರ್ಜನ್", "ಲಾರ್ಡ್ ವೆಲ್ಲೆಸ್ಲಿ"], answer: 0, exp: "ಲಾರ್ಡ್ ವಿಲಿಯಂ ಬೆಂಟಿಂಕ್ ಕಾಲದ 1833ರ ಚಾರ್ಟರ್ ಕಾಯ್ದೆ ಬೆಂಬಲಿಸಿತು." },
+      { q: "10. ಭಾರತದ ಮೊಟ್ಟ ಮೊದಲ ವೈಸರಾಯ್ ಆಗಿ ನೇಮಕಗೊಂಡವರು ಯಾರು?", options: ["ಲಾರ್ಡ್ ಕರ್ಜನ್", "ಲಾರ್ಡ್ ಡಾಲ್ಹೌಸಿ", "ಲಾರ್ಡ್ ಕ್ಯಾನಿಂಗ್", "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್"], answer: 2, exp: "1858 ರ ಕಾಯ್ದೆಯಡಿ ಮೊಟ್ಟ ಮೊದಲ ವೈಸರಾಯ್ ಆಗಿ ಲಾರ್ಡ್ ಕ್ಯಾನಿಂಗ್ ನೇಮಕಗೊಂಡರು." },
+      { q: "11. 1917 ರವರೆಗೆ ಬ್ರಿಟಿಷ್ ಆಡಳಿತ ವ್ಯವಸ್ಥೆಯ 'ಮ್ಯಾಗ್ನಾಕಾರ್ಟ್' ಎಂದು ಕರೆಯಲ್ಪಟ್ಟ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["1833 ರ ಕಾಯ್ದೆ", "1858 ರ ಕಾಯ್ದೆ", "1909 ರ ಕಾಯ್ದೆ", "1919 ರ ಕಾಯ್ದೆ"], answer: 1, exp: "1858 ರ ಭಾರತ ಸರ್ಕಾರ ಕಾಯ್ದೆಯನ್ನು 1917 ರವರೆಗೆ ಮ್ಯಾಗ್ನಾಕಾರ್ಟ್ ಎಂದು ಕರೆಯಲಾಗುತ್ತಿತ್ತು." },
+      { q: "12. 1909 ರ ಕಾಯ್ದೆಯನ್ನು ಏನೆಂದು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಮಾಂಟೆಗೋ-ಚೇಮ್ಸ್ ಫರ್ಡ್ ಕಾಯ್ದೆ", "ಮಿಂಟೋ-ಮಾರ್ಲೆ ಕಾಯ್ದೆ", "ಪಿಟ್ಸ್ ಇಂಡಿಯಾ ಕಾಯ್ದೆ", "ಇಂಡಿಯನ್ ಕೌನ್ಸಿಲ್ ಕಾಯ್ದೆ"], answer: 1, exp: "1909 ರ ಕಾಯ್ದೆಯನ್ನು ಮಿಂಟೋ-ಮಾರ್ಲೆ ಸುಧಾರಣೆಗಳು ಎನ್ನಲಾಗುತ್ತದೆ." },
+      { q: "13. ಮಿಂಟೋ-ಮಾರ್ಲೆ ಕಾಯ್ದೆ ಬಂದಾಗ ಭಾರತದ ವೈಸರಾಯ್ ಮತ್ತು ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ ಯಾರಾಗಿದ್ದರು?", options: ["ಮಿಂಟೋ ವೈಸರಾಯ್, ಮಾರ್ಲೆ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ", "ಮಾರ್ಲೆ ವೈಸರಾಯ್, ಮಿಂಟೋ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ", "ಚೇಮ್ಸ್ ಫರ್ಡ್ ವೈಸರಾಯ್, ಮಾಂಟೆಗೋ ಕಾರ್ಯದರ್ಶಿ", "ಕ್ಯಾನಿಂಗ್ ವೈಸರಾಯ್, ಬ್ರೌನ್ ಕಾರ್ಯದರ್ಶಿ"], answer: 0, exp: "ಲಾರ್ಡ್ ಮಿಂಟೋ ವೈಸರಾಯ್ ಹಾಗೂ ಲಾರ್ಡ್ ಮಾರ್ಲೆ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿಯಾಗಿದ್ದರು." },
+      { q: "14. ವೈಸರಾಯ್ ಕಾರ್ಯಕಾರಿ ಮಂಡಳಿಗೆ ಕಾನೂನು ಸದಸ್ಯರಾಗಿ ಸೇರ್ಪಡೆಯಾದ ಮೊದಲ ಭಾರತೀಯ ಯಾರು?", options: ["ದಾದಾಬಾಯಿ ನೌರೋಜೀ", "ಸತ್ಯೇಂದ್ರ ಪ್ರಸಾದ್ ಸಿನ್ಹಾ", "ಗೋಪಾಲಕೃಷ್ಣ ಗೋಖಲೆ", "ಮೋತಿಲಾಲ್ ನೆಹರು"], answer: 1, exp: "ಸತ್ಯೇಂದ್ರ ಪ್ರಸಾದ್ ಸಿನ್ಹಾ ಅವರು ಮೊದಲ ಭಾರತೀಯ ಕಾನೂನು ಸದಸ್ಯರಾದರು." },
+      { q: "15. 1919 ರಲ್ಲಿ ಜಾರಿಗೆ ಬಂದ ಕಾಯ್ದೆಯ ಹೆಸರೇನು?", options: ["ಮಿಂಟೋ-ಮಾರ್ಲೆ ಕಾಯ್ದೆ", "ಮಾಂಟೆಗೋ-ಚೇಮ್ಸ್ ಫರ್ಡ್ ಕಾಯ್ದೆ", "ಸೈಮನ್ ಕಮಿಷನ್", "ಕ್ಯಾಬಿನೆಟ್ ಕಾಯ್ದೆ"], answer: 1, exp: "1919 ರ ಕಾಯ್ದೆಯನ್ನು ಮಾಂಟೆಗೋ-ಚೇಮ್ಸ್ ಫರ್ಡ್ ಕಾಯ್ದೆ ಎನ್ನಲಾಗುತ್ತದೆ." },
+      { q: "16. ಮಾಂಟೆಗೋ-ಚೇಮ್ಸ್ ಫರ್ಡ್ ಕಾಯ್ದೆಯಲ್ಲಿ ಮಾಂಟೆಗೋ ಮತ್ತು ಚೇಮ್ಸ್ ಫರ್ಡ್ ವಹಿಸಿದ್ದ ಹುದ್ದೆಗಳಾವುವು?", options: ["ಮಾಂಟೆಗೋ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ, ಚೇಮ್ಸ್ ಫರ್ಡ್ ವೈಸರಾಯ್", "ಮಾಂಟೆಗೋ ವೈಸರಾಯ್, ಚೇಮ್ಸ್ ಫರ್ಡ್ ಕಾರ್ಯದರ್ಶಿ", "ಇಬ್ಬರೂ ವೈಸರಾಯ್‌ಗಳು", "ಇಬ್ಬರೂ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿಗಳು"], answer: 0, exp: "ಎಡ್ವಿನ್ ಮಾಂಟೆಗೋ ರಾಜ್ಯ ಕಾರ್ಯದರ್ಶಿ ಮತ್ತು ಲಾರ್ಡ್ ಚೇಮ್ಸ್ ಫರ್ಡ್ ವೈಸರಾಯ್ ಆಗಿದ್ದರು." },
+      { q: "17. ಮುಸ್ಲಿಮರಿಗೆ ಪ್ರತ್ಯೇಕ ಮತಕ್ಷೇತ್ರ ನೀಡಿ 'Legalized Communalism' ಜಾರಿಗೆ ತಂದ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["1892 ರ ಕಾಯ್ದೆ", "1909 ರ ಮಿಂಟೋ-ಮಾರ್ಲೆ ಕಾಯ್ದೆ", "1919 ರ ಕಾಯ್ದೆ", "1935 ರ ಕಾಯ್ದೆ"], answer: 1, exp: "1909 ರ ಕಾಯ್ದೆಯು ಕೋಮುವಾರು ಪ್ರಾತಿನಿಧ್ಯಕ್ಕೆ (Legalized Communalism) ಕಾನೂನು ಚೌಕಟ್ಟು ನೀಡಿತು." },
+      { q: "18. ಸೈಮನ್ ಕಮಿಷನ್ ಯಾವ ವರ್ಷದಲ್ಲಿ ರಚನೆಯಾಯಿತು?", options: ["1919", "1927", "1928", "1930"], answer: 1, exp: "1919 ರ ಕಾಯ್ದೆಯ ಬೆಳವಣಿಗೆ ಅಧ್ಯಯನ ಮಾಡಲು 1927 ರಲ್ಲಿ ಸೈಮನ್ ಆಯೋಗ ರಚನೆಯಾಯಿತು." },
+      { q: "19. ಸೈಮನ್ ಆಯೋಗವನ್ನು ಭಾರತೀಯರು ಏಕೆ ವಿರೋಧಿಸಿದರು?", options: ["ತೆರಿಗೆ ಹೆಚ್ಚಿಸಿದ್ದರಿಂದ", "ಅದರಲ್ಲಿ ಒಬ್ಬರೂ ಭಾರತೀಯ ಸದಸ್ಯರಿರಲಿಲ್ಲ", "ಅದು ಲಾಹೋರ್‌ನಲ್ಲಿದ್ದರಿಂದ", "ಅದು ಭಾರತಕ್ಕೆ ಬರಲಿಲ್ಲವಾದ್ದರಿಂದ"], answer: 1, exp: "ಆಯೋಗದಲ್ಲಿ ಭಾರತೀಯ ಸದಸ್ಯರಿಲ್ಲದ ಕಾರಣ ಅದನ್ನು ಬಿಳಿಯರ ಆಯೋಗ ಎಂದು ವಿರೋಧಿಸಲಾಯಿತು." },
+      { q: "20. 1928 ರ ಲಾಹೋರ್ ಸೈಮನ್ ವಿರೋಧಿ ಪ್ರತಿಭಟನೆಯಲ್ಲಿ ಯಾರ ಆದೇಶದಂತೆ ಲಾಲಾ ಲಜಪತರಾಯ್ ಮೇಲೆ ಲಾಠಿ ಪ್ರಹಾರ ನಡೆಯಿತು?", options: ["ಸ್ಕಾಟ್‌ನ ಆದೇಶ, ಸ್ಯಾಂಡರ್ಸ್ ಹೊಡೆದನು", "ಸ್ಯಾಂಡರ್ಸ್‌ನ ಆದೇಶ, ಸ್ಕಾಟ್ ಹೊಡೆದನು", "ಜನರಲ್ ಡೈಯರ್ ಆದೇಶ", "ಕರ್ಜನ್ ಆದೇಶ"], answer: 1, exp: "ಸ್ಯಾಂಡರ್ಸ್ ಎಂಬ ಅಧಿಕಾರಿಯ ಆದೇಶದಂತೆ ಸ್ಕಾಟ್ ಎಂಬ ಪೊಲೀಸನು ಲಾಠಿ ಏಟು ನೀಡಿದನು." },
+      { q: "21. 1928 ರಲ್ಲಿ ಲಾಹೋರ್‌ನಲ್ಲಿ ಸ್ಯಾಂಡರ್ಸ್‌ನನ್ನು ಕೊಂದು ಪರಾರಿಯಾದ ಕ್ರಾಂತಿಕಾರಿಗಳು ಯಾರು?", options: ["ಸುಭಾಷ್ ಚಂದ್ರ ಬೋಸ್ & ಆಜಾದ್", "ಭಗತ್‌ಸಿಂಗ್ ಮತ್ತು ಸುಖದೇವ್", "ಸಾವರ್ಕರ್ & ತಿಲಕ್", "ಉಧಮ್ ಸಿಂಗ್"], answer: 1, exp: "ಭಗತ್‌ಸಿಂಗ್ ಮತ್ತು ಸುಖದೇವ್ ಸ್ಯಾಂಡರ್ಸ್‌ನನ್ನು ಕೊಂದು ದಂಪತಿಗಳ ವೇಷದಲ್ಲಿ ಪರಾರಿಯಾದರು." },
+      { q: "22. 'ಆಗಸ್ಟ್ ಕೊಡುಗೆ'ಯನ್ನು ಯಾವ ವರ್ಷ ಮತ್ತು ದಿನಾಂಕದಂದು ಹೊರಡಿಸಲಾಯಿತು?", options: ["1940 ಆಗಸ್ಟ್ 15", "1940 ಆಗಸ್ಟ್ 8", "1942 ಆಗಸ್ಟ್ 9", "1947 ಆಗಸ್ಟ್ 14"], answer: 1, exp: "1940 ಆಗಸ್ಟ್ 8 ರಂದು ಆಗಸ್ಟ್ ಕೊಡುಗೆ ನೀಡಲಾಯಿತು." },
+      { q: "23. 1940 ರ ಆಗಸ್ಟ್ ಕೊಡುಗೆಯ ಮುಖ್ಯ ಉದ್ದೇಶವೇನಾಗಿತ್ತು?", options: ["ಭಾರತಕ್ಕೆ ಪೂರ್ಣ ಸ್ವರಾಜ್ಯ ಕೊಡುವುದು", "2ನೇ ಮಹಾಯುದ್ಧದಲ್ಲಿ ಜರ್ಮನಿ ವಿರುದ್ಧ ಭಾರತದ ನೆರವು ಪಡೆಯುವುದು", "ಸಂವಿಧಾನ ಸಭೆ ರದ್ದು ಮಾಡುವುದು", "ಪಾಕಿಸ್ತಾನ ರಚಿಸುವುದು"], answer: 1, exp: "2ನೇ ಮಹಾಯುದ್ಧದಲ್ಲಿ ಜರ್ಮನಿಯ ವಿರುದ್ಧ ಹೋರಾಡಲು ಭಾರತದ ಸಹಾಯ ಪಡೆಯುವ ಉದ್ದೇಶವಿತ್ತು." },
+      { q: "24. ಆಗಸ್ಟ್ ಕೊಡುಗೆಯಲ್ಲಿ ಭಾರತಕ್ಕೆ ನೀಡಲಾಗಿ ಭರವಸೆ ನೀಡಿದ ಸ್ಥಾನ ಯಾವುದು?", options: ["ಪೂರ್ಣ ಸ್ವರಾಜ್ಯ", "ಡೊಮಿನಿಯನ್ ಸ್ಥಾನ (Dominion Status)", "ಸಂಪೂರ್ಣ ಗಣರಾಜ್ಯ", "ಬ್ರಿಟಿಷ್ ಪ್ರಾಂತ್ಯ"], answer: 1, exp: "ಯುದ್ಧದಲ್ಲಿ ಭಾಗವಹಿಸಿದರೆ ಭಾರತಕ್ಕೆ ಡೊಮಿನಿಯನ್ ಸ್ಥಾನ ನೀಡುವುದಾಗಿ ಹೇಳಲಾಗಿತ್ತು." },
+      { q: "25. 1940 ರಲ್ಲಿ ಆಗಸ್ಟ್ ಕೊಡುಗೆಯನ್ನು ಹೊರಡಿಸಿದ ವೈಸರಾಯ್ ಯಾರು?", options: ["ಲಾರ್ಡ್ ವೆವೆಲ್", "ಲಾರ್ಡ್ ಲಿನ್‌ಲಿತ್‌ ಗೋ", "ಲಾರ್ಡ್ ಇರ್ವಿನ್", "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್"], answer: 1, exp: "ಅಂದಿನ ವೈಸರಾಯ್ ಲಾರ್ಡ್ ಲಿನ್‌ಲಿತ್‌ ಗೋ 1940 ಆಗಸ್ಟ್ 8 ರಂದು ಪ್ರಸ್ತಾಪನೆಯನ್ನು ಹೊರಡಿಸಿದನು." },
+      { q: "26. ಆಗಸ್ಟ್ ಕೊಡುಗೆಗೆ ಭಾರತೀಯ ನಾಯಕರ ಪ್ರತಿಕ್ರಿಯೆ ಏನಾಗಿತ್ತು?", options: ["ಅಂಗೀಕರಿಸಿದರು", "ಯುದ್ಧಕ್ಕೆ ಸಹಕಾರ ನೀಡಲು ನಿರಾಕರಿಸಿದರು", "ಸಂಭ್ರಮಿಸಿದರು", "ತಕ್ಷಣ ಒಪ್ಪಂದ ಮಾಡಿಕೊಂಡರು"], answer: 1, exp: "ಭಾರತೀಯರು ಯುದ್ಧಕ್ಕೆ ಸಹಕಾರ ನೀಡಲು ನಿರಾಕರಿಸಿದರು." },
+      { q: "27. ಕ್ರಿಪ್ಸ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದ ವರ್ಷ ಯಾವುದು?", options: ["1940", "1942", "1945", "1946"], answer: 1, exp: "ಕ್ರಿಪ್ಸ್ ಆಯೋಗ 1942 ರಲ್ಲಿ ಭಾರತಕ್ಕೆ ಬಂದಿತು." },
+      { q: "28. 2ನೇ ಮಹಾಯುದ್ಧದಲ್ಲಿ ಇಂಗ್ಲೆಂಡ್ ಪ್ರಧಾನಿ ಸ್ಟಾಫೋರ್ಡ್ ಕ್ರಿಪ್ಸ್ ಆಯೋಗವನ್ನು ಕಳುಹಿಸಲು ಯಾರ ಒತ್ತಡ ಕಾರಣವಾಗಿತ್ತು?", options: ["ಡಾ|| ಇವ್ಯಾಚ್, ರೂಸ್‌ವೆಲ್ಟ್ ಮತ್ತು ಚಿಯಾಂಗ್-ಕೈ-ಶೇಕ್", "ಹಿಟ್ಲರ್ ಮತ್ತು ಮುಸ್ಸೋಲಿನಿ", "ಸ್ಟಾಲಿನ್ ಮತ್ತು ಲೆನಿನ್", "ಗಾಂಧೀಜಿ ಮತ್ತು ನೆಹರು"], answer: 0, exp: "ಆಸ್ಟ್ರೇಲಿಯಾದ ವಿದೇಶಾಂಗ ಸಚಿವ, ಅಮೆರಿಕ ಅಧ್ಯಕ್ಷ ಹಾಗೂ ಚೀನಾ ಅಧ್ಯಕ್ಷರ ಒತ್ತಡವೇ ಕಾರಣ." },
+      { q: "29. ಲಾರ್ಡ್ ವೆವೆಲ್ ಯೋಜನೆ ಜಾರಿಗೆ ಬಂದ ವರ್ಷ ಯಾವುದು?", options: ["1940", "1942", "1943", "1946"], answer: 2, exp: "ಲಾರ್ಡ್ ವೆವೆಲ್ ಯೋಜನೆ - 1943." },
+      { q: "30. ಕ್ಯಾಬಿನೆಟ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದ ವರ್ಷ ಯಾವುದು?", options: ["1942", "1945", "1946", "1947"], answer: 2, exp: "ಕ್ಯಾಬಿನೆಟ್ ಆಯೋಗ 1946 ರಲ್ಲಿ ಭಾರತಕ್ಕೆ ಭೇಟಿ ನೀಡಿತು." },
+      { q: "31. 1946 ಸೆಪ್ಟೆಂಬರ್ 02 ರಂದು 12 ಜನ ಸದಸ್ಯರ ಹಂಗಾಮಿ ಸರ್ಕಾರವನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಮಹಾತ್ಮ ಗಾಂಧಿ", "ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಸರ್ದಾರ್ ವಲ್ಲಭಬಾಯಿ ಪಟೇಲ್", "ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್"], answer: 1, exp: "ಜವಾಹರಲಾಲ್ ನೆಹರು ನೇತೃತ್ವದಲ್ಲಿ ಹಂಗಾಮಿ ಸರ್ಕಾರ ರಚನೆಯಾಯಿತು." },
+      { q: "32. ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್ ಯೋಜನೆ ರೂಪುಗೊಂಡ ವರ್ಷ ಯಾವುದು?", options: ["1945", "1946", "1947", "1948"], answer: 2, exp: "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್ ಯೋಜನೆ 1947." },
+      { q: "33. ಭಾರತಕ್ಕೆ ಸ್ವಾತಂತ್ರ್ಯ ಕೊಡುವ ಉದ್ದೇಶದಿಂದ 1947 ಮಾರ್ಚ್‌ನಲ್ಲಿ ವೈಸರಾಯ್ ಆಗಿ ನೇಮಕಗೊಂಡವರು ಯಾರು?", options: ["ಲಾರ್ಡ್ ವೆವೆಲ್", "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್", "ಲಾರ್ಡ್ ಲಿನ್‌ಲಿತ್‌ ಗೋ", "ಸಿ. ರಾಜಗೋಪಾಲಾಚಾರಿ"], answer: 1, exp: "1947 ಮಾರ್ಚ್‌ನಲ್ಲಿ ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್ ವೈಸರಾಯ್ ആയി ಬಂದರು." },
+      { q: "34. ದೇಶ ವಿಭಜನೆಯನ್ನು ವಿರೋಧಿಸಿದ ಪ್ರಮುಖ ನಾಯಕರಲ್ಲಿ ಒಬ್ಬರಾದ 'ಗಡಿನಾಡ ಗಾಂಧಿ' ಯಾರು?", options: ["ಮಹಮ್ಮದ್ ಅಲಿ ಜಿನ್ನಾ", "ಖಾನ್ ಅಬ್ದುಲ್ ಗಫಾರ್‌ಖಾನ್", "ಶೌಕತ್ ಅಲಿ", "ಅಬುಲ್ ಕಲಾಮ್ ಆಜಾದ್"], answer: 1, exp: "ಗಡಿನಾಡ ಗಾಂಧಿ ಖಾನ್ ಅಬ್ದುಲ್ ಗಫಾರ್‌ಖಾನ್ ದೇಶ ವಿಭಜನೆಯನ್ನು ವಿರೋಧಿಸಿದರು." },
+      { q: "35. ಭಾರತ ಮತ್ತು ಪಾಕಿಸ್ತಾನ ದೇಶಗಳಿಗೆ ಸ್ವಾತಂತ್ರ್ಯ ಘೋಷಣೆಯಾಗಿದ್ದು ಯಾವಾಗ?", options: ["1947 ಆಗಸ್ಟ್ 15 ಬೆಳಿಗ್ಗೆ", "1947 ಆಗಸ್ಟ್ 14-15 ರ ಮಧ್ಯರಾತ್ರಿ", "1947 ಜನವರಿ 26", "1950 ಜನವರಿ 26"], answer: 1, exp: "1947 ರ ಸ್ವಾತಂತ್ರ್ಯ ಅಧಿನಿಯಮದಂತೆ ಆಗಸ್ಟ್ 14-15 ರ ಮಧ್ಯರಾತ್ರಿ ಸ್ವಾತಂತ್ರ್ಯ ಸಿಕ್ಕಿತು." },
+      { q: "36. ಸ್ವತಂತ್ರ ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ಆಗಿ 1948 ಜೂನ್ 06 ರವರೆಗೆ ಆಳ್ವಿಕೆ ನಡೆಸಿದವರು ಯಾರು?", options: ["ಸಿ. ರಾಜಗೋಪಾಲಾಚಾರಿ", "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್", "ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ನೆಹರು"], answer: 1, exp: "ಸ್ವತಂತ್ರ ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ಆಗಿ ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್ ಮುಂದುವರಿದರು." },
+      { q: "37. ಬ್ರಿಟಿಷ್ ಭಾರತದ ಕೊನೆಯ ವೈಸರಾಯ್ ಮತ್ತು ಸ್ವತಂತ್ರ ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್ ಯಾರು?", options: ["ಲಾರ್ಡ್ ಕ್ಯಾನಿಂಗ್", "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್", "ವಾರನ್ ಹೇಸ್ಟಿಂಗ್ಸ್", "ಲಾರ್ಡ್ ವೆವೆಲ್"], answer: 1, exp: "ಲಾರ್ಡ್ ಮೌಂಟ್ ಬ್ಯಾಟನ್ ಕೊನೆಯ ವೈಸರಾಯ್ ಹಾಗೂ ಸ್ವತಂತ್ರ ಭಾರತದ ಮೊದಲ ಗವರ್ನರ್ ಜನರಲ್." },
+      { q: "38. ಭಾರತವು ಸಂವಿಧಾನವನ್ನು ಅಳವಡಿಸಿಕೊಂಡು ಸಂಪೂರ್ಣ ಗಣರಾಜ್ಯವಾದ ದಿನ ಯಾವುದು?", options: ["1947 ಆಗಸ್ಟ್ 15", "1949 ನವೆಂಬರ್ 26", "1950 ಜನವರಿ 26", "1948 ಜೂನ್ 6"], answer: 2, exp: "1950 ಜನವರಿ 26 ರಂದು ಭಾರತ ಗಣರಾಜ್ಯವಾಯಿತು." },
+      { q: "39. ಸ್ವತಂತ್ರ ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಾಧ್ಯಕ್ಷರಾಗಿ (ರಾಷ್ಟ್ರಪತಿ) ಆಯ್ಕೆಯಾದವರು ಯಾರು?", options: ["ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಡಾ|| ಸರ್ವೇಪಲ್ಲಿ ರಾಧಾಕೃಷ್ಣನ್", "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಜವಾಹರಲಾಲ್ ನೆಹರು"], answer: 2, exp: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಾಧ್ಯಕ್ಷರಾದರು." },
+      { q: "40. 1498 ರಲ್ಲಿ ಭಾರತಕ್ಕೆ ಸಮುದ್ರ ಮಾರ್ಗವನ್ನು ಕಂಡುಹಿಡಿದ ಯುರೋಪಿಯನ್ ನಾವಿಕ ಯಾರು?", options: ["ಕೊಲಂಬಸ್", "ವಾಸ್ಕೋಡಗಾಮ", "ಮೆಗೆಲ್ಲನ್", "ಬಾರ್ತಲೋಮ್ಯೂ ಡಯಾಸ್"], answer: 1, exp: "1498 ರಲ್ಲಿ ವಾಸ್ಕೋಡಗಾಮನು ಭಾರತಕ್ಕೆ ಜಲಮಾರ್ಗ ಕಂಡುಹಿಡಿದನು." },
+      { q: "41. ಭಾರತಕ್ಕೆ ಬಂದ ಮೊದಲ ಹಾಗೂ ಭಾರತದಿಂದ ಕೊನೆಗೆ ನಿರ್ಗಮಿಸಿದ ಯುರೋಪಿಯನ್ನರು ಯಾರು?", options: ["ಡಚ್ಚರು", "ಇಂಗ್ಲಿಷರು", "ಫ್ರೆಂಚರು", "ಪೋರ್ಚುಗೀಸರು"], answer: 3, exp: "ಪೋರ್ಚುಗೀಸರು ಮೊದಲು ಬಂದರು ಹಾಗೂ 1961 ರ ಆಪರೇಷನ್ ವಿಜಯ್ ಮೂಲಕ ಕೊನೆಗೆ ಹೋದರು." },
+      { q: "42. 1602 ರಲ್ಲಿ ಡಚ್ ಈಸ್ಟ್ ಇಂಡಿಯಾ ಕಂಪನಿ ಸ್ಥಾಪಿಸಿದ ಡಚ್ಚರು ಭಾರತಕ್ಕೆ ಬಂದ ಎಷ್ಟನೇ ಯುರೋಪಿಯನ್ನರು?", options: ["ಮೊದಲನೆಯವರು", "ಎರಡನೆಯವರು", "ಮೂರನೆಯವರು", "ನಾಲ್ಕನೆಯವರು"], answer: 1, exp: "ಡಚ್ಚರು ಭಾರತಕ್ಕೆ ಬಂದ ಯುರೋಪಿಯನ್ನರಲ್ಲಿ ಎರಡನೆಯವರು." },
+      { q: "43. 1600 ರಲ್ಲಿ ಈಸ್ಟ್ ಇಂಡಿಯಾ ಕಂಪನಿಯನ್ನು ಸ್ಥಾಪಿಸಿ ಭಾರತಕ್ಕೆ ಬಂದ ಇಂಗ್ಲಿಷರು ಎಷ್ಟನೇಯವರು?", options: ["ಎರಡನೆಯವರು", "ಮೂರನೆಯವರು", "ನಾಲ್ಕನೆಯವರು", "ಐದನೆಯವರು"], answer: 1, exp: "ಇಂಗ್ಲಿಷರು ಭಾರತಕ್ಕೆ ವ್ಯಾಪಾರಕ್ಕೆ ಬಂದವರಲ್ಲಿ ಮೂರನೆಯವರು." },
+      { q: "44. 1664 ರಲ್ಲಿ ಫ್ರೆಂಚ್ ಈಸ್ಟ್ ಇಂಡಿಯಾ ಕಂಪನಿ ಸ್ಥಾಪಿಸಿದ ಫ್ರೆಂಚರು ಭಾರತಕ್ಕೆ ಬಂದ ಎಷ್ಟನೇ ಯುರೋಪಿಯನ್ನರು?", options: ["ಎರಡನೆಯವರು", "ಮೂರನೆಯವರು", "ನಾಲ್ಕನೆಯವರು", "ಐದನೆಯವರು"], answer: 2, exp: "ಫ್ರೆಂಚರು ಭಾರತಕ್ಕೆ ವ್ಯಾಪಾರಕ್ಕೆ ಬಂದವರಲ್ಲಿ ನಾಲ್ಕನೆಯವರು." }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+
+    function initQuiz() {
+      buildPalette();
+      loadQuestion();
+    }
+
+    function buildPalette() {
+      const grid = document.getElementById("palette-grid");
+      grid.innerHTML = "";
+      questions.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "palette-btn";
+        btn.id = `palette-${idx}`;
+        btn.innerText = idx + 1;
+        btn.onclick = () => {
+          currentIndex = idx;
+          loadQuestion();
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    function loadQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("q-number").innerText = `Page ${currentIndex + 1} - Question ${currentIndex + 1} of ${questions.length}`;
+      document.getElementById("q-text").innerText = q.q;
+
+      const optionsBox = document.getElementById("options-box");
+      optionsBox.innerHTML = "";
+
+      const expBox = document.getElementById("explanation-box");
+      expBox.style.display = "none";
+
+      const selectedAns = userAnswers[currentIndex];
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+        if (selectedAns !== null) {
+          if (idx === q.answer) {
+            btn.classList.add("correct");
+          }
+          if (selectedAns === idx && selectedAns !== q.answer) {
+            btn.classList.add("incorrect");
+          }
+        }
+
+        btn.onclick = () => selectOption(idx);
+        optionsBox.appendChild(btn);
+      });
+
+      if (selectedAns !== null) {
+        expBox.innerText = `ಉತ್ತರ / ವಿವರಣೆ: ${q.exp}`;
+        expBox.style.display = "block";
+      }
+
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled = currentIndex === questions.length - 1;
+
+      updatePaletteUI();
+      updateScore();
+    }
+
+    function selectOption(index) {
+      if (userAnswers[currentIndex] !== null) return; // Prevent changing after selection
+      userAnswers[currentIndex] = index;
+      loadQuestion();
+    }
+
+    function navigate(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = 0;
+      if (currentIndex >= questions.length) currentIndex = questions.length - 1;
+      loadQuestion();
+    }
+
+    function retestQuiz() {
+      if (confirm("ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ಪುನಃ ಪ್ರಾರಂಭಿಸಲು ಬಯಸುತ್ತೀರಾ? (Do you want to retest?)")) {
+        userAnswers = new Array(questions.length).fill(null);
+        currentIndex = 0;
+        loadQuestion();
+      }
+    }
+
+    function updatePaletteUI() {
+      questions.forEach((_, idx) => {
+        const pBtn = document.getElementById(`palette-${idx}`);
+        pBtn.className = "palette-btn";
+        if (idx === currentIndex) pBtn.classList.add("active");
+
+        const ans = userAnswers[idx];
+        if (ans !== null) {
+          if (ans === questions[idx].answer) {
+            pBtn.classList.add("answered-correct");
+          } else {
+            pBtn.classList.add("answered-wrong");
+          }
+        }
+      });
+    }
+
+    function updateScore() {
+      let score = 0;
+      userAnswers.forEach((ans, idx) => {
+        if (ans === questions[idx].answer) score++;
+      });
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+    }
+
+    // Initialize on page load
+    window.onload = initQuiz;
+  </script>
+</body>
+</html>
