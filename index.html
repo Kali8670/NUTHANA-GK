@@ -19,12 +19,12 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 30px 15px;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -33,14 +33,13 @@
         /* Glowing Neon Title */
         h1.title {
             color: #00ff88;
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
             letter-spacing: 1.5px;
             margin-bottom: 6px;
             text-align: center;
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.6), 
-                         0 0 20px rgba(0, 255, 136, 0.4), 
-                         0 0 30px rgba(0, 255, 136, 0.2);
+                         0 0 20px rgba(0, 255, 136, 0.4);
         }
 
         p.subtitle {
@@ -48,7 +47,7 @@
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 1.5px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
             text-transform: uppercase;
         }
@@ -57,16 +56,15 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
 
-        /* Main Chapter Card */
+        /* Main Subject Card */
         .main-card {
             background-color: #161b22;
             border: 1px solid #30363d;
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 16px 20px;
-            cursor: pointer;
             transition: all 0.2s ease-in-out;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
@@ -80,41 +78,49 @@
             justify-content: space-between;
             align-items: center;
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
         }
 
         .arrow {
             color: #8b949e;
-            transition: transform 0.3s;
+            font-size: 12px;
+            transition: transform 0.3s ease;
         }
 
-        /* Sub-subject container (hidden by default) */
+        /* Sub-subject container */
         .sub-container {
             display: none;
             margin-top: 15px;
-            padding-left: 10px;
-            border-left: 2px solid #30363d;
+            padding-left: 8px;
+            border-left: 2px solid #00ff88;
+        }
+
+        .sub-group {
+            margin-bottom: 12px;
         }
 
         .sub-subject-title {
             color: #00ff88;
             font-size: 15px;
             font-weight: 600;
-            margin: 12px 0 8px 0;
+            margin: 10px 0 6px 0;
         }
 
         /* Chapter Links */
         .chapter-link {
             display: block;
             background-color: #21262d;
-            color: #ffffff;
+            color: #e6edf3;
             text-decoration: none;
             padding: 10px 14px;
             margin-bottom: 6px;
             border-radius: 8px;
             font-size: 14px;
             border: 1px solid #30363d;
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
         }
 
         .chapter-link:hover {
@@ -133,13 +139,11 @@
 <body>
 
     <div class="container">
-        <!-- Glowing Title -->
         <h1 class="title">NUTHANA GK</h1>
-        <p class="subtitle">SELECT MAIN CHAPTER</p>
+        <p class="subtitle">Select Main Subject</p>
 
-        <!-- Dynamic Menu Container -->
         <div id="menu-container">
-            <p class="loading-text">Loading structure...</p>
+            <p class="loading-text">Loading subjects structure...</p>
         </div>
     </div>
 
@@ -161,10 +165,17 @@
                             chaptersHtml += `<a href="${chap.fileUrl}" class="chapter-link">${chap.title}</a>`;
                         });
 
-                        subHtml += `
-                            <div class="sub-subject-title">📁 ${sub.name}</div>
-                            <div class="chapter-list">${chaptersHtml}</div>
-                        `;
+                        // Show section title only if sub-subject name is defined
+                        if (sub.name && sub.name.trim() !== '') {
+                            subHtml += `
+                                <div class="sub-group">
+                                    <div class="sub-subject-title">📁 ${sub.name}</div>
+                                    <div class="chapter-list">${chaptersHtml}</div>
+                                </div>
+                            `;
+                        } else {
+                            subHtml += `<div class="sub-group"><div class="chapter-list">${chaptersHtml}</div></div>`;
+                        }
                     });
 
                     mainCard.innerHTML = `
@@ -175,14 +186,19 @@
                         <div class="sub-container">${subHtml}</div>
                     `;
 
-                    // Toggle accordion open/close on click
-                    mainCard.addEventListener('click', () => {
+                    // Accordion click handler
+                    const header = mainCard.querySelector('.main-header');
+                    header.addEventListener('click', () => {
                         const subContainer = mainCard.querySelector('.sub-container');
                         const arrow = mainCard.querySelector('.arrow');
-                        if (subContainer.style.display === 'block') {
-                            subContainer.style.display = 'none';
-                            arrow.style.transform = 'rotate(0deg)';
-                        } else {
+                        const isVisible = subContainer.style.display === 'block';
+
+                        // Close all open sub-containers
+                        document.querySelectorAll('.sub-container').forEach(sc => sc.style.display = 'none');
+                        document.querySelectorAll('.arrow').forEach(a => a.style.transform = 'rotate(0deg)');
+
+                        // Toggle current
+                        if (!isVisible) {
                             subContainer.style.display = 'block';
                             arrow.style.transform = 'rotate(180deg)';
                         }
@@ -192,7 +208,7 @@
                 });
             })
             .catch(error => {
-                document.getElementById('menu-container').innerHTML = '<p class="loading-text" style="color: #ff5555;">Error loading subjects.json format.</p>';
+                document.getElementById('menu-container').innerHTML = '<p class="loading-text" style="color: #ff5555;">Error loading subjects.json file.</p>';
                 console.error(error);
             });
     </script>
