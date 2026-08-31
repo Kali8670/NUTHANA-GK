@@ -30,7 +30,6 @@
             align-items: center;
         }
 
-        /* Glowing Neon Title */
         h1.title {
             color: #00ff88;
             font-size: 30px;
@@ -59,7 +58,6 @@
             gap: 14px;
         }
 
-        /* Main Subject Card */
         .main-card {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -90,7 +88,6 @@
             transition: transform 0.3s ease;
         }
 
-        /* Sub-subject container */
         .sub-container {
             display: none;
             margin-top: 15px;
@@ -99,7 +96,7 @@
         }
 
         .sub-group {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .sub-subject-title {
@@ -109,7 +106,6 @@
             margin: 10px 0 6px 0;
         }
 
-        /* Chapter Links */
         .chapter-link {
             display: block;
             background-color: #21262d;
@@ -149,7 +145,12 @@
 
     <script>
         fetch('subjects.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP error! Status: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 const container = document.getElementById('menu-container');
                 container.innerHTML = '';
@@ -165,7 +166,6 @@
                             chaptersHtml += `<a href="${chap.fileUrl}" class="chapter-link">${chap.title}</a>`;
                         });
 
-                        // Show section title only if sub-subject name is defined
                         if (sub.name && sub.name.trim() !== '') {
                             subHtml += `
                                 <div class="sub-group">
@@ -186,18 +186,15 @@
                         <div class="sub-container">${subHtml}</div>
                     `;
 
-                    // Accordion click handler
                     const header = mainCard.querySelector('.main-header');
                     header.addEventListener('click', () => {
                         const subContainer = mainCard.querySelector('.sub-container');
                         const arrow = mainCard.querySelector('.arrow');
                         const isVisible = subContainer.style.display === 'block';
 
-                        // Close all open sub-containers
                         document.querySelectorAll('.sub-container').forEach(sc => sc.style.display = 'none');
                         document.querySelectorAll('.arrow').forEach(a => a.style.transform = 'rotate(0deg)');
 
-                        // Toggle current
                         if (!isVisible) {
                             subContainer.style.display = 'block';
                             arrow.style.transform = 'rotate(180deg)';
@@ -209,7 +206,7 @@
             })
             .catch(error => {
                 document.getElementById('menu-container').innerHTML = '<p class="loading-text" style="color: #ff5555;">Error loading subjects.json file.</p>';
-                console.error(error);
+                console.error('Fetch error:', error);
             });
     </script>
 
