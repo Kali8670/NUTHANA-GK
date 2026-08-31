@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karnataka PC & SSC CBT Exam Mock Test</title>
+  <style>
+    :root {
+      --primary-blue: #0b4a92;
+      --header-bg: #102a45;
+      --light-gray: #f4f6f9;
+      --correct-green: #2e7d32;
+      --incorrect-red: #c62828;
+      --selected-border: #1565c0;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Arial, 'Tunga', 'Nudi', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--light-gray);
+      color: #333;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background-color: var(--header-bg);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .timer-box {
+      background-color: #d32f2f;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    /* Main Container */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 15px auto;
+      gap: 15px;
+      padding: 0 10px;
+    }
+
+    /* Quiz Area (Left) */
+    .quiz-area {
+      flex: 3;
+      min-width: 300px;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .page-info {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .question-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .option-btn {
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px 15px;
+      text-align: left;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #e3f2fd;
+    }
+
+    .option-btn.correct {
+      background-color: #c8e6c9 !important;
+      border-color: var(--correct-green) !important;
+      color: #1b5e20;
+      font-weight: bold;
+    }
+
+    .option-btn.incorrect {
+      background-color: #ffcdd2 !important;
+      border-color: var(--incorrect-red) !important;
+      color: #b71c1c;
+    }
+
+    .explanation-box {
+      display: none;
+      padding: 10px;
+      background-color: #ffebee;
+      border: 1px solid #ffcdd2;
+      color: #c62828;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .btn-prev { background-color: #1976d2; }
+    .btn-next { background-color: #1976d2; }
+    .btn-retest { background-color: #c62828; }
+
+    .btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Palette Sidebar (Right) */
+    .palette-area {
+      flex: 1;
+      min-width: 250px;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      height: fit-content;
+    }
+
+    .palette-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .score-tracker {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .q-grid-btn {
+      padding: 6px;
+      background-color: #e0e0e0;
+      border: 1px solid #bbb;
+      border-radius: 3px;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .q-grid-btn.active {
+      border: 2px solid #000;
+      font-weight: bold;
+    }
+
+    .q-grid-btn.answered-correct {
+      background-color: #81c784;
+      color: #fff;
+    }
+
+    .q-grid-btn.answered-incorrect {
+      background-color: #e57373;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>Karnataka PC & SSC CBT Exam Mock Test</div>
+    <div class="timer-box" id="timer">Time Remaining: 60:00</div>
+  </header>
+
+  <div class="container">
+    <!-- Quiz Section -->
+    <div class="quiz-area">
+      <div class="page-info" id="page-info">Page 1 - Question 1 of 87</div>
+      <div class="question-title" id="question-text">Loading question...</div>
+      
+      <div class="options-container" id="options-container"></div>
+
+      <div class="explanation-box" id="explanation-box"></div>
+
+      <div class="controls">
+        <button class="btn btn-prev" id="prev-btn" onclick="prevQuestion()">Previous</button>
+        <button class="btn btn-retest" onclick="retest()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+        <button class="btn btn-next" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+
+    <!-- Question Palette -->
+    <div class="palette-area">
+      <div class="palette-title">Question Palette</div>
+      <div class="score-tracker" id="score-display">Score: 0 / 87</div>
+      <div class="palette-grid" id="palette-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    const questionsData = [
+      { q: "1. ದಯಾನಂದ ಸರಸ್ವತಿ ಅವರ ಪ್ರಕಾರ ಆರ್ಯರ ಮೂಲ ಸ್ಥಳ ಯಾವುದು?", options: ["ಟಿಬೆಟ್", "ಭಾರತ", "ಮಧ್ಯ ಏಷ್ಯಾ", "ಯುರೋಪ್"], ans: 0 },
+      { q: "2. ಸ್ವಾಮಿ ವಿವೇಕಾನಂದರ ಪ್ರಕಾರ ಆರ್ಯರ ಮೂಲ ಸ್ಥಳ ಯಾವುದು?", options: ["ಟಿಬೆಟ್", "ಭಾರತ", "ಮಧ್ಯ ಏಷ್ಯಾ", "ಆರ್ಕ್ಟಿಕ್"], ans: 1 },
+      { q: "3. ಮ್ಯಾಕ್ಸ್ ಮುಲ್ಲರ್ ಅವರ ಪ್ರಕಾರ ಆರ್ಯರ ಮೂಲ ಸ್ಥಳ ಯಾವುದು?", options: ["ಟಿಬೆಟ್", "ಭಾರತ", "ಮಧ್ಯ ಏಷ್ಯಾ", "ಯುರೋಪ್"], ans: 2 },
+      { q: "4. ಪೂರ್ವವೇದ ಅಥವಾ ಋಗ್ವೇದ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["ಕ್ರಿ.ಪೂ. 1500–1000", "ಕ್ರಿ.ಪೂ. 1000–600", "ಕ್ರಿ.ಪೂ. 2000–1500", "ಕ್ರಿ.ಪೂ. 600–300"], ans: 0 },
+      { q: "5. ಉತ್ತರವೇದ ಕಾಲದ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["ಕ್ರಿ.ಪೂ. 1500–1000", "ಕ್ರಿ.ಪೂ. 1000–600", "ಕ್ರಿ.ಪೂ. 2000–1500", "ಕ್ರಿ.ಪೂ. 500–200"], ans: 1 },
+      { q: "6. ವೇದಗಳ ಕಾಲದ ಸಭಾ ಮತ್ತು ಸಮಿತಿ ಎಂಬ ಸಂಸ್ಥೆಗಳಲ್ಲಿದ್ದ 'ಸಮಿತಿ'ಯ ಸದಸ್ಯರನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ವಿಶಃ", "ಕುಲಪತಿ", "ವ್ಯಾಪ್ತಿ", "ಹೋತ್ರಿ"], ans: 0 },
+      { q: "7. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ರಾಜಕೀಯ ಸಂಸ್ಥೆಗಳಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದ್ದ ಮೂರು ಸಭೆಗಳು ಯಾವುವು?", options: ["ಸಭಾ, ಸಮಿತಿ, ವಿಧಾತ್ರ", "ಕುಲ, ಗ್ರಾಮಿ, ವಿಶಃ", "ಬ್ರಾಹ್ಮಣ, ಕ್ಷತ್ರಿಯ, ವೈಶ್ಯ", "ಋಗ್, ಯಜುರ್, ಸಾಮ"], ans: 0 },
+      { q: "8. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ಗ್ರಾಮಗಳ ಗುಂಪಿಗೆ ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ವಿಷ್", "ಕುಲ", "ಗ್ರಾಮಣಿ", "ಸಭಾ"], ans: 0 },
+      { q: "9. ಕುಟುಂಬದ ಮುಖ್ಯಸ್ಥನನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಕುಲಪತಿ ಅಥವಾ ಗೃಹಪತಿ", "ವಿಶಃ", "ವ್ಯಾಪ್ತಿ", "ಗ್ರಾಮಣಿ"], ans: 0 },
+      { q: "10. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ಸಮಾಜದಲ್ಲಿ ಯಾವ ವ್ಯವಸ್ಥೆ ಜಾರಿಯಲ್ಲಿತ್ತು?", options: ["ವರ್ಣ ವ್ಯವಸ್ಥೆ", "ಜೀತ ಪದ್ಧತಿ", "ಜಮೀನ್ದಾರಿ ಪದ್ಧತಿ", "ಸತಿ ಪದ್ಧತಿ"], ans: 0 },
+      { q: "11. ಬ್ರಾಹ್ಮಣ, ಕ್ಷತ್ರಿಯ, ವೈಶ್ಯ, ಶೂದ್ರ ಎಂಬ ವರ್ಣಗಳ ಉಲ್ಲೇಖ ಋಗ್ವೇದದ ಯಾವ ಭಾಗದಲ್ಲಿದೆ?", options: ["10ನೇ ಮಂಡಲದ ಪುರುಷಸೂಕ್ತ", "3ನೇ ಮಂಡಲ", "7ನೇ ಮಂಡಲ", "9ನೇ ಮಂಡಲ"], ans: 0 },
+      { q: "12. ವೇದಗಳ ಕಾಲದ ಕುಟುಂಬ ವ್ಯವಸ್ಥೆಯಲ್ಲಿ ಬಹು ಪತ್ನಿತ್ವ ಪದ್ಧತಿ ಯಾರಿಗೆ ಮಾತ್ರ ಸೀಮಿತವಾಗಿತ್ತು?", options: ["ಅರಸು ಮನೆತನಕ್ಕೆ ಮಾತ್ರ", "ಎಲ್ಲಾ ಜನರಿಗೆ", "ಬ್ರಾಹ್ಮಣರಿಗೆ ಮಾತ್ರ", "ಯಾರಿಗೂ ಇರಲಿಲ್ಲ"], ans: 0 },
+      { q: "13. ವೇದಗಳ ಕಾಲದ ಪ್ರಮುಖ ಸ್ತ್ರೀಯರಲ್ಲಿ ಒಬ್ಬರಲ್ಲದವರು ಯಾರು?", options: ["ಅಪಾಲಾ, ಘೋಷಾಲಾ, ಗಾರ್ಗಿ", "ಲೋಪಾಮುದ್ರಾ, ಮೈತ್ರೇಯಿ", "ವಿಶ್ವವರ, ಕಾತ್ಯಾಯಿನಿ, ಮೃದಾಳಿನಿ", "ಝಾನ್ಸಿ ರಾಣಿ ಲಕ್ಷ್ಮಿಬಾಯಿ"], ans: 3 },
+      { q: "14. ಋಗ್ವೇದದ ಕೆಲವು ಮಂತ್ರಗಳನ್ನು ರಚಿಸಿದ ಮಹಿಳಾ ವಿದ್ವಾಂಸಿ ಯಾರು?", options: ["ಘೋಷಾಲಾ", "ಅಪಾಲಾ", "ಗಾರ್ಗಿ", "ಮೈತ್ರೇಯಿ"], ans: 0 },
+      { q: "15. ಜನಕರಾಜನ ಆಸ್ಥಾನದಲ್ಲಿ ಯಜ್ಞವಲ್ಕ್ಯ ಋಷಿಯೊಂದಿಗೆ ವಾದ ಮಂಡಿಸಿದ ಮಹಿಳೆ ಯಾರು?", options: ["ಗಾರ್ಗಿ", "ಘೋಷಾಲಾ", "ಲೋಪಾಮುದ್ರಾ", "ಕಾತ್ಯಾಯಿನಿ"], ans: 0 },
+      { q: "16. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ಸೇವಿಸುತ್ತಿದ್ದ ಎರಡು ಪ್ರಮುಖ ಪಾನೀಯಗಳು ಯಾವುವು?", options: ["ಸೋಮ ಮತ್ತು ಸುರ", "ಚಹಾ ಮತ್ತು ಕಾಫಿ", "ಅಮೃತ ಮತ್ತು ಮಧು", "ಹಾಲು ಮತ್ತು ಮೊಸರು"], ans: 0 },
+      { q: "17. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ಜಾರಿಯಲ್ಲಿದ್ದ ವಿವಾಹ ಅಥವಾ ಕುಟುಂಬ ಪದ್ಧತಿ ಯಾವುದು?", options: ["ನಿಯೋಗ ಪದ್ಧತಿ", "ದೇವದಾಸಿ ಪದ್ಧತಿ", "ಸತಿ ಪದ್ಧತಿ", "ಬಲ್ಯ ವಿವಾಹ"], ans: 0 },
+      { q: "18. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ಕ್ಷೌರಿಕನನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ವ್ಯಾಪ್ತಿ", "ವಿಶಃ", "ಹೋತ್ರಿ", "ಅಧ್ವರ್ಯು"], ans: 0 },
+      { q: "19. ಪೂರ್ವ ವೇದಕಾಲದ ಪ್ರಮುಖ ದೇವರು ಇಂದ್ರನನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಪುರಂದರ, ಕೋಟೆಗಳ ನಾಶಕ ಮತ್ತು ವಜ್ರಾಯುಧಧಾರಿ", "ಮಳೆಯ ದೇವರು", "ನಿಯಮಗಳ ಪಾಲಕ", "ಖಗೋಳ ದೇವರು"], ans: 0 },
+      { q: "20. ಇಂದ್ರನನ್ನು ಕುರಿತು ಋಗ್ವೇದದಲ್ಲಿ ಎಷ್ಟು ಶ್ಲೋಕಗಳಿವೆ?", options: ["250 ಶ್ಲೋಕಗಳು", "200 ಶ್ಲೋಕಗಳು", "150 ಶ್ಲೋಕಗಳು", "1028 ಶ್ಲೋಕಗಳು"], ans: 0 },
+      { q: "21. ಇಂದ್ರನ ವಜ್ರಾಯುಧಕ್ಕೆ ತನ್ನ ಬೆನ್ನೆಲುಬುಗಳನ್ನು ದಾನವಾಗಿ ನೀಡಿದ ಋಷಿ ಯಾರು?", options: ["ದಧೀಚಿ", "ವಿಶ್ವಾಮಿತ್ರ", "ಯಜ್ಞವಲ್ಕ್ಯ", "ವ್ಯಾಸ"], ans: 0 },
+      { q: "22. ಮಾನವ ಮತ್ತು ದೇವರ ಮಧ್ಯೆ ಸಂಪರ್ಕ ಏರ್ಪಡಿಸುವ ಎರಡನೇ ಪ್ರಮುಖ ದೇವರು ಯಾರು?", options: ["ಅಗ್ನಿ", "ಇಂದ್ರ", "ವರುಣ", "ರುದ್ರ"], ans: 0 },
+      { q: "23. ಅಗ್ನಿಯನ್ನು ಕುರಿತು ಋಗ್ವೇದದಲ್ಲಿ ಎಷ್ಟು ಶ್ಲೋಕಗಳಿವೆ?", options: ["200 ಶ್ಲೋಕಗಳು", "250 ಶ್ಲೋಕಗಳು", "150 ಶ್ಲೋಕಗಳು", "108 ಶ್ಲೋಕಗಳು"], ans: 0 },
+      { q: "24. ನಿಯಮಗಳ ಪಾಲಕ ಮತ್ತು ಋತುಗಳ ಪಾಲಕ ಎಂದು ಕರೆಯಲ್ಪಡುವ ಮೂರನೇ ಪ್ರಮುಖ ದೇವರು ಯಾರು?", options: ["ವರುಣ", "ಇಂದ್ರ", "ಅಗ್ನಿ", "ಸೋಮ"], ans: 0 },
+      { q: "25. ವರುಣ ದೇವನನ್ನು ಕುರಿತು ಋಗ್ವೇದದಲ್ಲಿ ಎಷ್ಟು ಶ್ಲೋಕಗಳಿವೆ?", options: ["150 ಶ್ಲೋಕಗಳು", "200 ಶ್ಲೋಕಗಳು", "250 ಶ್ಲೋಕಗಳು", "500 ಶ್ಲೋಕಗಳು"], ans: 0 },
+      { q: "26. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ಮಳೆಯ ದೇವರು' ಮತ್ತು 'ಮಿಂಚಿನ ದೇವರು' ಯಾರು?", options: ["ಮಳೆಯ ದೇವರು – ಪರ್ಜನ್ಯ / ಮಿಂಚಿನ ದೇವರು – ರುದ್ರ", "ಮಳೆಯ ದೇವರು – ಇಂದ್ರ / ಮಿಂಚಿನ ದೇವರು – ಅಗ್ನಿ", "ಮಳೆಯ ದೇವರು – ವರುಣ / ಮಿಂಚಿನ ದೇವರು – ವಾಯು", "ಮಳೆಯ ದೇವರು – ಸೋಮ / ಮಿಂಚಿನ ದೇವರು – ಸೂರ್ಯ"], ans: 0 },
+      { q: "27. ಗೋವುಗಳ ದೇವರು ಯಾರು?", options: ["ಪೂಷನ್", "ಸೂರ್ಯ", "ಸೋಮ", "ಅಶ್ವಿನ್"], ans: 0 },
+      { q: "28. ಸಸ್ಯ ಸಂಕುಲದ ದೇವತೆ ಯಾರು?", options: ["ಸೋಮ", "ಪೂಷನ್", "ವಾಯು", "ರುದ್ರ"], ans: 0 },
+      { q: "29. ವೇದಗಳ ಕಾಲದ ಆರೋಗ್ಯ ದೇವತೆಗಳು ಯಾರು?", options: ["ಅಶ್ವಿನ್ ದೇವತೆಗಳು", "ಸೂರ್ಯ", "ವರುಣ", "ಅಗ್ನಿ"], ans: 0 },
+      { q: "30. ಗೋವಿನ ಮಾಂಸ ತಿನ್ನುವ ಅತಿಥಿಗಳಿಗೆ ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಗೋಘ್ನಾ", "ಅಘನ್ಯ", "ಅಗ್ನಿ", "ಗವಿಷ್ಟಿ"], ans: 0 },
+      { q: "31. ಹಸುವನ್ನು ಕೊಲ್ಲಲಾಗದ ಸಂಪತ್ತು ಎಂದು ಕರೆಯಲು ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ಅಘನ್ಯ", "ಗೋಘ್ನಾ", "ಗವಿಷ್ಟಿ", "ನಿಷ್ಕ"], ans: 0 },
+      { q: "32. ಹಸುಗಳ ಸಂಖ್ಯೆ ಕಡಿಮೆಯಾದರೆ ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಅಗ್ನಿ", "ಅಘನ್ಯ", "ಗೋಘ್ನಾ", "ಶತಮಾನ"], ans: 0 },
+      { q: "33. ಹಸುಗಳನ್ನು ಪಡೆಯುವುದಕ್ಕಾಗಿ ನಡೆಯುತ್ತಿದ್ದ ಯುದ್ಧಗಳಿಗೆ ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಗವಿಷ್ಟಿ", "ದಶರಾಜನ್", "ರಾಜಸೂಯ", "ಅಶ್ವಮೇಧ"], ans: 0 },
+      { q: "34. ಆರ್ಯರ ಅತ್ಯಂತ ಪ್ರಮುಖ ಸಂಪತ್ತು ಯಾವುದಾಗಿತ್ತು?", options: ["ಹಸು", "ಚಿನ್ನ", "ಕುದುರೆ", "ಭೂಮಿ"], ans: 0 },
+      { q: "35. ಆರ್ಯರು ನೀರನ್ನು ಪಡೆಯುತ್ತಿದ್ದ ಬಾವಿಗಳಿಗೆ ಏನೆಂದು ಕರೆಯುತ್ತಿದ್ದರು?", options: ["ಅವತಸ್", "ಕುಲ್ಯ", "ತಟಾಕ", "ಸರಸ್ಸು"], ans: 0 },
+      { q: "36. ವೇದಗಳ ಕಾಲದಲ್ಲಿ ನಾಣ್ಯಗಳ ರೂಪದಲ್ಲಿ ಬಳಸುತ್ತಿದ್ದ ಚಿನ್ನದ ತುಂಡುಗಳು ಯಾವುವು?", options: ["ನಿಷ್ಕ ಮತ್ತು ಶತಮಾನ", "ರೂಪ್ಯ ಮತ್ತು ಕಾಸು", "ದೀನಾರ ಮತ್ತು ಪಣ", "ವರಾಹ ಮತ್ತು ಗದ್ಯಾನ"], ans: 0 },
+      { q: "37. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ಭಕ್ತ' (ಅನ್ನ/ಅಕ್ಕಿ) ಗೆ ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ವೃಹಿ", "ಆಯಸ್", "ಹಿರಣ್ಯ", "ಗೋ"], ans: 0 },
+      { q: "38. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ಕಬ್ಬಿಣ'ಕ್ಕೆ ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ಕೃಷ್ಣ ಆಯಸ್", "ಆಯಸ್", "ಹಿರಣ್ಯ", "ವೃಹಿ"], ans: 0 },
+      { q: "39. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ತಾಮ್ರ'ಕ್ಕೆ ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ಆಯಸ್", "ಕೃಷ್ಣ ಆಯಸ್", "ಹಿರಣ್ಯ", "ನಿಷ್ಕ"], ans: 0 },
+      { q: "40. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ಚಿನ್ನ'ಕ್ಕೆ ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ಹಿರಣ್ಯ", "ಆಯಸ್", "ವೃಹಿ", "ಗೋ"], ans: 0 },
+      { q: "41. ವೇದಗಳ ಕಾಲದಲ್ಲಿ 'ಹಸು'ವಿಗೆ ಬಳಸುತ್ತಿದ್ದ ಪದ ಯಾವುದು?", options: ["ಗೋ", "ವೃಹಿ", "ಹಿರಣ್ಯ", "ಆಯಸ್"], ans: 0 },
+      { q: "42. ಉತ್ತರ ವೇದ ಕಾಲದಲ್ಲಿ ರಾಜನ ಸ್ಥಾನಮಾನ ಹೇಗಿತ್ತು?", options: ["ರಾಜ ಸರ್ವಾಧಿಕಾರಿಯಾದನು", "ಪ್ರಜಾಪ್ರಭುತ್ವವಿತ್ತು", "ಸಭಾ ನಿಯಂತ್ರಿಸುತ್ತಿತ್ತು", "ರಾಜನಿಗೆ ಅಧಿಕಾರವಿರಲಿಲ್ಲ"], ans: 0 },
+      { q: "43. ರಾಜ ತಾನು ಅಧಿಕಾರಕ್ಕೆ ಬರುವ ಸಂದರ್ಭದಲ್ಲಿ ಕೈಗೊಳ್ಳುವ ಯಾಗ ಯಾವುದು?", options: ["ರಾಜಸೂಯ", "ವಾಜಪೇಯಿ", "ಅಶ್ವಮೇಧ", "ಸೋಮಯಾಗ"], ans: 0 },
+      { q: "44. ರಾಜ ಜನರ ಮೇಲೆ ತನ್ನ ಶಕ್ತಿ ಸಾಮರ್ಥ್ಯ ತೋರ್ಪಡಿಸಲು ಕೈಗೊಳ್ಳುವ (ರಥ ಸ್ಪರ್ಧೆ ಒಳಗೊಂಡ) ಯಾಗ ಯಾವುದು?", options: ["ವಾಜಪೇಯಿ", "ರಾಜಸೂಯ", "ಅಶ್ವಮೇಧ", "ಪುತ್ರಕಾಮೇಷ್ಟಿ"], ans: 0 },
+      { q: "45. ರಾಜ ತಾನು ಸಾಮ್ರಾಜ್ಯ ವಿಸ್ತರಣೆಗಾಗಿ ಕೈಗೊಳ್ಳುವ ಯಾಗ ಯಾವುದು?", options: ["ಅಶ್ವಮೇಧ", "ರಾಜಸೂಯ", "ವಾಜಪೇಯಿ", "ಸರ್ಪಯಾಗ"], ans: 0 },
+      { q: "46. ಒಂದೇ ವರ್ಣದ ಗಂಡು ಹೆಣ್ಣು ವಧು ದಕ್ಷಿಣೆಯೊಂದಿಗೆ ಶಾಸ್ತ್ರೋಕ್ತವಾಗಿ ವಿವಾಹವಾಗುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಬ್ರಹ್ಮ ವಿವಾಹ", "ದೈವ ವಿವಾಹ", "ಆರ್ಷ ವಿವಾಹ", "ಪ್ರಜಾಪತಿ ವಿವಾಹ"], ans: 0 },
+      { q: "47. ದಕ್ಷಿಣೆಯ ರೂಪದಲ್ಲಿ ವಧುವನ್ನು ತಂದೆ ದಾನ ಮಾಡುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ದೈವ ವಿವಾಹ", "ಬ್ರಹ್ಮ ವಿವಾಹ", "ಆರ್ಷ ವಿವಾಹ", "ಅಸುರ ವಿವಾಹ"], ans: 0 },
+      { q: "48. ವಧುದಕ್ಷಿಣೆಯ ರೂಪದಲ್ಲಿ ಎತ್ತು ಮತ್ತು ಹಸುಗಳನ್ನು ಪಡೆದು ಕನ್ಯಾದಾನ ಮಾಡುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಆರ್ಷ ವಿವಾಹ", "ಬ್ರಹ್ಮ ವಿವಾಹ", "ಪ್ರಜಾಪತಿ ವಿವಾಹ", "ಗಂಧರ್ವ ವಿವಾಹ"], ans: 0 },
+      { q: "49. ವಧುದಕ್ಷಿಣೆ ಮತ್ತು ವರದಕ್ಷಿಣೆ ಇಲ್ಲದೆ ಮದುವೆ ಮಾಡುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಪ್ರಜಾಪತಿ ವಿವಾಹ", "ಆರ್ಷ ವಿವಾಹ", "ಗಂಧರ್ವ ವಿವಾಹ", "ಅಸುರ ವಿವಾಹ"], ans: 0 },
+      { q: "50. ಪರಸ್ಪರ ಪ್ರೀತಿಸಿ ಸ್ವಯಂವರದ ಮೂಲಕ ವಿವಾಹವಾಗುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಗಂಧರ್ವ ವಿವಾಹ", "ಪ್ರಜಾಪತಿ ವಿವಾಹ", "ರಾಕ್ಷಸ ವಿವಾಹ", "ಪೈಶಾಚ ವಿವಾಹ"], ans: 0 },
+      { q: "51. ವಧುವನ್ನು ಖರೀದಿಸಿ ವಿವಾಹವಾಗುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಅಸುರ ವಿವಾಹ", "ರಾಕ್ಷಸ ವಿವಾಹ", "ಪೈಶಾಚ ವಿವಾಹ", "ಆರ್ಷ ವಿವಾಹ"], ans: 0 },
+      { q: "52. ಯುವತಿಯು ಪ್ರಜ್ಞಾಹೀನ ಸ್ಥಿತಿಯಲ್ಲಿದ್ದಾಗ ಶೀಲ ಭಂಗ ಮಾಡಿ ಮದುವೆಯಾಗುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ಪೈಶಾಚ ವಿವಾಹ", "ರಾಕ್ಷಸ ವಿವಾಹ", "ಅಸುರ ವಿವಾಹ", "ಗಂಧರ್ವ ವಿವಾಹ"], ans: 0 },
+      { q: "53. ಅಪಹರಿಸಿ, ಸೆರೆ ಹಿಡಿದು ವಿವಾಹವಾಗುವುದಕ್ಕೆ ಏನೆನ್ನುತ್ತಾರೆ?", options: ["ರಾಕ್ಷಸ ವಿವಾಹ", "ಪೈಶಾಚ ವಿವಾಹ", "ಅಸುರ ವಿವಾಹ", "ದೈವ ವಿವಾಹ"], ans: 0 },
+      { q: "54. ಉತ್ತರ ವೇದ ಕಾಲದ ಪ್ರಮುಖ ದೇವರುಗಳು ಯಾರು?", options: ["ಪ್ರಜಾಪತಿ, ಶಿವ, ಮಹಾದೇವ", "ಇಂದ್ರ, ಅಗ್ನಿ, ವರುಣ", "ಸೂರ್ಯ, ರುದ್ರ, ಸೋಮ", "ವಿಷ್ಣು, ಬ್ರಹ್ಮ, ಮಹೇಶ್ವರ"], ans: 0 },
+      { q: "55. ಅತ್ಯಂತ ಪ್ರಾಚೀನವಾದ ವೇದ ಯಾವುದು? ಇದನ್ನು ಮ್ಯಾಕ್ಸ್ ಮುಲ್ಲರ್ ಮನುಕುಲದ ಮೊದಲ ಗ್ರಂಥ ಎಂದಿದ್ದಾರೆ?", options: ["ಋಗ್ವೇದ", "ಯಜುರ್ವೇದ", "ಸಾಮವೇದ", "ಅಥರ್ವಣವೇದ"], ans: 0 },
+      { q: "56. ಋಗ್ವೇದದಲ್ಲಿರುವ ಒಟ್ಟು ಶ್ಲೋಕಗಳು ಮತ್ತು ಮಂಡಲಗಳು (ಅಧ್ಯಾಯಗಳು) ಎಷ್ಟು?", options: ["1028 ಶ್ಲೋಕಗಳು, 10 ಮಂಡಲಗಳು", "1000 ಶ್ಲೋಕಗಳು, 12 ಮಂಡಲಗಳು", "108 ಶ್ಲೋಕಗಳು, 8 ಮಂಡಲಗಳು", "2000 ಶ್ಲೋಕಗಳು, 10 ಮಂಡಲಗಳು"], ans: 0 },
+      { q: "57. ಸೂರ್ಯನ ತಾಯಿ ಸಾವಿತ್ರಿದೇವಿಯನ್ನು ಕುರಿತು ಆರಾಧಿಸುವ ಗಾಯತ್ರಿ ಮಂತ್ರ ಋಗ್ವೇದದ ಯಾವ ಮಂಡಲದಲ್ಲಿದೆ?", options: ["3ನೇ ಮಂಡಲ", "7ನೇ ಮಂಡಲ", "9ನೇ ಮಂಡಲ", "10ನೇ ಮಂಡಲ"], ans: 0 },
+      { q: "58. ದಶರಾಜನ್ ಯುದ್ಧದ ಬಗ್ಗೆ ತಿಳಿಸುವ ಋಗ್ವೇದದ 7ನೇ ಮಂಡಲದ ಪ್ರಕಾರ ಈ ಯುದ್ಧ ಯಾವ ನದಿಯ ದಂಡೆಯ ಮೇಲೆ ನಡೆಯಿತು?", options: ["ರಾವಿ ನದಿ", "ಸಿಂಧೂ ನದಿ", "ಸಟ್ಲೇಜ್ ನದಿ", "ಗಂಗಾ ನದಿ"], ans: 0 },
+      { q: "59. ಋಗ್ವೇದದ 9ನೇ ಮಂಡಲವು ಯಾವುದರ ಬಗ್ಗೆ ತಿಳಿಸುತ್ತದೆ?", options: ["ಸೋಮರಸ", "ಗಾಯತ್ರಿ ಮಂತ್ರ", "ದಶರಾಜನ್ ಯುದ್ಧ", "ವರ್ಣವ್ಯವಸ್ಥೆ"], ans: 0 },
+      { q: "60. ವರ್ಣವ್ಯವಸ್ಥೆಯ ಬಗ್ಗೆ ತಿಳಿಸುವ ಪುರುಷ ಸೂಕ್ತವು ಋಗ್ವೇದದ ಯಾವ ಮಂಡಲದಲ್ಲಿದೆ?", options: ["10ನೇ ಮಂಡಲ", "3ನೇ ಮಂಡಲ", "7ನೇ ಮಂಡಲ", "9ನೇ ಮಂಡಲ"], ans: 0 },
+      { q: "61. ಋಗ್ವೇದದ ಮುಖ್ಯ ಪುರೋಹಿತನನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಹೋತ್ರಿ", "ಅಧ್ವರ್ಯು", "ಉದ್ಗಾತ್ರಿ", "ಅಂಗೀರಸ"], ans: 0 },
+      { q: "62. ಯಜುರ್ವೇದದ ಯಾವ ಭಾಗ ಗದ್ಯ ರೂಪದಲ್ಲಿದೆ?", options: ["ಕೃಷ್ಣ ಯಜುರ್ವೇದ", "ಶುಕ್ಲ ಯಜುರ್ವೇದ", "ಸಾಮವೇದ", "ಅಥರ್ವಣವೇದ"], ans: 0 },
+      { q: "63. ಯಜುರ್ವೇದದ ಯಾವ ಭಾಗ ಪದ್ಯ ರೂಪದಲ್ಲಿದೆ?", options: ["ಶುಕ್ಲ ಯಜುರ್ವೇದ", "ಕೃಷ್ಣ ಯಜುರ್ವೇದ", "ಋಗ್ವೇದ", "ಅಥರ್ವಣವೇದ"], ans: 0 },
+      { q: "64. ಯಜ್ಞಯಾಗಾದಿಗಳ ಬಗ್ಗೆ ತಿಳಿಸುವ ವೇದ ಯಾವುದು?", options: ["ಯಜುರ್ವೇದ", "ಋಗ್ವೇದ", "ಸಾಮವೇದ", "ಅಥರ್ವಣವೇದ"], ans: 0 },
+      { q: "65. ಯಜುರ್ವೇದದ ಮುಖ್ಯ ಪುರೋಹಿತ ಯಾರು?", options: ["ಅಧ್ವರ್ಯು", "ಹೋತ್ರಿ", "ಉದ್ಗಾತ್ರಿ", "ಅಂಗೀರಸ"], ans: 0 },
+      { q: "66. ಸೋಮಯಾಗ ಮಾಡುವ ಸಂದರ್ಭದಲ್ಲಿ ಹಾಡುವ ಮಂತ್ರಗಳನ್ನು ಒಳಗೊಂಡ ವೇದ ಯಾವುದು?", options: ["ಸಾಮವೇದ", "ಋಗ್ವೇದ", "ಯಜುರ್ವೇದ", "ಅಥರ್ವಣವೇದ"], ans: 0 },
+      { q: "67. ಸಾಮವೇದದ ಮುಖ್ಯ ಪುರೋಹಿತ ಯಾರು?", options: ["ಉದ್ಗಾತ್ರಿ", "ಹೋತ್ರಿ", "ಅಧ್ವರ್ಯು", "ಅಂಗೀರಸ"], ans: 0 },
+      { q: "68. 'ಬ್ರಹ್ಮವೇದ' ಎಂದು ಕರೆಯಲ್ಪಡುವ ವೇದ ಯಾವುದು?", options: ["ಅಥರ್ವಣವೇದ", "ಋಗ್ವೇದ", "ಯಜುರ್ವೇದ", "ಸಾಮವೇದ"], ans: 0 },
+      { q: "69. ಅಥರ್ವಣವೇದದ ಮುಖ್ಯ ಪುರೋಹಿತ ಯಾರು?", options: ["ಅಂಗೀರಸ", "ಹೋತ್ರಿ", "ಅಧ್ವರ್ಯು", "ಉದ್ಗಾತ್ರಿ"], ans: 0 },
+      { q: "70. ಉಪವೇದವಾದ 'ಆಯುರ್ವೇದ' ಯಾವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಔಷಧಶಾಸ್ತ್ರ", "ಪ್ರೇಮ ವಿವಾಹ & ಸಂಗೀತ", "ಯುದ್ಧ ಕಲೆ", "ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ"], ans: 0 },
+      { q: "71. ಉಪವೇದವಾದ 'ಗಂಧರ್ವವೇದ' ಯಾವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಪ್ರೇಮ ವಿವಾಹ & ಸಂಗೀತ", "ಔಷಧಶಾಸ್ತ್ರ", "ಯುದ್ಧ ಕಲೆ", "ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ"], ans: 0 },
+      { q: "72. ಉಪವೇದವಾದ 'ಧನುರ್ವೇದ' ಯಾವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಯುದ್ಧ ಕಲೆ", "ಔಷಧಶಾಸ್ತ್ರ", "ಸಂಗೀತ", "ವಾಸ್ತುಶಿಲ್ಪ"], ans: 0 },
+      { q: "73. ಉಪವೇದವಾದ 'ಶಿಲ್ಪವೇದ' ಯಾವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಕಲೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ", "ಔಷಧಶಾಸ್ತ್ರ", "ಯುದ್ಧ ಕಲೆ", "ಸಂಗೀತ"], ans: 0 },
+      { q: "74. വേദಾಂಗಗಳಲ್ಲಿ 'ಶಿಕ್ಷಾ' ಯಾವುದರ ಅಧ್ಯಯನವಾಗಿದೆ?", options: ["ಧ್ವನಿಶಾಸ್ತ್ರ", "ಸಂಸ್ಕಾರ ಶಾಸ್ತ್ರ", "ಶಬ್ದಗಳ ಉತ್ಪತ್ತಿ", "ಪದ್ಯದ ಅಳತೆ & ಅಲಂಕಾರ"], ans: 0 },
+      { q: "75. വേദಾಂಗಗಳಲ್ಲಿ 'ಕಲ್ಪ' ಯಾವುದರ ಬಗ್ಗೆ ತಿಳಿಸುತ್ತದೆ?", options: ["ಸಂಸ್ಕಾರ ಶಾಸ್ತ್ರ", "ಧ್ವನಿಶಾಸ್ತ್ರ", "ಭಾಷೆಯ ಕ್ರಮಬದ್ಧ ಅಧ್ಯಯನ", "ಭವಿಷ್ಯ ಶಾಸ್ತ್ರ"], ans: 0 },
+      { q: "76. വേദಾಂಗಗಳಲ್ಲಿ 'ನಿರುಕ್ತ' ಯಾವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಶಬ್ದಗಳ ಉತ್ಪತ್ತಿ", "ಧ್ವನಿಶಾಸ್ತ್ರ", "ಸಂಸ್ಕಾರ ಶಾಸ್ತ್ರ", "ಪದ್ಯದ ಅಳತೆ"], ans: 0 },
+      { q: "77. ಛಂದಸ್ಸು, ವ್ಯಾಕರಣ, ಜ್ಯೋತಿಷ್ಯ ಯಾವುದರ ಬಗ್ಗೆ ತಿಳಿಸುತ್ತವೆ?", options: ["ಛಂದಸ್ಸು: ಪದ್ಯದ ಅಳತೆ & ಅಲಂಕಾರ / ವ್ಯಾಕರಣ: ಭಾಷೆಯ ಕ್ರಮಬದ್ಧ ಅಧ್ಯಯನ / ಜ್ಯೋತಿಷ್ಯ: ಭವಿಷ್ಯ ಶಾಸ್ತ್ರ", "ಛಂದಸ್ಸು: ಧ್ವನಿಶಾಸ್ತ್ರ / ವ್ಯಾಕರಣ: ಸಂಸ್ಕಾರ / ಜ್ಯೋತಿಷ್ಯ: ಯಾಗಗಳು", "ಛಂದಸ್ಸು: ಔಷಧ / ವ್ಯಾಕರಣ: ಸಂಗೀತ / ಜ್ಯೋತಿಷ್ಯ: ಯುದ್ಧ", "ಯಾವುದೂ ಅಲ್ಲ"], ans: 0 },
+      { q: "78. ಷಡ್ ದರ್ಶನಗಳಲ್ಲಿ 'ನ್ಯಾಯದರ್ಶನ' ಸ್ಥಾಪಿಸಿದವರು ಯಾರು?", options: ["ಗೌತಮ", "ಕಪಿಲ", "ಕಣಾದ", "ಪತಂಜಲಿ"], ans: 0 },
+      { q: "79. ಷಡ್ ದರ್ಶನಗಳಲ್ಲಿ 'ಸಾಂಖ್ಯದರ್ಶನ' ಸ್ಥಾಪಿಸಿದವರು ಯಾರು?", options: ["ಕಪಿಲ", "ಗೌತಮ", "ಕಣಾದ", "ಜೈಮಿನಿ"], ans: 0 },
+      { q: "80. ಷಡ್ ದರ್ಶನಗಳಲ್ಲಿ 'ವೈಶೇಷಿಕ ದರ್ಶನ', 'ಯೋಗ ದರ್ಶನ', 'ಪೂರ್ವ ಮೀಮಾಂಸೆ', 'ಉತ್ತರ ಮೀಮಾಂಸೆ' ಸ್ಥಾಪಿಸಿದವರು ಯಾರು?", options: ["ಕಣಾದ (ವೈಶೇಷಿಕ), ಪತಂಜಲಿ (ಯೋಗ), ಜೈಮಿನಿ (ಪೂರ್ವ ಮೀಮಾಂಸೆ), ಬಾದರಾಯಣ (ಉತ್ತರ ಮೀಮಾಂಸೆ)", "ಗೌತಮ, ಕಪಿಲ, ಕಣಾದ, ಪತಂಜಲಿ", "ವ್ಯಾಸ, ವಾಲ್ಮೀಕಿ, ವಿಶ್ವಾಮಿತ್ರ, ದಧೀಚಿ", "ಯಾರೂ ಅಲ್ಲ"], ans: 0 },
+      { q: "81. ಉಪನಿಷತ್ ಎಂದರೆ ಅರ್ಥವೇನು ಮತ್ತು ಒಟ್ಟು ಉಪನಿಷತ್ತುಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?", options: ["ಗುರುವಿನ ಬಳಿ ಕುಳಿತು ನಿಗೂಢ ಜ್ಞಾನ ತಿಳಿಯುವುದು; ಒಟ್ಟು 108", "ದೇವರನ್ನು ಪೂಜಿಸುವುದು; ಒಟ್ಟು 100", "ವೇದಗಳನ್ನು ಹಾಡುವುದು; ಒಟ್ಟು 18", "ಯಾಗ ಮಾಡುವುದು; ಒಟ್ಟು 4"], ans: 0 },
+      { q: "82. ಭಾರತದ ರಾಷ್ಟ್ರ ಲಾಂಛನದಲ್ಲಿರುವ 'ಸತ್ಯಮೇವ ಜಯತೆ' ಎಂಬ ವಾಕ್ಯ ಯಾವ ಉಪನಿಷತ್ತಿನಲ್ಲಿದೆ?", options: ["ಮುಂಡೂಕ ಉಪನಿಷತ್ತು", "ಜಾಬಾಲ ಉಪನಿಷತ್ತು", "ಕಠ ಉಪನಿಷತ್ತು", "ಬೃಹದಾರಣ್ಯಕ"], ans: 0 },
+      { q: "83. ನಾಲ್ಕು ಆಶ್ರಮಗಳ ಬಗ್ಗೆ ತಿಳಿಸುವ ಉಪನಿಷತ್ತು ಯಾವುದು?", options: ["ಜಾಬಾಲ ಉಪನಿಷತ್ತು", "ಮುಂಡೂಕ ಉಪನಿಷತ್ತು", "ಕಠ ಉಪನಿಷತ್ತು", "ಬೃಹದಾರಣ್ಯಕ"], ans: 0 },
+      { q: "84. ಯಮ ಮತ್ತು ನಚಿಕೇತರ ಕಥೆಯ ಬಗ್ಗೆ ತಿಳಿಸುವ ಉಪನಿಷತ್ತು ಯಾವುದು ಮತ್ತು ಪುನರ್ ಜನ್ಮದ ಬಗ್ಗೆ ತಿಳಿಸುವ ಉಪನಿಷತ್ತು ಯಾವುದು?", options: ["ಯಮ-ನಚಿಕೇತ: ಕಠ ಉಪನಿಷತ್ತು / ಪುನರ್ ಜನ್ಮ: ಬೃಹದಾರಣ್ಯಕ", "ಯಮ-ನಚಿಕೇತ: ಮುಂಡೂಕ / ಪುನರ್ ಜನ್ಮ: ಜಾಬಾಲ", "ಯಮ-ನಚಿಕೇತ: ಜಾಬಾಲ / ಪುನರ್ ಜನ್ಮ: ಕಠ", "ಯಾವುದೂ ಅಲ್ಲ"], ans: 0 },
+      { q: "85. ರಾಮಾಯಣ ಗ್ರಂಥವನ್ನು ರಚಿಸಿದವರು ಯಾರು ಮತ್ತು ಅದರಲ್ಲಿರುವ ಮೂಲ ಹಾಗೂ ಪ್ರಸ್ತುತ ಶ್ಲೋಕಗಳು ಎಷ್ಟು?", options: ["ಋಷಿ ವಾಲ್ಮೀಕಿ (ಮೂಲ: 8000, ಪ್ರಸ್ತುತ: 24000)", "ವ್ಯಾಸ ಮಹರ್ಷಿ (ಮೂಲ: 10000, ಪ್ರಸ್ತುತ: 50000)", "ವಿಶ್ವಾಮಿತ್ರ (ಮೂಲ: 5000, ಪ್ರಸ್ತುತ: 12000)", "ದಧೀಚಿ (ಮೂಲ: 8000, ಪ್ರಸ್ತುತ: 20000)"], ans: 0 },
+      { q: "86. ದ್ವಾಪರ ಯುಗದಲ್ಲಿ ನಡೆದ ಮಹಾಭಾರತವನ್ನು ರಚಿಸಿದವರು ವ್ಯಾಸ ಮಹರ್ಷಿ. ಇದರ ಮೂಲ ಹೆಸರು, ಪರ್ವಗಳು ಮತ್ತು ಕೇಂದ್ರ ಭಾಗ ಯಾವುದು?", options: ["ಮೂಲ ಹೆಸರು: ಜಯಸಂಹಿತೆ, 18 ಪರ್ವಗಳು, ಅತ್ಯಂತ ದೊಡ್ಡದು ಭೀಷ್ಮ ಪರ್ವ, ಕೇಂದ್ರ ಭಾಗ: ಭಗವದ್ಗೀತೆ", "ಮೂಲ ಹೆಸರು: ರಾಮಾಯಣ, 10 ಪರ್ವಗಳು, ಕೇಂದ್ರ ಭಾಗ: ಗಾಯತ್ರಿ", "ಮೂಲ ಹೆಸರು: ಋಗ್ವೇದ, 12 ಪರ್ವಗಳು, ಕೇಂದ್ರ ಭಾಗ: ಪುರುಷಸೂಕ್ತ", "ಯಾವುದೂ ಅಲ್ಲ"], ans: 0 },
+      { q: "87. ಋಗ್ವೇದದಲ್ಲಿನ ಗಾಯತ್ರಿ ಮಂತ್ರ ರಚಿಸಿದವರು ಯಾರು ಮತ್ತು ಉಪನಯನ ಸಂಸ್ಕಾರಗಳ ಬಗ್ಗೆ ಉಲ್ಲೇಖವಿರುವ ಬ್ರಾಹ್ಮಣಕ ಯಾವುದು?", options: ["ಗಾಯತ್ರಿ ಮಂತ್ರ: ವಿಶ್ವಾಮಿತ್ರ / ಉಪನಯನ: ಶತ್ಪತ ಬ್ರಾಹ್ಮಣಕ", "ಗಾಯತ್ರಿ ಮಂತ್ರ: ವಾಲ್ಮೀಕಿ / ಉಪನಯನ: ಐತರೇಯ", "ಗಾಯತ್ರಿ ಮಂತ್ರ: ವ್ಯಾಸ / ಉಪನಯನ: ಗೋಪಥ", "ಗಾಯತ್ರಿ ಮಂತ್ರ: ದಧೀಚಿ / ಉಪನಯನ: ಶತಪಥ"], ans: 0 }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(questionsData.length).fill(null);
+    let score = 0;
+
+    function initQuiz() {
+      createPalette();
+      loadQuestion(currentIndex);
+    }
+
+    function createPalette() {
+      const grid = document.getElementById("palette-grid");
+      grid.innerHTML = "";
+      questionsData.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "q-grid-btn";
+        btn.id = `palette-btn-${idx}`;
+        btn.innerText = idx + 1;
+        btn.onclick = () => jumpToQuestion(idx);
+        grid.appendChild(btn);
+      });
+    }
+
+    function loadQuestion(index) {
+      const qData = questionsData[index];
+      document.getElementById("page-info").innerText = `Page 1 - Question ${index + 1} of ${questionsData.length}`;
+      document.getElementById("question-text").innerText = qData.q;
+
+      const optionsBox = document.getElementById("options-container");
+      optionsBox.innerHTML = "";
+
+      const expBox = document.getElementById("explanation-box");
+      expBox.style.display = "none";
+
+      qData.options.forEach((optText, optIdx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = `${String.fromCharCode(65 + optIdx)}) ${optText}`;
+
+        // If user already answered this
+        if (userAnswers[index] !== null) {
+          if (optIdx === qData.ans) {
+            btn.classList.add("correct");
+          }
+          if (userAnswers[index] === optIdx && optIdx !== qData.ans) {
+            btn.classList.add("incorrect");
+          }
+          btn.disabled = true;
+        } else {
+          btn.onclick = () => selectOption(optIdx);
+        }
+
+        optionsBox.appendChild(btn);
+      });
+
+      if (userAnswers[index] !== null && userAnswers[index] !== qData.ans) {
+        expBox.style.display = "block";
+        expBox.innerText = `ತಪ್ಪು! ಸರಿಯಾದ ಉತ್ತರ: ${String.fromCharCode(65 + qData.ans)}) ${qData.options[qData.ans]}`;
+      }
+
+      document.getElementById("prev-btn").disabled = index === 0;
+      document.getElementById("next-btn").disabled = index === questionsData.length - 1;
+
+      updatePaletteUI();
+    }
+
+    function selectOption(selectedIdx) {
+      if (userAnswers[currentIndex] !== null) return;
+
+      userAnswers[currentIndex] = selectedIdx;
+      if (selectedIdx === questionsData[currentIndex].ans) {
+        score++;
+      }
+
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questionsData.length}`;
+      loadQuestion(currentIndex);
+    }
+
+    function updatePaletteUI() {
+      questionsData.forEach((_, idx) => {
+        const btn = document.getElementById(`palette-btn-${idx}`);
+        btn.classList.remove("active", "answered-correct", "answered-incorrect");
+
+        if (idx === currentIndex) {
+          btn.classList.add("active");
+        }
+
+        if (userAnswers[idx] !== null) {
+          if (userAnswers[idx] === questionsData[idx].ans) {
+            btn.classList.add("answered-correct");
+          } else {
+            btn.classList.add("answered-incorrect");
+          }
+        }
+      });
+    }
+
+    function nextQuestion() {
+      if (currentIndex < questionsData.length - 1) {
+        currentIndex++;
+        loadQuestion(currentIndex);
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        loadQuestion(currentIndex);
+      }
+    }
+
+    function jumpToQuestion(index) {
+      currentIndex = index;
+      loadQuestion(currentIndex);
+    }
+
+    function retest() {
+      if (confirm("ನಿಮಗೆ ಮತ್ತೆ ಪರೀಕ್ಷೆಯನ್ನು ಮೊದಲಿನಿಂದ ತೆಗೆದುಕೊಳ್ಳಬೇಕೇ?")) {
+        userAnswers = new Array(questionsData.length).fill(null);
+        score = 0;
+        currentIndex = 0;
+        document.getElementById("score-display").innerText = `Score: 0 / ${questionsData.length}`;
+        loadQuestion(currentIndex);
+      }
+    }
+
+    window.onload = initQuiz;
+  </script>
+</body>
+</html>
