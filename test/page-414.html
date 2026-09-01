@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSP PC & SSC CBT Exam Mock Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        header {
+            background-color: #002b49;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .question-section {
+            flex: 3;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .palette-section {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .q-header {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .q-text {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .options-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        .option-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .option-item:hover {
+            background-color: #e9ecef;
+        }
+        .option-item.selected {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+        .option-item.correct {
+            background-color: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+        }
+        .option-item.incorrect {
+            background-color: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+        }
+        .explanation {
+            display: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .explanation.correct-exp {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .explanation.incorrect-exp {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-prev { background-color: #007bff; }
+        .btn-next { background-color: #007bff; }
+        .btn-retest { background-color: #dc3545; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .p-btn {
+            padding: 8px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .p-btn.current { border: 2px solid #000; }
+        .p-btn.answered-correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .p-btn.answered-wrong { background-color: #dc3545; color: white; border-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>KSP PC & SSC CBT Exam Mock Test</div>
+        <div id="score-display">Score: 0 / 43</div>
+    </header>
+
+    <div class="main-container">
+        <div class="question-section">
+            <div class="q-header" id="q-number">Question 1 of 43</div>
+            <div class="q-text" id="q-text"></div>
+            <ul class="options-list" id="options-container"></ul>
+            <div class="explanation" id="explanation-box"></div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-prev" id="prev-btn" onclick="prevQuestion()">Previous</button>
+                <button class="btn btn-retest" onclick="retestQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+                <button class="btn btn-next" id="next-btn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <div class="palette-section">
+            <h3>Question Palette</h3>
+            <div class="palette-grid" id="palette-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "1922 ರಲ್ಲಿ ಭಾರತೀಯ ಸಂವಿಧಾನದ ಪರಿಕಲ್ಪನೆಯನ್ನು ಪ್ರತಿಪಾದಿಸಿದವರು ಯಾರು?", options: ["ಎಮ್.ಎನ್. ರಾಯ್", "ಮಹಾತ್ಮಾ ಗಾಂಧೀಜಿ", "ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್"], ans: 1, exp: "1922 ರಲ್ಲಿ ಸಂವಿಧಾನದ ಪರಿಕಲ್ಪನೆಯನ್ನು ಪ್ರತಿಪಾದಿಸಿದವರು ಮಹಾತ್ಮಾ ಗಾಂಧೀಜಿ." },
+            { q: "1934 ರಲ್ಲಿ ಬ್ರಿಟಿಷರ ಮುಂದೆ ಲಿಖಿತ ಸಂವಿಧಾನದ ಬೇಡಿಕೆಯನ್ನು ಇಟ್ಟ ಮೊದಲ ವ್ಯಕ್ತಿ ಯಾರು?", options: ["ಎಮ್.ಎನ್. ರಾಯ್", "ಮಹಾತ್ಮಾ ಗಾಂಧೀಜಿ", "ಸುಭಾಷ್ ಚಂದ್ರ ಬೋಸ್", "ಬಾಲ ಗಂಗಾಧರ ತಿಲಕ್"], ans: 0, exp: "1934 ರಲ್ಲಿ ಎಮ್.ಎನ್. ರಾಯ್ ಲಿಖಿತ ಸಂವಿಧಾನದ ಬೇಡಿಕೆಯಿಟ್ಟ ಮೊದಲ ವ್ಯಕ್ತಿ." },
+            { q: "1935 ರಲ್ಲಿ ಸಂವಿಧಾನದ ರಚನೆಯ ಬೇಡಿಕೆ ಇಟ್ಟ ಮೊದಲ राजकीय ಪಕ್ಷ ಯಾವುದು?", options: ["ಮುಸ್ಲಿಂ ലീಗ್", "ಕಾಂಗ್ರೆಸ್", "ಸ್ವರಾಜ್ ಪಕ್ಷ", "ಕಮ್ಯುನಿಸ್ಟ್ ಪಕ್ಷ"], ans: 1, exp: "1935 ರಲ್ಲಿ ಕಾಂಗ್ರೆಸ್ ಸಂವಿಧಾನ ರಚನೆಯ ಬೇಡಿಕೆಯಿಟ್ಟ ಮೊದಲ ಪಕ್ಷ." },
+            { q: "ಸ್ಟ್ಯಾಫೋರ್ಡ್ ಕ್ರಿಪ್ಸ್‌ ನೇತೃತ್ವದ ಕ್ರಿಪ್ಸ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1942 ಮಾರ್ಚ್ 22", "1946 ಮಾರ್ಚ್ 24", "1947 ಆಗಸ್ಟ್ 15", "1950 ಜನವರಿ 26"], ans: 0, exp: "1942 ಮಾರ್ಚ್ 22 ರಂದು ಕ್ರಿಪ್ಸ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದಿತು." },
+            { q: "ಕ್ಲೈಮೆಂಟ್ ಅಟ್ಲಿ ಅವರ ನೇತೃತ್ವದಲ್ಲಿ ಕ್ಯಾಬಿನೆಟ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದದ್ದು ಯಾವಾಗ?", options: ["1942 ಮಾರ್ಚ್ 22", "1946 ಮಾರ್ಚ್ 24", "1946 ಡಿಸೆಂಬರ್ 9", "1947 ಆಗಸ್ಟ್ 29"], ans: 1, exp: "1946 ಮಾರ್ಚ್ 24 ರಂದು ಕ್ಯಾಬಿನೆಟ್ ಆಯೋಗ ಭಾರತಕ್ಕೆ ಬಂದಿತು." },
+            { q: "ಚೀಫ್ ಕಮಿಷನರ್ ಪ್ರಾಂತ್ಯಗಳಲ್ಲಿ ಒಂದಾದ ಕೂರ್ಗ್ ಪ್ರಸ್ತುತ ಯಾವ ಜಿಲ್ಲೆಯಾಗಿದೆ?", options: ["ಧಾರವಾಡ", "ಕೊಡಗು", "ಮೈಸೂರು", "ಬೆಳಗಾವಿ"], ans: 1, exp: "ಕೂರ್ಗ್ ಎಂದರೆ ಕೊಡಗು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯಲ್ಲಿ ಭಾಗವಹಿಸದ ಪ್ರಮುಖ ನಾಯಕರು ಯಾರು?", options: ["ನೆಹರು ಮತ್ತು ಪಟೇಲ್", "ಗಾಂಧೀಜಿ ಮತ್ತು ಜಿನ್ನಾ", "ಅಂಬೇಡ್ಕರ್ ಮತ್ತು ಬಿ.ಎನ್. ರಾವ್", "ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್"], ans: 1, exp: "ಮಹಾತ್ಮಾ ಗಾಂಧಿಜಿ ಮತ್ತು ಮಹಮ್ಮದ್ ಅಲಿ ಜಿನ್ನಾ ಭಾಗವಹಿಸಿರಲಿಲ್ಲ." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಮೊದಲ ಅಧಿವೇಶನ ದೆಹಲಿಯ ಸೆಂಟ್ರಲ್ ಹಾಲ್‌ನಲ್ಲಿ ನಡೆದದ್ದು ಯಾವಾಗ?", options: ["1946 ಡಿಸೆಂಬರ್ 9", "1946 ಡಿಸೆಂಬರ್ 11", "1947 ಆಗಸ್ಟ್ 14", "1949 ನವೆಂಬರ್ 26"], ans: 0, exp: "1946 ಡಿಸೆಂಬರ್ 9 ರಂದು ಸೋಮವಾರ ಬೆಳಿಗ್ಗೆ 11 ಗಂಟೆಗೆ ಪ್ರಥಮ ಸಭೆ ನಡೆಯಿತು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಹಂಗಾಮಿ (ತಾತ್ಕಾಲಿಕ) ಅಧ್ಯಕ್ಷರಾಗಿ ಯಾರು ಆಯ್ಕೆಯಾಗಿದ್ದರು?", options: ["ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಸಚ್ಚಿದಾನಂದ ಸಿನ್ಹಾ", "ಡಾ. ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಬಿ.ಎನ್. ರಾವ್"], ans: 1, exp: "ಡಾ. ಸಚ್ಚಿದಾನಂದ ಸಿನ್ಹಾರವರು ಹಂಗಾಮಿ ಅಧ್ಯಕ್ಷರಾಗಿದ್ದರು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಎರಡನೇ ಸಭೆ ನಡೆದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1946 ಡಿಸೆಂಬರ್ 9", "1946 ಡಿಸೆಂಬರ್ 11", "1946 ಡಿಸೆಂಬರ್ 13", "1947 ಆಗಸ್ಟ್ 29"], ans: 1, exp: "ಎರಡನೇ ಸಭೆಯು 1946 ಡಿಸೆಂಬರ್ 11 ರಂದು ನಡೆಯಿತು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಖಾಯಂ ಅಧ್ಯಕ್ಷರಾಗಿ ಆಯ್ಕೆಯಾದವರು ಯಾರು?", options: ["ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಸರ್ದಾರ್ ವಲ್ಲಭಭಾಯಿ ಪಟೇಲ್"], ans: 0, exp: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಖಾಯಂ ಅಧ್ಯಕ್ಷರಾಗಿದ್ದರು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಮುಖ್ಯ ಕಾನೂನು/ಸಂವಿಧಾನ ಸಲಹೆಗಾರರಾಗಿ ಯಾರು ಆಯ್ಕೆಯಾದರು?", options: ["ಬಿ.ಎನ್. ರಾವ್", "ಎಚ್.ವಿ. ಅಯ್ಯಂಗಾರ್", "ಕೆ.ಎಮ್. ಮುನ್ಷಿ", "ಅಲ್ಲಾಡಿ ಕೃಷ್ಣಸ್ವಾಮಿ"], ans: 0, exp: "ಬಿ.ಎನ್. ರಾವ್ ಅವರು ಸಂವಿಧಾನದ ಸಲಹೆಗಾರರಾಗಿದ್ದರು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯಲ್ಲಿ ಪ್ರಮುಖ ಮಹಿಳಾ ಸದಸ್ಯರಾಗಿದ್ದವರು ಯಾರು?", options: ["ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಝಾನ್ಸಿ ರಾಣಿ", "ಇಂದಿರಾ ಗಾಂಧಿ", "ಕಸ್ತೂರ್ಬಾ ಗಾಂಧಿ"], ans: 0, exp: "ಸರೋಜಿನಿ ನಾಯ್ಡು ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯ ಪ್ರಮುಖ ಮಹಿಳಾ ಸದಸ್ಯರಾಗಿದ್ದರು." },
+            { q: " 'ಭಾರತದ ಕೋಗಿಲೆ' (Nightingale of India) ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಸುಚೇತಾ ಕೃಪಾಲಾನಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ವಿಜಯಲಕ್ಷ್ಮಿ ಪಂಡಿತ್", "ಅಮೃತಾ ಕೌರ್"], ans: 1, exp: "ಸರೋಜಿನಿ ನಾಯ್ಡು ಅವರನ್ನು ಭಾರತದ ಕೋಗಿಲೆ ಎನ್ನಲಾಗುತ್ತದೆ." },
+            { q: "'ದಿ ಗೋಲ್ಡನ್ ತ್ರಿಷೋಲ್ಡ್' ಮತ್ತು 'ದಿ ಬರ್ಡ್ ಆಫ್ ಟೈಮ್' ಕೃತಿಗಳ ಕರ್ತೃ ಯಾರು?", options: ["ಸರೋಜಿನಿ ನಾಯ್ಡು", "ರವೀಂದ್ರನಾಥ ಠಾಗೋರ್", "ಕುವೆಂಪು", "ಅಮೃತಾ ಪ್ರೀತಮ್"], ans: 0, exp: "ಈ ಕೃತಿಗಳನ್ನು ಸರೋಜಿನಿ ನಾಯ್ಡು ಬರೆದಿದ್ದಾರೆ." },
+            { q: "ಭಾರತದ ಮೊದಲ ಮಹಿಳಾ ರಾಜ್ಯಪಾಲರು (ಉತ್ತರ ಪ್ರದೇಶ) ಯಾರು?", options: ["ಸುಚೇತಾ ಕೃಪಾಲಾನಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಪದ್ಮಜಾ ನಾಯ್ಡು", "ಶೀಲಾ ದೀಕ್ಷಿತ್"], ans: 1, exp: "ಸರೋಜಿನಿ ನಾಯ್ಡು ಯುಪಿಯ ಮೊದಲ ಮಹಿಳಾ ರಾಜ್ಯಪಾಲರು." },
+            { q: "ಭಾರತದ ಮೊದಲ ಮಹಿಳಾ ಮುಖ್ಯಮಂತ್ರಿ (ಉತ್ತರ ಪ್ರದೇಶ) ಯಾರು?", options: ["ಸುಚೇತಾ ಕೃಪಾಲಾನಿ", "ಜಯಲಲಿತಾ", "ಮಾಯಾವತಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು"], ans: 0, exp: "ಸುಚೇತಾ ಕೃಪಾಲಾನಿ ಮೊದಲ ಮಹಿಳಾ ಸಿಎಂ." },
+            { q: "ಕೇಂದ್ರ ಸಂಪುಟದಲ್ಲಿ ಮೊದಲ ಮಹಿಳಾ ಸಚಿವೆಯಾಗಿದ್ದ (ಆರೋಗ್ಯ ಖಾತೆ) ಅವರು ಯಾರು?", options: ["ಅಮೃತಾ ಕೌರ್", "ವಿಜಯಲಕ್ಷ್ಮಿ ಪಂಡಿತ್", "ಸುಚೇತಾ ಕೃಪಾಲಾನಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು"], ans: 0, exp: "ಅಮೃತಾ ಕೌರ್ ಮೊದಲ ಮಹಿಳಾ ಕ್ಯಾಬಿನೆಟ್ ಸಚಿವೆ." },
+            { q: "ರಾಜಕುಮಾರಿ ಅಮೃತಾ ಕೌರ್ ವಹಿಸಿಕೊಂಡಿದ್ದ ಸಚಿವಾಲಯ ಯಾವುದು?", options: ["ಆರೋಗ್ಯ ಖಾತೆ", "ಶಿಕ್ಷಣ ಖಾತೆ", "ವಿದೇಶಾಂಗ ಖಾತೆ", "ಹಣಕಾಸು ಖಾತೆ"], ans: 0, exp: "ಅಮೃತಾ ಕೌರ್ ಅವರು ಆರೋಗ್ಯ ಖಾತೆಯ ಸಚಿವೆಯಾಗಿದ್ದರು." },
+            { q: "1953 ರಲ್ಲಿ ವಿಶ್ವಸಂಸ್ಥೆಯ 8ನೇ ಸಾಮಾನ್ಯ ಸಭೆಯ ಅಧ್ಯಕ್ಷತೆ ವಹಿಸಿದ ಪ್ರಥಮ ಮಹಿಳೆ ಯಾರು?", options: ["ವಿಜಯಲಕ್ಷ್ಮಿ ಪಂಡಿತ್", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಇಂದಿರಾ ಗಾಂಧಿ", "ಅಮೃತಾ ಕೌರ್"], ans: 0, exp: "ವಿಜಯಲಕ್ಷ್ಮಿ ಪಂಡಿತ್ ಈ ಗೌರವಕ್ಕೆ ಪಾತ್ರರಾದವರು." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿದ ಏಕೈಕ ಮುಸ್ಲಿಂ ಮಹಿಳೆ ಯಾರು?", options: ["ರಸೀನಾ ಅಜುಲ್ಲಾ ಬೇಗಂ (ಬೇಗಂ ಐಜಾಝ್ ರಸೂಲ್)", "ಫಾತಿಮಾ ಬೀವಿ", "ಆಸಫ್ ಅಲಿ", "ಸಲ್ಮಾ ಸುಲ್ತಾನ್"], ans: 0, exp: "ಬೇಗಂ ಐಜಾಝ್ ರಸೂಲ್ ಏಕೈಕ ಮುಸ್ಲಿಂ ಮಹಿಳಾ ಸದಸ್ಯರಾಗಿದ್ದರು." },
+            { q: "ಸಂವಿಧಾನ ಸಭೆಯಲ್ಲಿ ಆಂಗ್ಲೋ-ಇಂಡಿಯನ್ ಸಮುದಾಯವನ್ನು ಪ್ರತಿನಿಧಿಸಿದವರು ಯಾರು?", options: ["ಫ್ರಾಂಕ್ ಆಂಥೋನಿ", "ಜಾನ್ ಮಥಾಯ್", "ಎಚ್.ಸಿ. ಮುಖರ್ಜಿ", "ಸೋಮನಾಥ ಲಾಹಿರಿ"], ans: 0, exp: "ಆಂಗ್ಲೋ-ಇಂಡಿಯನ್ ಸಮುದಾಯ - ಫ್ರಾಂಕ್ ಆಂಥೋನಿ." },
+            { q: "ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯಲ್ಲಿ ಕೂರ್ಗ್ (ಕೊಡಗು) ಪ್ರಾಂತ್ಯದಿಂದ ಭಾಗವಹಿಸಿದ ಕನ್ನಡಿಗ ಯಾರು?", options: ["ಸಿ.ಎಮ್. ಪೂಣಚ್ಚ", "ಎಸ್. ನಿಜಲಿಂಗಪ್ಪ", "ಕೆ.ಸಿ. ರೆಡ್ಡಿ", "ಕೆಂಗಲ್ ಹನುಮಂತಯ್ಯ"], ans: 0, exp: "ಕೊಡಗು ಪ್ರಾಂತ್ಯದಿಂದ ಸಿ.ಎಮ್. ಪೂಣಚ್ಚ ಭಾಗವಹಿಸಿದ್ದರು." },
+            { q: "ವಿವಿಧ ಸಮಿತಿಗಳನ್ನು ಸಂವಿಧಾನ ಸಭೆಯಲ್ಲಿ ರಚಿಸಿದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1947 ಆಗಸ್ಟ್ 14", "1947 ಆಗಸ್ಟ್ 29", "1950 ಜನವರಿ 26", "1946 ಡಿಸೆಂಬರ್ 9"], ans: 0, exp: "1947 ಆಗಸ್ಟ್ 14 ರಂದು ವಿವಿಧ ಸಮಿತಿಗಳನ್ನು ರಚಿಸಲಾಯಿತು." },
+            { q: "ಸಂವಿಧಾನದ ಕರಡು ಸಮಿತಿ (Drafting Committee) ರಚನೆಯಾದದ್ದು ಯಾವಾಗ?", options: ["1947 ಆಗಸ್ಟ್ 29", "1947 ಆಗಸ್ಟ್ 14", "1949 ನವೆಂಬರ್ 26", "1950 ಜನವರಿ 24"], ans: 0, exp: "ಕರಡು ಸಮಿತಿಯು 1947 ಆಗಸ್ಟ್ 29 ರಂದು ರಚನೆಯಾಯಿತು." },
+            { q: "'ಕುಲಪತಿ' ಬಿರುದು ಹೊಂದಿದ್ದ ಹಾಗೂ 1950 ರಲ್ಲಿ 'ವನ ಮಹೋತ್ಸವ' ಪ್ರಾರಂಭಿಸಿದವರು ಯಾರು?", options: ["ಕೆ.ಎಂ. ಮುನ್ಷಿ", "ಅಲ್ಲಾಡಿ ಕೃಷ್ಣಸ್ವಾಮಿ", "ಎನ್. ಗೋಪಾಲಸ್ವಾಮಿ", "ಮಾಧವರಾವ್"], ans: 0, exp: "ಕೆ.ಎಂ. ಮುನ್ಷಿ ವನ ಮಹೋತ್ಸವ ಆರಂಭಿಸಿದರು." },
+            { q: "'ಸಂವಿಧಾನದ ಶಿಲ್ಪಿ' ಮತ್ತು 'ಆಧುನಿಕ ಮನು' ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಜವಾಹರಲಾಲ್ ನೆಹರು", "ಸರ್ದಾರ್ ವಲ್ಲಭಭಾಯಿ ಪಟೇಲ್", "ಬಿ.ಎನ್. ರಾವ್"], ans: 0, exp: "ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಅವರನ್ನು ಸಂವಿಧಾನದ ಶಿಲ್ಪಿ ಎನ್ನಲಾಗುತ್ತದೆ." },
+            { q: "'Waiting for a Visa' ಎಂಬುದು ಯಾರ ಆತ್ಮಚರಿತ್ರೆ?", options: ["ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಮಹಾತ್ಮಾ ಗಾಂಧಿ", "ನೆಹರು", "ಮೌಲಾನಾ ಆಜಾದ್"], ans: 0, exp: "ಇದು ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಅವರ ಆತ್ಮಚರಿತ್ರೆ." },
+            { q: "ಡಾ|| ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಕರಡು ಪ್ರತಿಯನ್ನು ಸಂವಿಧಾನ ಸಭೆಯ ಮುಂದೆ ಎಷ್ಟು ಬಾರಿ ಓದಿದರು?", options: ["3 ಬಾರಿ", "2 ಬಾರಿ", "5 ಬಾರಿ", "1 ಬಾರಿ"], ans: 0, exp: "ಅಂಬೇಡ್ಕರ್ ಅವರು ಕರಡು ಪ್ರತಿಯನ್ನು 3 ಬಾರಿ ಓದಿದರು." },
+            { q: "ಸಂವಿಧಾನ ರಚನೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಒಟ್ಟು ಎಷ್ಟು ಅಧಿವೇಶನಗಳು ನಡೆದವು?", options: ["11 ಬಾರಿ", "12 ಬಾರಿ", "9 ಬಾರಿ", "15 ಬಾರಿ"], ans: 0, exp: "ಒಟ್ಟು 11 ಅಧಿವೇಶನಗಳು ನಡೆದವು." },
+            { q: "ಭಾರತದ ಸಂವಿಧಾನದ ಕರಡು ಪ್ರತಿಯನ್ನು ಅಂಗೀಕರಿಸಿದ ದಿನಾಂಕ (Adopted Date) ಯಾವುದು?", options: ["1949 ನವೆಂಬರ್ 26", "1950 ಜನವರಿ 26", "1947 ಆಗಸ್ಟ್ 15", "1946 ಡಿಸೆಂಬರ್ 9"], ans: 0, exp: "1949 ನವೆಂಬರ್ 26 ರಂದು ಸಂವಿಧಾನ ಅಂಗೀಕರಿಸಲ್ಪಟ್ಟಿತು." },
+            { q: "ಭಾರತದ ಸಂವಿಧಾನವು ಪೂರ್ಣವಾಗಿ ಜಾರಿಗೆ ಬಂದ (Enforced) ದಿನಾಂಕ ಯಾವುದು?", options: ["1950 ಜನವರಿ 26", "1949 ನವೆಂಬರ್ 26", "1947 ಆಗಸ್ಟ್ 15", "1950 ಜನವರಿ 24"], ans: 0, exp: "1950 ಜನವರಿ 26 ರಂದು ಜಾರಿಗೆ ಬಂದಿತು." },
+            { q: "ಪೂರ್ಣ ಸ್ವರಾಜ್ ದಿನದ ಸವಿನೆನಪಿಗಾಗಿ ಯಾವ ದಿನವನ್ನು ಸಂವಿಧಾನ ಜಾರಿ ದಿನವಾಗಿ ಆಯ್ಕೆ ಮಾಡಲಾಯಿತು?", options: ["ಜನವರಿ 26", "ನವೆಂಬರ್ 26", "ಆಗಸ್ಟ್ 15", "ಅಕ್ಟೋಬರ್ 2"], ans: 0, exp: "1930 ರ ಪೂರ್ಣ ಸ್ವರಾಜ್ ನೆನಪಿಗಾಗಿ ಜನವರಿ 26 ಆಯ್ಕೆ ಮಾಡಲಾಯಿತು." },
+            { q: "ಕಾಶ್ಮೀರದ ಪ್ರತ್ಯೇಕ ಸಂವಿಧಾನವನ್ನು ರದ್ದುಪಡಿಸಿದ ದಿನಾಂಕ ಯಾವುದು?", options: ["2019 ಅಕ್ಟೋಬರ್ 31", "1957 ಜನವರಿ 26", "2014 ಮೇ 26", "2020 ಜನವರಿ 26"], ans: 0, exp: "2019 ಅಕ್ಟೋಬರ್ 31 ರಂದು ಕಾಶ್ಮೀರದ ಸಂವಿಧಾನ ರದ್ದುಗೊಳಿಸಲಾಯಿತು." },
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರಧ್ವಜವನ್ನು ಸಂವಿಧಾನ ಸಭೆಯು ಅಳವಡಿಸಿಕೊಂಡ ದಿನಾಂಕ ಯಾವುದು?", options: ["1947 ಜುಲೈ 22", "1950 ಜನವರಿ 24", "1947 ಆಗಸ್ಟ್ 15", "1949 ನವೆಂಬರ್ 26"], ans: 0, exp: "1947 ಜುಲೈ 22 ರಂದು ರಾಷ್ಟ್ರಧ್ವಜವನ್ನು ಅಳವಡಿಸಿಕೊಳ್ಳಲಾಯಿತು." },
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರಧ್ವಜವನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿದವರು ಯಾರು?", options: ["ಪಿಂಗಾಳಿ ವೆಂಕಯ್ಯ", "ರಬೀಂದ್ರನಾಥ ಠಾಗೋರ್", "ಬಂಕಿಮಚಂದ್ರ", "ನೆಹರು"], ans: 0, exp: "ಪಿಂಗಾಳಿ ವೆಂಕಯ್ಯ ರಾಷ್ಟ್ರಧ್ವಜ ವಿನ್ಯಾಸಗೊಳಿಸಿದರು." },
+            { q: "ರಾಷ್ಟ್ರಧ್ವಜದ ಉದ್ದ ಮತ್ತು ಅಗಲದ ಅನುಪಾತ ఎంతು?", options: ["3:2", "2:3", "4:3", "1:2"], ans: 0, exp: "ಉದ್ದ ಮತ್ತು ಅಗಲದ ಅನುಪಾತ 3:2." },
+            { q: "ಕರ್ನಾಟಕದಲ್ಲಿ ರಾಷ್ಟ್ರಧ್ವಜವನ್ನು ತಯಾರಿಸುವ ಪ್ರಸಿದ್ಧ ಸ್ಥಳ ಧಾರವಾಡದ ____?", options: ["ಗರಗ", "ಹುಬ್ಬಳ್ಳಿ", "ನವಲಗುಂದ", "ಕಲಘಟಗಿ"], ans: 0, exp: "ಧಾರವಾಡದ 'ಗರಗ' ರಾಷ್ಟ್ರಧ್ವಜ ತಯಾರಿಕೆಗೆ ಪ್ರಸಿದ್ಧವಾಗಿದೆ." },
+            { q: "ಭಾರತದಲ್ಲಿ ಧ್ವಜಸಂಹಿತೆ (Flag Code of India) ಜಾರಿಗೆ ಬಂದದ್ದು ಯಾವಾಗ?", options: ["2002 ಜನವರಿ 26", "1950 ಜನವರಿ 26", "1947 ಜುಲೈ 22", "2015 ನವೆಂಬರ್ 26"], ans: 0, exp: "2002 ಜನವರಿ 26 ರಂದು ಧ್ವಜಸಂಹಿತೆ ಜಾರಿಗೆ ಬಂದಿತು." },
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರಗೀತೆಯನ್ನು (ಜನ ಗಣ ಮನ) ಅಳವಡಿಸಿಕೊಂಡ ದಿನಾಂಕ ಯಾವುದು?", options: ["1950 ಜನವರಿ 24", "1947 ಆಗಸ್ಟ್ 15", "1949 ನವೆಂಬರ್ 26", "1950 ಜನವರಿ 26"], ans: 0, exp: "1950 ಜನವರಿ 24 ರಂದು ರಾಷ್ಟ್ರಗೀತೆ ಅಳವಡಿಸಲಾಯಿತು." },
+            { q: "ರಾಷ್ಟ್ರಗೀತೆಯು ಮೂಲತಃ ಯಾವ ಭಾಷೆಗಳ ಮಿಶ್ರಣದಲ್ಲಿದೆ?", options: ["ಸಂಸ್ಕೃತ ಮತ್ತು ಬಂಗಾಳಿ", "ಹಿಂದಿ ಮತ್ತು ಉರ್ದು", "ಕನ್ನಡ ಮತ್ತು ತಮಿಳು", "ಮರಾಠಿ ಮತ್ತು ಬಂಗಾಳಿ"], ans: 0, exp: "ಸಂಸ್ಕೃತ ಮತ್ತು ಬಂಗಾಳಿ ಮಿಶ್ರಿತ ಭಾಷೆಯಲ್ಲಿದೆ." },
+            { q: "ರವೀಂದ್ರನಾಥ ಠಾಗೋರ್ ಅವರ ಯಾವ ಕೃತಿಗೆ ನೋಬೆಲ್ ಪ್ರಶಸ್ತಿ ಲಭಿಸಿದೆ (ರಾಷ್ಟ್ರಗೀತೆ ಇದರ ಭಾಗ)?", options: ["ಗೀತಾಂಜಲಿ", "ಆನಂದಮಠ", "ಕಪಾಲಕುಂಡಲ", "ಗೋರಾ"], ans: 0, exp: "ಗೀತಾಂಜಲಿ ಕೃತಿಗೆ ಲಭಿಸಿದೆ." },
+            { q: "ರಾಷ್ಟ್ರಗೀತೆಯನ್ನು ಪ್ರಪ್ರಥಮ ಬಾರಿಗೆ 1911 ಡಿಸೆಂಬರ್ 27 ರ ಕಲ್ಕತ್ತಾ ಅಧಿವೇಶನದಲ್ಲಿ ಹಾಡಿದವರು ಯಾರು?", options: ["ಸರಳಾದೇವಿ", "ಸುಚೇತಾ ಕೃಪಾಲಾನಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಲತಾ ಮಂಗೇಶ್ಕರ್"], ans: 0, exp: "ಸರಳಾದೇವಿ ಮೊದಲು ಹಾಡಿದರು." },
+            { q: "ರವೀಂದ್ರನಾಥ ಠಾಗೋರ್ ಬರೆದ 'ಅಮರ್ ಸೋನಾರ್ ಬಾಂಗ್ಲಾ' ಯಾವ ದೇಶದ ರಾಷ್ಟ್ರಗೀತೆಯಾಗಿದೆ?", options: ["ಬಾಂಗ್ಲಾದೇಶ", "ನೇಪಾಳ", "ಶ್ರೀಲಂಕಾ", "ಮ್ಯಾನ್ಮಾರ್"], ans: 0, exp: "1971 ರಲ್ಲಿ ಬಾಂಗ್ಲಾದೇಶದ ರಾಷ್ಟ್ರಗೀತೆಯಾಗಿ ಅಳವಡಿಸಿಕೊಳ್ಳಲಾಯಿತು." },
+            { q: "ಯಾವ ವರ್ಷದಿಂದ ನವೆಂಬರ್ 26 ಅನ್ನು 'ಸಂವಿಧಾನ ದಿನ' (Constitution Day) ಎಂದು ಆಚರಿಸಲಾಗುತ್ತಿದೆ?", options: ["2015", "2010", "1950", "2019"], ans: 0, exp: "2015 ರಿಂದ ಪ್ರತಿವರ್ಷ ನವೆಂಬರ್ 26 ಅನ್ನು ಸಂವಿಧಾನ ದಿನವಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ." },
+            { q: "ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಅವರ 125ನೇ ಜನ್ಮದಿನಾಚರಣೆಯ ಅಂಗವಾಗಿ 2016 ಡಿಸೆಂಬರ್ 30 ರಂದು ಜಾರಿಗೆ ತಂದ ಆ್ಯಪ್ ಯಾವುದು?", options: ["ಭೀಮ್ ಆ್ಯಪ್ (BHIM App)", "ಡಿಜಿಲಾಕರ್", "ಉಮಂಗ್ ಆ್ಯಪ್", "ಆಧಾರ್ ಆ್ಯಪ್"], ans: 0, exp: "2016 ಡಿಸೆಂಬರ್ 30 ರಂದು BHIM App ಜಾರಿಗೆ ತರಲಾಯಿತು." }
+        ];
+
+        let currentQ = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function loadQuestion() {
+            const qData = questions[currentQ];
+            document.getElementById("q-number").innerText = `Question ${currentQ + 1} of ${questions.length}`;
+            document.getElementById("q-text").innerText = `${currentQ + 1}. ${qData.q}`;
+
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+
+            qData.options.forEach((opt, idx) => {
+                const li = document.createElement("li");
+                li.className = "option-item";
+                li.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+                
+                if (userAnswers[currentQ] !== null) {
+                    if (idx === qData.ans) {
+                        li.classList.add("correct");
+                    }
+                    if (userAnswers[currentQ] === idx && idx !== qData.ans) {
+                        li.classList.add("incorrect");
+                    }
+                }
+
+                li.onclick = () => selectOption(idx);
+                container.appendChild(li);
+            });
+
+            // Explanation handling
+            const expBox = document.getElementById("explanation-box");
+            if (userAnswers[currentQ] !== null) {
+                expBox.style.display = "block";
+                if (userAnswers[currentQ] === qData.ans) {
+                    expBox.className = "explanation correct-exp";
+                    expBox.innerText = `ಉತ್ತರ ಸರಿಯಾಗಿದೆ! \n${qData.exp}`;
+                } else {
+                    expBox.className = "explanation incorrect-exp";
+                    expBox.innerText = `ತಪ್ಪು (Incorrect).\nಸರಿಯಾದ ಉತ್ತರ: ${qData.options[qData.ans]}\n${qData.exp}`;
+                }
+            } else {
+                expBox.style.display = "none";
+            }
+
+            // Button States
+            document.getElementById("prev-btn").disabled = currentQ === 0;
+            document.getElementById("next-btn").disabled = currentQ === questions.length - 1;
+
+            updatePalette();
+            updateScore();
+        }
+
+        function selectOption(idx) {
+            if (userAnswers[currentQ] !== null) return; // Prevent changing answer
+            userAnswers[currentQ] = idx;
+            loadQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQ < questions.length - 1) {
+                currentQ++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQ > 0) {
+                currentQ--;
+                loadQuestion();
+            }
+        }
+
+        function retestQuiz() {
+            if (confirm("ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ಮತ್ತೆ ಮೊದಲಿನಿಂದ ಆರಂಭಿಸಲು ಬಯಸುತ್ತೀರಾ? (Do you want to restart the test?)")) {
+                userAnswers = new Array(questions.length).fill(null);
+                currentQ = 0;
+                loadQuestion();
+            }
+        }
+
+        function updatePalette() {
+            const grid = document.getElementById("palette-grid");
+            grid.innerHTML = "";
+            questions.forEach((_, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "p-btn";
+                btn.innerText = idx + 1;
+
+                if (idx === currentQ) btn.classList.add("current");
+
+                if (userAnswers[idx] !== null) {
+                    if (userAnswers[idx] === questions[idx].ans) {
+                        btn.classList.add("answered-correct");
+                    } else {
+                        btn.classList.add("answered-wrong");
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentQ = idx;
+                    loadQuestion();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function updateScore() {
+            let score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questions[idx].ans) score++;
+            });
+            document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+        }
+
+        // Initialize Test
+        loadQuestion();
+    </script>
+</body>
+</html>
