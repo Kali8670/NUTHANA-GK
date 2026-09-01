@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ಭಾರತೀಯ ಸಂವಿಧಾನ - ಪೂರ್ವಾ ಪೀಠಿಕೆ Quiz</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background-color: #0d233a; color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; }
+    .main-container { display: flex; flex: 1; padding: 15px; gap: 15px; flex-wrap: wrap; }
+    .quiz-area { flex: 3; background: white; border-radius: 6px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 300px; }
+    .sidebar { flex: 1; background: white; border-radius: 6px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 260px; height: fit-content; }
+    .q-number { font-size: 14px; color: #666; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    .q-text { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #111; line-height: 1.5; }
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .option-btn { width: 100%; text-align: left; padding: 12px 15px; border: 1px solid #ccc; background: #fff; border-radius: 4px; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .option-btn:hover:not([disabled]) { background-color: #eef4fc; border-color: #007bff; }
+    .option-btn.correct { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
+    .option-btn.incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+    .explanation-box { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px; border-radius: 4px; font-size: 13px; line-height: 1.4; margin-bottom: 20px; display: none; }
+    .explanation-box.correct-bg { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+    .action-btns { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
+    .btn { padding: 8px 16px; border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 14px; font-weight: bold; }
+    .btn-prev { background-color: #007bff; }
+    .btn-retest { background-color: #dc3545; }
+    .btn-next { background-color: #007bff; }
+    .palette-title { font-weight: bold; margin-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .palette-btn { padding: 8px; border: 1px solid #ccc; background: #fff; border-radius: 3px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    .palette-btn.active { border: 2px solid #000; }
+    .palette-btn.answered-correct { background-color: #28a745; color: white; border-color: #28a745; }
+    .palette-btn.answered-incorrect { background-color: #dc3545; color: white; border-color: #dc3545; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>KAS PC & SSC CBT Exam Mock Test</div>
+    <div>Time Remaining: <span id="timer">45:00</span></div>
+  </header>
+
+  <div class="main-container">
+    <div class="quiz-area">
+      <div class="q-number" id="q-header">Question 1 of 13</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options-container"></div>
+      <div class="explanation-box" id="explanation-box"></div>
+
+      <div class="action-btns">
+        <button class="btn btn-prev" onclick="prevQuestion()">Previous</button>
+        <button class="btn btn-retest" onclick="restartQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+        <button class="btn btn-next" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="palette-title">
+        <span>Question Palette</span>
+        <span id="score-display">Score: 0 / 13</span>
+      </div>
+      <div class="grid" id="palette-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "1. ಭಾರತದ ಸಂವಿಧಾನದ ಪೂರ್ವಾ ಪೀಠಿಕೆಯನ್ನು (Preamble) ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ?",
+        options: ["A) ಬ್ರಿಟನ್", "B) ಅಮೇರಿಕಾ", "C) ರಷ್ಯಾ", "D) ಕೆನಡಾ"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) ಅಮೇರಿಕಾ. ಭಾರತದ ಸಂವಿಧಾನದ ಪೂರ್ವಾ ಪೀಠಿಕೆಯನ್ನು ಅಮೇರಿಕಾ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ."
+      },
+      {
+        q: "2. ಜವಾಹರಲಾಲ ನೆಹರು ಅವರು ಪೂರ್ವಾ ಪೀಠಿಕೆಯ 'ಧೈಯ ನಿರ್ಣಯ'ವನ್ನು (Objectives Resolution) ಸಂವಿಧಾನ ಸಭೆಯಲ್ಲಿ ಎಂದು ಮಂಡಿಸಿದರು?",
+        options: ["A) 1946 ಡಿಸೆಂಬರ್ 13", "B) 1947 ಜನವರಿ 22", "C) 1949 ನವೆಂಬರ್ 26", "D) 1950 ಜನವರಿ 26"],
+        answer: 0,
+        exp: "ಉತ್ತರ: A) 1946 ಡಿಸೆಂಬರ್ 13. ಜವಾಹರಲಾಲ ನೆಹರು ಅವರು 1946 ಡಿಸೆಂಬರ್ 13 ರಂದು ಧೈಯ ನಿರ್ಣಯವನ್ನು ಮಂಡಿಸಿದರು."
+      },
+      {
+        q: "3. ಸಂವಿಧಾನ ಸಭೆಯು ಧೈಯ ನಿರ್ಣಯವನ್ನು ಪೂರ್ವಾ ಪೀಠಿಕೆಯಾಗಿ ಎಂದು ಅಂಗೀಕರಿಸಿ ಅನುಮೋದಿಸಿತು?",
+        options: ["A) 1946 ಡಿಸೆಂಬರ್ 13", "B) 1947 ಜನವರಿ 22", "C) 1949 ಅಕ್ಟೋಬರ್ 17", "D) 1949 ನವೆಂಬರ್ 26"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) 1947 ಜನವರಿ 22. 1947 ಜನವರಿ 22 ರಂದು ಸಂವಿಧಾನದ ಭಾಗವಾಗಿ ಇದನ್ನು ಅಂಗೀಕರಿಸಿ ಅನುಮೋದಿಸಲಾಯಿತು."
+      },
+      {
+        q: "4. ಪೂರ್ವಾ ಪೀಠಿಕೆಯನ್ನು ಸಂವಿಧಾನದ 'ಹೃದಯ ಮತ್ತು ಒಡವೆ' ಎಂದು ಬಣ್ಣಿಸಿದವರು ಯಾರು?",
+        options: ["A) ಕೆ.ಎಂ. ಮುನ್ಶಿ", "B) ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "C) ಠಾಕೂರದಾಸ್ ಭಾರ್ಗವ್", "D) ಜವಾಹರಲಾಲ್ ನೆಹರು"],
+        answer: 2,
+        exp: "ಉತ್ತರ: C) ಠಾಕೂರದಾಸ್ ಭಾರ್ಗವ್. ಪೂರ್ವಾಪೀಠಿಕೆಯನ್ನು ಠಾಕೂರದಾಸ್ ಭಾರ್ಗವ್ ರವರು ಸಂವಿಧಾನದ ಹೃದಯ ಮತ್ತು ಒಡವೆ ಎಂದಿದ್ದಾರೆ."
+      },
+      {
+        q: "5. ಪೂರ್ವಾ ಪೀಠಿಕೆಯನ್ನು 'ಸಂವಿಧಾನದ ಜಾತಕ' (Horoscope of the Constitution) ಎಂದು ಕರೆದವರು ಯಾರು?",
+        options: ["A) ಕೆ.ಎಂ. ಮುನ್ಶಿ", "B) ಠಾಕೂರದಾಸ್ ಭಾರ್ಗವ್", "C) ಮಹಾತ್ಮ ಗಾಂಧಿ", "D) ಸರ್ದಾರ್ ವಲ್ಲಭಭಾಯಿ ಪಟೇಲ್"],
+        answer: 0,
+        exp: "ಉತ್ತರ: A) ಕೆ.ಎಂ. ಮುನ್ಶಿ. ಪೂರ್ವಾಪೀಠಿಕೆಯನ್ನು ಕೆ.ಎಂ. ಮುನ್ಶಿರವರು ಸಂವಿಧಾನದ ಜಾತಕ ಎಂದಿದ್ದಾರೆ."
+      },
+      {
+        q: "6. ಭಾರತದಂತೆಯೇ 'We the people' ಎಂಬ ಶಬ್ದಗಳೊಂದಿಗೆ ಆರಂಭವಾಗುವ ಮತ್ತೊಂದು ದೇಶದ ಪೂರ್ವಾ ಪೀಠಿಕೆ ಯಾವುದು?",
+        options: ["A) ಫ್ರಾನ್ಸ್", "B) ಮಂಗೋಲಿಯಾ", "C) ಜರ್ಮನಿ", "D) ಆಸ್ಟ್ರೇಲಿಯಾ"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) ಮಂಗೋಲಿಯಾ. ಮಂಗೋಲಿಯನ್ ದೇಶದ ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಹ ಭಾರತದಂತೆ 'We the people' ಎಂದೇ ಆರಂಭವಾಗುತ್ತದೆ."
+      },
+      {
+        q: "7. ಭಾರತದ ಸಂವಿಧಾನ ಪೀಠಿಕೆಯಲ್ಲಿ ಅಧಿಕಾರದ ಮೂಲ ಮೂಲಾಧಾರ ಎಂದು ಯಾರನ್ನು ಗುರುತಿಸಲಾಗಿದೆ?",
+        options: ["A) ಸಂಸತ್ತು", "B) ಸುಪ್ರೀಂ ಕೋರ್ಟ್", "C) ಭಾರತದ ಪ್ರಜೆಗಳಾದ ನಾವು", "D) ರಾಷ್ಟ್ರಪತಿ"],
+        answer: 2,
+        exp: "ಉತ್ತರ: C) ಭಾರತದ ಪ್ರಜೆಗಳಾದ ನಾವು. ಸಂವಿಧಾನ ರಚನಾ ಸಭೆಯಲ್ಲಿ 'ಭಾರತದ ಪ್ರಜೆಗಳಾದ ನಾವು' ಎಂಬ ವಾಕ್ಯದಿಂದ ಸಂವಿಧಾನವನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ."
+      },
+      {
+        q: "8. ಭಾರತದ ಸಂವಿಧಾನವನ್ನು ಸಂವಿಧಾನ ಸಭೆಯಲ್ಲಿ ಅಂಗೀಕರಿಸಿ, ಶಾಸನಗೊಳಿಸಿ, ನಮಗೆ ನಾವೇ ಅರ್ಪಿಸಿಕೊಂಡ ದಿನಾಂಕ ಯಾವುದು?",
+        options: ["A) 1947 ಆಗಸ್ಟ್ 15", "B) 1949 ನವೆಂಬರ್ 26", "C) 1950 ಜನವರಿ 26", "D) 1948 ಜನವರಿ 30"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) 1949 ನವೆಂಬರ್ 26. ನವೆಂಬರ್ 26, 1949 ರಂದು ಈ ಸಂವಿಧಾನವನ್ನು ಅಂಗೀಕರಿಸಿ ಆತ್ಮಾರ্পಿತ ಮಾಡಿಕೊಳ್ಳಲಾಯಿತು."
+      },
+      {
+        q: "9. ಯಾವ ಪ್ರಕರಣದಲ್ಲಿ ಸುಪ್ರೀಂಕೋರ್ಟ್ 'ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಂವಿಧಾನದ ಭಾಗವಲ್ಲ' ಎಂದು ತೀರ್ಪು ನೀಡಿತು?",
+        options: ["A) ಕೇಶವಾನಂದ ಭಾರತಿ ಪ್ರಕರಣ (1973)", "B) ಬೇರುಬಾರಿ ಪ್ರಕರಣ (1960)", "C) ಎಲ್.ಐ.ಸಿ. ಆಫ್ ಇಂಡಿಯಾ ಪ್ರಕರಣ (1995)", "D) ಗೋಲಕನಾಥ್ ಪ್ರಕರಣ (1967)"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) ಬೇರುಬಾರಿ ಪ್ರಕರಣ (1960). 1960 ರಲ್ಲಿ ಬೇರುಬಾರಿ ಪ್ರಕರಣದಲ್ಲಿ ಸುಪ್ರೀಂಕೋರ್ಟ್ ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಂವಿಧಾನದ ಭಾಗವಲ್ಲವೆಂದು ತೀರ್ಪು ನೀಡಿತು."
+      },
+      {
+        q: "10. ಸುಪ್ರೀಂಕೋರ್ಟ್ ತನ್ನ ಹಿಂದಿನ ತೀರ್ಪನ್ನು ಹಿಂಪಡೆದು, 'ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಂವಿಧಾನದ ಮೂಲ ಭಾಗ' ಹಾಗೂ ಮೂಲ ರಚನೆಗೆ ಭಂಗ ಬಾರದಂತೆ ತಿದ್ದುಪಡಿ ಮಾಡಬಹುದು ಎಂದು ತೀರ್ಪು ನೀಡಿದ ಪ್ರಕರಣ ಯಾವುದು?",
+        options: ["A) ಕೇಶವಾನಂದ ಭಾರತಿ V/S ಕೇರಳ ಪ್ರಕರಣ (1973)", "B) ಬೇರುಬಾರಿ ಪ್ರಕರಣ (1960)", "C) ಮೆನಕಾ ಗಾಂಧಿ ಪ್ರಕರಣ (1978)", "D) ಮಿನರ್ವಾ ಮಿಲ್ಸ್ ಪ್ರಕರಣ (1980)"],
+        answer: 0,
+        exp: "ಉತ್ತರ: A) ಕೇಶವಾನಂದ ಭಾರತಿ V/S ಕೇರಳ (1973). ಈ ಪ್ರಕರಣದಲ್ಲಿ ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಂವಿಧಾನದ ಭಾಗವೆಂದು ಮತ್ತು ಮೂಲ ರಚನೆಗೆ ಭಂಗ ಬಾರದಂತೆ ತಿದ್ದುಪಡಿ ಮಾಡಬಹುದು ಎಂದು ತಿಳಿಸಲಾಯಿತು."
+      },
+      {
+        q: "11. 1995 ರ ಯಾವ ಪ್ರಕರಣದಲ್ಲಿ ಸುಪ್ರೀಂಕೋರ್ಟ್ ಪೂರ್ವಾ ಪೀಠಿಕೆಯು ಸಂವಿಧಾನದ ಅವಿಭಾಜ್ಯ ಅಂಗವೆಂದು ಪುನರುಚ್ಛರಿಸಿತು?",
+        options: ["A) ಎಸ್.ಆರ್. ಬೊಮ್ಮಾಯಿ ಪ್ರಕರಣ", "B) ಎಲ್.ಐ.ಸಿ. ಆಫ್ ಇಂಡಿಯಾ ಪ್ರಕರಣ", "C) ಶಾ ಬಾನೋ ಪ್ರಕರಣ", "D) ಕೇಶವಾನಂದ ಭಾರತಿ ಪ್ರಕರಣ"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) ಎಲ್.ಐ.ಸಿ. ಆಫ್ ಇಂಡಿಯಾ ಪ್ರಕರಣ (1995). ಈ ಪ್ರಕರಣದಲ್ಲಿ ಸುಪ್ರೀಂಕೋರ್ಟ್ ತಾನು ಹಿಂದೆ ನೀಡಿದ ಆದೇಶವನ್ನು ಪುನರುಚ್ಛರಿಸಿತು."
+      },
+      {
+        q: "12. 1976 ರ 42 ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿಯ ಮೂಲಕ ಪೂರ್ವಾ ಪೀಠಿಕೆಗೆ ಸೇರಿಸಲಾದ ಮೂರು ಹೊಸ ಪದಗಳು ಯಾವುವು?",
+        options: ["A) ಸಾರ್ವಭೌಮ, ಪ್ರಜಾಸತ್ತಾತ್ಮಕ, ಗಣರಾಜ್ಯ", "B) ಸಮಾಜವಾದಿ, ಜಾತ್ಯತೀತ, ಐಕ್ಯತೆ", "C) ನ್ಯಾಯ, ಸ್ವಾತಂತ್ರ್ಯ, ಸಮಾನತೆ", "D) ಧರ್ಮ, ನಂಬಿಕೆ, ಆರಾಧನೆ"],
+        answer: 1,
+        exp: "ಉತ್ತರ: B) ಸಮಾಜವಾದಿ, ಜಾತ್ಯತೀತ, ಐಕ್ಯತೆ. 1976 ರ 42ನೇ ತಿದ್ದುಪಡಿಯ ಮೂಲಕ ಈ ಮೂರು ಪದಗಳನ್ನು ಸೇರಿಸಲಾಗಿದೆ."
+      },
+      {
+        q: "13. ಸಂವಿಧಾನದಲ್ಲಿ ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯದ ಕುರಿತು ವಿವರಿಸುವ ವಿಧಿಗಳು (Articles) ಯಾವುವು?",
+        options: ["A) 14 ರಿಂದ 18 ನೇ ವಿಧಿ", "B) 19 ರಿಂದ 22 ನೇ ವಿಧಿ", "C) 25 ರಿಂದ 28 ನೇ ವಿಧಿ", "D) 32 ನೇ ವಿಧಿ"],
+        answer: 2,
+        exp: "ಉತ್ತರ: C) 25 ರಿಂದ 28 ನೇ ವಿಧಿ. 42ನೇ ತಿದ್ದುಪಡಿಯಿಂದ ಸೇರಿಸಲ್ಪಟ್ಟ 'ಜಾತ್ಯತೀತ' ತತ್ವಕ್ಕೆ ಅನುಗುಣವಾಗಿ 25 ರಿಂದ 28ನೇ ವಿಧಿಯವರೆಗೆ ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯವನ್ನು ವಿವರಿಸಲಾಗಿದೆ."
+      }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+
+    function initQuiz() {
+      const palette = document.getElementById("palette-grid");
+      palette.innerHTML = "";
+      questions.forEach((_, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "palette-btn";
+        btn.id = `palette-${idx}`;
+        btn.innerText = idx + 1;
+        btn.onclick = () => goToQuestion(idx);
+        palette.appendChild(btn);
+      });
+      loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+      currentIndex = index;
+      document.getElementById("q-header").innerText = `Question ${index + 1} of ${questions.length}`;
+      document.getElementById("q-text").innerText = questions[index].q;
+      
+      const optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = "";
+      
+      const expBox = document.getElementById("explanation-box");
+      expBox.style.display = "none";
+      expBox.classList.remove("correct-bg");
+
+      questions[index].options.forEach((optText, optIdx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = optText;
+        
+        if (userAnswers[index] !== null) {
+          btn.disabled = true;
+          if (optIdx === questions[index].answer) {
+            btn.classList.add("correct");
+          }
+          if (userAnswers[index] === optIdx && optIdx !== questions[index].answer) {
+            btn.classList.add("incorrect");
+          }
+        } else {
+          btn.onclick = () => selectOption(optIdx);
+        }
+        optionsContainer.appendChild(btn);
+      });
+
+      if (userAnswers[index] !== null) {
+        expBox.innerText = questions[index].exp;
+        if (userAnswers[index] === questions[index].answer) {
+          expBox.classList.add("correct-bg");
+        }
+        expBox.style.display = "block";
+      }
+
+      updatePalette();
+      updateScore();
+    }
+
+    function selectOption(optionIdx) {
+      userAnswers[currentIndex] = optionIdx;
+      loadQuestion(currentIndex);
+    }
+
+    function updatePalette() {
+      questions.forEach((_, idx) => {
+        const btn = document.getElementById(`palette-${idx}`);
+        btn.className = "palette-btn";
+        if (idx === currentIndex) btn.classList.add("active");
+        
+        if (userAnswers[idx] !== null) {
+          if (userAnswers[idx] === questions[idx].answer) {
+            btn.classList.add("answered-correct");
+          } else {
+            btn.classList.add("answered-incorrect");
+          }
+        }
+      });
+    }
+
+    function updateScore() {
+      let score = 0;
+      userAnswers.forEach((ans, idx) => {
+        if (ans === questions[idx].answer) score++;
+      });
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+    }
+
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) loadQuestion(currentIndex + 1);
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) loadQuestion(currentIndex - 1);
+    }
+
+    function goToQuestion(idx) {
+      loadQuestion(idx);
+    }
+
+    function restartQuiz() {
+      userAnswers = new Array(questions.length).fill(null);
+      loadQuestion(0);
+    }
+
+    initQuiz();
+  </script>
+</body>
+</html>
