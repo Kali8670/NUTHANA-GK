@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSP PC & SSC CBT Exam Mock Test - Chapter 03</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        header {
+            background-color: #002b49;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .question-section {
+            flex: 3;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.08);
+        }
+        .palette-section {
+            flex: 1;
+            min-width: 260px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .q-header {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 6px;
+        }
+        .q-text {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+        .options-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        .option-item {
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+        .option-item:hover {
+            background-color: #f0f4f8;
+            border-color: #b0c4de;
+        }
+        .option-item.selected {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+        .option-item.correct {
+            background-color: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+            font-weight: bold;
+        }
+        .option-item.incorrect {
+            background-color: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+            font-weight: bold;
+        }
+        .explanation {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+        .explanation.correct-exp {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .explanation.incorrect-exp {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .btn-prev { background-color: #007bff; }
+        .btn-prev:hover { background-color: #0056b3; }
+        .btn-next { background-color: #007bff; }
+        .btn-next:hover { background-color: #0056b3; }
+        .btn-retest { background-color: #dc3545; }
+        .btn-retest:hover { background-color: #bd2130; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .p-btn {
+            padding: 10px 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .p-btn.current { border: 2px solid #000; box-shadow: 0 0 4px rgba(0,0,0,0.3); }
+        .p-btn.answered-correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .p-btn.answered-wrong { background-color: #dc3545; color: white; border-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>ಅಧ್ಯಾಯ - 03: ಸಂವಿಧಾನದ ಲಕ್ಷಣಗಳು & ಎರವಲು (Features & Sources)</div>
+        <div id="score-display">Score: 0 / 36</div>
+    </header>
+
+    <div class="main-container">
+        <div class="question-section">
+            <div class="q-header" id="q-number">Question 1 of 36</div>
+            <div class="q-text" id="q-text"></div>
+            <ul class="options-list" id="options-container"></ul>
+            <div class="explanation" id="explanation-box"></div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-prev" id="prev-btn" onclick="prevQuestion()">Previous</button>
+                <button class="btn btn-retest" onclick="retestQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+                <button class="btn btn-next" id="next-btn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+
+        <div class="palette-section">
+            <h3>Question Palette</h3>
+            <div class="palette-grid" id="palette-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "2011 ರ 97ನೇ ತಿದ್ದುಪಡಿಯ ಮೂಲಕ ಸಂವಿಧಾನದಲ್ಲಿ ಸಹಕಾರ ಸಂಘಗಳ ಸ್ಥಾಪನೆಗೆ ಸೇರಿಸಲಾದ ಹೊಸ ಭಾಗ ಮತ್ತು ವಿಧಿಗಳು ಯಾವುವು?",
+                options: ["ಭಾಗ 9B (243ZH ನಿಂದ 243ZT)", "ಭಾಗ 9A (243P ನಿಂದ 243ZG)", "ಭಾಗ 9 (243 ನಿಂದ 243O)", "ಭಾಗ 10 (244 ನಿಂದ 244A)"],
+                ans: 0,
+                exp: "2011 ರಲ್ಲಿ 97ನೇ ತಿದ್ದುಪಡಿ ಮಾಡಿ 9b ಹೊಸ ಭಾಗ ಸೇರಿಸಿ 243ZH ನಿಂದ 243ZT ವರೆಗೆ ಸಹಕಾರ ಸಂಘಗಳ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "ಸಹಕಾರ ಸಂಘಗಳ ಸ್ಥಾಪನೆ ಕುರಿತು ಮೂಲಭೂತ ಹಕ್ಕುಗಳ ಯಾವ ವಿಧಿಯಲ್ಲಿ ಹಾಗೂ ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳ ಯಾವ ವಿಧಿಯಲ್ಲಿ ಸೇರಿಸಲಾಗಿದೆ?",
+                options: ["ಮೂಲಭೂತ ಹಕ್ಕು: 19(1)(c), ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವ: 43b", "ಮೂಲಭೂತ ಹಕ್ಕು: 21, ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವ: 40", "ಮೂಲಭೂತ ಹಕ್ಕು: 14, ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವ: 44", "ಮೂಲಭೂತ ಹಕ್ಕು: 19(1)(a), ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವ: 45"],
+                ans: 0,
+                exp: "ಸಹಕಾರ ಸಂಘಗಳ ಸ್ಥಾಪನೆಯನ್ನು ಮೂಲಭೂತ ಹಕ್ಕುಗಳಲ್ಲಿ 19(1)(c) ಹಾಗೂ ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವದಲ್ಲಿ 43b ವಿಧಿಯಲ್ಲಿ ಸೇರಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "ಭಾರತದ ಮೂಲ ಸಂವಿಧಾನದಲ್ಲಿದ್ದ ಮತ್ತು ಪ್ರಸ್ತುತ ಇರುವ ವಿಧಿಗಳ (Articles) ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["ಮೂಲದಲ್ಲಿದ್ದವು: 395, ಪ್ರಸ್ತುತ: 465ಕ್ಕಿಂತ ಹೆಚ್ಚು", "ಮೂಲದಲ್ಲಿದ್ದವು: 350, ಪ್ರಸ್ತುತ: 400", "ಮೂಲದಲ್ಲಿದ್ದವು: 395, ಪ್ರಸ್ತುತ: 395", "ಮೂಲದಲ್ಲಿದ್ದವು: 400, ಪ್ರಸ್ತುತ: 500"],
+                ans: 0,
+                exp: "ಮೂಲ ಸಂವಿಧಾನದಲ್ಲಿ 395 ವಿಧಿಗಳಿದ್ದವು, ಪ್ರಸ್ತುತ 465ಕ್ಕಿಂತ ಹೆಚ್ಚು ವಿಧಿಗಳಿವೆ."
+            },
+            {
+                q: "ಭಾರತ ಸಂವಿಧಾನದ ಮೂಲದಲ್ಲಿದ್ದ ಮತ್ತು ಪ್ರಸ್ತುತ ಇರುವ ಭಾಗಗಳ (Parts) ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["ಮೂಲದಲ್ಲಿದ್ದವು: 22, ಪ್ರಸ್ತುತ: 25", "ಮೂಲದಲ್ಲಿದ್ದವು: 20, ಪ್ರಸ್ತುತ: 22", "ಮೂಲದಲ್ಲಿದ್ದವು: 25, ಪ್ರಸ್ತುತ: 28", "ಮೂಲದಲ್ಲಿದ್ದವು: 18, ಪ್ರಸ್ತುತ: 22"],
+                ans: 0,
+                exp: "ಮೂಲ ಸಂವಿಧಾನದಲ್ಲಿ 22 ಭಾಗಗಳಿದ್ದವು, ಪ್ರಸ್ತುತ 25 ಭಾಗಗಳಿವೆ."
+            },
+            {
+                q: "ಭಾರತ ಸಂವಿಧಾನದ ಮೂಲದಲ್ಲಿದ್ದ ಮತ್ತು ಪ್ರಸ್ತುತ ಇರುವ ಅನುಸೂಚಿಗಳ (Schedules) ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["ಮೂಲದಲ್ಲಿದ್ದವು: 08, ಪ್ರಸ್ತುತ: 12", "ಮೂಲದಲ್ಲಿದ್ದವು: 10, ಪ್ರಸ್ತುತ: 12", "ಮೂಲದಲ್ಲಿದ್ದವು: 08, ಪ್ರಸ್ತುತ: 10", "ಮೂಲದಲ್ಲಿದ್ದವು: 06, ಪ್ರಸ್ತುತ: 12"],
+                ans: 0,
+                exp: "ಮೂಲದಲ್ಲಿದ್ದ ಅನುಸೂಚಿಗಳು 08, ಪ್ರಸ್ತುತ 12 ಅನುಸೂಚಿಗಳಿವೆ."
+            },
+            {
+                q: "ಭಾರತದ ಏಕಪೌರತ್ವ (Single Citizenship) ಪದ್ಧತಿಯನ್ನು ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?",
+                options: ["ಬ್ರಿಟನ್", "ಅಮೇರಿಕಾ", "ಕೆನಡಾ", "ಆಸ್ಟ್ರೇಲಿಯಾ"],
+                ans: 0,
+                exp: "ಏಕಪೌರತ್ವ ಪದ್ಧತಿಯನ್ನು ಬ್ರಿಟನ್ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ."
+            },
+            {
+                q: "ಪೌರತ್ವದ ಕುರಿತು ಭಾರತ ಸಂವಿಧಾನದ ಯಾವ ಭಾಗದಲ್ಲಿ ಮತ್ತು ಯಾವ ವಿಧಿಗಳಲ್ಲಿ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: ["ಭಾಗ 2 ರಲ್ಲಿ 5ನೇ ವಿಧಿಯಿಂದ 11ನೇ ವಿಧಿಯವರೆಗೆ", "ಭಾಗ 1 ರಲ್ಲಿ 1ನೇ ವಿಧಿಯಿಂದ 4ನೇ ವಿಧಿಯವರೆಗೆ", "ಭಾಗ 3 ರಲ್ಲಿ 12ನೇ ವಿಧಿಯಿಂದ 35ನೇ ವಿಧಿಯವರೆಗೆ", "ಭಾಗ 4 ರಲ್ಲಿ 36ನೇ ವಿಧಿಯಿಂದ 51ನೇ ವಿಧಿಯವರೆಗೆ"],
+                ans: 0,
+                exp: "ಪೌರತ್ವದ ಕುರಿತು ಸಂವಿಧಾನದ 2ನೇ ಭಾಗದಲ್ಲಿ 5ನೇ ವಿಧಿಯಿಂದ 11ನೇ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "ತುರ್ತು ಪರಿಸ್ಥಿತಿ (Emergency Provisions) ಅಧಿಕಾರಗಳ ವಿಷಯವನ್ನು ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?",
+                options: ["ಜರ್ಮನಿ (Weimar Constitution)", "ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ", "ಐರ್ಲೆಂಡ್", "ಫ್ರೆಂಚ್"],
+                ans: 0,
+                exp: "ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಎಂಬ ವಿಷಯವನ್ನು ಜರ್ಮನಿ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ."
+            },
+            {
+                q: "ತುರ್ತು ಪರಿಸ್ಥಿತಿಯ ಕುರಿತು ಸಂವಿಧಾನದ ಯಾವ ಭಾಗದಲ್ಲಿ ಮತ್ತು ಯಾವ ವಿಧಿಗಳಲ್ಲಿ ತಿಳಿಸಲಾಗಿದೆ?",
+                options: ["18ನೇ ಭಾಗದಲ್ಲಿ 352ನೇ ವಿಧಿಯಿಂದ 360ನೇ ವಿಧಿಯವರೆಗೆ", "17ನೇ ಭಾಗದಲ್ಲಿ 343ನೇ ವಿಧಿಯಿಂದ 351ನೇ ವಿಧಿಯವರೆಗೆ", "20ನೇ ಭಾಗದಲ್ಲಿ 368ನೇ ವಿಧಿಯಲ್ಲಿ", "15ನೇ ಭಾಗದಲ್ಲಿ 324ನೇ ವಿಧಿಯಿಂದ 329ನೇ ವಿಧಿಯವರೆಗೆ"],
+                ans: 0,
+                exp: "ಸಂವಿಧಾನದಲ್ಲಿ 18ನೇ ಭಾಗದಲ್ಲಿ 352ನೇ ವಿಧಿಯಿಂದ 360ನೇ ವಿಧಿಯವರೆಗೆ 3 ಪ್ರಕಾರದ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗೆ ಅವಕಾಶ ಕಲ್ಪಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗೆ (National Emergency) ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["352ನೇ ವಿಧಿ", "356ನೇ ವಿಧಿ", "360ನೇ ವಿಧಿ", "368ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ - 352ನೇ ವಿಧಿ."
+            },
+            {
+                q: "ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ / ರಾಷ್ಟ್ರಪತಿ ಆಳ್ವಿಕೆಗೆ (State Emergency) ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["356ನೇ ವಿಧಿ", "352ನೇ ವಿಧಿ", "360ನೇ ವಿಧಿ", "370ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ - 356ನೇ ವಿಧಿ."
+            },
+            {
+                q: "ಹಣಕಾಸು ತುರ್ತು ಪರಿಸ್ಥಿತಿಗೆ (Financial Emergency) ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["360ನೇ ವಿಧಿ", "356ನೇ ವಿಧಿ", "352ನೇ ವಿಧಿ", "365ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "ಹಣಕಾಸು ತುರ್ತು ಪರಿಸ್ಥಿತಿ - 360ನೇ ವಿಧಿ."
+            },
+            {
+                q: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ವಿಧಾನವನ್ನು (Amendment Procedure) ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ ಮತ್ತು ಯಾವ ವಿಧಿಯಲ್ಲಿ ತಿಳಿಸಲಾಗಿದೆ?",
+                options: ["ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ (368ನೇ ವಿಧಿ)", "ಅಮೇರಿಕಾ (360ನೇ ವಿಧಿ)", "ಬ್ರಿಟನ್ (352ನೇ ವಿಧಿ)", "ಆಸ್ಟ್ರೇಲಿಯಾ (370ನೇ ವಿಧಿ)"],
+                ans: 0,
+                exp: "ತಿದ್ದುಪಡಿ ವಿಧಾನವನ್ನು ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ. 368ನೇ ವಿಧಿ ಪ್ರಕಾರ ತಿದ್ದುಪಡಿ ಮಾಡಲಾಗುತ್ತದೆ."
+            },
+            {
+                q: "ಮೂಲಭೂತ ಹಕ್ಕುಗಳು, ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು ಇತ್ಯಾದಿಗಳನ್ನು ಸಂವಿಧಾನದಲ್ಲಿ ತಿದ್ದುಪಡಿ ಮಾಡುವುದು ಯಾವ ವಿಧಾನಕ್ಕೆ ಸೇರುತ್ತದೆ?",
+                options: ["ಸರಳ ತಿದ್ದುಪಡಿ ವಿಧಾನ", "ಕಠಿಣ ತಿದ್ದುಪಡಿ ವಿಧಾನ", "ವಿಶೇಷ ಬಹುಮತದೊಂದಿಗೆ ರಾಜ್ಯಗಳ ಒಪ್ಪಿಗೆ", "ಮೇಲಿನ ಯಾವುದೂ ಅಲ್ಲ"],
+                ans: 0,
+                exp: "ಸಂಸತ್ತಿನಲ್ಲಿ 2/3 ರಷ್ಟು ಬಹುಮತ ಪಡೆಯುವುದರೊಂದಿಗೆ ಮಾಡುವ ತಿದ್ದುಪಡಿಯನ್ನು ಸರಳ ತಿದ್ದುಪಡಿ ಎನ್ನಲಾಗುತ್ತದೆ (ಉದಾ: ಮೂಲಭೂತ ಹಕ್ಕುಗಳು, ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು, ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು)."
+            },
+            {
+                q: "ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆ, ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರ ಹುದ್ದೆ ಮತ್ತು ಜಿ.ಎಸ್.ಟಿ ತಿದ್ದುಪಡಿ ಮಾಡುವುದು ಯಾವ ವಿಧಾನಕ್ಕೆ ಉದಾಹರಣೆ?",
+                options: ["ಕಠಿಣ ತಿದ್ದುಪಡಿ ವಿಧಾನ", "ಸರಳ ತಿದ್ದುಪಡಿ ವಿಧಾನ", "ಸಾಮಾನ್ಯ ತಿದ್ದುಪಡಿ ವಿಧಾನ", "ಅಧ್ಯಕ್ಷೀಯ ತಿದ್ದುಪಡಿ"],
+                ans: 0,
+                exp: "ಸಂಸತ್ತಿನಲ್ಲಿ 2/3 ರಷ್ಟು ಜನ ಸದಸ್ಯರ ಬಹುಮತದ ಜೊತೆಗೆ ಅರ್ಧದಷ್ಟು ರಾಜ್ಯಗಳ ಒಪ್ಪಿಗೆ ಪಡೆಯುವುದು ಕಠಿಣ ತಿದ್ದುಪಡಿ ವಿಧಾನ."
+            },
+            {
+                q: "ಮೂಲಭೂತ ಹಕ್ಕುಗಳನ್ನು ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ ಮತ್ತು ಅವು ಯಾವ ಭಾಗದಲ್ಲಿದ್ದಾವೆ?",
+                options: ["ಅಮೇರಿಕಾ (3ನೇ ಭಾಗ, 12 ರಿಂದ 35ನೇ ವಿಧಿ)", "ಬ್ರಿಟನ್ (2ನೇ ಭಾಗ, 5 ರಿಂದ 11ನೇ ವಿಧಿ)", "ಐರ್ಲೆಂಡ್ (4ನೇ ಭಾಗ, 36 ರಿಂದ 51ನೇ ವಿಧಿ)", "ರಷ್ಯಾ (4A ಭಾಗ, 51A ವಿಧಿ)"],
+                ans: 0,
+                exp: "ಮೂಲಭೂತ ಹಕ್ಕುಗಳನ್ನು ಅಮೇರಿಕಾದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ. ಸಂವಿಧಾನದ 3ನೇ ಭಾಗದಲ್ಲಿ 12 ರಿಂದ 35ನೇ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "ಭಾರತದ ಸಂವಿಧಾನದ ಯಾವ ಭಾಗವನ್ನು 'ಭಾರತದ ಮ್ಯಾಗ್ನಾಕಾರ್ಟ್' (Magna Carta of India) ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ?",
+                options: ["3ನೇ ಭಾಗ (ಮೂಲಭೂತ ಹಕ್ಕುಗಳು)", "4ನೇ ಭಾಗ (ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು)", "1ನೇ ಭಾಗ (ಸಂಘ ಮತ್ತು ಅದರ ಭೂಪ್ರದೇಶ)", "2ನೇ ಭಾಗ (ಪೌರತ್ವ)"],
+                ans: 0,
+                exp: "ಸಂವಿಧಾನದ 3ನೇ ಭಾಗವನ್ನು 'ಭಾರತದ ಮ್ಯಾಗ್ನಾಕಾರ್ಟ್' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                q: "ಸಂವಿಧಾನದ 7ನೇ ಅನುಸೂಚಿಯಲ್ಲಿರುವ 'ಕೇಂದ್ರ ಪಟ್ಟಿ'ಯಲ್ಲಿ (Union List) ಪ್ರಸ್ತುತ ಇರುವ ವಿಷಯಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["98 ವಿಷಯಗಳು", "59 ವಿಷಯಗಳು", "52 ವಿಷಯಗಳು", "100 ವಿಷಯಗಳು"],
+                ans: 0,
+                exp: "ಕೇಂದ್ರ ಪಟ್ಟಿ - 98 ವಿಷಯಗಳು."
+            },
+            {
+                q: "ಸಂವಿಧಾನದ 7ನೇ ಅನುಸೂಚಿಯಲ್ಲಿರುವ 'ರಾಜ್ಯ ಪಟ್ಟಿ'ಯಲ್ಲಿ (State List) ಪ್ರಸ್ತುತ ಇರುವ ವಿಷಯಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["59 ವಿಷಯಗಳು", "98 ವಿಷಯಗಳು", "52 ವಿಷಯಗಳು", "61 ವಿಷಯಗಳು"],
+                ans: 0,
+                exp: "ರಾಜ್ಯ ಪಟ್ಟಿ - 59 ವಿಷಯಗಳು."
+            },
+            {
+                q: "ಸಂವಿಧಾನದ 7ನೇ ಅನುಸೂಚಿಯಲ್ಲಿರುವ 'ಸಮವರ್ತಿ ಪಟ್ಟಿ'ಯಲ್ಲಿ (Concurrent List) ಪ್ರಸ್ತುತ ಇರುವ ವಿಷಯಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?",
+                options: ["52 ವಿಷಯಗಳು", "59 ವಿಷಯಗಳು", "98 ವಿಷಯಗಳು", "47 ವಿಷಯಗಳು"],
+                ans: 0,
+                exp: "ಸಮವರ್ತಿ ಪಟ್ಟಿ - 52 ವಿಷಯಗಳು."
+            },
+            {
+                q: "ಸಂಸತ್ತಿನ ದ್ವಿಸದನ ಪದ್ಧತಿಯನ್ನು (Bicameralism - ಲೋಕಸಭೆ ಮತ್ತು ರಾಜ್ಯಸಭೆ) ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?",
+                options: ["ಬ್ರಿಟನ್", "ಅಮೇರಿಕಾ", "ಕೆನಡಾ", "ಐರ್ಲೆಂಡ್"],
+                ans: 0,
+                exp: "ದ್ವಿಸದನ ಪದ್ಧತಿಯನ್ನು ಬ್ರಿಟನ್ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ."
+            },
+            {
+                q: "ಕೇಂದ್ರ ಚುನಾವಣಾ ಆಯೋಗದ (Election Commission of India) ಸ್ಥಾಪನೆಗೆ ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["324ನೇ ವಿಧಿ", "315ನೇ ವಿಧಿ", "280ನೇ ವಿಧಿ", "148ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "324ನೇ ವಿಧಿ - ಕೇಂದ್ರ ಚುನಾವಣಾ ಆಯೋಗ."
+            },
+            {
+                q: "ಕೇಂದ್ರ ಲೋಕಸೇವಾ ಆಯೋಗಕ್ಕೆ (UPSC) ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["315ನೇ ವಿಧಿ", "324ನೇ ವಿಧಿ", "280ನೇ ವಿಧಿ", "76ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "315ನೇ ವಿಧಿ - ಕೇಂದ್ರ ಲೋಕಸೇವಾ ಆಯೋಗ."
+            },
+            {
+                q: "ಹಣಕಾಸು ಆಯೋಗಕ್ಕೆ (Finance Commission) ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["280ನೇ ವಿಧಿ", "324ನೇ ವಿಧಿ", "315ನೇ ವಿಧಿ", "165ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "280ನೇ ವಿಧಿ - ಹಣಕಾಸು ಆಯೋಗ."
+            },
+            {
+                q: "ಭಾರತದ ಅಟಾರ್ನಿ ಜನರಲ್ (Attorney General of India) ಹುದ್ದೆಗೆ ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["76ನೇ ವಿಧಿ", "165ನೇ ವಿಧಿ", "148ನೇ ವಿಧಿ", "280ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "76ನೇ ವಿಧಿ - ಅಟಾರ್ನಿ ಜನರಲ್."
+            },
+            {
+                q: "ರಾಜ್ಯದ ಅಡ್ವೋಕೇಟ್ ಜನರಲ್ (Advocate General) ಹುದ್ದೆಗೆ ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["165ನೇ ವಿಧಿ", "76ನೇ ವಿಧಿ", "148ನೇ ವಿಧಿ", "315ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "165ನೇ ವಿಧಿ - ಅಡ್ವೋಕೇಟ್ ಜನರಲ್."
+            },
+            {
+                q: "ಕಂಟ್ರೋಲರ್ & ಆಡಿಟರ್ ಜನರಲ್ (CAG) ಹುದ್ದೆಗೆ ಸಂಬಂಧಿಸಿದ ವಿಧಿ ಯಾವುದು?",
+                options: ["148ನೇ ವಿಧಿ", "76ನೇ ವಿಧಿ", "165ನೇ ವಿಧಿ", "280ನೇ ವಿಧಿ"],
+                ans: 0,
+                exp: "148ನೇ ವಿಧಿ - ಕಂಟ್ರೋಲರ್ & ಆಡಿಟರ್ ಜನರಲ್ (CAG)."
+            },
+            {
+                q: "1935 ರ ಭಾರತ ಸರ್ಕಾರ ಕಾಯ್ದೆಯಿಂದ ಸಂವಿಧಾನಕ್ಕೆ ಎರವಲು ಪಡೆದ ಪ್ರಮುಖ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ, ರಾಜ್ಯಪಾಲರ ಹುದ್ದೆ, ಸಾರ್ವಜನಿಕ ಸೇವೆಗಳು, ನ್ಯಾಯಾಂಗ ಪದ್ಧತಿ", "ಮೂಲಭೂತ ಹಕ್ಕುಗಳು ಮತ್ತು ನ್ಯಾಯಾಂಗ ವಿಮರ್ಶೆ", "ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು ಮತ್ತು ರಾಜ್ಯಸಭೆ ನಾಮಕರಣ", "ತಿದ್ದುಪಡಿ ವಿಧಾನ ಮತ್ತು ತುರ್ತು ಪರಿಸ್ಥಿತಿ"],
+                ans: 0,
+                exp: "1935ರ ಕಾಯ್ದೆಯಿಂದ: ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ, ರಾಜ್ಯಪಾಲರ ಹುದ್ದೆ, ಸಾರ್ವಜನಿಕ ಸೇವೆಗಳು, ನ್ಯಾಯಾಂಗ ಪದ್ಧತಿಯನ್ನು ಎರವಲು ಪಡೆಯಲಾಗಿದೆ."
+            },
+            {
+                q: "ಬ್ರಿಟನ್ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಸಂಸದೀಯ ಪದ್ಧತಿ, ಏಕಪೌರತ್ವ, ರಿಟ್‌ಗಳು, ದ್ವಿಸದನ, ಕ್ಯಾಬಿನೆಟ್ ಪದ್ಧತಿ", "ಪೂರ್ವ ಪೀಠಿಕೆ, ಮೂಲಭೂತ ಹಕ್ಕುಗಳು, ಮಹಾಭಿಯೋಗ", "ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು, ಅಧ್ಯಕ್ಷರ ಚುನಾವಣೆ", "ಸಮವರ್ತಿ ಪಟ್ಟಿ, ಜಂಟಿ ಅಧಿವೇಶನ"],
+                ans: 0,
+                exp: "ಬ್ರಿಟನ್ ಸಂವಿಧಾನದಿಂದ: ಸಂಸದೀಯ ಪದ್ಧತಿ, ಏಕಪೌರತ್ವ, ರಿಟ್‌ಗಳು, ದ್ವಿಸದನ, ಕ್ಯಾಬಿನೆಟ್ ಪದ್ಧತಿ."
+            },
+            {
+                q: "ಅಮೇರಿಕಾ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಪೂರ್ವ ಪೀಠಿಕೆ, ಮೂಲಭೂತ ಹಕ್ಕುಗಳು, ನ್ಯಾಯಾಂಗ ವಿಮರ್ಶೆ, ರಾಷ್ಟ್ರಾಧ್ಯಕ್ಷರ ಮಹಾಭಿಯೋಗ, ಉಪರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ", "ಏಕಪೌರತ್ವ ಮತ್ತು ಸಂಸದೀಯ ಪದ್ಧತಿ", "ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು", "ತಿದ್ದುಪಡಿ ವಿಧಾನ"],
+                ans: 0,
+                exp: "ಅಮೇರಿಕಾದಿಂದ: ಪೂರ್ವ ಪೀಠಿಕೆ, ಮೂಲಭೂತ ಹಕ್ಕುಗಳು, ನ್ಯಾಯಾಂಗ ವಿಮರ್ಶೆ, ರಾಷ್ಟ್ರಾಧ್ಯಕ್ಷರ ಮಹಾಭಿಯೋಗ, ನ್ಯಾಯಾಧೀಶರ ಹುದ್ದೆ, ಉಪರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ."
+            },
+            {
+                q: "ಐರ್ಲೆಂಡ್ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಪ್ರಮುಖ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು, ರಾಜ್ಯಸಭೆಗೆ ಸದಸ್ಯರ ನಾಮಕರಣ, ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆ ವಿಧಾನ", "ಸಮವರ್ತಿ ಪಟ್ಟಿ ಮತ್ತು ಜಂಟಿ ಅಧಿವೇಶನ", "ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು", "ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ"],
+                ans: 0,
+                exp: "ಐರ್ಲೆಂಡ್‌ನಿಂದ: ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು, ರಾಜ್ಯಸಭೆಗೆ ಸದಸ್ಯರ ನಾಮಕರಣ, ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆ ವಿಧಾನ."
+            },
+            {
+                q: "ಕೆನಡಾ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಕೇಂದ್ರದಿಂದ ರಾಜ್ಯಪಾಲರ ನೇಮಕ ಮತ್ತು ಬಲವಾದ ಕೇಂದ್ರವನ್ನು ಹೊಂದಿರುವ ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ", "ಮೂಲಭೂತ ಹಕ್ಕುಗಳು ಮತ್ತು ರಿಟ್‌ಗಳು", "ಸಂಸದೀಯ ವ್ಯವಸ್ಥೆ", "ತಿದ್ದುಪಡಿ ವಿಧಾನ"],
+                ans: 0,
+                exp: "ಕೆನಡಾದಿಂದ: ಕೇಂದ್ರದಿಂದ ರಾಜ್ಯಪಾಲರ ನೇಮಕ, ಬಲವಾದ ಕೇಂದ್ರದಿಂದ ಕೂಡಿದ ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ."
+            },
+            {
+                q: "ಆಸ್ಟ್ರೇಲಿಯಾ ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಸಮವರ್ತಿ ಪಟ್ಟಿ ಮತ್ತು ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನ", "ತುರ್ತು ಪರಿಸ್ಥಿತಿ", "ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು", "ದ್ವಿಸದನ ಪದ್ಧತಿ"],
+                ans: 0,
+                exp: "ಆಸ್ಟ್ರೇಲಿಯಾದಿಂದ: ಸಮವರ್ತಿ ಪಟ್ಟಿ, ಜಂಟಿ ಅಧಿವೇಶನ."
+            },
+            {
+                q: "ರಷ್ಯಾ (USSR) ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಪ್ರಮುಖ ಅಂಶಗಳು ಯಾವುವು?",
+                options: ["ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು ಮತ್ತು ಪೀಠಿಕೆಯಲ್ಲಿರುವ ಸಾಮಾಜಿಕ, ಆರ್ಥಿಕ, ರಾಜಕೀಯ ನ್ಯಾಯದ ಪದಗಳು", "ಸಮವರ್ತಿ ಪಟ್ಟಿ", "ರಾಜ್ಯ ನಿರ್ದೇಶಕ ತತ್ವಗಳು", "ಏಕಪೌರತ್ವ"],
+                ans: 0,
+                exp: "ರಷ್ಯಾದಿಂದ: ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು, ಪೀಠಿಕೆಯಲ್ಲಿರುವ ಸಾಮಾಜಿಕ, ಆರ್ಥಿಕ, ರಾಜಕೀಯ ನ್ಯಾಯ ಪದಗಳು."
+            },
+            {
+                q: "ಫ್ರೆಂಚ್ (France) ಸಂವಿಧಾನದಿಂದ ಎರವಲು ಪಡೆದ ಪ್ರಮುಖ ಪದಗಳು ಯಾವುವು?",
+                options: ["ಸಮಾನತೆ, ಸ್ವಾತಂತ್ರ್ಯ, ಭ್ರಾತೃತ್ವ (Equality, Liberty, Fraternity)", "ಸಾಮಾಜಿಕ, ಆರ್ಥಿಕ, ರಾಜಕೀಯ ನ್ಯಾಯ", "ಸಾರ್ವಭೌಮ, ಸಮಾಜವಾದಿ, ಜಾತ್ಯತೀತ", "ನ್ಯಾಯಾಂಗ ವಿಮರ್ಶೆ"],
+                ans: 0,
+                exp: "ಫ್ರೆಂಚ್ ಸಂವಿಧಾನದಿಂದ: ಪೂರ್ವ ಪೀಠಿಕೆಯಲ್ಲಿರುವ ಸಮಾನತೆ, ಸ್ವಾತಂತ್ರ್ಯ, ಭ್ರಾತೃತ್ವ ಎಂಬ ಪದಗಳು."
+            },
+            {
+                q: "ಸಂವಿಧಾನದ ತಿದ್ದುಪಡಿ (Amendment) ವಿಧಾನವನ್ನು ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?",
+                options: ["ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ", "ಅಮೇರಿಕಾ", "ಬ್ರಿಟನ್", "ಜರ್ಮನಿ"],
+                ans: 0,
+                exp: "ದಕ್ಷಿಣ ಆಫ್ರಿಕಾ ಸಂವಿಧಾನದಿಂದ ತಿದ್ದುಪಡಿ ವಿಧಾನವನ್ನು ಎರವಲು ಪಡೆಯಲಾಗಿದೆ."
+            }
+        ];
+
+        let currentQ = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function loadQuestion() {
+            const qData = questions[currentQ];
+            document.getElementById("q-number").innerText = `Question ${currentQ + 1} of ${questions.length}`;
+            document.getElementById("q-text").innerText = `${currentQ + 1}. ${qData.q}`;
+
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+
+            qData.options.forEach((opt, idx) => {
+                const li = document.createElement("li");
+                li.className = "option-item";
+                li.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+                
+                if (userAnswers[currentQ] !== null) {
+                    if (idx === qData.ans) {
+                        li.classList.add("correct");
+                    }
+                    if (userAnswers[currentQ] === idx && idx !== qData.ans) {
+                        li.classList.add("incorrect");
+                    }
+                }
+
+                li.onclick = () => selectOption(idx);
+                container.appendChild(li);
+            });
+
+            const expBox = document.getElementById("explanation-box");
+            if (userAnswers[currentQ] !== null) {
+                expBox.style.display = "block";
+                if (userAnswers[currentQ] === qData.ans) {
+                    expBox.className = "explanation correct-exp";
+                    expBox.innerText = `ಉತ್ತರ ಸರಿಯಾಗಿದೆ! \n${qData.exp}`;
+                } else {
+                    expBox.className = "explanation incorrect-exp";
+                    expBox.innerText = `ತಪ್ಪು (Incorrect).\nಸರಿಯಾದ ಉತ್ತರ: ${qData.options[qData.ans]}\n${qData.exp}`;
+                }
+            } else {
+                expBox.style.display = "none";
+            }
+
+            document.getElementById("prev-btn").disabled = currentQ === 0;
+            document.getElementById("next-btn").disabled = currentQ === questions.length - 1;
+
+            updatePalette();
+            updateScore();
+        }
+
+        function selectOption(idx) {
+            if (userAnswers[currentQ] !== null) return;
+            userAnswers[currentQ] = idx;
+            loadQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQ < questions.length - 1) {
+                currentQ++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQ > 0) {
+                currentQ--;
+                loadQuestion();
+            }
+        }
+
+        function retestQuiz() {
+            if (confirm("ನೀವು ಪರೀಕ್ಷೆಯನ್ನು ಮತ್ತೆ ಮೊದಲಿನಿಂದ ಆರಂಭಿಸಲು ಬಯಸುತ್ತೀರಾ? (Do you want to restart the test?)")) {
+                userAnswers = new Array(questions.length).fill(null);
+                currentQ = 0;
+                loadQuestion();
+            }
+        }
+
+        function updatePalette() {
+            const grid = document.getElementById("palette-grid");
+            grid.innerHTML = "";
+            questions.forEach((_, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "p-btn";
+                btn.innerText = idx + 1;
+
+                if (idx === currentQ) btn.classList.add("current");
+
+                if (userAnswers[idx] !== null) {
+                    if (userAnswers[idx] === questions[idx].ans) {
+                        btn.classList.add("answered-correct");
+                    } else {
+                        btn.classList.add("answered-wrong");
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentQ = idx;
+                    loadQuestion();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function updateScore() {
+            let score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questions[idx].ans) score++;
+            });
+            document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
