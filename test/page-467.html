@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBT Mock Test - Page 467</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background-color: #1a237e; color: #fff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    header h1 { font-size: 1.2rem; }
+    #timer { color: #ff5252; font-weight: bold; font-size: 1.2rem; background: rgba(0,0,0,0.2); padding: 5px 12px; border-radius: 4px; }
+    .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .quiz-card { flex: 3; background: #fff; border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+    .question-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #1a237e; }
+    .options-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .option-btn { width: 100%; text-align: left; padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; }
+    .option-btn:hover:not(:disabled) { border-color: #1a237e; background: #f0f4ff; }
+    .option-btn.correct { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #2e7d32 !important; box-shadow: 0 0 8px rgba(76, 175, 80, 0.6); font-weight: bold; }
+    .option-btn.wrong { background-color: #ffebee !important; border-color: #f44336 !important; color: #c62828 !important; box-shadow: 0 0 8px rgba(244, 67, 54, 0.6); font-weight: bold; }
+    .explanation-box { background: #eef2ff; border-left: 4px solid #1a237e; padding: 15px; border-radius: 0 6px 6px 0; margin-bottom: 20px; display: none; font-size: 0.95rem; }
+    .nav-actions { display: flex; justify-content: space-between; gap: 10px; }
+    .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-nav { background: #1a237e; color: #fff; }
+    .btn-nav:hover { background: #0d47a1; }
+    .btn-retest { background: #4caf50; color: #fff; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+    .btn-retest:hover { background: #43a047; }
+    .btn-wrong { background: #f44336; color: #fff; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+    .btn-wrong:hover { background: #e53935; }
+    .palette-panel { flex: 1; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-width: 280px; }
+    .score-board { font-size: 1rem; font-weight: bold; margin-bottom: 15px; text-align: center; color: #333; }
+    .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .palette-btn { width: 45px; height: 45px; border-radius: 6px; border: 1px solid #ccc; background: #f8f9fa; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .palette-btn.active { border: 2px solid #1a237e; box-shadow: 0 0 8px rgba(26, 35, 126, 0.8); }
+    .palette-btn.correct { background: #4caf50; color: #fff; border-color: #4caf50; box-shadow: 0 0 8px rgba(76, 175, 80, 0.8); }
+    .palette-btn.wrong { background: #f44336; color: #fff; border-color: #f44336; box-shadow: 0 0 8px rgba(244, 67, 54, 0.8); }
+    @media (max-width: 768px) { .main-container { flex-direction: column; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 id="test-title">ಭಾರತೀಯ ಸಂವಿಧಾನ - ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗ (Page 467)</h1>
+  <div id="timer">10:00</div>
+</header>
+
+<div class="main-container">
+  <div class="quiz-card">
+    <div>
+      <div class="question-title" id="q-text"></div>
+      <div class="options-grid" id="options-container"></div>
+      <div class="explanation-box" id="exp-box"></div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-nav" id="prev-btn" onclick="navigate(-1)">Previous</button>
+      <button class="btn btn-nav" id="next-btn" onclick="navigate(1)">Next</button>
+    </div>
+  </div>
+
+  <div class="palette-panel">
+    <div class="score-board" id="score-text">ಅಂಕಗಳು: 0 / 3</div>
+    <div class="palette-grid" id="palette"></div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <button class="btn btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+      <button class="btn btn-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const masterQuestions = [
+  {
+    id: 6,
+    question: "6. ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯ ಪ್ರಕಾರ ಪ್ರತಿಯೊಂದು ರಾಜ್ಯಕ್ಕೂ ತನ್ನದೇ ಆದ ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗವನ್ನು (RPSC/KPSC) ರಚಿಸಿಕೊಳ್ಳಲು ಅವಕಾಶ ನೀಡಲಾಗಿದೆ?",
+    options: ["ವಿಧಿ 312", "ವಿಧಿ 315", "ವಿಧಿ 320", "ವಿಧಿ 324"],
+    correct: 1,
+    explanation: "ಸಂವಿಧಾನದ 315ನೇ ವಿಧಿಯ ಅನ್ವಯ ಪ್ರತಿಯೊಂದು ರಾಜ್ಯಕ್ಕೆ ತನ್ನದೇ ಆದ ಲೋಕಸೇವಾ ಆಯೋಗವನ್ನು ರಚಿಸಿಕೊಳ್ಳಲು ಅವಕಾಶ ನೀಡಲಾಗಿದೆ."
+  },
+  {
+    id: 7,
+    question: "7. ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗದ ಅಧ್ಯಕ್ಷರು ಮತ್ತು ಸದಸ್ಯರ ಅಧಿಕಾರ ಅವಧಿ ಎಷ್ಟು?",
+    options: ["5 ವರ್ಷಗಳು ಅಥವಾ 65 ವರ್ಷ ವಯಸ್ಸು", "6 ವರ್ಷಗಳು ಅಥವಾ 62 ವರ್ಷ ವಯಸ್ಸು", "6 ವರ್ಷಗಳು ಅಥವಾ 65 ವರ್ಷ ವಯಸ್ಸು", "5 ವರ್ಷಗಳು ಅಥವಾ 60 ವರ್ಷ ವಯಸ್ಸು"],
+    correct: 1,
+    explanation: "ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗದ ಸದಸ್ಯರು 6 ವರ್ಷಗಳ ಕಾಲ ಅಥವಾ 62 ವರ್ಷಗಳು ತುಂಬುವವರೆಗೆ ಅಧಿಕಾರದಲ್ಲಿರುತ್ತಾರೆ (ಯಾವುದು ಮೊದಲೋ ಅದು ಅನ್ವಯವಾಗುತ್ತದೆ)."
+  },
+  {
+    id: 8,
+    question: "8. ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗದ ಅಧ್ಯಕ್ಷರು ಮತ್ತು ಸದಸ್ಯರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?",
+    options: ["ರಾಷ್ಟ್ರಪತಿಗಳಿಗೆ", "ರಾಜ್ಯಪಾಲರಿಗೆ", "ಮುಖ್ಯಮಂತ್ರಿಗಳಿಗೆ", "ಹೈಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಮೂರ್ತಿಗಳಿಗೆ"],
+    correct: 1,
+    explanation: "ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗದ ಅಧ್ಯಕ್ಷರು ಮತ್ತು ಸದಸ್ಯರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ರಾಜ್ಯಪಾಲರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ. (ಆದರೆ ಅವರನ್ನು ಹುದ್ದೆಯಿಂದ ತೆಗೆದುಹಾಕುವ ಅಧಿಕಾರ ರಾಷ್ಟ್ರಪತಿಗಳಿಗೆ ಮಾತ್ರ ಇರುತ್ತದೆ)."
+  }
+];
+
+let activeQuestions = [...masterQuestions];
+let currentFilteredIdx = 0;
+let userAnswers = {};
+let wrongTestCount = 1;
+let timerSeconds = 600;
+let timerInterval = null;
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      alert("ಸಮಯ ಮುಗಿದಿದೆ!");
+      return;
+    }
+    timerSeconds--;
+    let min = Math.floor(timerSeconds / 60);
+    let sec = timerSeconds % 60;
+    document.getElementById("timer").innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  }, 1000);
+}
+
+function renderQuiz() {
+  const q = activeQuestions[currentFilteredIdx];
+  document.getElementById("q-text").innerText = q.question;
+  
+  const optsContainer = document.getElementById("options-container");
+  optsContainer.innerHTML = "";
+  
+  const expBox = document.getElementById("exp-box");
+  expBox.style.display = "none";
+  expBox.innerHTML = `<strong>ವಿವರಣೆ:</strong> ${q.explanation}`;
+
+  const isAnswered = userAnswers.hasOwnProperty(q.id);
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.innerText = opt;
+
+    if (isAnswered) {
+      btn.disabled = true;
+      if (idx === q.correct) btn.classList.add("correct");
+      if (userAnswers[q.id] === idx && idx !== q.correct) btn.classList.add("wrong");
+    } else {
+      btn.onclick = () => handleAnswer(q.id, idx);
+    }
+    optsContainer.appendChild(btn);
+  });
+
+  if (isAnswered) expBox.style.display = "block";
+
+  document.getElementById("prev-btn").disabled = currentFilteredIdx === 0;
+  document.getElementById("next-btn").disabled = currentFilteredIdx === activeQuestions.length - 1;
+
+  renderPalette();
+  updateScore();
+}
+
+function handleAnswer(qId, selectedIdx) {
+  userAnswers[qId] = selectedIdx;
+  renderQuiz();
+}
+
+function renderPalette() {
+  const pGrid = document.getElementById("palette");
+  pGrid.innerHTML = "";
+
+  activeQuestions.forEach((q, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "palette-btn";
+    btn.innerText = q.id;
+
+    if (idx === currentFilteredIdx) btn.classList.add("active");
+    if (userAnswers.hasOwnProperty(q.id)) {
+      if (userAnswers[q.id] === q.correct) btn.classList.add("correct");
+      else btn.classList.add("wrong");
+    }
+
+    btn.onclick = () => {
+      currentFilteredIdx = idx;
+      renderQuiz();
+    };
+    pGrid.appendChild(btn);
+  });
+}
+
+function updateScore() {
+  let score = 0;
+  masterQuestions.forEach(q => {
+    if (userAnswers[q.id] === q.correct) score++;
+  });
+  document.getElementById("score-text").innerText = `ಅಂಕಗಳು: ${score} / ${masterQuestions.length}`;
+}
+
+function navigate(dir) {
+  currentFilteredIdx += dir;
+  renderQuiz();
+}
+
+function retestAll() {
+  userAnswers = {};
+  activeQuestions = [...masterQuestions];
+  currentFilteredIdx = 0;
+  wrongTestCount = 1;
+  document.getElementById("test-title").innerText = "ಭಾರತೀಯ ಸಂವಿಧಾನ - ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗ (Page 467)";
+  timerSeconds = 600;
+  startTimer();
+  renderQuiz();
+}
+
+function testWrongAnswers() {
+  const wrongQs = masterQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
+  if (wrongQs.length === 0) {
+    alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found!)");
+    return;
+  }
+  wrongQs.forEach(q => delete userAnswers[q.id]);
+  activeQuestions = wrongQs;
+  currentFilteredIdx = 0;
+  document.getElementById("test-title").innerText = `Wrong Test-${wrongTestCount++}`;
+  renderQuiz();
+}
+
+window.onload = () => {
+  startTimer();
+  renderQuiz();
+};
+</script>
+</body>
+</html>
