@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Speaker of Lok Sabha</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .test-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .timer {
+            color: #ff5252;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 4px;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-card {
+            flex: 3;
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #e8eaf6;
+            border-color: #3f51b5;
+        }
+
+        .option-btn.correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4caf50 !important;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #ffcdd2 !important;
+            border-color: #f44336 !important;
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .option-btn[disabled] {
+            cursor: default;
+        }
+
+        .explanation-block {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e8eaf6;
+            border-left: 4px solid #1a237e;
+            border-radius: 4px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .nav-btn, .action-btn {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover, .action-btn:hover {
+            background-color: #283593;
+        }
+
+        .nav-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+        }
+
+        .score-box {
+            background-color: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            border-color: #1a237e;
+        }
+
+        .palette-btn.active {
+            border: 3px solid #1a237e !important;
+            font-size: 1.1rem;
+        }
+
+        .palette-btn.correct-btn {
+            background-color: #4caf50;
+            color: white;
+            border-color: #388e3c;
+        }
+
+        .palette-btn.wrong-btn {
+            background-color: #f44336;
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        .action-btns-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .retest-btn {
+            background-color: #00897b;
+        }
+
+        .retest-btn:hover {
+            background-color: #00695c;
+        }
+
+        .wrong-test-btn {
+            background-color: #d81b60;
+        }
+
+        .wrong-test-btn:hover {
+            background-color: #ad1457;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testHeaderTitle">Mock Test - Indian Constitution</div>
+        <div class="timer" id="timer">Time: 15:00</div>
+    </header>
+
+    <div class="main-container">
+        <div class="quiz-card">
+            <div class="question-header" id="questionHeader">Question 1</div>
+            <div class="question-text" id="questionText">Question content goes here...</div>
+            
+            <div class="options-container" id="optionsContainer">
+                </div>
+
+            <div class="explanation-block" id="explanationBlock">
+                </div>
+
+            <div class="navigation-btns">
+                <button class="nav-btn" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="score-box" id="scoreDisplay">Score: 0 / 6</div>
+            <div class="palette-title">Question Palette</div>
+            <div class="palette-grid" id="paletteGrid">
+                </div>
+
+            <div class="action-btns-container">
+                <button class="action-btn retest-btn" onclick="resetFullTest()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="action-btn wrong-test-btn" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            {
+                id: 37,
+                question: "ಲೋಕಸಭೆಯ ಸದಸ್ಯರಲ್ಲಿಯೇ ಒಬ್ಬರನ್ನು ಸಭಾಪತಿ ಎಂದು ಇನ್ನೊಬ್ಬರನ್ನು ಉಪಸಭಾಪತಿ ಎಂದು ಆಯ್ಕೆ ಮಾಡುವ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯಲ್ಲಿ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: [
+                    "93ನೇ ವಿಧಿ",
+                    "85ನೇ ವಿಧಿ",
+                    "100ನೇ ವಿಧಿ",
+                    "108ನೇ ವಿಧಿ"
+                ],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ 93ನೇ ವಿಧಿಯ ಪ್ರಕಾರ, ಲೋಕಸಭೆಯು ತನ್ನ ಸದಸ್ಯರಲ್ಲಿಯೇ ಒಬ್ಬರನ್ನು ಸಭಾಪತಿಯನ್ನಾಗಿ ಮತ್ತು ಇನ್ನೊಬ್ಬರನ್ನು ಉಪಸಭಾಪತಿಯನ್ನಾಗಿ ಆಯ್ಕೆ ಮಾಡುತ್ತದೆ."
+            },
+            {
+                id: 38,
+                question: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದ (Joint Session) ಅಧ್ಯಕ್ಷತೆಯನ್ನು ಯಾರು ವಹಿಸುತ್ತಾರೆ?",
+                options: [
+                    "ರಾಷ್ಟ್ರಪತಿಗಳು",
+                    "ಪ್ರಧಾನಮಂತ್ರಿಗಳು",
+                    "ಲೋಕಸಭೆಯ ಸಭಾಪತಿ (Speaker)",
+                    "ರಾಜ್ಯಸಭೆಯ ಸಭಾಪತಿ"
+                ],
+                correct: 2,
+                explanation: "ಸಂವಿಧಾನದ 108ನೇ ವಿಧಿಯ ಆಧಾರದ ಮೇಲೆ ಕರೆಯಲಾಗುವ ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದ ಅಧ್ಯಕ್ಷತೆಯನ್ನು ಲೋಕಸಭೆಯ ಸಭಾಪತಿಯವರು (Speaker) ವಹಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 39,
+                question: "ಒಂದು ಮಸೂದೆಯು 'ಹಣಕಾಸು ಮಸೂದೆ' (Money Bill) ಹೌದೋ ಅಲ್ಲವೋ ಎಂಬುದನ್ನು ಅಂತಿಮವಾಗಿ ನಿರ್ಧರಿಸುವವರು ಯಾರು?",
+                options: [
+                    "ರಾಷ್ಟ್ರಪತಿಗಳು",
+                    "ಲೋಕಸಭೆಯ ಸಭಾಪತಿ",
+                    "ಹಣಕಾಸು ಸಚಿವರು",
+                    "ಪ್ರಧಾನಮಂತ್ರಿಗಳು"
+                ],
+                correct: 1,
+                explanation: "ಸಂಸತ್ತಿನಲ್ಲಿ ಮಂಡಿಸಲಾದ ಮಸೂದೆಯು ಹಣಕಾಸು ಮಸೂದೆಯೋ ಅಲ್ಲವೋ ಎಂಬುದನ್ನು ನಿರ್ಧರಿಸುವ ಅಂತಿಮ ಅಧಿಕಾರ ಲೋಕಸಭೆಯ ಸಭಾಪತಿಯವರಿಗೆ ಇರುತ್ತದೆ."
+            },
+            {
+                id: 40,
+                question: "ಸಭಾಪತಿಯವರು ತಮ್ಮ ಸಾಮಾನ್ಯ ಮತದಾನದ ಹಕ್ಕನ್ನು ಬಳಸದೆ, ನಿರ್ಣಾಯಕ ಮತ (Casting Vote) ಯಾವಾಗ ಚಲಾಯಿಸುತ್ತಾರೆ?",
+                options: [
+                    "ಪ್ರತಿಯೊಂದು ಮಸೂದೆಯ ಮಂಡನೆಯ ಸಮಯದಲ್ಲಿ",
+                    "ಮಸೂದೆಯ ಪರ ಮತ್ತು ವಿರುದ್ಧ ಸಮಾನ ಮತಗಳು ಬಿದ್ದಾಗ (Tie)",
+                    "ವಿರೋಧ ಪಕ್ಷದವರು ವಿನಂತಿಸಿದಾಗ",
+                    "ರಾಷ್ಟ್ರಪತಿಗಳು ಆದೇಶಿಸಿದಾಗ"
+                ],
+                correct: 1,
+                explanation: "ಸಾಮಾನ್ಯವಾಗಿ ಸಭಾಪತಿಯವರು ಮತ ಚಲಾಯಿಸುವುದಿಲ್ಲ. ಆದರೆ ಒಂದು ಮಸೂದೆಯ ಪರ ಮತ್ತು ವಿರುದ್ಧ ಸಮಾನ ಮತಗಳು ಬಿದ್ದಾಗ (Tie), ನಿರ್ಣಾಯಕ ಮತವನ್ನು (Casting Vote - ವಿಧಿ 100) ಚಲಾಯಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 41,
+                question: "ಲೋಕಸಭೆಯ ಪ್ರಥಮ ಸಭಾಪತಿ (First Speaker of Lok Sabha) ಯಾರಾಗಿದ್ದರು?",
+                options: [
+                    "ಎನ್. ಸಂಜೀವ ರೆಡ್ಡಿ",
+                    "ಜಿ.ವಿ. ಮಾವಳಂಕರ್",
+                    "ಹುಕಮ್ ಸಿಂಗ್",
+                    "ಕೆ.ಎಸ್. ಹೆಗ್ಡೆ"
+                ],
+                correct: 1,
+                explanation: "ಲೋಕಸಭೆಯ ಮೊದಲ ಸಭಾಪತಿಯಾಗಿ ಜಿ.ವಿ. ಮಾವಳಂಕರ್ ( Ganesh Vasudev Mavalankar) ಅವರು ಕಾರ್ಯನಿರ್ವಹಿಸಿದರು."
+            },
+            {
+                id: 42,
+                question: "ಡಿಸೆಂಬರ್ 2023ರ ಅವಧಿಯಲ್ಲಿ ಲೋಕಸಭೆಯ ಸಭಾಪತಿಯಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದ್ದವರು ಯಾರು?",
+                options: [
+                    "ಮೀರಾ ಕುಮಾರ್",
+                    "ಸುಮಿತ್ರಾ ಮಹಾಜನ್",
+                    "ಓಂ ಬಿರ್ಲಾ",
+                    "ಮೋಹನ್ ಸಿಂಗ್"
+                ],
+                correct: 2,
+                explanation: "17ನೇ ಲೋಕಸಭೆಯ ಸಭಾಪತಿಯಾಗಿ (ಡಿಸೆಂಬರ್ 2023ರ ಅವಧಿಯಲ್ಲಿ) ಓಂ ಬಿರ್ಲಾ ಅವರು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿದ್ದರು."
+            }
+        ];
+
+        let currentActiveQuestions = [...allQuestions];
+        let currentQuestionIndex = 0;
+        let userAnswers = {}; // Map of question ID to selected option index
+        let wrongTestCounter = 1;
+        let timerInterval;
+        let totalSeconds = 900; // 15 Minutes
+
+        function initQuiz() {
+            startTimer();
+            renderQuiz();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "Time Up!";
+                    return;
+                }
+                totalSeconds--;
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                document.getElementById('timer').innerText = `Time: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function renderQuiz() {
+            if (currentActiveQuestions.length === 0) return;
+
+            const q = currentActiveQuestions[currentQuestionIndex];
+            document.getElementById('questionHeader').innerText = `Question Number: ${q.id}`;
+            document.getElementById('questionText').innerText = q.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOption = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (idx === selectedOption && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(q.id, idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Explanation Block
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) {
+                expBlock.style.display = 'block';
+                expBlock.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+            } else {
+                expBlock.style.display = 'none';
+            }
+
+            // Navigation Buttons
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentActiveQuestions.length - 1;
+
+            updatePaletteAndScore();
+        }
+
+        function selectOption(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            renderQuiz();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < currentActiveQuestions.length) {
+                currentQuestionIndex = newIndex;
+                renderQuiz();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuiz();
+        }
+
+        function updatePaletteAndScore() {
+            const paletteGrid = document.getElementById('paletteGrid');
+            paletteGrid.innerHTML = '';
+
+            let score = 0;
+
+            currentActiveQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id; // Always display original global ID
+
+                if (idx === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        btn.classList.add('correct-btn');
+                        score++;
+                    } else {
+                        btn.classList.add('wrong-btn');
+                    }
+                }
+
+                btn.onclick = () => jumpToQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+
+            // Total score calculate across all attempted questions in current pool
+            document.getElementById('scoreDisplay').innerText = `Score: ${score} / ${currentActiveQuestions.length}`;
+        }
+
+        function resetFullTest() {
+            currentActiveQuestions = [...allQuestions];
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            wrongTestCounter = 1;
+            document.getElementById('testHeaderTitle').innerText = "Mock Test - Indian Constitution";
+            totalSeconds = 900;
+            startTimer();
+            renderQuiz();
+        }
+
+        function startWrongTest() {
+            const wrongQuestions = currentActiveQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+
+            // Remove answers for the wrong questions so they can be re-attempted
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            currentActiveQuestions = wrongQuestions;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('testHeaderTitle').innerText = `Wrong Test-${wrongTestCounter}`;
+            wrongTestCounter++;
+
+            renderQuiz();
+        }
+
+        // Initialize quiz on page load
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
