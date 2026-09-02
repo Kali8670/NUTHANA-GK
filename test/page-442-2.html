@@ -1,402 +1,569 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಭಾರತೀಯ ಸಂವಿಧಾನ - ರಸಪ್ರಶ್ನೆ ಪರೀಕ್ಷೆ</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roopa Tutorials - CBT Mock Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-        }
+    body {
+      background-color: #0a0f24;
+      background-image: radial-gradient(circle at 50% 0%, #1a237e3d, transparent 70%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .main-container {
-            width: 100%;
-            max-width: 900px;
-            background: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    /* Header Styling */
+    header {
+      background: rgba(13, 27, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e2d5a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        .header {
-            background-color: #0d47a1;
-            color: white;
-            padding: 10px 15px;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .test-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        .content-area {
-            display: flex;
-            flex-direction: row;
-        }
+    .timer-pill {
+      background: #2c121e;
+      color: #ff5252;
+      border: 1px solid #ff525244;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
 
-        @media (max-width: 768px) {
-            .content-area {
-                flex-direction: column-reverse;
-            }
-        }
+    /* Main Layout */
+    .container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      width: 100%;
+      flex-grow: 1;
+    }
 
-        .question-section {
-            flex: 3;
-            padding: 15px;
-            border-right: 1px solid #ddd;
-        }
+    /* Quiz Card */
+    .quiz-card {
+      background: #131e3a;
+      border: 1px solid #1e2d5a;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-        .palette-section {
-            flex: 1;
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
+    .question-header {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
 
-        .q-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #333;
-        }
+    .question-text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #f8fafc;
+    }
 
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
 
-        .option-btn {
-            padding: 10px 15px;
-            text-align: left;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    .option-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        .option-btn:hover {
-            background-color: #e3f2fd;
-        }
+    .option-btn:hover:not(:disabled) {
+      background: #283548;
+      border-color: #00f2fe;
+      transform: translateY(-1px);
+    }
 
-        .option-btn.selected-correct {
-            background-color: #c8e6c9 !important;
-            border-color: #388e3c !important;
-            color: #1b5e20;
-        }
+    .option-btn:disabled {
+      cursor: not-allowed;
+    }
 
-        .option-btn.selected-wrong {
-            background-color: #ffcdd2 !important;
-            border-color: #d32f2f !important;
-            color: #b71c1c;
-        }
+    /* State Highlights */
+    .option-btn.correct {
+      background: #1b4332 !important;
+      border-color: #2ec4b6 !important;
+      color: #e8f5e9 !important;
+    }
 
-        .feedback-box {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            font-size: 13px;
-            display: none;
-        }
+    .option-btn.wrong {
+      background: #4a151b !important;
+      border-color: #e63946 !important;
+      color: #ffebee !important;
+    }
 
-        .feedback-box.correct {
-            background-color: #e8f5e9;
-            border: 1px solid #a5d6a7;
-            color: #2e7d32;
-        }
+    /* Explanation Box */
+    .explanation-box {
+      background: #0f172a;
+      border-left: 4px solid #00f2fe;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+    }
 
-        .feedback-box.wrong {
-            background-color: #ffebee;
-            border: 1px solid #ef9a9a;
-            color: #c62828;
-        }
+    .explanation-box.active {
+      display: block;
+    }
 
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+    .explanation-title {
+      color: #00f2fe;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
 
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
-        }
+    .explanation-text {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
 
-        .btn-prev, .btn-next { background-color: #1976d2; }
-        .btn-retest { background-color: #d32f2f; }
-        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+    /* Navigation Controls */
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #1e2d5a;
+    }
 
-        .palette-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .score-display {
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #666;
-        }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
 
-        .grid-item {
-            padding: 6px;
-            text-align: center;
-            border: 1px solid #ccc;
-            background: #fff;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 3px;
-        }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
 
-        .grid-item.answered-correct { background-color: #4caf50; color: white; border-color: #388e3c; }
-        .grid-item.answered-wrong { background-color: #f44336; color: white; border-color: #d32f2f; }
-        .grid-item.active { outline: 2px solid #0d47a1; font-weight: bold; }
-    </style>
+    .btn-secondary {
+      background: #475569;
+      color: #ffffff;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Sidebar Palette */
+    .sidebar {
+      background: #131e3a;
+      border: 1px solid #1e2d5a;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: fit-content;
+    }
+
+    .score-badge {
+      background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .score-title {
+      font-size: 0.85rem;
+      color: #93c5fd;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .score-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 0.25rem;
+    }
+
+    .palette-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .node-btn {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .node-btn.active {
+      box-shadow: 0 0 0 3px #00f2fe;
+      border-color: transparent;
+    }
+
+    .node-btn.correct {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .node-btn.wrong {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+
+    .sidebar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="main-container">
-    <div class="header">
-        <span>ಕರ್ನಾಟಕ PC & SSC CBT ಪರೀಕ್ಷೆ ಮಾದರಿ ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ</span>
-        <span>ವಿಷಯ: ಭಾರತೀಯ ಸಂವಿಧಾನ</span>
+  <header>
+    <div class="test-title" id="testHeaderTitle">
+      <span>🏛️</span> ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ MOCK TEST
     </div>
+    <div class="timer-pill" id="timer">00:00</div>
+  </header>
 
-    <div class="content-area">
-        <div class="question-section">
-            <div id="question-text" class="q-title">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
-            <div id="options-container" class="options-container"></div>
-            <div id="feedback-box" class="feedback-box"></div>
-            
-            <div class="nav-buttons">
-                <button id="prev-btn" class="btn btn-prev" onclick="changeQuestion(-1)">Previous</button>
-                <button id="retest-btn" class="btn btn-retest" onclick="resetQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
-                <button id="next-btn" class="btn btn-next" onclick="changeQuestion(1)">Next</button>
-            </div>
+  <main class="container">
+    <section class="quiz-card">
+      <div>
+        <div class="question-header" id="questionNumberLabel">ಪ್ರಶ್ನೆ 1</div>
+        <div class="question-text" id="questionText">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+
+        <div class="options-grid" id="optionsContainer"></div>
+
+        <div class="explanation-box" id="explanationBox">
+          <div class="explanation-title">ವಿವರಣೆ (Explanation)</div>
+          <div class="explanation-text" id="explanationText"></div>
         </div>
+      </div>
 
-        <div class="palette-section">
-            <div class="palette-title">Question Palette</div>
-            <div id="score-display" class="score-display">ಅಂಕಗಳು: 0 / 65</div>
-            <div id="grid-container" class="grid-container"></div>
-        </div>
-    </div>
-</div>
+      <div class="card-actions">
+        <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)">← ಃಹಿಂದಿನ</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">ಮುಂದಿನ →</button>
+      </div>
+    </section>
 
-<script>
-const quizData = [
-    { q: "ಕೇಂದ್ರ ಸರ್ಕಾರದ ಕುರಿತು ಸಂವಿಧಾನದ ಯಾವ ಭಾಗದಲ್ಲಿ ವಿವರಿಸಲಾಗಿದೆ?", options: ["ಭಾಗ 3", "ಭಾಗ 4", "ಭಾಗ 5", "ಭಾಗ 6"], answer: 2, exp: "ಸಂವಿಧಾನದ 5ನೇ ಭಾಗದಲ್ಲಿ (ವಿಧ 52 ರಿಂದ 151) ಕೇಂದ್ರ ಸರ್ಕಾರದ ಬಗ್ಗೆ ವಿವರಿಸಲಾಗಿದೆ." },
-    { q: "ಭಾರತದ ರಾಷ್ಟ್ರಪತಿಯವರ ಸ್ಥಾನವನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 52", "ವಿಧಿ 53", "ವಿಧಿ 54", "ವಿಧಿ 55"], answer: 0, exp: "ವಿಧಿ-52 ರ ಪ್ರಕಾರ ಭಾರತ ದೇಶಕ್ಕೆ ಒಬ್ಬರು ರಾಷ್ಟ್ರಪತಿ ಇರತಕ್ಕದ್ದು." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಗಳ ಚುನಾವಣೆಯನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 52", "ವಿಧಿ 54", "ವಿಧಿ 56", "ವಿಧಿ 60"], answer: 1, exp: "ವಿಧಿ-54 ರಾಷ್ಟ್ರಪತಿಗಳ ಚುನಾವಣೆಯ ಕುರಿತು ವಿವರಣೆ ನೀಡುತ್ತದೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆ ಯಾವ ಮಾದರಿಯಲ್ಲಿ ನಡೆಯುತ್ತದೆ?", options: ["ನೇರ ಮತದಾನ", "ಗುಪ್ತ ಮತದಾನ", "ಬಹಿರಂಗ ಮತದಾನ", "ನಾಮನಿರ್ದೇಶನ"], answer: 1, exp: "ಇವರ ಚುನಾವಣೆಯು ಪರೋಕ್ಷ ಹಾಗೂ ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಭಾಗವಹಿಸುವ ಲೋಕಸಭೆಯ ಸದಸ್ಯರು ಯಾರು?", options: ["ಎಲ್ಲಾ ಸದಸ್ಯರು", "ಚುನಾಯಿತ ಸದಸ್ಯರು", "ನಾಮನಿರ್ದೇಶಿತ ಸದಸ್ಯರು", "ಯಾರೂ ಇಲ್ಲ"], answer: 1, exp: "ಲೋಕಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಮಾತ್ರ ಭಾಗವಹಿಸುತ್ತಾರೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಭಾಗವಹಿಸುವ ರಾಜ್ಯಸಭೆಯ ಸದಸ್ಯರು ಯಾರು?", options: ["ನಾಮನಿರ್ದೇಶಿತ ಸದಸ್ಯರು", "ಚುನಾಯಿತ ಸದಸ್ಯರು", "ಎಲ್ಲಾ ಸದಸ್ಯರು", "ಸಭಾಪತಿ ಮಾತ್ರ"], answer: 1, exp: "ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಮತ ಚಲಾಯಿಸುತ್ತಾರೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ವಿಧಾನಸಭೆಯಿಂದ ಯಾರು ಭಾಗವಹಿಸುತ್ತಾರೆ?", options: ["ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು", "ವಿಧಾನ ಪರಿಷತ್ ಸದಸ್ಯರು", "ನಾಮನಿರ್ದೇಶಿತ ಸದಸ್ಯರು", "ಸ್ಪೀಕರ್ ಮಾತ್ರ"], answer: 0, exp: "ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಮತ ಚಲಾಯಿಸುತ್ತಾರೆ." },
-    { q: "ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳಿಂದ ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಭಾಗವಹಿಸುವವರು ಯಾರು?", options: ["ಲೆಫ್ಟಿನೆಂಟ್ ಗವರ್ನರ್", "ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು", "ಆಡಳಿತಾಧಿಕಾರಿಗಳು", "ಯಾರೂ ಇಲ್ಲ"], answer: 1, exp: "ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಮತ ಚಲಾಯಿಸುತ್ತಾರೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು ಏನೆಂದು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಇಂಡಿಯಾ ಗೇಟ್ ಭವನ", "ರೈಸಿನ್ ಹಿಲ್ಸ್ ಭವನ", "ವೈಸರಾಯ್ ಹೌಸ್", "ಸಂಸದ್ ಭವನ"], answer: 1, exp: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು ರೈಸಿನ್ ಹಿಲ್ಸ್ (Raisina Hill) ಭವನ ಎಂದೂ ಕರೆಯುವರು." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಗಳ ಪ್ರಮಾಣ ವಚನದ ಕುರಿತು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 52", "ವಿಧಿ 58", "ವಿಧಿ 60", "ವಿಧಿ 61"], answer: 2, exp: "ವಿಧಿ-60 ರಾಷ್ಟ್ರಪತಿಗಳ ಪ್ರಮಾಣ ವಚನದ ಕುರಿತು ವಿವರಿಸುತ್ತದೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯವರ ಮಹಾಭಿಯೋಗ (Impeachment) ಕುರಿತು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 60", "ವಿಧಿ 61", "ವಿಧಿ 62", "ವಿಧಿ 72"], answer: 1, exp: "ವಿಧಿ-61 ರ ಅನ್ವಯ ಮಹಾಭಿಯೋಗ ನಡೆಸಲಾಗುತ್ತದೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿ ಮಹಾಭಿಯೋಗ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಭಾಗವಹಿಸದವರು ಯಾರು?", options: ["ಲೋಕಸಭಾ ಸದಸ್ಯರು", "ರಾಜ್ಯಸಭಾ ಸದಸ್ಯರು", "ವಿಧಾನಸಭೆಯ ಸದಸ್ಯರು", "ಎಲ್ಲರೂ ಭಾಗವಹಿಸುತ್ತಾರೆ"], answer: 2, exp: "ಮಹಾಭಿಯೋಗದಲ್ಲಿ ಸಂಸತ್ತಿನ ಎಲ್ಲಾ ಸದಸ್ಯರು ಭಾಗವಹಿಸುತ್ತಾರೆ, ಆದರೆ ವಿಧಾನಸಭೆಯ ಸದಸ್ಯರಿಗೆ ಅವಕಾಶವಿಲ್ಲ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?", options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು", "ಉಪರಾಷ್ಟ್ರಪತಿ", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್"], answer: 2, exp: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಉಪರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ನೀಡುತ್ತಾರೆ." },
-    { q: "ವಿಧಿ-80 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಗಳು ರಾಜ್ಯಸಭೆಗೆ ಎಷ್ಟು ಜನರನ್ನು ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ?", options: ["2", "10", "12", "14"], answer: 2, exp: "ಸಾಧನೆ ಮಾಡಿದ 12 ಜನರನ್ನು ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ." },
-    { q: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರ ನೀಡುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 86", "ವಿಧಿ 108", "ವಿಧಿ 123", "ವಿಧಿ 74"], answer: 0, exp: "ವಿಧಿ-86 ರ ಅನ್ವಯ ಜಂಟಿ ಅಧಿವೇಶನ ಉದ್ದೇಶಿಸಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರವಿದೆ." },
-    { q: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 85", "ವಿಧಿ 108", "ವಿಧಿ 110", "ವಿಧಿ 123"], answer: 1, exp: "ವಿಧಿ-108 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಗಳು ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುತ್ತಾರೆ." },
-    { q: "ಯಾವ ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?", options: ["ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಹಣಕಾಸು ಮಸೂದೆ", "ಶಿಕ್ಷಣ ಮಸೂದೆ", "ಯಾವುದೂ ಅಲ್ಲ"], answer: 1, exp: "ಹಣಕಾಸು ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ." },
-    { q: "ಯಾವ ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?", options: ["ವರದಕ್ಷಿಣೆ ಕಾಯ್ದೆ", "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಮಸೂದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ"], answer: 1, exp: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೂ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ." },
-    { q: "ಯಾವ ವಿಷಯಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?", options: ["ಆಯವ್ಯಯ (ಬಜೆಟ್) ಮಸೂದೆ", "ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ"], answer: 0, exp: "ಆಯವ್ಯಯ ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ." },
-    { q: "ಭಾರತದಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾದ ಕಾಯ್ದೆ ಯಾವುದು? (1961)", options: ["ಬ್ಯಾಂಕಿಂಗ್ ಕಾಯ್ದೆ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ", "ಭ್ರಷ್ಟಾಚಾರ ತಡೆ ಕಾಯ್ದೆ"], answer: 1, exp: "1961 ರಲ್ಲಿ ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆಗಾಗಿ ಮೊದಲ ಜಂಟಿ ಅಧಿವೇಶನ ನಡೆಯಿತು." },
-    { q: "1978 ರಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ನಡೆಸಲಾದ ಮಸೂದೆ ಯಾವುದು?", options: ["ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ಕಾಯ್ದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ", "ಬಜೆಟ್ ಮಸೂದೆ"], answer: 0, exp: "1978 ರಲ್ಲಿ ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆಗಾಗಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು." },
-    { q: "2002 ರಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನದ ಮೂಲಕ ಅಂಗೀಕಾರಗೊಂಡ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["ವರದಕ್ಷಿಣೆ ನಿಷೇಧ", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಕಾಯ್ದೆ", "ಶಿಕ್ಷಣ ಕಾಯ್ದೆ"], answer: 1, exp: "2002 ರಲ್ಲಿ POTA ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ನಡೆಯಿತು." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಗಳ ಸುಗ್ರೀವಾಜ್ಞೆ (Ordinance) ಹೊರಡಿಸುವ ಅಧಿಕಾರವನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 72", "ವಿಧಿ 110", "ವಿಧಿ 123", "ವಿಧಿ 213"], answer: 2, exp: "ವಿಧಿ-123 ರ ಅನ್ವಯ ಸುಗ್ರೀವಾಜ್ಞೆ ಹೊರಡಿಸಬಹುದು." },
-    { q: "ಪ್ರಧಾನ ಮಂತ್ರಿಯವರನ್ನು ನೇಮಕ ಮಾಡುವ ರಾಷ್ಟ್ರಪತಿಗಳ ಅಧಿಕಾರ ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 74", "ವಿಧಿ 75", "ವಿಧಿ 76", "ವಿಧಿ 78"], answer: 1, exp: "ವಿಧಿ-75 ರ ಪ್ರಕಾರ ಪ್ರಧಾನಿ ನೇಮಕ ನಡೆಯುತ್ತದೆ." },
-    { q: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ನೇಮಕ ಮಾಡಲು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 75", "ವಿಧಿ 76", "ವಿಧಿ 148", "ವಿಧಿ 155"], answer: 1, exp: "ವಿಧಿ-76 ರ ಅನ್ವಯ ಅಟಾರ್ನಿ ಜನರಲ್ ನೇಮಕ." },
-    { q: "ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿಯನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಅಡ್ವೋಕೇಟ್ ಜನರಲ್", "ಸಾಲಿಸಿಟರ್ ಜನರಲ್", "ಅಟಾರ್ನಿ ಜನರಲ್", "ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು"], answer: 2, exp: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ದೇಶದ ಉನ್ನತ ಕಾನೂನಾಧಿಕಾರಿ ಎನ್ನಲಾಗುತ್ತದೆ." },
-    { q: "ಅಟಾರ್ನಿ ಜನರಲ್ ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?", options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್", "ಕಾನೂನು ಸಚಿವರು"], answer: 1, exp: "ರಾಷ್ಟ್ರಪತಿಗಳಿಗೆ ರಾಜೀನಾಮೆ ಸಲ್ಲಿಸುತ್ತಾರೆ." },
-    { q: "ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ನೇಮಕ ಮಾಡುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 153", "ವಿಧಿ 155", "ವಿಧಿ 161", "ವಿಧಿ 165"], answer: 1, exp: "ವಿಧಿ-155 ರ ಪ್ರಕಾರ ರಾಜ್ಯಪಾಲರ ನೇಮಕ." },
-    { q: "CAG (ಕಂಟ್ರೋಲರ್ ಮತ್ತು ಆಡಿಟರ್ ಜನರಲ್) ನೇಮಕಾತಿಯನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 148", "ವಿಧಿ 280", "ವಿಧಿ 324", "ವಿಧಿ 315"], answer: 0, exp: "ವಿಧಿ-148 ರ ಅನ್ವಯ CAG ನೇಮಕ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯವರ ಕ್ಷಮಾಧಾನ (Pardon) ಅಧಿಕಾರವನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 61", "ವಿಧಿ 72", "ವಿಧಿ 123", "ವಿಧಿ 161"], answer: 1, exp: "ವಿಧಿ-72 ರ ಪ್ರಕಾರ ಕ್ಷಮಾಧಾನ ನೀಡುವ ಅಧಿಕಾರ." },
-    { q: "ಸಂವಿಧಾನದ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಉಪಬಂಧಗಳನ್ನು ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?", options: ["ಅಮೆರಿಕ", "ಬ್ರಿಟನ್", "ಜರ್ಮನಿ", "ರಷ್ಯಾ"], answer: 2, exp: "ಜರ್ಮನಿ ದೇಶದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ." },
-    { q: "1962 ರ ಭಾರತ-ಚೀನಾ ಯುದ್ಧದ ಸಮಯದಲ್ಲಿ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಘೋಷಿಸಿದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1962 ಅಕ್ಟೋಬರ್ 26", "1962 ನವೆಂಬರ್ 15", "1965 ಆಗಸ್ಟ್ 15", "1971 ಡಿಸೆಂಬರ್ 3"], answer: 0, exp: "1962 ಅಕ್ಟೋಬರ್ 26 ರಂದು ಮೊದಲ ಬಾರಿ ಘೋಷಿಸಲಾಯಿತು." },
-    { q: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಜಾರಿಯಾದ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಕರ್ನಾಟಕ", "ಪಂಜಾಬ್", "ಕೇರಳ", "ತಮಿಳುನಾಡು"], answer: 1, exp: "1951 ರಲ್ಲಿ ಪಂಜಾಬ್‌ನಲ್ಲಿ ಮೊದಲ ಬಾರಿ ಜಾರಿಗೊಳಿಸಲಾಯಿತು." },
-    { q: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇದುವರೆಗೆ ಎಷ್ಟು ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಘೋಷಿಸಲಾಗಿದೆ?", options: ["4 ಬಾರಿ", "5 ಬಾರಿ", "6 ಬಾರಿ", "8 ಬಾರಿ"], answer: 2, exp: "ಕರ್ನಾಟಕದಲ್ಲಿ 6 ಬಾರಿ ಘೋಷಿಸಲಾಗಿದೆ." },
-    { q: "ಒಂದು ಮಸೂದೆಯನ್ನು ತಮ್ಮಲ್ಲಿಯೇ ಇಟ್ಟುಕೊಳ್ಳುವ ರಾಷ್ಟ್ರಪತಿಯವರ ಅಧಿಕಾರ ಯಾವುದು?", options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸೂಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ಯಾವುದೂ ಅಲ್ಲ"], answer: 0, exp: "ಮಸೂದೆಯನ್ನು ತಮ್ಮಲ್ಲೇ ಇಟ್ಟುಕೊಳ್ಳುವುದು ಪಾಕೆಟ್ ವೀಟೋ." },
-    { q: "ಮಸೂದೆಯನ್ನು ಮರು ಪರಿಶೀಲನೆಗೆ ಕಳುಹಿಸುವ ಅಧಿಕಾರ ಯಾವುದು?", options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸೂಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ವಿಶೇಷ ವೀಟೋ"], answer: 1, exp: "ಮರು ಪರಿಶೀಲನೆಗೆ ಕಳುಹಿಸುವುದು ಸೂಪರ್ ವೀಟೋ." },
-    { q: "ಮಸೂದೆಗೆ ಕಡ್ಡಾಯವಾಗಿ ಒಪ್ಪಿಗೆ ನೀಡುವ ಅಧಿಕಾರ ಯಾವುದು?", options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸೂಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ಅನಂತ ವೀಟೋ"], answer: 2, exp: "ಕಡ್ಡಾಯ ಒಪ್ಪಿಗೆ ನೀಡುವಿಕೆ ನಿರಂಕುಶ ವೀಟೋ." },
-    { q: "ಡಾ. ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಜನ್ಮಸ್ಥಳ 'ಜಿರಾದೇಯಿ' ಯಾವ ರಾಜ್ಯದಲ್ಲಿದೆ?", options: ["ಉತ್ತರ ಪ್ರದೇಶ", "ಬಿಹಾರ", "ಮಧ್ಯಪ್ರದೇಶ", "ಒಡಿಶಾ"], answer: 1, exp: "ಜಿರಾದೇಯಿ ಬಿಹಾರದಲ್ಲಿದೆ." },
-    { q: "ಡಿಸೆಂಬರ್ 3 ರಂದು ಯಾರ ಜನ್ಮದಿನವನ್ನು 'ವಕೀಲರ ದಿನ'ವಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?", options: ["ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಡಾ. ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಸರ್ದಾರ್ ಪಟೇಲ್", "ಅಲ್ಲಾಡಿ ಕೃಷ್ಣಸ್ವಾಮಿ"], answer: 1, exp: "ಡಾ|| ಬಾಬುರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಜನ್ಮದಿನ." },
-    { q: "ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ಡಾ. ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಜಾಕೀರ್ ಹುಸೇನ್", "ವಿ.ವಿ. ಗಿರಿ"], answer: 1, exp: "ಡಾ|| ಬಾಬುರಾಜೇಂದ್ರ ಪ್ರಸಾದ್." },
-    { q: "ಡಾ. ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರ ಮೂಲ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಆಂಧ್ರಪ್ರದೇಶ", "ತಮಿಳುನಾಡು (ತಿರುಚಾನಪಳ್ಳಿ)", "ಕರ್ನಾಟಕ", "ಕೇರಳ"], answer: 1, exp: "ತಿರುಚಾನಪಳ್ಳಿ (ತಮಿಳುನಾಡು)." },
-    { q: "ಸೆಪ್ಟೆಂಬರ್ 5 ರಂದು ಶಿಕ್ಷಕರ ದಿನಾಚರಣೆಯನ್ನು ಯಾರ ಜನ್ಮದಿನದ ಅಂಗವಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?", options: ["ಡಾ. ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ಅಬ್ದುಲ್ ಕಲಾಂ", "ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ನೆಹರೂ"], answer: 0, exp: "ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಜನ್ಮದಿನ." },
-    { q: "1962 ರ ಚೀನಾ ಯುದ್ಧದ ಸಮಯದಲ್ಲಿ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದವರು ಯಾರು?", options: ["ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಡಾ. ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ಜಾಕೀರ್ ಹುಸೇನ್", "ವಿ.ವಿ. ಗಿರಿ"], answer: 1, exp: "ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅಧಿಕಾರಾವಧಿಯಲ್ಲಿ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಹೇರಲಾಗಿತ್ತು." },
-    { q: "ಭಾರತದ ಪ್ರಥಮ ಉಪರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಜಾಕೀರ್ ಹುಸೇನ್", "ಡಾ. ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ವಿ.ವಿ. ಗಿರಿ", "ಬಿ.ಡಿ. ಜತ್ತಿ"], answer: 1, exp: "ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಪ್ರಥಮ ಉಪರಾಷ್ಟ್ರಪತಿ." },
-    { q: "ಭಾರತದ ಮೊದಲ ಮುಸ್ಲಿಂ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಫಕ್ರುದ್ದೀನ್ ಅಲಿ ಅಹಮದ್", "ಡಾ. ಜಾಕೀರ್ ಹುಸೇನ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ಮೊಹಮ್ಮದ್ ಹಿದಾಯತುಲ್ಲಾ"], answer: 1, exp: "ಡಾ. ಜಾಕೀರ್ ಹುಸೇನ್." },
-    { q: "ಅಧಿಕಾರದಲ್ಲಿದ್ದಾಗಲೇ ನಿಧನರಾದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಫಕ್ರುದ್ದೀನ್ ಅಲಿ ಅಹಮದ್", "ಡಾ. ಜಾಕೀರ್ ಹುಸೇನ್", "ಆರ್. ವೆಂಕಟರಾಮನ್", "ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್"], answer: 1, exp: "ಡಾ. ಜಾಕೀರ್ ಹುಸೇನ್ ಅಧಿಕಾರದಲ್ಲಿದ್ದಾಗ ನಿಧನರಾದರು." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ ಕನ್ನಡಿಗರು (ಹಂಗಾಮಿ) ಯಾರು?", options: ["ಕೆ.ಸಿ. ರೆಡ್ಡಿ", "ಬಿ.ಡಿ. ಜತ್ತಿ", "ದೇವೇಗೌಡ", "ಎಸ್.ಆರ್. ಬೊಮ್ಮಾಯಿ"], answer: 1, exp: "ಬಿ.ಡಿ. ಜತ್ತಿ (ಹಂಗಾಮಿ)." },
-    { q: "ಭಾರತದ ಮೊದಲ ಸಿಖ್ ಧರ್ಮದ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್", "ಮನಮೋಹನ್ ಸಿಂಗ್", "ಬುಟಾ ಸಿಂಗ್", "ಝೈಲ್ ಸಿಂಗ್"], answer: 0, exp: "ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್." },
-    { q: "ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್ ಅವರ ಮೂಲ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಹರಿಯಾಣ", "ಫಿರೋಜ್‌ಕೋಟ್ (ಪಂಜಾಬ್)", "ಹಿಮಾಚಲ ಪ್ರದೇಶ", "ದೆಹಲಿ"], answer: 1, exp: "ಫಿರೋಜ್‌ಕೋಟ್ (ಪಂಜಾಬ್)." },
-    { q: "1986 ರ ಮಸೂದೆಗೆ 'ಪಾಕೆಟ್ ವೀಟೋ' ಬಳಸಿದ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಆರ್. ವೆಂಕಟರಾಮನ್", "ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್", "ಶಂಕರ್ ದಯಾಳ್ ಶರ್ಮ", "ಅಬ್ದುಲ್ ಕಲಾಂ"], answer: 1, exp: "ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್." },
-    { q: "ಭಾರತದ ಕ್ಷಿಪಣಿ ವಿಜ್ಞಾನಿ ಎಂದು ಖ್ಯಾತಿ ಪಡೆದವರು ಯಾರು?", options: ["ಕೆ.ಆರ್. ನಾರಾಯಣನ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ಪ್ರಣಬ್ ಮುಖರ್ಜಿ", "ರಾಮನಾಥ್ ಕೋವಿಂದ್"], answer: 1, exp: "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ." },
-    { q: "'Wings of Fire' (ಆತ್ಮಚರಿತ್ರೆ) ಕೃತಿಯನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ಅಬ್ದುಲ್ ಕಲಾಂ", "ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ರಾಮನಾಥ್ ಕೋವಿಂದ್", "ವಿ.ವಿ. ಗಿರಿ"], answer: 0, exp: "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ." },
-    { q: "ಭಾರತದ ಮೊದಲ ಮಹಿಳಾ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ದ್ರೌಪದಿ ಮುರ್ಮು", "ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ಇಂದಿರಾ ಗಾಂಧಿ", "ಸರೋಜಿನಿ ನಾಯ್ಡು"], answer: 1, exp: "ಪ್ರತಿಭಾ ಪಾಟೀಲ್." },
-    { q: "ರಾಜಸ್ಥಾನದ ಮೊದಲ ಮಹಿಳಾ ರಾಜ್ಯಪಾಲರು ಯಾರು?", options: ["ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಮಿರ್ದುಲಾ ಸಿನ್ಹಾ", "ಪದ್ಮಜಾ ನಾಯ್ಡು"], answer: 0, exp: "ಪ್ರತಿಭಾ ಪಾಟೀಲ್." },
-    { q: "ಭಾರತದ 2ನೇ ದಲಿತ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?", options: ["ಕೆ.ಆರ್. ನಾರಾಯಣನ್", "ರಾಮನಾಥ್ ಕೋವಿಂದ್", "ದ್ರೌಪದಿ ಮುರ್ಮು", "ಜ್ಞಾನಿ ಜೈಲ್‌ಸಿಂಗ್"], answer: 1, exp: "ರಾಮನಾಥ್ ಕೋವಿಂದ್." },
-    { q: "ಜುಲೈ 25, 2022 ರಿಂದ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಅಧಿಕಾರದಲ್ಲಿರುವವರು ಯಾರು?", options: ["ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ದ್ರೌಪದಿ ಮುರ್ಮು", "ರಾಮನಾಥ್ ಕೋವಿಂದ್", "ವೆಂಕಯ್ಯ ನಾಯ್ಡು"], answer: 1, exp: "ದ್ರೌಪದಿ ಮುರ್ಮು." },
-    { q: "ಭಾರತದಲ್ಲಿ ಉಪರಾಷ್ಟ್ರಪತಿಯ ಹುದ್ದೆಯನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 61", "ವಿಧಿ 62", "ವಿಧಿ 63", "ವಿಧಿ 64"], answer: 2, exp: "ವಿಧಿ-63 ರ ಅನ್ವಯ ಭಾರತ ದೇಶಕ್ಕೆ ಒಂದು ಉಪರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ ಇರಬೇಕೆಂದು ತಿಳಿಸಲಾಗಿದೆ (ಭಾರತ ಗಣರಾಜ್ಯ ವ್ಯವಸ್ಥೆಯಲ್ಲಿ 2ನೇ ಸ್ಥಾನ)." },
-    { q: "ಉಪರಾಷ್ಟ್ರಪತಿಯವರು ರಾಜ್ಯಸಭೆಯ ಪದನಿಮಿತ್ತ ಸಭಾಪತಿಗಳಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಾರೆ ಎಂದು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 63", "ವಿಧಿ 64", "ವಿಧಿ 65", "ವಿಧಿ 68"], answer: 1, exp: "ವಿಧಿ-64 ರ ಅನ್ವಯ ಉಪರಾಷ್ಟ್ರಪತಿಯವರು ರಾಜ್ಯಸಭೆಯ ಪದನಿಮಿತ್ತ ಸಭಾಪತಿಗಳಾಗಿರುತ್ತಾರೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯ ಹುದ್ದೆ ಖಾಲಿಯಾದಾಗ ಅವರ ಸ್ಥಾನವನ್ನು ಉಪರಾಷ್ಟ್ರಪತಿಗಳು ತುಂಬುತ್ತಾರೆ ಎಂದು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 64", "ವಿಧಿ 65", "ವಿಧಿ 68", "ವಿಧಿ 72"], answer: 1, exp: "ವಿಧಿ-65 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ ಖಾಲಿಯಾದಾಗ ಉಪರಾಷ್ಟ್ರಪತಿಗಳು ಆ ಸ್ಥಾನ ತುಂಬುತ್ತಾರೆ." },
-    { q: "ಉಪರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ ಖಾಲಿಯಾದರೆ ಎಷ್ಟು ತಿಂಗಳ ಒಳಗೆ ಚುನಾವಣೆ ನಡೆಸಬೇಕೆಂದು ವಿಧಿ-68 ತಿಳಿಸುತ್ತದೆ?", options: ["3 ತಿಂಗಳು", "6 ತಿಂಗಳು", "1 ವರ್ಷ", "2 ತಿಂಗಳು"], answer: 1, exp: "68ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಉಪರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆ ಖಾಲಿಯಾದ 6 ತಿಂಗಳ ಒಳಗೆ ಚುನಾವಣೆ ನಡೆಸಬೇಕು." },
-    { q: "ಉಪರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ವೇತನವನ್ನು ಯಾವ ನಿಧಿಯಿಂದ ನೀಡಲಾಗುತ್ತದೆ?", options: ["ಆಕಸ್ಮಿಕ ನಿಧಿ", "ಸಂಚಿತ ನಿಧಿ", "ಸಾರ್ವಜನಿಕ ಖಾತೆ", "ರಾಜ್ಯ ನಿಧಿ"], answer: 1, exp: "ಸಂಚಿತ ನಿಧಿಯಿಂದ ಇವರಿಗೆ ವೇತನ ನೀಡಲಾಗುತ್ತದೆ." },
-    { q: "ರಾಜ್ಯಸಭೆಯನ್ನು 1954 ರ ವರೆಗೆ ಏನೆಂದು ಕರೆಯಲಾಗುತ್ತಿತ್ತು?", options: ["ರಾಜಮನೆತನಗಳ ಮಂಡಳಿ", "ಕೌನ್ಸಿಲ್ ಆಫ್ ಸ್ಟೇಟ್", "ಮೇಲ್ಮನೆ", "ಸಂಸದೀಯ ಮಂಡಳಿ"], answer: 1, exp: "1954 ರ ವರೆಗೆ ರಾಜ್ಯಸಭೆಯನ್ನು 'ಕೌನ್ಸಿಲ್ ಆಫ್ ಸ್ಟೇಟ್' ಎಂದು ಕರೆಯಲಾಗುತ್ತಿತ್ತು." },
-    { q: "ಯಾವ ದಿನಾಂಕದಿಂದ 'ರಾಜ್ಯಸಭಾ' ಎಂಬ ಹಿಂದಿ ಪದವನ್ನು ಅಧಿಕೃತವಾಗಿ ಬಳಸಲು ಪ್ರಾರಂಭಿಸಲಾಯಿತು?", options: ["1952 ಏಪ್ರಿಲ್ 03", "1952 ಮೇ 13", "1954 ಆಗಸ್ಟ್ 23", "1950 ಜನವರಿ 26"], answer: 2, exp: "1954 ಆಗಸ್ಟ್ 23 ರಿಂದ ಹಿಂದಿ ಭಾಷೆಯ 'ರಾಜ್ಯಸಭಾ' ಎಂಬ ಪದವನ್ನು ಬಳಸಲು ಪ್ರಾರಂಭಿಸಲಾಯಿತು." },
-    { q: "ರಾಜ್ಯಸಭೆಯು ಮೊದಲ ಬಾರಿಗೆ ಅಸ್ತಿತ್ವಕ್ಕೆ ಬಂದ ದಿನಾಂಕ ಮತ್ತು ವರ್ಷ ಯಾವುದು?", options: ["1952 ಏಪ್ರಿಲ್ 03", "1952 ಮೇ 13", "1954 ಆಗಸ್ಟ್ 23", "1951 ನವೆಂಬರ್ 26"], answer: 0, exp: "ರಾಜ್ಯಸಭೆಯು 1952 ಏಪ್ರಿಲ್ 03 ರಂದು ಅಸ್ತಿತ್ವಕ್ಕೆ ಬಂದಿತು." },
-    { q: "ರಾಜ್ಯಸಭೆಯ ಪ್ರಥಮ ಅಧಿವೇಶನ ನಡೆದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1952 ಏಪ್ರಿಲ್ 03", "1952 ಮೇ 13", "1950 ಜನವರಿ 26", "1954 ಆಗಸ್ಟ್ 23"], answer: 1, exp: "ರಾಜ್ಯಸಭೆಯ ಮೊದಲ ಅಧಿವೇಶನವು 1952 ಮೇ 13 ರಂದು ನಡೆಯಿತು." },
-    { q: "ಸಂವಿಧಾನದ ಯಾವ ಅನುಸೂಚಿಯಲ್ಲಿ ರಾಜ್ಯಸಭೆಯಲ್ಲಿ ರಾಜ್ಯಗಳ ಸ್ಥಾನಮಾನಗಳ ಹಂಚಿಕೆ ಕುರಿತು ತಿಳಿಸಲಾಗಿದೆ?", options: ["2ನೇ ಅನುಸೂಚಿ", "3ನೇ ಅನುಸೂಚಿ", "4ನೇ ಅನುಸೂಚಿ", "7ನೇ ಅನುಸೂಚಿ"], answer: 2, exp: "4ನೇ ಅನುಸೂಚಿಯಲ್ಲಿ ರಾಜ್ಯಸಭೆಯಲ್ಲಿ ರಾಜ್ಯಗಳ ಸ್ಥಾನಮಾನ ಮತ್ತು ಪ್ರಾತಿನಿಧ್ಯದ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ." },
-    { q: "ರಾಜ್ಯಸಭೆಯು ಶಾಶ್ವತ ಸದನವಾಗಿದ್ದು, ಎಷ್ಟು ವರ್ಷಕ್ಕೊಮ್ಮೆ 1/3 ರಷ್ಟು ಸದಸ್ಯರು ನಿವೃತ್ತಿ ಹೊಂದುತ್ತಾರೆ?", options: ["ಪ್ರತಿ 1 ವರ್ಷಕ್ಕೊಮ್ಮೆ", "ಪ್ರತಿ 2 ವರ್ಷಕ್ಕೊಮ್ಮೆ", "ಪ್ರತಿ 3 ವರ್ಷಕ್ಕೊಮ್ಮೆ", "ಪ್ರತಿ 5 ವರ್ಷಕ್ಕೊಮ್ಮೆ"], answer: 1, exp: "ರಾಜ್ಯಸಭೆಯು ಶಾಶ್ವತ ಸದನವಾಗಿದ್ದು, ಪ್ರತಿ 2 ವರ್ಷಕ್ಕೊಮ್ಮೆ 1/3 ರಷ್ಟು ಸದಸ್ಯರು ನಿವೃತ್ತಿ ಹೊಂದುತ್ತಾರೆ." }
-];
+    <aside class="sidebar">
+      <div class="score-badge">
+        <div class="score-title">ಒಟ್ಟು ಅಂಕಗಳು (Score)</div>
+        <div class="score-value" id="scoreDisplay">0 / 4</div>
+      </div>
 
-let currentIndex = 0;
-let userAnswers = new Array(quizData.length).fill(null);
+      <div>
+        <div class="palette-title" style="margin-bottom: 0.75rem;">ಪ್ರಶ್ನೆಗಳ ವಿವರ (Palette)</div>
+        <div class="palette-grid" id="paletteGrid"></div>
+      </div>
 
-function loadQuestion() {
-    const qData = quizData[currentIndex];
-    document.getElementById("question-text").innerText = `${currentIndex + 1}. ${qData.q}`;
-    
-    const optionsContainer = document.getElementById("options-container");
-    optionsContainer.innerHTML = "";
-    
-    const feedbackBox = document.getElementById("feedback-box");
-    feedbackBox.style.display = "none";
-    
-    qData.options.forEach((opt, index) => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = `${String.fromCharCode(65 + index)}) ${opt}`;
-        btn.onclick = () => selectOption(index);
-        optionsContainer.appendChild(btn);
-    });
+      <div class="sidebar-actions">
+        <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="retestAll()">🔄 ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+        <button class="btn btn-danger" style="width: 100%; justify-content: center;" onclick="testWrongAnswers()">⚠️ ತಪ್ಪಾದ ಪ್ರಶ್ನೆಗಳ ಮರುಪರೀಕ್ಷೆ</button>
+      </div>
+    </aside>
+  </main>
 
-    if (userAnswers[currentIndex] !== null) {
-        showResult(userAnswers[currentIndex]);
+  <script>
+    const allQuestions = [
+      {
+        id: 1,
+        question: "ಸಂವಿಧಾನದ 5ನೇ ಭಾಗದಲ್ಲಿ ಕೇಂದ್ರ ಸರ್ಕಾರದ ಕುರಿತು ಯಾವ ವಿಧಿಗಳಿಂದ ಯಾವ ವಿಧಿಯವರೆಗೆ ವಿವರಣೆ ನೀಡಲಾಗಿದೆ?",
+        options: [
+          "ವಿಧಿ 52 ರಿಂದ 151 ರವರೆಗೆ",
+          "ವಿಧಿ 12 ರಿಂದ 35 ರವರೆಗೆ",
+          "ವಿಧಿ 36 ರಿಂದ 51 ರವರೆಗೆ",
+          "ವಿಧಿ 152 ರಿಂದ 237 ರವರೆಗೆ"
+        ],
+        correct: 0,
+        explanation: "ಸಂವಿಧಾನದ 5ನೇ ಭಾಗದಲ್ಲಿ 52ನೇ ವಿಧಿಯಿಂದ 151ನೇ ವಿಧಿಯವರೆಗೂ ಕೇಂದ್ರ ಸರ್ಕಾರದ ಬಗ್ಗೆ ಸವಿಸ್ತಾರವಾಗಿ ವಿವರಿಸಲಾಗಿದೆ."
+      },
+      {
+        id: 2,
+        question: "ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯ ಪ್ರಕಾರ ಭಾರತ ದೇಶಕ್ಕೆ ಒಬ್ಬ ರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆಗೆ ಅವಕಾಶ ಕಲ್ಪಿಸಲಾಗಿದೆ?",
+        options: [
+          "ವಿಧಿ 53",
+          "ವಿಧಿ 52",
+          "ವಿಧಿ 54",
+          "ವಿಧಿ 55"
+        ],
+        correct: 1,
+        explanation: "ವಿಧಿ-52 ರ ಪ್ರಕಾರ ಭಾರತ ದೇಶಕ್ಕೆ ಒಬ್ಬ ರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆಗೆ ಅವಕಾಶ ಕಲ್ಪಿಸಲಾಗಿದೆ. ಈ ಹುದ್ದೆಯನ್ನು ಬ್ರಿಟನ್ ದೊರೆಯ ಹುದ್ದೆಗೆ ಹೋಲಿಸಲಾಗಿದೆ."
+      },
+      {
+        id: 3,
+        question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆಯು ಯಾವ ವಿಧಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ?",
+        options: [
+          "ನೇರ ಮತದಾನದ ಮೂಲಕ",
+          "ಪರೋಕ್ಷ ಮತ್ತು ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ",
+          "ಬಹಿರಂಗ ಮತದಾನದ ಮೂಲಕ",
+          "ಸಂಸತ್ತಿನ ಕೇವಲ ಸದಸ್ಯರ ಮತದಾನದಿಂದ"
+        ],
+        correct: 1,
+        explanation: "ವಿಧಿ-54 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆಯು ಪರೋಕ್ಷ ಮತ್ತು ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ."
+      },
+      {
+        id: 4,
+        question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆಯಲ್ಲಿ ಕೆಳಗಿನ ಯಾರು ಭಾಗವಹಿಸುತ್ತಾರೆ?",
+        options: [
+          "ಲೋಕಸಭೆ ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶದ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಮೇಲಿನ ಎಲ್ಲವೂ"
+        ],
+        correct: 3,
+        explanation: "ವಿಧಿ-54 ರ ಅನ್ವಯ ಲೋಕಸಭೆ, ರಾಜ್ಯಸಭೆ, ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆಗಳು ಹಾಗೂ ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳ (ದೆಹಲಿ, ಪುದುಚೇರಿ) ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಭಾಗವಹಿಸುತ್ತಾರೆ."
+      }
+    ];
+
+    let activeQuestions = [...allQuestions];
+    let currentIndex = 0;
+    let userAnswers = {};
+    let wrongTestCount = 1;
+    let secondsElapsed = 0;
+
+    // Timer implementation
+    setInterval(() => {
+      secondsElapsed++;
+      const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${mins}:${secs}`;
+    }, 1000);
+
+    function initQuiz() {
+      renderQuestion();
+      renderPalette();
+      updateScore();
     }
 
-    document.getElementById("prev-btn").disabled = currentIndex === 0;
-    document.getElementById("next-btn").disabled = currentIndex === quizData.length - 1;
-    
-    updatePalette();
-}
+    function renderQuestion() {
+      const q = activeQuestions[currentIndex];
+      document.getElementById('questionNumberLabel').textContent = `ಪ್ರಶ್ನೆ ${q.id}`;
+      document.getElementById('questionText').textContent = q.question;
 
-function selectOption(selectedIndex) {
-    if (userAnswers[currentIndex] !== null) return;
-    
-    userAnswers[currentIndex] = selectedIndex;
-    showResult(selectedIndex);
-    updateScore();
-    updatePalette();
-}
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
 
-function showResult(selectedIndex) {
-    const qData = quizData[currentIndex];
-    const optionBtns = document.querySelectorAll(".option-btn");
-    const feedbackBox = document.getElementById("feedback-box");
+      const answered = userAnswers.hasOwnProperty(q.id);
+      const selectedOption = userAnswers[q.id];
 
-    optionBtns.forEach((btn, index) => {
-        btn.disabled = true;
-        if (index === qData.answer) {
-            btn.classList.add("selected-correct");
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
+
+        if (answered) {
+          btn.disabled = true;
+          if (idx === q.correct) btn.classList.add('correct');
+          if (selectedOption === idx && idx !== q.correct) btn.classList.add('wrong');
+        } else {
+          btn.onclick = () => selectOption(idx);
         }
-        if (index === selectedIndex && selectedIndex !== qData.answer) {
-            btn.classList.add("selected-wrong");
-        }
-    });
 
-    feedbackBox.style.display = "block";
-    if (selectedIndex === qData.answer) {
-        feedbackBox.className = "feedback-box correct";
-        feedbackBox.innerHTML = `<b>ಸರಿ! (Correct)</b><br>${qData.exp}`;
-    } else {
-        feedbackBox.className = "feedback-box wrong";
-        feedbackBox.innerHTML = `<b>ತಪ್ಪು! (Incorrect)</b><br>ಸರಿಯಾದ ಉತ್ತರ: <b>${qData.options[qData.answer]}</b>.<br>${qData.exp}`;
+        container.appendChild(btn);
+      });
+
+      const expBox = document.getElementById('explanationBox');
+      if (answered) {
+        document.getElementById('explanationText').textContent = q.explanation;
+        expBox.classList.add('active');
+      } else {
+        expBox.classList.remove('active');
+      }
+
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('nextBtn').disabled = currentIndex === activeQuestions.length - 1;
     }
-}
 
-function changeQuestion(direction) {
-    currentIndex += direction;
-    loadQuestion();
-}
+    function selectOption(index) {
+      const q = activeQuestions[currentIndex];
+      userAnswers[q.id] = index;
+      renderQuestion();
+      renderPalette();
+      updateScore();
+    }
 
-function initPalette() {
-    const gridContainer = document.getElementById("grid-container");
-    gridContainer.innerHTML = "";
-    quizData.forEach((_, index) => {
-        const item = document.createElement("div");
-        item.className = "grid-item";
-        item.innerText = index + 1;
-        item.onclick = () => {
-            currentIndex = index;
-            loadQuestion();
+    function renderPalette() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      activeQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'node-btn';
+        btn.textContent = q.id;
+
+        if (idx === currentIndex) btn.classList.add('active');
+        if (userAnswers.hasOwnProperty(q.id)) {
+          if (userAnswers[q.id] === q.correct) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.onclick = () => {
+          currentIndex = idx;
+          renderQuestion();
+          renderPalette();
         };
-        gridContainer.appendChild(item);
-    });
-}
 
-function updatePalette() {
-    const items = document.querySelectorAll(".grid-item");
-    items.forEach((item, index) => {
-        item.className = "grid-item";
-        if (index === currentIndex) {
-            item.classList.add("active");
-        }
-        if (userAnswers[index] !== null) {
-            if (userAnswers[index] === quizData[index].answer) {
-                item.classList.add("answered-correct");
-            } else {
-                item.classList.add("answered-wrong");
-            }
-        }
-    });
-}
+        grid.appendChild(btn);
+      });
+    }
 
-function updateScore() {
-    let score = 0;
-    userAnswers.forEach((ans, idx) => {
-        if (ans === quizData[idx].answer) score++;
-    });
-    document.getElementById("score-display").innerText = `ಅಂಕಗಳು: ${score} / ${quizData.length}`;
-}
+    function navigate(direction) {
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < activeQuestions.length) {
+        currentIndex = newIndex;
+        renderQuestion();
+        renderPalette();
+      }
+    }
 
-function resetQuiz() {
-    userAnswers = new Array(quizData.length).fill(null);
-    currentIndex = 0;
-    updateScore();
-    loadQuestion();
-}
+    function updateScore() {
+      let correct = 0;
+      activeQuestions.forEach(q => {
+        if (userAnswers[q.id] === q.correct) correct++;
+      });
+      document.getElementById('scoreDisplay').textContent = `${correct} / ${activeQuestions.length}`;
+    }
 
-initPalette();
-loadQuestion();
-</script>
+    function retestAll() {
+      activeQuestions = [...allQuestions];
+      userAnswers = {};
+      currentIndex = 0;
+      wrongTestCount = 1;
+      document.getElementById('testHeaderTitle').innerHTML = `<span>🏛️</span> ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ MOCK TEST`;
+      initQuiz();
+    }
 
+    function testWrongAnswers() {
+      const wrongQuestions = allQuestions.filter(q => {
+        return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+      });
+
+      if (wrongQuestions.length === 0) {
+        alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found!)");
+        return;
+      }
+
+      wrongQuestions.forEach(q => {
+        delete userAnswers[q.id];
+      });
+
+      activeQuestions = wrongQuestions;
+      currentIndex = 0;
+      document.getElementById('testHeaderTitle').innerHTML = `<span>🏛️</span> Wrong Test-${wrongTestCount}`;
+      wrongTestCount++;
+
+      initQuiz();
+    }
+
+    initQuiz();
+  </script>
 </body>
 </html>
