@@ -3,360 +3,777 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಭಾರತೀಯ ಸಂವಿಧಾನ - ರಸಪ್ರಶ್ನೆ ಪರೀಕ್ಷೆ</title>
+    <title>CBT Mock Test - ಭಾರತೀಯ ಸಂವಿಧಾನ</title>
     <style>
+        :root {
+            --bg-main: #0a0f24;
+            --bg-card: #16213e;
+            --bg-header: #0d1b2a;
+            --border-card: #1e2d5a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #2563eb;
+            --accent-cyan: #00f2fe;
+            --correct-bg: #1b4332;
+            --correct-border: #2ec4b6;
+            --correct-text: #e8f5e9;
+            --wrong-bg: #4a151b;
+            --wrong-border: #e63946;
+            --wrong-text: #ffebee;
+        }
+
         * {
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f0f2f5;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            padding: 10px;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 20%);
         }
 
-        .main-container {
-            width: 100%;
-            max-width: 900px;
-            background: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        /* Glow animation for active dynamic elements */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(0, 242, 254, 0.4); }
+            50% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(0, 242, 254, 0.4); }
         }
 
-        .header {
-            background-color: #0d47a1;
-            color: white;
-            padding: 10px 15px;
-            font-size: 14px;
+        header {
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-card);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .content-area {
+        .header-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
             display: flex;
-            flex-direction: row;
+            align-items: center;
+            gap: 10px;
         }
 
-        @media (max-width: 768px) {
-            .content-area {
-                flex-direction: column-reverse;
+        .header-title span {
+            font-size: 0.9rem;
+            background: rgba(37, 99, 235, 0.3);
+            border: 1px solid var(--accent-blue);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-cyan);
+        }
+
+        .timer-pill {
+            background-color: #2c121e;
+            color: #ff5252;
+            border: 1px solid #7f1d1d;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.2);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
             }
         }
 
-        .question-section {
-            flex: 3;
-            padding: 15px;
-            border-right: 1px solid #ddd;
+        .quiz-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
-        .palette-section {
-            flex: 1;
-            padding: 15px;
-            background-color: #f9f9f9;
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 12px;
         }
 
-        .q-title {
+        .q-badge {
+            background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
             font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #333;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
         }
 
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
 
         .option-btn {
-            padding: 10px 15px;
+            background-color: #1e293b;
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
             text-align: left;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 4px;
+            font-size: 1rem;
             cursor: pointer;
-            font-size: 14px;
-        }
-
-        .option-btn:hover {
-            background-color: #e3f2fd;
-        }
-
-        .option-btn.selected-correct {
-            background-color: #c8e6c9 !important;
-            border-color: #388e3c !important;
-            color: #1b5e20;
-        }
-
-        .option-btn.selected-wrong {
-            background-color: #ffcdd2 !important;
-            border-color: #d32f2f !important;
-            color: #b71c1c;
-        }
-
-        .feedback-box {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            font-size: 13px;
-            display: none;
-        }
-
-        .feedback-box.correct {
-            background-color: #e8f5e9;
-            border: 1px solid #a5d6a7;
-            color: #2e7d32;
-        }
-
-        .feedback-box.wrong {
-            background-color: #ffebee;
-            border: 1px solid #ef9a9a;
-            color: #c62828;
-        }
-
-        .nav-buttons {
+            transition: all 0.2s ease;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #334155;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+        }
+
+        .explanation-box {
+            background-color: rgba(15, 23, 42, 0.8);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.2rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .explanation-box h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .explanation-box p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            border-top: 1px solid var(--border-card);
+            padding-top: 1.5rem;
+        }
+
+        .sidebar {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+        }
+
+        .score-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #93c5fd;
+            margin-bottom: 0.3rem;
+        }
+
+        .score-card .score-val {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
-            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .palette-node {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: var(--text-main);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .palette-node:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .palette-node.active {
+            border: 2px solid var(--accent-cyan);
+            animation: pulse-glow 2s infinite;
+        }
+
+        .palette-node.correct {
+            background-color: #2e7d32;
+            border-color: #4caf50;
+            color: #fff;
+        }
+
+        .palette-node.wrong {
+            background-color: #c62828;
+            border-color: #ef5350;
+            color: #fff;
         }
 
         .btn {
-            padding: 8px 16px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
             border: none;
-            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
             color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
         }
 
-        .btn-prev, .btn-next { background-color: #1976d2; }
-        .btn-retest { background-color: #d32f2f; }
-        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
-
-        .palette-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
+        .btn-primary:hover:not(:disabled) {
+            background-color: #1d4ed8;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
         }
 
-        .score-display {
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #666;
+        .btn-secondary {
+            background-color: #475569;
+            color: white;
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            max-height: 400px;
-            overflow-y: auto;
+        .btn-secondary:hover {
+            background-color: #334155;
         }
 
-        .grid-item {
-            padding: 6px;
-            text-align: center;
-            border: 1px solid #ccc;
-            background: #fff;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 3px;
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
         }
 
-        .grid-item.answered-correct { background-color: #4caf50; color: white; border-color: #388e3c; }
-        .grid-item.answered-wrong { background-color: #f44336; color: white; border-color: #d32f2f; }
-        .grid-item.active { outline: 2px solid #0d47a1; font-weight: bold; }
+        .btn-danger:hover {
+            background-color: #b91c1c;
+            box-shadow: 0 0 12px rgba(220, 38, 38, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <div class="header">
-        <span>ಕರ್ನಾಟಕ PC & SSC CBT ಪರೀಕ್ಷೆ ಮಾದರಿ ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ</span>
-        <span>ವಿಷಯ: ರಾಷ್ಟ್ರಪತಿಯವರ ಅಧಿಕಾರಗಳು & ಸರ್ದಾರ್ ಪಟೇಲ್</span>
-    </div>
+    <header>
+        <div class="header-title">
+            ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ
+            <span id="test-tag">Mock Test</span>
+        </div>
+        <div class="timer-pill" id="timer">00:00</div>
+    </header>
 
-    <div class="content-area">
-        <div class="question-section">
-            <div id="question-text" class="q-title">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
-            <div id="options-container" class="options-container"></div>
-            <div id="feedback-box" class="feedback-box"></div>
-            
-            <div class="nav-buttons">
-                <button id="prev-btn" class="btn btn-prev" onclick="changeQuestion(-1)">Previous</button>
-                <button id="retest-btn" class="btn btn-retest" onclick="resetQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
-                <button id="next-btn" class="btn btn-next" onclick="changeQuestion(1)">Next</button>
+    <div class="main-container">
+        <div class="quiz-card">
+            <div>
+                <div class="question-header">
+                    <div class="q-badge" id="question-number-badge">Q. 10</div>
+                </div>
+                <div class="question-text" id="question-text">Loading question...</div>
+                <div class="options-container" id="options-container"></div>
+                <div class="explanation-box" id="explanation-box">
+                    <h4>ವಿವರಣೆ (Explanation):</h4>
+                    <p id="explanation-text"></p>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()">Previous</button>
+                <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next</button>
             </div>
         </div>
 
-        <div class="palette-section">
-            <div class="palette-title">Question Palette</div>
-            <div id="score-display" class="score-display">ಅಂಕಗಳು: 0 / 27</div>
-            <div id="grid-container" class="grid-container"></div>
+        <div class="sidebar">
+            <div class="score-card">
+                <h3>Current Score</h3>
+                <div class="score-val" id="score-display">0 / 0</div>
+            </div>
+
+            <div>
+                <div class="palette-title">
+                    <span>Question Palette</span>
+                    <span id="answered-count">0/0</span>
+                </div>
+                <div class="palette-grid" id="palette-grid"></div>
+            </div>
+
+            <div class="controls-container">
+                <button class="btn btn-secondary" style="width: 100%;" onclick="resetAll()">ಮರುಪರೀಕ್ಷೆ (Reset All)</button>
+                <button class="btn btn-danger" style="width: 100%;" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-const quizData = [
-    { q: "ವಿಧಿ-80 ರ ಅನ್ವಯ ಕಲೆ, ಸಾಹಿತ್ಯ ಮುಂತಾದ ಕ್ಷೇತ್ರಗಳಲ್ಲಿ ಸಾಧನೆ ಮಾಡಿದ ಎಷ್ಟು ಜನರನ್ನು ರಾಜ್ಯಸಭೆಗೆ ನಾಮಕರಣ ಮಾಡಲಾಗುತ್ತದೆ?", options: ["2 ಜನ", "10 ಜನ", "12 ಜನ", "14 ಜನ"], answer: 2, exp: "ವಿಧಿ-80 ರ ಅನ್ವಯ ಕಲೆ, ಸಾಹಿತ್ಯ ಕ್ಷೇತ್ರಗಳಲ್ಲಿ ಸಾಧನೆ ಮಾಡಿದ 12 ಜನರನ್ನು ರಾಜ್ಯಸಭೆಗೆ ನಾಮಕರಣ ಮಾಡಲಾಗುತ್ತದೆ." },
-    { q: "ವಿಧಿ-85 ರ ಪ್ರಕಾರ ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ಕರೆಯುವ, ಮುಂದೂಡುವ ಮತ್ತು ವಿಸರ್ಜಿಸುವ ಅಧಿಕಾರ ಯಾರಿಗೆ ಇದೆ?", options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್", "ರಾಷ್ಟ್ರಪತಿ", "ಉಪರಾಷ್ಟ್ರಪತಿ"], answer: 2, exp: "ವಿಧಿ-85 ರ ಅನ್ವಯ ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ಕರೆಯುವ, ಮುಂದೂಡುವ ಮತ್ತು ವಿಸರ್ಜಿಸುವ ಅಧಿಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗಿರುತ್ತದೆ." },
-    { q: "ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರವನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ನೀಡುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 85", "ವಿಧಿ 86", "ವಿಧಿ 108", "ವಿಧಿ 123"], answer: 1, exp: "ವಿಧಿ-86 ರ ಅನ್ವಯ ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರ ಹೊಂದಿರುತ್ತಾರೆ." },
-    { q: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುವ ಅಧಿಕಾರವನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 86", "ವಿಧಿ 108", "ವಿಧಿ 110", "ವಿಧಿ 123"], answer: 1, exp: "ವಿಧಿ-108 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಗಳು ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯುತ್ತಾರೆ." },
-    { q: "ಯಾವ ಮಸೂದೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?", options: ["ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಹಣಕಾಸು ಮಸೂದೆ", "ಶಿಕ್ಷಣ ಮಸೂದೆ", "ಯಾವುದೂ ಅಲ್ಲ"], answer: 1, exp: "ಹಣಕಾಸು ಮಸೂದೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ." },
-    { q: "ಸಂವಿಧಾನದ ಯಾವ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?", options: ["ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ಮಸೂದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಮಸೂದೆ"], answer: 1, exp: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ." },
-    { q: "ಯಾವ ವಿಷಯಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ?", options: ["ಆಯವ್ಯಯ ಮಸೂದೆ (ಬಜೆಟ್)", "ಪೋಟಾ ಕಾಯ್ದೆ", "ವರದಕ್ಷಿಣೆ ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಕಾಯ್ದೆ"], answer: 0, exp: "ಆಯವ್ಯಯ ಮಸೂದೆಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ." },
-    { q: "1961 ರಲ್ಲಿ ಯಾವ ಕಾಯ್ದೆಯ ಮಸೂದೆಗಾಗಿ ಮೊದಲ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು?", options: ["ಬ್ಯಾಂಕಿಂಗ್ சேವಾ ಆಯೋಗ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ", "ಭ್ರಷ್ಟಾಚಾರ ತಡೆ ಕಾಯ್ದೆ"], answer: 1, exp: "1961 ರಲ್ಲಿ ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆಗಾಗಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು." },
-    { q: "1978 ರಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾದ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ", "ವರದಕ್ಷಿಣೆ ಕಾಯ್ದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ", "ಭೂ ಸುಧಾರಣೆ ಕಾಯ್ದೆ"], answer: 0, exp: "1978 ರಲ್ಲಿ ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗಕ್ಕಾಗಿ ಜಂಟಿ ಅಧಿವೇಶನ ನಡೆಯಿತು." },
-    { q: "2002 ರಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನದ ಮೂಲಕ ಅಂಗೀಕರಿಸಲ್ಪಟ್ಟ ಕಾಯ್ದೆ ಯಾವುದು?", options: ["ವರದಕ್ಷಿಣೆ ನಿಷೇಧ", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಕಾಯ್ದೆ", "ಶಿಕ್ಷಣ ಹಕ್ಕು ಕಾಯ್ದೆ"], answer: 1, exp: "2002 ರಲ್ಲಿ ಪೋಟಾ (POTA) ಕಾಯ್ದೆಗಾಗಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು." },
-    { q: "ಲೋಕಸಭೆಗೆ 2 ಆಂಗ್ಲೋ-ಇಂಡಿಯನ್ ಸದಸ್ಯರನ್ನು ನೇಮಕ ಮಾಡುವ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಯಾವ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿಯ ಮೂಲಕ ರದ್ದುಪಡಿಸಲಾಗಿದೆ?", options: ["101 ನೇ ತಿದ್ದುಪಡಿ", "103 ನೇ ತಿದ್ದುಪಡಿ", "104 ನೇ ತಿದ್ದುಪಡಿ", "105 ನೇ ತಿದ್ದುಪಡಿ"], answer: 2, exp: "104 ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿಯ ಪ್ರಕಾರ ಲೋಕಸಭೆಗೆ ಆಂಗ್ಲೋ-ಇಂಡಿಯನ್ ನೇಮಕ ರದ್ದುಪಡಿಸಲಾಗಿದೆ (ವಿಧಿ 331)." },
-    { q: "ಸಂಸತ್ತಿನ ಅಧಿವೇಶನವಿಲ್ಲದಿದ್ದಾಗ ಸುಗ್ರೀವಾಜ್ಞೆ (Ordinance) ಹೊರಡಿಸುವ ಅಧಿಕಾರವನ್ನು ನೀಡುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 72", "ವಿಧಿ 108", "ವಿಧಿ 123", "ವಿಧಿ 213"], answer: 2, exp: "ವಿಧಿ-123 ರ ಅನ್ವಯ ಅಧಿವೇಶನವಿಲ್ಲದಿದ್ದಾಗ ಸುಗ್ರೀವಾಜ್ಞೆ ಹೊರಡಿಸಬಹುದು (6 ವಾರಗಳ ಒಳಗೆ ಒಪ್ಪಿಗೆ ಪಡೆಯಬೇಕು)." },
-    { q: "ವಿಧಿ-75 ರ ಪ್ರಕಾರ ಬಹುಮತ ಪಡೆದ ಪಕ್ಷದ ನಾಯಕನನ್ನು ಪ್ರಧಾನ ಮಂತ್ರಿಯೆಂದು ನೇಮಕ ಮಾಡುವವರು ಯಾರು?", options: ["ಲೋಕಸಭಾ ಸ್ಪೀಕರ್", "ರಾಷ್ಟ್ರಪತಿ", "ಉಪರಾಷ್ಟ್ರಪತಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು"], answer: 1, exp: "ವಿಧಿ-75 ರ ಅನ್ವಯ ಪ್ರಧಾನ ಮಂತ್ರಿಯವರನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಿಸುತ್ತಾರೆ." },
-    { q: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ನೇಮಕ ಮಾಡಲು ತಿಳಿಸುವ ಸಂವಿಧಾನದ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 75", "ವಿಧಿ 76", "ವಿಧಿ 148", "ವಿಧಿ 155"], answer: 1, exp: "ವಿಧಿ-76 ರ ಅನ್ವಯ ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಿಸುತ್ತಾರೆ." },
-    { q: "ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿಗೆ ಇರಬೇಕಾದ ನ್ಯಾಯಾಂಗ ಅರ್ಹತೆ ಯಾವುದು?", options: ["ಹೈಕೋರ್ಟ್ ವಕೀಲ", "ಸುಪ್ರೀಂಕೋರ್ಟಿನ ನ್ಯಾಯಾಧೀಶರಾಗಲು ಹೊಂದಿರುವ ಅರ್ಹತೆ", "ಜಿಲ್ಲಾ ನ್ಯಾಯಾಧೀಶ", "ಯಾವುದೂ ಅಲ್ಲ"], answer: 1, exp: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರು ಸುಪ್ರೀಂಕೋರ್ಟಿನ ನ್ಯಾಯಾಧೀಶರಾಗಲು ಹೊಂದಿರುವ ಅರ್ಹತೆಯನ್ನು ಹೊಂದಿರಬೇಕು." },
-    { q: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?", options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್", "ರಾಷ್ಟ್ರಪತಿ", "ಕಾನೂನು ಸಚಿವರು"], answer: 2, exp: "ಅಟಾರ್ನಿ ಜನರಲ್ ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ." },
-    { q: "ಕೇಂದ್ರ ಸಚಿವ ಸಂಪುಟದ ಶಿಫಾರಸ್ಸಿನ ಆಧಾರದ ಮೇಲೆ ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ನೇಮಕ ಮಾಡಲು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 153", "ವಿಧಿ 155", "ವಿಧಿ 161", "ವಿಧಿ 165"], answer: 1, exp: "ವಿಧಿ-155 ರ ಅನ್ವಯ ರಾಜ್ಯಪಾಲರನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಿಸುತ್ತಾರೆ." },
-    { q: "ವಿಧಿ-148 ರ ಪ್ರಕಾರ ಲೆಕ್ಕ ನಿಯಂತ್ರಕರು ಮತ್ತು ಮಹಾಲೆಕ್ಕ ಪರಿಶೋಧಕರನ್ನು (CAG) ನೇಮಕ ಮಾಡುವವರು ಯಾರು?", options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಹಣಕಾಸು ಸಚಿವರು", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್"], answer: 1, exp: "ವಿಧಿ-148 ರ ಅನ್ವಯ CAG ಯನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಿಸುತ್ತಾರೆ." },
-    { q: "ರಾಷ್ಟ್ರಪತಿಯವರ ಕ್ಷಮಾಧಾನ, ಶಿಕ್ಷೆ ಕಡಿಮೆ ಮಾಡುವ ಹಾಗೂ ಮರಣದಂಡನೆ ರದ್ದುಪಡಿಸುವ ಅಧಿಕಾರ ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?", options: ["ವಿಧಿ 61", "ವಿಧಿ 72", "ವಿಧಿ 123", "ವಿಧಿ 161"], answer: 1, exp: "ವಿಧಿ-72 ರ ಪ್ರಕಾರ ಕ್ಷಮಾಧಾನ ನೀಡುವ ಅಧಿಕಾರ ರಾಷ್ಟ್ರಪತಿಗಿದೆ." },
-    { q: "ಸಂವಿಧಾನದ 18ನೇ ಭಾಗದಲ್ಲಿರುವ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯ ಉಪಬಂಧಗಳನ್ನು ಯಾವ ದೇಶದಿಂದ ಎರವಲು ಪಡೆಯಲಾಗಿದೆ?", options: ["ಅಮೆರಿಕ", "ಬ್ರಿಟನ್", "ಜರ್ಮನಿ", "ರಷ್ಯಾ"], answer: 2, exp: "ತುರ್ತು ಪರಿಸ್ಥಿತಿ ವಿಷಯವನ್ನು ಜರ್ಮನಿ ದೇಶದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ (ವಿಧಿ 352 - 360)." },
-    { q: "ಭಾರತದ ಮೇಲೆ ಚೀನಾ ದಾಳಿ ಮಾಡಿದಾಗ ಮೊದಲ ಬಾರಿಗೆ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಘೋಷಿಸಿದ ದಿನಾಂಕ ಯಾವುದು?", options: ["1962 ಅಕ್ಟೋಬರ್ 26", "1971 ಡಿಸೆಂಬರ್ 3", "1975 ಜೂನ್ 25", "1965 ಆಗಸ್ಟ್ 15"], answer: 0, exp: "1962 ಅಕ್ಟೋಬರ್ 26 ರಂದು ಮೊದಲ ಬಾರಿಗೆ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಘೋಷಿಸಲಾಯಿತು." },
-    { q: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ (ವಿಧಿ 356) ಜಾರಿಯಾದ ರಾಜ್ಯ ಮತ್ತು ವರ್ಷ ಯಾವುದು?", options: ["ಕರ್ನಾಟಕ (1971)", "ಪಂಜಾಬ್ (1951)", "ಕೇರಳ (1959)", "ತಮಿಳುನಾಡು (1976)"], answer: 1, exp: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಪಂಜಾಬ್‌ನಲ್ಲಿ (1951) ಘೋಷಿಸಲಾಯಿತು." },
-    { q: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇದುವರೆಗೆ ಎಷ್ಟು ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಘೋಷಿಸಲಾಗಿದೆ?", options: ["4 ಬಾರಿ", "5 ಬಾರಿ", "6 ಬಾರಿ", "8 ಬಾರಿ"], answer: 2, exp: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇಲ್ಲಿಯವರೆಗೆ 6 ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಘೋಷಿಸಲಾಗಿದೆ." },
-    { q: "ಹಳೆಯ ಸಂಸತ್ ಭವನದ ನಿರ್ಮಾಣ ಕಾರ್ಯ ಯಾವ ವರ್ಷದಲ್ಲಿ ಪ್ರಾರಂಭವಾಯಿತು?", options: ["1911", "1921", "1927", "1947"], answer: 1, exp: "ಸಂಸತ್ ಭವನವನ್ನು 1921 ರಲ್ಲಿ ನಿರ್ಮಿಸಲು ಪ್ರಾರಂಭಿಸಲಾಯಿತು." },
-    { q: "ನವದೆಹಲಿಯಲ್ಲಿರುವ ಸಂಸತ್ ಭವನವನ್ನು ಯಾವ ವರ್ಷದಲ್ಲಿ ಉದ್ಘಾಟಿಸಲಾಯಿತು?", options: ["1921", "1925", "1927", "1950"], answer: 2, exp: "ಸಂಸತ್ ಭವನವನ್ನು 1927 ರಲ್ಲಿ ಉದ್ಘಾಟಿಸಲಾಯಿತು." },
-    { q: "ಭಾರತದ ಉಕ್ಕಿನ ಮನುಷ್ಯ ಸರ್ದಾರ್ ವಲ್ಲಭಬಾಯಿ ಪಟೇಲ್ ಅವರನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["ಭಾರತದ ನೈಟಿಂಗೇಲ್", "ಭಾರತದ ಬಿಸ್ಮಾರ್ಕ್", "ಗಡಿ ಗಾಂಧಿ", "ಶಾಂತಿ ಪುರುಷ"], answer: 1, exp: "ಸರ್ದಾರ್ ವಲ್ಲಭಬಾಯಿ ಪಟೇಲ್ ಅವರನ್ನು 'ಭಾರತದ ಬಿಸ್ಮಾರ್ಕ್' ಎಂದು ಕರೆಯುತ್ತಾರೆ." },
-    { q: "ಸರ್ದಾರ್ ವಲ್ಲಭಬಾಯಿ ಪಟೇಲ್ ಅವರ ಜನ್ಮದಿನವಾದ ಅಕ್ಟೋಬರ್ 31 ರಂದು ಯಾವ ದಿನವನ್ನಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?", options: ["ರಾಷ್ಟ್ರೀಯ ಶಿಕ್ಷಣ ದಿನ", "ರಾಷ್ಟ್ರೀಯ ಏಕತಾ ದಿನ", "ಸಂವಿಧಾನ ದಿನ", "ವಕೀಲರ ದಿನ"], answer: 1, exp: "ಅಕ್ಟೋಬರ್ 31 ನ್ನು 2014 ರಿಂದ 'ರಾಷ್ಟ್ರೀಯ ಏಕತಾ ದಿನ'ವಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ (ಆಧುನಿಕ ಸಿವಿಲ್ ಸೇವೆಗಳ ಪ್ರವರ್ತಕ)." }
-];
+    <script>
+        const allQuestions = [
+            {
+                globalId: 10,
+                question: "ವಿಧಿ-80 ರ ಅನ್ವಯ ರಾಜ್ಯಸಭೆಗೆ ವಿವಿಧ ಕ್ಷೇತ್ರಗಳಿಂದ ಸಾಧನೆ ಮಾಡಿದವರನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರು ಎಷ್ಟು ಜನರನ್ನು ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ?",
+                options: ["10 ಜನ", "12 ಜನ", "14 ಜನ", "2 ಜನ"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದ ವಿಧಿ 80ರ ಅನ್ವಯ ಕಲೆ, ಸಾಹಿತ್ಯ, ವಿಜ್ಞಾನ ಮತ್ತು ಸಮಾಜ ಸೇವೆ ಕ್ಷೇತ್ರಗಳಲ್ಲಿ ಸಾಧನೆ ಮಾಡಿದ 12 ಜನರನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರು ರಾಜ್ಯಸಭೆಗೆ ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                globalId: 11,
+                question: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರವನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ನೀಡುವ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-85", "ವಿಧಿ-86", "ವಿಧಿ-108", "ವಿಧಿ-123"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದ ವಿಧಿ 86ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಉದ್ದೇಶಿಸಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರವನ್ನು ಹೊಂದಿರುತ್ತಾರೆ."
+            },
+            {
+                globalId: 12,
+                question: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುವ ಅಧಿಕಾರವನ್ನು ನೀಡುವ ಸಂವಿಧಾನದ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-108", "ವಿಧಿ-85", "ವಿಧಿ-86", "ವಿಧಿ-110"],
+                correct: 0,
+                explanation: "ವಿಧಿ 108ರ ಅನ್ವಯ ಯಾವುದೇ ಸಾಮಾನ್ಯ ಮಸೂದೆಯ ಕುರಿತು ಉಭಯ ಸದನಗಳ ನಡುವೆ ಭಿನ್ನಾಭಿಪ್ರಾಯ ಮೂಡಿದಾಗ ರಾಷ್ಟ್ರಪತಿಯವರು ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುತ್ತಾರೆ."
+            },
+            {
+                globalId: 13,
+                question: "ಕೆಳಗಿನ ಯಾವ ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?",
+                options: ["ಹಣಕಾಸು ಮಸೂದೆ", "ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಸಾಮಾನ್ಯ ಕಾನೂನು ಮಸೂದೆ", "ಯಾವುದೂ ಅಲ್ಲ"],
+                correct: 0,
+                explanation: "ಹಣಕಾಸು ಮಸೂದೆ, ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆ ಮತ್ತು ಆಯವ್ಯಯ (ಬಜೆಟ್) ಮಸೂದೆಗಳ ವಿಷಯದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ."
+            },
+            {
+                globalId: 14,
+                question: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿದೆಯೇ?",
+                options: ["ಇದೆ", "ಇಲ್ಲ", "ಕೆಲವೊಮ್ಮೆ ಮಾತ್ರ", "ರಾಷ್ಟ್ರಪತಿಗಳ ಇಷ್ಟ"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಅವಕಾಶವಿರುವುದಿಲ್ಲ. ಎರಡೂ ಸದನಗಳು ಪ್ರತ್ಯೇಕವಾಗಿ ಅಂಗೀಕರಿಸಬೇಕು."
+            },
+            {
+                globalId: 15,
+                question: "ಆಯವ್ಯಯ (ಬಜೆಟ್) ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲವೇ?",
+                options: ["ಬರುತ್ತದೆ", "ಬರುವುದಿಲ್ಲ", "ಲೋಕಸಭೆ ಸ್ಪೀಕರ್ ನಿರ್ಧರಿಸುತ್ತಾರೆ", "ಯಾವುದೂ ಅಲ್ಲ"],
+                correct: 1,
+                explanation: "ಆಯವ್ಯಯ (ಬಜೆಟ್) ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಬರುವುದಿಲ್ಲ."
+            },
+            {
+                globalId: 16,
+                question: "ಭಾರತದಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಯಾವ ಮಸೂದೆಯ ಉದ್ದೇಶಕ್ಕಾಗಿ ಕರೆಯಲಾಯಿತು?",
+                options: ["ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆ", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆ - 1961", "ಭ್ರಷ್ಟಾಚಾರ ತಡೆ ಕಾಯ್ದೆ"],
+                correct: 2,
+                explanation: "ಭಾರತದಲ್ಲಿ 1961 ರಲ್ಲಿ ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಮೊದಲ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲಾಯಿತು."
+            },
+            {
+                globalId: 17,
+                question: "1978 ರಲ್ಲಿ ಯಾವ ವಿಷಯಕ್ಕಾಗಿ ಭಾರತದಲ್ಲಿ 2ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಯಿತು?",
+                options: ["ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ - 1978", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ", "ಭೂ ಸುಧಾರಣೆ ಕಾಯ್ದೆ"],
+                correct: 0,
+                explanation: "1978 ರಲ್ಲಿ ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ 2ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಯಿತು."
+            },
+            {
+                globalId: 18,
+                question: "2002 ರಲ್ಲಿ 3ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲ್ಪಟ್ಟ ಕಾಯ್ದೆ ಯಾವುದು?",
+                options: ["ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ - 2002", "ಮಾಹಿತಿ ಹಕ್ಕು ಕಾಯ್ದೆ"],
+                correct: 2,
+                explanation: "2002 ರಲ್ಲಿ ಭಯೋತ್ಪಾದನೆ ತಡೆ ಕಾಯ್ದೆ (POTA) ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ 3ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಯಿತು."
+            },
+            {
+                globalId: 19,
+                question: "ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ಇಲ್ಲದಿರುವಾಗ ಸುಗ್ರೀವಾಜ್ಞೆ (Ordinance) ಹೊರಡಿಸುವ ಅಧಿಕಾರವನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ನೀಡುವ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-123", "ವಿಧಿ-213", "ವಿಧಿ-143", "ವಿಧಿ-72"],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ ವಿಧಿ 123ರ ಅನ್ವಯ ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ನಡೆಯಲ್ಲಿಲ್ಲದಿದ್ದಾಗ ರಾಷ್ಟ್ರಪತಿಯವರು ಸುಗ್ರೀವಾಜ್ಞೆಯನ್ನು ಹೊರಡಿಸಬಹುದು (6 ವಾರಗಳ ಒಳಗಾಗಿ ಸಂಸತ್ತಿನ ಒಪ್ಪಿಗೆ ಪಡೆಯಬೇಕು)."
+            },
+            {
+                globalId: 20,
+                question: "ಪ್ರಧಾನಮಂತ್ರಿ ಮತ್ತು ಮಂತ್ರಿಮಂಡಲದ ಸಲಹೆ ಪಡೆಯುವ ಅಧಿಕಾರವನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ನೀಡುವ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-74", "ವಿಧಿ-75", "ವಿಧಿ-76", "ವಿಧಿ-78"],
+                correct: 0,
+                explanation: "ವಿಧಿ 74ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಆಡಳಿತದಲ್ಲಿ ಸಲಹೆ ಮತ್ತು ನೆರವು ನೀಡಲು ಪ್ರಧಾನ ಮಂತ್ರಿಯವರ ನೇತೃತ್ವದ ಮಂತ್ರಿಮಂಡಲವಿರುತ್ತದೆ."
+            },
+            {
+                globalId: 21,
+                question: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ನೇಮಕ ಮಾಡಲು ಅವಕಾಶ ಕಲ್ಪಿಸುವ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-74", "ವಿಧಿ-75", "ವಿಧಿ-76", "ವಿಧಿ-148"],
+                correct: 2,
+                explanation: "ವಿಧಿ 76ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಭಾರತದ ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ನೇಮಕ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                globalId: 22,
+                question: "ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿ ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?",
+                options: ["ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು", "ಅಟಾರ್ನಿ ಜನರಲ್", "ಸೊಲಿಸಿಟರ್ ಜನರಲ್", "ಕಾನೂನು ಸಚಿವರು"],
+                correct: 1,
+                explanation: "ಭಾರತದ ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿ (Highest Law Officer) ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                globalId: 23,
+                question: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?",
+                options: ["ಪ್ರಧಾನ ಮಂತ್ರಿಗಳಿಗೆ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರಿಗೆ", "ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ", "ಸಂಸತ್ತಿಗೆ"],
+                correct: 2,
+                explanation: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ."
+            },
+            {
+                globalId: 24,
+                question: "ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ಯಾರ ಶಿಫಾರಸ್ಸಿನ ಆಧಾರದ ಮೇಲೆ ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಿಸುತ್ತಾರೆ?",
+                options: ["ಕೇಂದ್ರ ಸಚಿವ ಸಂಪುಟ (ವಿಧಿ-155)", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್", "ಮುಖ್ಯಮಂತ್ರಿಗಳು", "ಸಂಸತ್ತು"],
+                correct: 0,
+                explanation: "ವಿಧಿ 155ರ ಅನ್ವಯ ಕೇಂದ್ರ ಸಚಿವ ಸಂಪುಟದ ಶಿಫಾರಸ್ಸಿನ ಆಧಾರದ ಮೇಲೆ ರಾಷ್ಟ್ರಪತಿಯವರು ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ನೇಮಿಸುತ್ತಾರೆ."
+            },
+            {
+                globalId: 25,
+                question: "ಲೆಕ್ಕ ನಿಯಂತ್ರಕರು ಮತ್ತು ಮಹಾಲೆಕ್ಕ ಪರಿಶೋಧಕರನ್ನು (CAG) ನೇಮಕ ಮಾಡುವ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-148", "ವಿಧಿ-280", "ವಿಧಿ-324", "ವಿಧಿ-316"],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ ವಿಧಿ 148ರ ಅನ್ವಯ ಕಂಟ್ರೋಲರ್ ಅಂಡ್ ಆಡಿಟರ್ ಜನರಲ್ (CAG) ಅವರನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರು ನೇಮಕ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                globalId: 26,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಕ್ಷಮಾಪದಾನ ಅಧಿಕಾರವನ್ನು ತಿಳಿಸುವ ಸಂವಿಧಾನದ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ-72", "ವಿಧಿ-161", "ವಿಧಿ-123", "ವಿಧಿ-60"],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ ವಿಧಿ 72ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಕ್ಷಮಾದಾನ ನೀಡುವ, ಶಿಕ್ಷೆ ಕಡಿಮೆ ಮಾಡುವ ಅಥವಾ ಮರಣದಂಡನೆ ಶಿಕ್ಷೆಯನ್ನು ರದ್ದು ಮಾಡುವ ಅಧಿಕಾರವಿದೆ."
+            },
+            {
+                globalId: 27,
+                question: "ಸಂವಿಧಾನದ 18ನೇ ಭಾಗದಲ್ಲಿ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯ ಕುರಿತು ಎಲ್ಲಿಂದ ಎಲ್ಲಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: ["352 ರಿಂದ 360 ನೇ ವಿಧಿ", "350 ರಿಂದ 365 ನೇ ವಿಧಿ", "356 ರಿಂದ 368 ನೇ ವಿಧಿ", "300 ರಿಂದ 350 ನೇ ವಿಧಿ"],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ 18ನೇ ಭಾಗದ 352ನೇ ವಿಧಿಯಿಂದ 360ನೇ ವಿಧಿಯವರೆಗೆ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                globalId: 28,
+                question: "ಭಾರತದಲ್ಲಿ ಪ್ರಥಮ ಬಾರಿಗೆ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ 352) ಯಾವಾಗ ಘೋಷಿಸಲಾಯಿತು?",
+                options: ["1962 ಅಕ್ಟೋಬರ್ 26 (ಚೀನಾ ದಾಳಿ)", "1971 ಡಿಸೆಂಬರ್ 3 (ಪಾಕಿಸ್ತಾನ ದಾಳಿ)", "1975 ಜೂನ್ 25 (ಆಂತರಿಕ ಗಲಭೆ)", "1999 (ಕಾರ್ಗಿಲ್ ಯುದ್ಧ)"],
+                correct: 0,
+                explanation: "1962 ಅಕ್ಟೋಬರ್ 26 ರಂದು ಭಾರತದ ಮೇಲೆ ಚೀನಾ ದಾಳಿ ಮಾಡಿದಾಗ ಮೊದಲ ಬಾರಿಗೆ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಘೋಷಿಸಲಾಯಿತು."
+            },
+            {
+                globalId: 29,
+                question: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ 356) ಘೋಷಿಸಿದ ರಾಜ್ಯ ಯಾವುದು?",
+                options: ["ಕರ್ನಾಟಕ", "ಪಂಜಾಬ್ (1951)", "ಕೇರಳ", "ಉತ್ತರ ಪ್ರದೇಶ"],
+                correct: 1,
+                explanation: "1951 ರಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ಪಂಜಾಬ್ ರಾಜ್ಯದಲ್ಲಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ರಾಷ್ಟ್ರಪತಿ ಆಳ್ವಿಕೆ) ಘೋಷಿಸಲಾಯಿತು."
+            },
+            {
+                globalId: 30,
+                question: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇಲ್ಲಿಯವರೆಗೆ ಎಷ್ಟು ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ರಾಷ್ಟ್ರಪತಿ ಆಳ್ವಿಕೆ) ಘೋಷಿಸಲಾಗಿದೆ?",
+                options: ["4 ಬಾರಿ", "6 ಬಾರಿ", "8 ಬಾರಿ", "2 ಬಾರಿ"],
+                correct: 1,
+                explanation: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇದುವರೆಗೆ ಒಟ್ಟು 6 ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ 356) ಘೋಷಿಸಲಾಗಿದೆ."
+            },
+            {
+                globalId: 31,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರು ಮಸೂದೆಯನ್ನು ತಮ್ಮಲ್ಲಿಯೇ ಇಟ್ಟುಕೊಳ್ಳುವ ಅಧಿಕಾರವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ (Pocket Veto)", "ಸುಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ಯಾವುದೂ ಅಲ್ಲ"],
+                correct: 0,
+                explanation: "ಮಸೂದೆಯ ಮೇಲೆ ಯಾವುದೇ ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳದೆ ತಮ್ಮ ಬಳಿಯಲ್ಲೇ ಕಾಯ್ದಿರಿಸಿಕೊಳ್ಳುವ ಅಧಿಕಾರವನ್ನು 'ಪಾಕೆಟ್ ವೀಟೋ' ಎನ್ನಲಾಗುತ್ತದೆ."
+            },
+            {
+                globalId: 32,
+                question: "ಒಂದು ಮಸೂದೆಯನ್ನು ಮರು ಪರಿಶೀಲನೆಗೆ ಮರಳಿ ಕಳುಹಿಸುವ ರಾಷ್ಟ್ರಪತಿಯವರ ಅಧಿಕಾರ ಯಾವುದು?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸಸ್ಪೆನ್ಸಿವ್ / ಸುಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ವಿಶೇಷ ಅಧಿಕಾರ"],
+                correct: 1,
+                explanation: "ಮಸೂದೆಯನ್ನು ಮರು ಪರಿಶೀಲನೆಗಾಗಿ ಸಂಸತ್ತಿಗೆ ಹಿಂತಿರುಗಿಸುವ ಅಧಿಕಾರವನ್ನು ಸುಪರ್/ಸಸ್ಪೆನ್ಸಿವ್ ವೀಟೋ ಎನ್ನಲಾಗುತ್ತದೆ."
+            },
+            {
+                globalId: 33,
+                question: "ಮಸೂದೆಗೆ ಕಡ್ಡಾಯವಾಗಿ ಒಪ್ಪಿಗೆ ನೀಡದಿರುವ ಅಥವಾ ಸಂಪೂರ್ಣ ತಿರಸ್ಕರಿಸುವ ಅಧಿಕಾರ ಯಾವುದು?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸುಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ (Absolute Veto)", "ಸಂಸದೀಯ ವೀಟೋ"],
+                correct: 2,
+                explanation: "ಸಂಸತ್ತು ಅಂಗೀಕರಿಸಿದ ಮಸೂದೆಗೆ ಒಪ್ಪಿಗೆ ನೀಡದೆ ತಡೆಹಿಡಿಯುವ ಅಧಿಕಾರವನ್ನು ನಿರಂಕುಶ ವೀಟೋ (Absolute Veto) ಎನ್ನಲಾಗುತ್ತದೆ."
+            },
+            {
+                globalId: 34,
+                question: "ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಜನ್ಮಸ್ಥಳ ಯಾವುದು?",
+                options: ["ಜರದೆ (ಬಿಹಾರ)", "ತಿರುಚಾನಪಳ್ಳಿ (ತಮಿಳುನಾಡು)", "ಹೈದರಾಬಾದ್", "ಒಡಿಸ್ಸಾ"],
+                correct: 0,
+                explanation: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರು ಬಿಹಾರದ ಜರದೆ ಎಂಬ ಸ್ಥಳದಲ್ಲಿ ಜನಿಸಿದರು."
+            },
+            {
+                globalId: 35,
+                question: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಜನ್ಮದಿನವಾದ ಡಿಸೆಂಬರ್ 3 ರಂದು ಯಾವ ದಿನವನ್ನಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?",
+                options: ["ವಕೀಲರ ದಿನ (Lawyers Day)", "ಶಿಕ್ಷಕರ ದಿನ", "ರಾಷ್ಟ್ರೀಯ ಏಕತಾ ದಿನ", "ರೈತರ ದಿನ"],
+                correct: 0,
+                explanation: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಜನ್ಮದಿನವಾದ ಡಿಸೆಂಬರ್ 3 ರಂದು 'ವಕೀಲರ ದಿನ'ವಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ."
+            },
+            {
+                globalId: 36,
+                question: "ಭಾರತದ ಮೊದಲ ಉಪರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ 2ನೇ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದವರು ಯಾರು?",
+                options: ["ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ಡಾ|| ಝಾಕೀರ್ ಹುಸೇನ್", "ವಿ.ವಿ. ಗಿರಿ", "ಎನ್. ಸಂಜೀವರೆಡ್ಡಿ"],
+                correct: 0,
+                explanation: "ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರು ಭಾರತದ ಪ್ರಥಮ ಉಪರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಹಾಗೂ 2ನೇ ರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಸೇವೆ ಸಲ್ಲಿಸಿದರು."
+            }
+        ];
 
-let currentIndex = 0;
-let userAnswers = new Array(quizData.length).fill(null);
+        let activeQuestionSet = [...allQuestions];
+        let currentIndex = 0;
+        let userAnswers = {}; 
+        let wrongTestCounter = 1;
+        let timerSeconds = 0;
+        let timerInterval = null;
 
-function loadQuestion() {
-    const qData = quizData[currentIndex];
-    document.getElementById("question-text").innerText = `${currentIndex + 1}. ${qData.q}`;
-    
-    const optionsContainer = document.getElementById("options-container");
-    optionsContainer.innerHTML = "";
-    
-    const feedbackBox = document.getElementById("feedback-box");
-    feedbackBox.style.display = "none";
-    
-    qData.options.forEach((opt, index) => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.innerText = `${String.fromCharCode(65 + index)}) ${opt}`;
-        btn.onclick = () => selectOption(index);
-        optionsContainer.appendChild(btn);
-    });
-
-    if (userAnswers[currentIndex] !== null) {
-        showResult(userAnswers[currentIndex]);
-    }
-
-    document.getElementById("prev-btn").disabled = currentIndex === 0;
-    document.getElementById("next-btn").disabled = currentIndex === quizData.length - 1;
-    
-    updatePalette();
-}
-
-function selectOption(selectedIndex) {
-    if (userAnswers[currentIndex] !== null) return;
-    
-    userAnswers[currentIndex] = selectedIndex;
-    showResult(selectedIndex);
-    updateScore();
-    updatePalette();
-}
-
-function showResult(selectedIndex) {
-    const qData = quizData[currentIndex];
-    const optionBtns = document.querySelectorAll(".option-btn");
-    const feedbackBox = document.getElementById("feedback-box");
-
-    optionBtns.forEach((btn, index) => {
-        btn.disabled = true;
-        if (index === qData.answer) {
-            btn.classList.add("selected-correct");
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer').textContent = `${mins}:${secs}`;
+            }, 1000);
         }
-        if (index === selectedIndex && selectedIndex !== qData.answer) {
-            btn.classList.add("selected-wrong");
-        }
-    });
 
-    feedbackBox.style.display = "block";
-    if (selectedIndex === qData.answer) {
-        feedbackBox.className = "feedback-box correct";
-        feedbackBox.innerHTML = `<b>ಸರಿ! (Correct)</b><br>${qData.exp}`;
-    } else {
-        feedbackBox.className = "feedback-box wrong";
-        feedbackBox.innerHTML = `<b>ತಪ್ಪು! (Incorrect)</b><br>ಸರಿಯಾದ ಉತ್ತರ: <b>${qData.options[qData.answer]}</b>.<br>${qData.exp}`;
-    }
-}
+        function renderQuestion() {
+            const q = activeQuestionSet[currentIndex];
+            document.getElementById('question-number-badge').textContent = `Q. ${q.globalId}`;
+            document.getElementById('question-text').textContent = q.question;
 
-function changeQuestion(direction) {
-    currentIndex += direction;
-    loadQuestion();
-}
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
 
-function initPalette() {
-    const gridContainer = document.getElementById("grid-container");
-    gridContainer.innerHTML = "";
-    quizData.forEach((_, index) => {
-        const item = document.createElement("div");
-        item.className = "grid-item";
-        item.innerText = index + 1;
-        item.onclick = () => {
-            currentIndex = index;
-            loadQuestion();
-        };
-        gridContainer.appendChild(item);
-    });
-}
+            const isAnswered = userAnswers.hasOwnProperty(q.globalId);
+            const selectedOpt = userAnswers[q.globalId];
 
-function updatePalette() {
-    const items = document.querySelectorAll(".grid-item");
-    items.forEach((item, index) => {
-        item.className = "grid-item";
-        if (index === currentIndex) {
-            item.classList.add("active");
-        }
-        if (userAnswers[index] !== null) {
-            if (userAnswers[index] === quizData[index].answer) {
-                item.classList.add("answered-correct");
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span>${String.fromCharCode(65 + idx)}. ${optText}</span>`;
+                
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (selectedOpt === idx && selectedOpt !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Handle Explanation
+            const expBox = document.getElementById('explanation-box');
+            if (isAnswered) {
+                document.getElementById('explanation-text').textContent = q.explanation;
+                expBox.style.display = 'block';
             } else {
-                item.classList.add("answered-wrong");
+                expBox.style.display = 'none';
+            }
+
+            // Navigation status
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === activeQuestionSet.length - 1;
+
+            updatePalette();
+            updateScore();
+        }
+
+        function selectOption(optionIndex) {
+            const q = activeQuestionSet[currentIndex];
+            userAnswers[q.globalId] = optionIndex;
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
             }
         }
-    });
-}
 
-function updateScore() {
-    let score = 0;
-    userAnswers.forEach((ans, idx) => {
-        if (ans === quizData[idx].answer) score++;
-    });
-    document.getElementById("score-display").innerText = `ಅಂಕಗಳು: ${score} / ${quizData.length}`;
-}
+        function nextQuestion() {
+            if (currentIndex < activeQuestionSet.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            }
+        }
 
-function resetQuiz() {
-    userAnswers = new Array(quizData.length).fill(null);
-    currentIndex = 0;
-    updateScore();
-    loadQuestion();
-}
+        function updatePalette() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = '';
 
-initPalette();
-loadQuestion();
-</script>
+            activeQuestionSet.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-node';
+                btn.textContent = q.globalId;
 
+                if (idx === currentIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.globalId)) {
+                    if (userAnswers[q.globalId] === q.correct) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentIndex = idx;
+                    renderQuestion();
+                };
+
+                grid.appendChild(btn);
+            });
+
+            document.getElementById('answered-count').textContent = 
+                `${Object.keys(userAnswers).length}/${activeQuestionSet.length}`;
+        }
+
+        function updateScore() {
+            let correctCount = 0;
+            activeQuestionSet.forEach(q => {
+                if (userAnswers[q.globalId] === q.correct) {
+                    correctCount++;
+                }
+            });
+            document.getElementById('score-display').textContent = `${correctCount} / ${activeQuestionSet.length}`;
+        }
+
+        function resetAll() {
+            activeQuestionSet = [...allQuestions];
+            userAnswers = {};
+            currentIndex = 0;
+            wrongTestCounter = 1;
+            document.getElementById('test-tag').textContent = 'Mock Test';
+            startTimer();
+            renderQuestion();
+        }
+
+        function startWrongTest() {
+            const wrongQuestions = allQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.globalId) && userAnswers[q.globalId] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found to retest)");
+                return;
+            }
+
+            // Retain only wrong questions
+            activeQuestionSet = wrongQuestions;
+            
+            // Clear user answers for these specific questions
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.globalId];
+            });
+
+            currentIndex = 0;
+            document.getElementById('test-tag').textContent = `Wrong Test-${wrongTestCounter}`;
+            wrongTestCounter++;
+            
+            renderQuestion();
+        }
+
+        // Initialize Test
+        window.onload = () => {
+            startTimer();
+            renderQuestion();
+        };
+    </script>
 </body>
 </html>
