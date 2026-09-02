@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roopa Tutorials - CBT Mock Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: #0a0f24;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(0, 242, 254, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 0%, rgba(26, 35, 126, 0.35) 0%, transparent 70%);
+      background-attachment: fixed;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styling */
+    header {
+      background: rgba(13, 27, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 242, 254, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .test-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+    }
+
+    .timer-pill {
+      background: #2c121e;
+      color: #ff5252;
+      border: 1px solid rgba(255, 82, 82, 0.4);
+      box-shadow: 0 0 12px rgba(255, 82, 82, 0.25);
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      background: rgba(19, 30, 58, 0.85);
+      border: 1px solid #1e2d5a;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(30, 45, 90, 0.4);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Glowing Question Number Badge */
+    .question-header {
+      display: inline-block;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      color: #00f2fe;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 0.8px;
+      padding: 0.4rem 1rem;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2);
+      text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 10px rgba(0, 242, 254, 0.3), inset 0 0 5px rgba(0, 242, 254, 0.1);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(0, 242, 254, 0.6), inset 0 0 12px rgba(0, 242, 254, 0.3);
+      }
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #f8fafc;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #283548;
+      border-color: #00f2fe;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .option-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    /* State Highlights */
+    .option-btn.correct {
+      background: #1b4332 !important;
+      border-color: #2ec4b6 !important;
+      color: #e8f5e9 !important;
+      box-shadow: 0 0 18px rgba(46, 196, 182, 0.4) !important;
+    }
+
+    .option-btn.wrong {
+      background: #4a151b !important;
+      border-color: #e63946 !important;
+      color: #ffebee !important;
+      box-shadow: 0 0 18px rgba(230, 57, 70, 0.4) !important;
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      background: #0f172a;
+      border-left: 4px solid #00f2fe;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.05);
+    }
+
+    .explanation-box.active {
+      display: block;
+    }
+
+    .explanation-title {
+      color: #00f2fe;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      text-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+    }
+
+    .explanation-text {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Navigation Controls */
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #1e2d5a;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #1d4ed8;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6), 0 0 12px rgba(0, 242, 254, 0.4);
+    }
+
+    .btn-secondary {
+      background: #475569;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(71, 85, 105, 0.3);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #334155;
+      box-shadow: 0 6px 18px rgba(71, 85, 105, 0.5);
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #b91c1c;
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6), 0 0 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Sidebar Palette */
+    .sidebar {
+      background: rgba(19, 30, 58, 0.85);
+      border: 1px solid #1e2d5a;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(30, 45, 90, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: fit-content;
+      backdrop-filter: blur(8px);
+    }
+
+    .score-badge {
+      background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.35), inset 0 0 10px rgba(0, 242, 254, 0.2);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+    }
+
+    .score-title {
+      font-size: 0.85rem;
+      color: #93c5fd;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .score-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 0.25rem;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    }
+
+    .palette-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .node-btn {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.15);
+    }
+
+    .node-btn:hover {
+      transform: scale(1.08);
+      border-color: #00f2fe;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+    }
+
+    .node-btn.active {
+      box-shadow: 0 0 0 3px #00f2fe, 0 0 20px #00f2fe;
+      border-color: transparent;
+      animation: nodePulse 1.5s infinite alternate;
+    }
+
+    @keyframes nodePulse {
+      0% {
+        box-shadow: 0 0 0 3px #00f2fe, 0 0 10px #00f2fe;
+      }
+      100% {
+        box-shadow: 0 0 0 3px #00f2fe, 0 0 22px #00f2fe;
+      }
+    }
+
+    .node-btn.correct {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    }
+
+    .node-btn.wrong {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+    }
+
+    .sidebar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="test-title" id="testHeaderTitle">
+      <span>🏛️</span> ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ MOCK TEST
+    </div>
+    <div class="timer-pill" id="timer">00:00</div>
+  </header>
+
+  <main class="container">
+    <section class="quiz-card">
+      <div>
+        <div class="question-header" id="questionNumberLabel">ಪ್ರಶ್ನೆ 3</div>
+        <div class="question-text" id="questionText">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+
+        <div class="options-grid" id="optionsContainer"></div>
+
+        <div class="explanation-box" id="explanationBox">
+          <div class="explanation-title">ವಿವರಣೆ (Explanation)</div>
+          <div class="explanation-text" id="explanationText"></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)">← ಹಿಂದಿನ</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">ಮುಂದಿನ →</button>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="score-badge">
+        <div class="score-title">ಒಟ್ಟು ಅಂಕಗಳು (Score)</div>
+        <div class="score-value" id="scoreDisplay">0 / 7</div>
+      </div>
+
+      <div>
+        <div class="palette-title" style="margin-bottom: 0.75rem;">ಪ್ರಶ್ನೆಗಳ ವಿವರ (Palette)</div>
+        <div class="palette-grid" id="paletteGrid"></div>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="retestAll()">🔄 ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+        <button class="btn btn-danger" style="width: 100%; justify-content: center;" onclick="testWrongAnswers()">⚠️ ತಪ್ಪಾದ ಪ್ರಶ್ನೆಗಳ ಮರುಪರೀಕ್ಷೆ</button>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const allQuestions = [
+      {
+        id: 3,
+        question: "ವಿಧಿ-54 ಯಾರ ಚುನಾವಣೆಗೆ ಸಂಬಂಧಿಸಿದೆ?",
+        options: [
+          "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆ",
+          "ಉಪರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆ",
+          "ಪ್ರಧಾನಮಂತ್ರಿ ನೇಮಕ",
+          "ಲೋಕಸಭೆ ಸ್ಪೀಕರ್ ಚುನಾವಣೆ"
+        ],
+        correct: 0,
+        explanation: "ವಿಧಿ-54 ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆಗೆ ಸಂಬಂಧಿಸಿದೆ. ಇವರ ಚುನಾವಣೆಯು ಪರೋಕ್ಷ ಮತ್ತು ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ."
+      },
+      {
+        id: 4,
+        question: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯ ಮತದಾನದ ವಿಧಾನ ಕೆಳಗಿನ ಯಾವುದಕ್ಕೆ ಒಳಪಟ್ಟಿದೆ?",
+        options: [
+          "ಬಹಿರಂಗ ಮತದಾನ",
+          "ಪರೋಕ್ಷ ಮತ್ತು ಗುಪ್ತ ಮತದಾನ",
+          "ನೇರ ಮತದಾನ",
+          "ಸಂಸತ್ತಿನಲ್ಲಿ ಮಾತ್ರ ಮತದಾನ"
+        ],
+        correct: 1,
+        explanation: "ರಾಷ್ಟ್ರಪತಿಯವರ ಚುನಾವಣೆಯು ಪರೋಕ್ಷ ಹಾಗೂ ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ."
+      },
+      {
+        id: 5,
+        question: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಭಾಗವಹಿಸಿ ಮತದಾನ ಮಾಡುವವರು ಯಾರು?",
+        options: [
+          "ಲೋಕಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ಹಾಗೂ ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳ (ದೆಹಲಿ, ಪುದುಚೇರಿ) ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಮೇಲಿನ ಎಲ್ಲವೂ"
+        ],
+        correct: 3,
+        explanation: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಲೋಕಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು, ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು, ಹಾಗೂ ಎಲ್ಲಾ ರಾಜ್ಯ ಮತ್ತು ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಭಾಗವಹಿಸುತ್ತಾರೆ."
+      },
+      {
+        id: 6,
+        question: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು ಏನೆಂದು ಕರೆಯಲಾಗುತ್ತದೆ?",
+        options: [
+          "ರೈಸೀನ್ ಹಿಲ್ಸ್ ಭವನ",
+          "ಇಂಡಿಯಾ ಗೇಟ್ ಭವನ",
+          "ವೈಸ್‌ರಾಯ್ ಭವನ",
+          "ಸಂಸತ್ ಭವನ"
+        ],
+        correct: 0,
+        explanation: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು 'ರೈಸೀನ್ ಹಿಲ್ಸ್ ಭವನ' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+      },
+      {
+        id: 7,
+        question: "ವಿಧಿ-60 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಪ್ರಮಾಣವಚನ ಬೋಧಿಸುವವರು ಯಾರು?",
+        options: [
+          "ಉಪರಾಷ್ಟ್ರಪತಿಗಳು",
+          "ಸುಪ್ರೀಂ ಕೋರ್ಟಿನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು",
+          "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್",
+          "ಪ್ರಧಾನಮಂತ್ರಿಗಳು"
+        ],
+        correct: 1,
+        explanation: "ವಿಧಿ-60 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಪ್ರಮಾಣವಚನವನ್ನು ಸುಪ್ರೀಂ ಕೋರ್ಟಿನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು ಬೋಧಿಸುತ್ತಾರೆ."
+      },
+      {
+        id: 8,
+        question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಮಹಾಭಿಯೋಗದಲ್ಲಿ ಭಾಗವಹಿಸುವವರು ಯಾರು?",
+        options: [
+          "ಲೋಕಸಭೆಯ ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು (ವಿಧಾನಸಭೆ ಸದಸ್ಯರಿಗೆ ಅವಕಾಶವಿಲ್ಲ)",
+          "ವಿಧಾನಸಭೆಯ ಸದಸ್ಯರು ಮಾತ್ರ",
+          "ಕೇವಲ ಲೋಕಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು",
+          "ಕೇವಲ ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು"
+        ],
+        correct: 0,
+        explanation: "ರಾಷ್ಟ್ರಪತಿಗಳ ಮಹಾಭಿಯೋಗದಲ್ಲಿ (ವಿಧಿ-61) ಲೋಕಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು ಭಾಗವಹಿಸುತ್ತಾರೆ. ಆದರೆ ವಿಧಾನಸಭೆಯ ಸದಸ್ಯರು ಭಾಗವಹಿಸುವುದಿಲ್ಲ."
+      },
+      {
+        id: 9,
+        question: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?",
+        options: [
+          "ಪ್ರಧಾನಮಂತ್ರಿಯವರಿಗೆ",
+          "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರಿಗೆ",
+          "ಉಪರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ",
+          "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್‌ಗೆ"
+        ],
+        correct: 2,
+        explanation: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಉಪರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಸಲ್ಲಿಸುವುದರ ಮೂಲಕ ತಮ್ಮ ಹುದ್ದೆಯನ್ನು ಖಾಲಿ ಮಾಡುತ್ತಾರೆ."
+      }
+    ];
+
+    let activeQuestions = [...allQuestions];
+    let currentIndex = 0;
+    let userAnswers = {};
+    let wrongTestCount = 1;
+    let secondsElapsed = 0;
+
+    // Timer implementation
+    setInterval(() => {
+      secondsElapsed++;
+      const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const secs = String(secondsElapsed % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${mins}:${secs}`;
+    }, 1000);
+
+    function initQuiz() {
+      renderQuestion();
+      renderPalette();
+      updateScore();
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentIndex];
+      document.getElementById('questionNumberLabel').textContent = `ಪ್ರಶ್ನೆ ${q.id}`;
+      document.getElementById('questionText').textContent = q.question;
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      const answered = userAnswers.hasOwnProperty(q.id);
+      const selectedOption = userAnswers[q.id];
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
+
+        if (answered) {
+          btn.disabled = true;
+          if (idx === q.correct) btn.classList.add('correct');
+          if (selectedOption === idx && idx !== q.correct) btn.classList.add('wrong');
+        } else {
+          btn.onclick = () => selectOption(idx);
+        }
+
+        container.appendChild(btn);
+      });
+
+      const expBox = document.getElementById('explanationBox');
+      if (answered) {
+        document.getElementById('explanationText').textContent = q.explanation;
+        expBox.classList.add('active');
+      } else {
+        expBox.classList.remove('active');
+      }
+
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('nextBtn').disabled = currentIndex === activeQuestions.length - 1;
+    }
+
+    function selectOption(index) {
+      const q = activeQuestions[currentIndex];
+      userAnswers[q.id] = index;
+      renderQuestion();
+      renderPalette();
+      updateScore();
+    }
+
+    function renderPalette() {
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      activeQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'node-btn';
+        btn.textContent = q.id;
+
+        if (idx === currentIndex) btn.classList.add('active');
+        if (userAnswers.hasOwnProperty(q.id)) {
+          if (userAnswers[q.id] === q.correct) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.onclick = () => {
+          currentIndex = idx;
+          renderQuestion();
+          renderPalette();
+        };
+
+        grid.appendChild(btn);
+      });
+    }
+
+    function navigate(direction) {
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < activeQuestions.length) {
+        currentIndex = newIndex;
+        renderQuestion();
+        renderPalette();
+      }
+    }
+
+    function updateScore() {
+      let correct = 0;
+      activeQuestions.forEach(q => {
+        if (userAnswers[q.id] === q.correct) correct++;
+      });
+      document.getElementById('scoreDisplay').textContent = `${correct} / ${activeQuestions.length}`;
+    }
+
+    function retestAll() {
+      activeQuestions = [...allQuestions];
+      userAnswers = {};
+      currentIndex = 0;
+      wrongTestCount = 1;
+      document.getElementById('testHeaderTitle').innerHTML = `<span>🏛️</span> ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ MOCK TEST`;
+      initQuiz();
+    }
+
+    function testWrongAnswers() {
+      const wrongQuestions = allQuestions.filter(q => {
+        return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+      });
+
+      if (wrongQuestions.length === 0) {
+        alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found!)");
+        return;
+      }
+
+      wrongQuestions.forEach(q => {
+        delete userAnswers[q.id];
+      });
+
+      activeQuestions = wrongQuestions;
+      currentIndex = 0;
+      document.getElementById('testHeaderTitle').innerHTML = `<span>🏛️</span> Wrong Test-${wrongTestCount}`;
+      wrongTestCount++;
+
+      initQuiz();
+    }
+
+    initQuiz();
+  </script>
+</body>
+</html>
