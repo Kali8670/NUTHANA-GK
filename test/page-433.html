@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು - Mock Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 15px;
+        }
+
+        .header {
+            background-color: #1a365d;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .quiz-container {
+                flex-direction: row;
+            }
+        }
+
+        .question-area {
+            flex: 3;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .palette-area {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .q-header {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            color: #2b6cb0;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            padding: 12px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background: #e2e8f0;
+        }
+
+        .option-btn.correct {
+            background-color: #48bb78 !important;
+            color: white;
+            border-color: #38a169;
+        }
+
+        .option-btn.wrong {
+            background-color: #f56565 !important;
+            color: white;
+            border-color: #e53e3e;
+        }
+
+        .explanation-box {
+            display: none;
+            background-color: #fffaf0;
+            border-left: 4px solid #dd6b20;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background-color: #3182ce;
+        }
+
+        .nav-btn:hover {
+            background-color: #2b6cb0;
+        }
+
+        .retest-btn {
+            background-color: #e53e3e;
+        }
+
+        .retest-btn:hover {
+            background-color: #c53030;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .palette-num {
+            padding: 10px 0;
+            border: 1px solid #cbd5e0;
+            background: #edf2f7;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .palette-num.active {
+            border: 2px solid #3182ce;
+        }
+
+        .palette-num.answered-correct {
+            background-color: #48bb78;
+            color: white;
+            border-color: #38a169;
+        }
+
+        .palette-num.answered-wrong {
+            background-color: #f56565;
+            color: white;
+            border-color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>ಭಾಗ - 4ಎ ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳು - Mock Test</h2>
+</div>
+
+<div class="quiz-container">
+    <div class="question-area">
+        <div class="q-header" id="question-title">Question Loading...</div>
+        <div class="options-list" id="options-container"></div>
+        
+        <div class="explanation-box" id="explanation-box">
+            <strong>ವಿವರಣೆ (Explanation):</strong>
+            <p id="explanation-text"></p>
+        </div>
+
+        <div class="action-btns">
+            <button class="nav-btn" onclick="prevQuestion()">Previous</button>
+            <button class="nav-btn retest-btn" onclick="resetQuiz()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+            <button class="nav-btn" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div class="palette-area">
+        <h3>Question Palette</h3>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 4px;">Score: <span id="score-display">0</span> / 5</p>
+        <div class="palette-grid" id="palette-grid"></div>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "1. ಭಾರತೀಯ ಸಂವಿಧಾನದಲ್ಲಿ ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳನ್ನು (Fundamental Duties) ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ?",
+        options: [
+            "A) ಅಮೆರಿಕ (USA)",
+            "B) ರಷ್ಯಾ (USSR)",
+            "C) ಬ್ರಿಟನ್ (UK)",
+            "D) ಐರ್ಲೆಂಡ್ (Ireland)"
+        ],
+        correct: 1,
+        exp: "ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳನ್ನು ರಷ್ಯಾ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ."
+    },
+    {
+        q: "2. 1976ರ 42ನೇ ತಿದ್ದುಪಡಿಯ ಮೂಲಕ ಸಂವಿಧಾನಕ್ಕೆ ಎಷ್ಟು ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳನ್ನು ಸೇರಿಸಲಾಯಿತು?",
+        options: [
+            "A) 8 ಕರ್ತವ್ಯಗಳು",
+            "B) 10 ಕರ್ತವ್ಯಗಳು",
+            "C) 11 ಕರ್ತವ್ಯಗಳು",
+            "D) 6 ಕರ್ತವ್ಯಗಳು"
+        ],
+        correct: 1,
+        exp: "ಸರ್ಕಾರ 4 ಕರ್ತವ್ಯಗಳನ್ನು ಸೇರಿಸಿ 1976ರಲ್ಲಿ 42ನೇ ತಿದ್ದುಪಡಿ ಮಾಡುವ ಮೂಲಕ ಭಾಗ 4ಎ, ವಿಧಿ 51ಎ ಅಡಿಯಲ್ಲಿ 10 ಕರ್ತವ್ಯಗಳನ್ನು ಸೇರಿಸಿತು."
+    },
+    {
+        q: "3. 2002 ರಲ್ಲಿ 86ನೇ ತಿದ್ದುಪಡಿ ಮಾಡುವ ಮೂಲಕ ಯಾವ 11ನೇ ಮೂಲಭೂತ ಕರ್ತವ್ಯವನ್ನು ಸೇರಿಸಲಾಯಿತು?",
+        options: [
+            "A) ಪರಿಸರ ಸಂರಕ್ಷಣೆ ಮಾಡುವ ಕರ್ತವ್ಯ",
+            "B) ತೆರಿಗೆ ಪಾವತಿಸುವ ಕರ್ತವ್ಯ",
+            "C) ಪೋಷಕರು ತಮ್ಮ ಮಕ್ಕಳಿಗೆ ಶಿಕ್ಷಣ ನೀಡುವ ಕರ್ತವ್ಯ",
+            "D) ರಾಷ್ಟ್ರಧ್ವಜವನ್ನು ಗೌರವಿಸುವ ಕರ್ತವ್ಯ"
+        ],
+        correct: 2,
+        exp: "2002 ರಲ್ಲಿ 86ನೇ ತಿದ್ದುಪಡಿ ಮಾಡುವ ಮೂಲಕ ಪೋಷಕರು ತಮ್ಮ ಮಕ್ಕಳಿಗೆ ಶಿಕ್ಷಣ ನೀಡುವ ಕರ್ತವ್ಯವನ್ನು ಸೇರಿಸಲಾಯಿತು. ಇದು 11ನೇ ಕರ್ತವ್ಯವಾಗಿದೆ."
+    },
+    {
+        q: "4. ಸರ್ದಾರ್ ಸ್ವರ್ಣಸಿಂಗ್ ಸಮಿತಿಯು ಶಿಫಾರಸ್ಸು ಮಾಡಿದ್ದು, ಸರ್ಕಾರ ಕೈಬಿಟ್ಟ ಮೊದಲ ಕರ್ತವ್ಯ ಯಾವುದು?",
+        options: [
+            "A) ಸಾರ್ವಜನಿಕ ಆಸ್ತಿ ರಕ್ಷಣೆ",
+            "B) ವನ್ಯಜೀವಿಗಳ ರಕ್ಷಣೆ",
+            "C) ತೆರಿಗೆ ಕಟ್ಟುವ ಕರ್ತವ್ಯ",
+            "D) ವೈಜ್ಞಾನಿಕ ಮನೋಭಾವ ಬೆಳೆಸಿಕೊಳ್ಳುವುದು"
+        ],
+        correct: 2,
+        exp: "ಸ್ವರ್ಣಸಿಂಗ್‌ರವರ ಶಿಫಾರಸ್ಸಿನಲ್ಲಿ ಸರ್ಕಾರ ಕೈಬಿಟ್ಟ 2 ಕರ್ತವ್ಯಗಳಲ್ಲಿ ಮೊದಲನೆಯದು: ತೆರಿಗೆ ಕಟ್ಟುವ ಕರ್ತವ್ಯ."
+    },
+    {
+        q: "5. ಸರ್ದಾರ್ ಸ್ವರ್ಣಸಿಂಗ್ ಸಮಿತಿಯ ಶಿಫಾರಸ್ಸಿನಲ್ಲಿ ಸರ್ಕಾರ ಕೈಬಿಟ್ಟ 2ನೇ ಕರ್ತವ್ಯ ಯಾವುದು?",
+        options: [
+            "A) ದೇಶವನ್ನು ರಕ್ಷಿಸುವುದು",
+            "B) ಕರ್ತವ್ಯಗಳನ್ನು ಪಾಲಿಸದೇ ಇದ್ದರೆ ಸಂಸತ್ತು ಶಿಕ್ಷಿಸುವ ಕರ್ತವ್ಯ",
+            "C) ಸಹೋದರತ್ವ ಭಾವನೆ ಬೆಳೆಸಿಕೊಳ್ಳುವುದು",
+            "D) ಉನ್ನತ ಆದರ್ಶಗಳನ್ನು ಪಾಲಿಸುವುದು"
+        ],
+        correct: 1,
+        exp: "ಸ್ವರ್ಣಸಿಂಗ್‌ರವರ ಶಿಫಾರಸ್ಸಿನಲ್ಲಿ ಸರ್ಕಾರ ಕೈಬಿಟ್ಟ 2ನೇ ಕರ್ತವ್ಯ: ಕರ್ತವ್ಯಗಳನ್ನು ಪಾಲಿಸದೇ ಇದ್ದರೆ ಸಂಸತ್ತು ಶಿಕ್ಷಿಸುವ ಕರ್ತವ್ಯ."
+    }
+];
+
+let currentIndex = 0;
+let userAnswers = Array(quizData.length).fill(null);
+let score = 0;
+
+function initQuiz() {
+    renderPalette();
+    loadQuestion(currentIndex);
+}
+
+function renderPalette() {
+    const grid = document.getElementById('palette-grid');
+    grid.innerHTML = '';
+    quizData.forEach((_, index) => {
+        const btn = document.createElement('div');
+        btn.className = `palette-num ${index === currentIndex ? 'active' : ''}`;
+        
+        if (userAnswers[index] !== null) {
+            if (userAnswers[index] === quizData[index].correct) {
+                btn.classList.add('answered-correct');
+            } else {
+                btn.classList.add('answered-wrong');
+            }
+        }
+        
+        btn.innerText = index + 1;
+        btn.onclick = () => jumpToQuestion(index);
+        grid.appendChild(btn);
+    });
+    
+    score = userAnswers.reduce((acc, curr, idx) => curr === quizData[idx].correct ? acc + 1 : acc, 0);
+    document.getElementById('score-display').innerText = score;
+}
+
+function loadQuestion(index) {
+    currentIndex = index;
+    const currentQ = quizData[index];
+    document.getElementById('question-title').innerText = currentQ.q;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+
+    const expBox = document.getElementById('explanation-box');
+    const expText = document.getElementById('explanation-text');
+
+    currentQ.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+
+        if (userAnswers[index] !== null) {
+            btn.disabled = true;
+            if (optIdx === currentQ.correct) {
+                btn.classList.add('correct');
+            }
+            if (userAnswers[index] === optIdx && userAnswers[index] !== currentQ.correct) {
+                btn.classList.add('wrong');
+            }
+        } else {
+            btn.onclick = () => selectOption(optIdx);
+        }
+
+        optionsContainer.appendChild(btn);
+    });
+
+    if (userAnswers[index] !== null) {
+        expBox.style.display = 'block';
+        expText.innerText = currentQ.exp;
+    } else {
+        expBox.style.display = 'none';
+    }
+
+    renderPalette();
+}
+
+function selectOption(optIndex) {
+    userAnswers[currentIndex] = optIndex;
+    loadQuestion(currentIndex);
+}
+
+function nextQuestion() {
+    if (currentIndex < quizData.length - 1) {
+        loadQuestion(currentIndex + 1);
+    }
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) {
+        loadQuestion(currentIndex - 1);
+    }
+}
+
+function jumpToQuestion(index) {
+    loadQuestion(index);
+}
+
+function resetQuiz() {
+    if (confirm("ನಿಮ್ಮ ಉತ್ತರಗಳನ್ನು ಅಳಿಸಿ ಮರುಪರೀಕ್ಷೆ ಪ್ರಾರಂಭಿಸಲು ಬಯಸುವಿರಾ? (Do you want to reset and retest?)")) {
+        userAnswers = Array(quizData.length).fill(null);
+        currentIndex = 0;
+        initQuiz();
+    }
+}
+
+initQuiz();
+</script>
+
+</body>
+</html>
