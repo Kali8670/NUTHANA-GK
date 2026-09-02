@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KSP PC & SSC CBT Exam Mock Test</title>
+    <title>KSP PC & SSC CBT Exam Mock Test - Citizenship</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,509 +11,494 @@
             margin: 0;
             padding: 0;
         }
-
         body {
             background-color: #f4f6f9;
             color: #333;
         }
-
-        .top-header {
-            background-color: #0b2545;
-            color: #ffffff;
+        header {
+            background-color: #0d233a;
+            color: white;
             padding: 10px 15px;
+            font-size: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
         }
-
-        .top-header .title {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .top-header .timer {
-            background-color: #ffffff;
-            color: #333;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        .sub-header {
-            background-color: #e9ecef;
-            padding: 6px 15px;
-            font-size: 13px;
-            color: #555;
-            border-bottom: 1px solid #ccc;
-        }
-
         .main-container {
             display: flex;
             flex-direction: row;
-            min-height: calc(100vh - 75px);
+            max-width: 1200px;
+            margin: 15px auto;
+            background: #fff;
+            border: 1px solid #ccc;
+            min-height: 85vh;
         }
-
-        .quiz-area {
-            flex: 1;
+        .quiz-section {
+            flex: 3;
             padding: 20px;
-            overflow-y: auto;
+            border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
+        .sidebar {
+            flex: 1;
+            padding: 15px;
+            background-color: #f9f9f9;
+            min-width: 250px;
+        }
         .question-title {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #1a1a1a;
             line-height: 1.5;
         }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
         .option-btn {
-            background-color: #ffffff;
-            border: 1px solid #ced4da;
-            padding: 12px 15px;
-            border-radius: 5px;
+            display: block;
+            width: 100%;
             text-align: left;
-            font-size: 15px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            font-size: 14px;
+            transition: 0.2s;
         }
-
         .option-btn:hover {
-            background-color: #e2e6ea;
+            background-color: #eef4fc;
         }
-
-        .option-btn.selected {
-            background-color: #d1ecf1;
-            border-color: #17a2b8;
-        }
-
         .option-btn.correct {
             background-color: #d4edda !important;
             border-color: #28a745 !important;
             color: #155724;
             font-weight: bold;
         }
-
         .option-btn.wrong {
             background-color: #f8d7da !important;
             border-color: #dc3545 !important;
             color: #721c24;
         }
-
         .explanation-box {
-            display: none;
+            margin-top: 15px;
+            padding: 12px;
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
             color: #721c24;
-            padding: 12px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.4;
+            display: none;
         }
-
-        .nav-buttons {
+        .explanation-box.correct-bg {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .controls {
+            margin-top: 25px;
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
             align-items: center;
         }
-
         .btn {
             padding: 8px 18px;
             border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
+            border-radius: 3px;
             cursor: pointer;
-            color: white;
-        }
-
-        .btn-prev { background-color: #007bff; }
-        .btn-prev:hover { background-color: #0056b3; }
-
-        .btn-next { background-color: #007bff; }
-        .btn-next:hover { background-color: #0056b3; }
-
-        .btn-retest { background-color: #dc3545; }
-        .btn-retest:hover { background-color: #bd2130; }
-
-        .palette-area {
-            width: 280px;
-            background-color: #ffffff;
-            border-left: 1px solid #ccc;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .palette-title {
             font-weight: bold;
-            font-size: 14px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
+            color: white;
+            font-size: 13px;
         }
-
+        .btn-prev, .btn-next {
+            background-color: #007bff;
+        }
+        .btn-retest {
+            background-color: #dc3545;
+        }
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .palette-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .score-board {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 15px;
+        }
         .palette-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            max-height: 80vh;
-            overflow-y: auto;
         }
-
         .palette-btn {
-            padding: 8px;
+            padding: 8px 0;
             border: 1px solid #ccc;
-            background-color: #ffffff;
-            border-radius: 3px;
-            font-size: 13px;
-            cursor: pointer;
+            background-color: #fff;
             text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
         }
-
         .palette-btn.active {
-            border: 2px solid #000;
+            border: 2px solid #007bff;
             font-weight: bold;
         }
-
-        .palette-btn.answered {
+        .palette-btn.answered-correct {
             background-color: #28a745;
             color: white;
             border-color: #28a745;
         }
-
-        .palette-btn.wrong-ans {
+        .palette-btn.answered-wrong {
             background-color: #dc3545;
             color: white;
             border-color: #dc3545;
         }
-
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
             }
-            .palette-area {
-                width: 100%;
-                border-left: none;
+            .sidebar {
                 border-top: 1px solid #ccc;
-            }
-            .palette-grid {
-                grid-template-columns: repeat(6, 1fr);
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-header">
-        <div class="title">KSP PC & SSC CBT Exam Mock Test</div>
-        <div class="timer">Time Remaining: 44:46</div>
-    </div>
-
-    <div class="sub-header" id="subHeaderInfo">
-        Page 1 - Question 1 of 23
-    </div>
+    <header>
+        <div>KSP PC & SSC CBT Exam Mock Test</div>
+        <div id="timer">Time Remaining: 30:00</div>
+    </header>
 
     <div class="main-container">
-        <div class="quiz-area">
-            <div class="question-title" id="questionText">ಪ್ರಶ್ನೆ...</div>
-
-            <div class="options-container" id="optionsBox"></div>
-
-            <div class="explanation-box" id="explanationBox">
-                <strong>ಉತ್ತರ (Explanation):</strong> <span id="explanationText"></span>
+        <!-- Question Section -->
+        <div class="quiz-section">
+            <div>
+                <div style="font-size: 12px; color: #666; margin-bottom: 10px;" id="q-tracker">Part 2 - Question 1 of 17</div>
+                <div class="question-title" id="question-text">Loading question...</div>
+                <div id="options-container"></div>
+                <div class="explanation-box" id="explanation-box"></div>
             </div>
 
-            <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="prevQuestion()">Previous</button>
-                <button class="btn btn-retest" onclick="resetQuiz()">Retest (ಪುನಃಪ್ರಯತ್ನಿಸಿ)</button>
-                <button class="btn btn-next" onclick="nextQuestion()">Next</button>
+            <div class="controls">
+                <button class="btn btn-prev" id="prev-btn" onclick="navigate(-1)">Previous</button>
+                <button class="btn btn-retest" onclick="retest()">Retest (ಮರುಪರೀಕ್ಷೆ)</button>
+                <button class="btn btn-next" id="next-btn" onclick="navigate(1)">Next</button>
             </div>
         </div>
 
-        <div class="palette-area">
-            <div class="palette-title">
-                <span>Question Palette</span>
-                <span id="scoreText">Score: 0 / 23</span>
-            </div>
-            <div class="palette-grid" id="paletteGrid"></div>
+        <!-- Right Palette Sidebar -->
+        <div class="sidebar">
+            <div class="palette-title">Question Palette</div>
+            <div class="score-board" id="score-text">Score: 0 / 17</div>
+            <div class="palette-grid" id="palette-grid"></div>
         </div>
     </div>
 
     <script>
         const quizData = [
             {
-                q: "1. ಭಾರತೀಯ ಸಂವಿಧಾನದ ಪೌರತ್ವದ ಅಂಶವನ್ನು ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ?",
-                options: ["A) ಅಮೇರಿಕಾ", "B) ಬ್ರಿಟನ್", "C) ಐರ್ಲೆಂಡ್", "D) ಕೆನಡಾ"],
+                q: "1. ಭಾರತದ ಸಂವಿಧಾನದಲ್ಲಿ ಪೌರತ್ವದ (ನಾಗರಿಕತ್ವ) ಅಂಶವನ್ನು ಯಾವ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ ಮತ್ತು ಇದು ಸಂವಿಧಾನದ ಯಾವ ಭಾಗದಲ್ಲಿದೆ?",
+                options: [
+                    "A) ಅಮೇರಿಕಾ, 1ನೇ ಭಾಗ (ವಿಧಿ 1-4)",
+                    "B) ಬ್ರಿಟನ್, 2ನೇ ಭಾಗ (ವಿಧಿ 5-11)",
+                    "C) ಐರ್ಲೆಂಡ್, 3ನೇ ಭಾಗ (ವಿಧಿ 12-35)",
+                    "D) ಆಸ್ಟ್ರೇಲಿಯಾ, 4ನೇ ಭಾಗ (ವಿಧಿ 36-51)"
+                ],
                 correct: 1,
-                exp: "ನಾಗರಿಕತ್ವ ಅಥವಾ ಪೌರತ್ವದ ಅಂಶವನ್ನು ಬ್ರಿಟನ್ ದೇಶದ ಸಂವಿಧಾನದಿಂದ ಎರವಲಾಗಿ ಪಡೆಯಲಾಗಿದೆ. ಇದು ಸಂವಿಧಾನದ 2ನೇ ಭಾಗದಲ್ಲಿ 5 ರಿಂದ 11ನೇ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ."
+                exp: "ಉತ್ತರ B: ಪೌರತ್ವದ ಅಂಶವನ್ನು ಬ್ರಿಟನ್ ಸಂವಿಧಾನದಿಂದ ಪಡೆಯಲಾಗಿದೆ. ಸಂವಿಧಾನದ 2ನೇ ಭಾಗದಲ್ಲಿ 5 ರಿಂದ 11ನೇ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ."
             },
             {
-                q: "2. ವಿಧಿ-5 ರ ಪ್ರಕಾರ ಭಾರತದ ಸಂವಿಧಾನ ಪ್ರಾರಂಭವಾಗುವ ಪೂರ್ವದಲ್ಲಿ ಕನಿಷ್ಠ ಎಷ್ಟು ವರ್ಷಗಳ ಕಾಲ ಭಾರತದಲ್ಲಿ ವಾಸವಾಗಿರಬೇಕು?",
-                options: ["A) 3 ವರ್ಷ", "B) 5 ವರ್ಷ", "C) 7 ವರ್ಷ", "D) 10 ವರ್ಷ"],
+                q: "2. ಸಂವಿಧಾನದ 5ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಪ್ರಾರಂಭದಲ್ಲಿ ಪೌರತ್ವ ಪಡೆಯಲು ಭಾರತದ ಭೂಪ್ರದೇಶದಲ್ಲಿ ಕನಿಷ್ಟ ಎಷ್ಟು ವರ್ಷ ವಾಸವಾಗಿರಬೇಕು?",
+                options: [
+                    "A) 3 ವರ್ಷಗಳ ಕಾಲ",
+                    "B) 5 ವರ್ಷಗಳ ಕಾಲ",
+                    "C) 7 ವರ್ಷಗಳ ಕಾಲ",
+                    "D) 10 ವರ್ಷಗಳ ಕಾಲ"
+                ],
                 correct: 1,
-                exp: "ವಿಧಿ-5 ರಂತೆ ಸಂವಿಧಾನ ಪ್ರಾರಂಭವಾಗುವ ಪೂರ್ವದಲ್ಲಿ ಕನಿಷ್ಠ 5 ವರ್ಷಗಳ ಕಾಲ ಭಾರತದ ಭೂಪ್ರದೇಶದಲ್ಲಿ ವಾಸವಾಗಿರಬೇಕು."
+                exp: "ಉತ್ತರ B: ವಿಧಿ-5ರ ಪ್ರಕಾರ ಸಂವಿಧಾನ ಪ್ರಾರಂಭವಾಗುವ ಪೂರ್ವದಲ್ಲಿ ಕನಿಷ್ಟ 5 ವರ್ಷಗಳ ಕಾಲ ಭಾರತದಲ್ಲಿ ವಾಸವಾಗಿರಬೇಕು."
             },
             {
-                q: "3. 1948 ಜುಲೈ 19ಕ್ಕಿಂತ ಮುಂಚೆ ಪಾಕಿಸ್ತಾನದಿಂದ ಭಾರತಕ್ಕೆ ವಲಸೆ ಬಂದ ನಾಗರಿಕರಿಗೆ ಪೌರತ್ವ ನೀಡುವ ವಿಧಿ ಯಾವುದು?",
-                options: ["A) ವಿಧಿ-5", "B) ವಿಧಿ-6", "C) ವಿಧಿ-7", "D) ವಿಧಿ-8"],
-                correct: 1,
-                exp: "ವಿಧಿ-6 ಪಾಕಿಸ್ತಾನದಿಂದ ಭಾರತಕ್ಕೆ 1948 ಜುಲೈ 19ಕ್ಕಿಂತ ಮುಂಚೆ ವಲಸೆ ಬಂದ ನಾಗರಿಕರಿಗೆ ಭಾರತದ ನಾಗರಿಕತ್ವ ನೀಡುತ್ತದೆ."
-            },
-            {
-                q: "4. 1947 ಮಾರ್ಚ್ 1ರ ನಂತರ ಭಾರತದಿಂದ ಪಾಕಿಸ್ತಾನಕ್ಕೆ ವಲಸೆ ಹೋದ ನಾಗರಿಕರಿಗೆ ನಾಗರಿಕತ್ವದ ಕುರಿತು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?",
-                options: ["A) ವಿಧಿ-6", "B) ವಿಧಿ-7", "C) ವಿಧಿ-8", "D) ವಿಧಿ-9"],
-                correct: 1,
-                exp: "ವಿಧಿ-7 ರ ಪ್ರಕಾರ 1947 ಮಾರ್ಚ್ 1ರ ನಂತರ ಭಾರತದಿಂದ ಪಾಕಿಸ್ತಾನಕ್ಕೆ ವಲಸೆ ಹೋದ ನಾಗರಿಕರಿಗೆ ಭಾರತದ ನಾಗರಿಕತ್ವ ನೀಡಲಾಗುವುದಿಲ್ಲ."
-            },
-            {
-                q: "5. ವಿದೇಶದಲ್ಲಿ ವಾಸಿಸುವ ಭಾರತೀಯ ಮೂಲದ ವ್ಯಕ್ತಿಯ ಮಗುವಿಗೆ ಪೌರತ್ವದ ಅರ್ಹತೆ ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?",
-                options: ["A) ವಿಧಿ-7", "B) ವಿಧಿ-8", "C) ವಿಧಿ-9", "D) ವಿಧಿ-10"],
-                correct: 1,
-                exp: "ವಿಧಿ-8 ವಿದೇಶದಲ್ಲಿ ವಾಸಿಸುವ ಭಾರತೀಯ ಮೂಲದ ವ್ಯಕ್ತಿಗೆ ಅಲ್ಲಿ ಮಗು ಜನಿಸಿದಾಗ ಭಾರತೀಯ ಮೂಲದ ಆಧಾರದ ಮೇಲೆ ನಾಗರಿಕತ್ವ ಪಡೆಯಲು ಅರ್ಹತೆ ನೀಡುತ್ತದೆ."
-            },
-            {
-                q: "6. ಭಾರತದ ನಾಗರಿಕನು ಸ್ವ-ಇಚ್ಛೆಯಿಂದ ವಿದೇಶದ ನಾಗರಿಕತ್ವ ಪಡೆದಾಗ ಭಾರತದ ನಾಗರಿಕತ್ವವು ತಾನಾಗಿಯೇ ರದ್ದಾಗುವುದು ಯಾವ ವಿಧಿಯಲ್ಲಿದೆ?",
-                options: ["A) ವಿಧಿ-8", "B) ವಿಧಿ-9", "C) ವಿಧಿ-10", "D) ವಿಧಿ-11"],
-                correct: 1,
-                exp: "ವಿಧಿ-9 ರ ಪ್ರಕಾರ ಸ್ವ-ಇಚ್ಛೆಯಿಂದ ವಿದೇಶದ ನಾಗರಿಕತ್ವ ಪಡೆದಾಗ ಭಾರತದ ನಾಗರಿಕತ್ವವು ತಾನಾಗಿಯೇ ರದ್ದಾಗುತ್ತದೆ."
-            },
-            {
-                q: "7. ನಾಗರಿಕತ್ವದ ಕುರಿತು ಕಾನೂನು ಮಾಡುವ ಮತ್ತು ನಾಗರಿಕತ್ವವನ್ನು ವಜಾಮಾಡುವ ಸಂಪೂರ್ಣ ಅಧಿಕಾರ ಯಾರಿಗೆ ಇದೆ?",
-                options: ["A) ರಾಷ್ಟ್ರಪತಿ", "B) ಸಂಸತ್ತು", "C) ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ", "D) ಗೃಹ ಸಚಿವಾಲಯ"],
-                correct: 1,
-                exp: "ವಿಧಿ-11 ರ ಪ್ರಕಾರ ನಾಗರಿಕತ್ವದ ಕುರಿತು ಕಾನೂನು ಮಾಡುವ ಮತ್ತು ನಾಗರಿಕತ್ವ ವಜಾ ಮಾಡುವ ಅಧಿಕಾರ ಸಂಸತ್ತಿಗಿದೆ."
-            },
-            {
-                q: "8. 1955 ರ ಪೌರತ್ವ ಕಾಯ್ದೆಯ ಪ್ರಕಾರ ನಾಗರಿಕತ್ವ ಪಡೆಯುವ ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ ನಿಯಮಗಳು ಕ್ರಮವಾಗಿ ಎಷ್ಟು?",
-                options: ["A) 5 ಪಡೆದುಕೊಳ್ಳುವ, 3 ಕಳೆದುಕೊಳ್ಳುವ", "B) 3 ಪಡೆದುಕೊಳ್ಳುವ, 5 ಕಳೆದುಕೊಳ್ಳುವ", "C) 4 ಪಡೆದುಕೊಳ್ಳುವ, 4 ಕಳೆದುಕೊಳ್ಳುವ", "D) 6 ಪಡೆದುಕೊಳ್ಳುವ, 2 ಕಳೆದುಕೊಳ್ಳುವ"],
+                q: "3. ವಿಧಿ-6 ರ ಪ್ರಕಾರ (3a) 1948 ಜುಲೈ 19 ಕ್ಕಿಂತ ಮುಂಚೆ ಪಾಕಿಸ್ತಾನದಿಂದ ಭಾರತಕ್ಕೆ ವಲಸೆ ಬಂದ ನಾಗರಿಕರಿಗೆ ನೀಡಲಾಗುವ ಹಕ್ಕು ಯಾವುದು?",
+                options: [
+                    "A) ಭಾರತದ ನಾಗರಿಕತ್ವದ ಹಕ್ಕು ನೀಡಲಾಗುತ್ತದೆ",
+                    "B) ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ ನೀಡಲಾಗುತ್ತದೆ",
+                    "C) ತಾತ್ಕಾಲಿಕ ವೀಸಾ ಮಾತ್ರ ನೀಡಲಾಗುತ್ತದೆ",
+                    "D) ನಾಗರಿಕತ್ವವನ್ನು ಶಾಶ್ವತವಾಗಿ ನಿರಾಕರಿಸಲಾಗುತ್ತದೆ"
+                ],
                 correct: 0,
-                exp: "1955 ರ ಪೌರತ್ವ ಕಾಯ್ದೆಯಲ್ಲಿ ಪೌರತ್ವ ಪಡೆಯುವ 5 ನಿಯಮಗಳು ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ 3 ನಿಯಮಗಳನ್ನು ಮಾಡಲಾಗಿದೆ."
+                exp: "ಉತ್ತರ A: 1948 ಜುಲೈ 19ಕ್ಕಿಂತ ಮುಂಚೆ ಪಾಕಿಸ್ತಾನದಿಂದ ಭಾರತಕ್ಕೆ ವಲಸೆ ಬಂದ ನಾಗರಿಕರಿಗೆ ಭಾರತದ ನಾಗರಿಕತ್ವವನ್ನು ನೀಡಲಾಗುತ್ತದೆ."
             },
             {
-                q: "9. ಜನನದ ಮೂಲಕ ಪೌರತ್ವ ಪಡೆಯುವಾಗ ಯಾರ ಮಗುವಿಗೆ ಜನನದ ಆಧಾರದ ಮೇಲೆ ಪೌರತ್ವ ಸಿಗುವುದಿಲ್ಲ?",
-                options: ["A) ಭಾರತೀಯ ಪೋಷಕರ ಮಗುವಿಗೆ", "B) ವೈರಿ ರಾಷ್ಟ್ರದವರು ವಶಪಡಿಸಿಕೊಂಡ ಪ್ರದೇಶದಲ್ಲಿ ಜನಿಸಿದ ಮಗುವಿಗೆ", "C) ಕೃಷಿಕರಿಗೆ", "D) ಸಾಮಾನ್ಯ ವಲಸಿಗರಿಗೆ"],
-                correct: 1,
-                exp: "ವೈರಿ ರಾಷ್ಟ್ರದವರು ಭೂಪ್ರದೇಶ ವಶಪಡಿಸಿಕೊಂಡಾಗ ಅಥವಾ ರಾಜತಾಂತ್ರಿಕ ರಾಯಭಾರಿಗಳಿಗೆ ಜನಿಸಿದ ಮಗುವಿಗೆ ಜನನದ ಆಧಾರದ ಮೇಲೆ ಪೌರತ್ವ ಸಿಗುವುದಿಲ್ಲ."
-            },
-            {
-                q: "10. ವಂಶದ ಮೂಲಕ ಪೌರತ್ವ ಪಡೆಯಲು 1992ರ ನಂತರ ಸಂವಿಧಾನದಲ್ಲಿ ಆದ ಬದಲಾವಣೆ ಏನು?",
-                options: ["A) ತಂದೆ ಮಾತ್ರ ಭಾರತೀಯನಾಗಿರಬೇಕು", "B) ತಂದೆ ಅಥವಾ ತಾಯಿ ಇಬ್ಬರಲ್ಲಿ ಯಾರಾದರೊಬ್ಬರು ಭಾರತೀಯರಾಗಿದ್ದರೂ ಸಾಕು", "C) ಕೇವಲ ತಾಯಿ ಭಾರತೀಯಳಾಗಿರಬೇಕು", "D) ವಿದೇಶಿ ಮೂಲದವರಾಗಿರಬೇಕು"],
-                correct: 1,
-                exp: "1950 ರಿಂದ 1992 ರವರೆಗೆ ತಂದೆ ಮಾತ್ರ ಭಾರತೀಯನಾಗಿರಬೇಕಿತ್ತು. 1992ರ ನಂತರ ತಂದೆ ಅಥವಾ ತಾಯಿ ಇಬ್ಬರಲ್ಲಿ ಯಾರಾದರೂ ಒಬ್ಬರು ಭಾರತೀಯರಾಗಿದ್ದರೂ ಪಡೆಯಬಹುದು."
-            },
-            {
-                q: "11. 2004ರ ನಂತರ ವಿದೇಶದಲ್ಲಿ ವಂಶದ ಮೂಲಕ ಜನಿಸಿದ ಮಗುವಿಗೆ ಎಷ್ಟು ಅವಧಿಯೊಳಗೆ ರಾಯಭಾರಿ ಕಛೇರಿಯಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿಸಬೇಕು?",
-                options: ["A) 6 ತಿಂಗಳು", "B) 1 ವರ್ಷ", "C) 2 ವರ್ಷ", "D) 5 ವರ್ಷ"],
-                correct: 1,
-                exp: "2004ರ ನಂತರ ವಿದೇಶದಲ್ಲಿ ಜನಿಸಿದ ಮಗು 1 ವರ್ಷದ ಒಳಗಾಗಿ ಆ ದೇಶದ ರಾಯಭಾರಿ ಕಛೇರಿಯಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿಸತಕ್ಕದ್ದು."
-            },
-            {
-                q: "12. ಸಹಜೀಕೃತ (Naturalization) ಮೂಲಕ ಪೌರತ್ವ ಪಡೆಯಲು ಭಾರತದ ಸಂವಿಧಾನದ 8ನೇ ಅನುಸೂಚಿಯ 22 ಭಾಷೆಗಳಲ್ಲಿ ಎಷ್ಟು ಭಾಷೆ ಗೊತ್ತಿರಬೇಕು?",
-                options: ["A) ಕನಿಷ್ಠ 2 ಭಾಷೆ", "B) ಯಾವುದಾದರೂ ಒಂದು ಭಾಷೆ", "C) 5 ಭಾಷೆಗಳು", "D) ಎಲ್ಲಾ ಭಾಷೆಗಳು"],
-                correct: 1,
-                exp: "ಸಂವಿಧಾನದ 8ನೇ ಅನುಸೂಚಿಯಲ್ಲಿರುವ 22 ಭಾಷೆಗಳಲ್ಲಿ ಯಾವುದಾದರೂ ಒಂದು ಭಾಷೆಯ ಜ್ಞಾನವಿರಬೇಕು."
-            },
-            {
-                q: "13. ಸಹಜೀಕೃತ ಮೂಲಕ ಪೌರತ್ವ ಪಡೆಯಲು ಕಡ್ಡಾಯವಾಗಿ ಎಷ್ಟು ವರ್ಷ ಭಾರತದಲ್ಲಿ ವಾಸವಾಗಿರಬೇಕು?",
-                options: ["A) 2 ವರ್ಷ", "B) 4 ವರ್ಷ", "C) 7 ವರ್ಷ", "D) 10 ವರ್ಷ"],
-                correct: 1,
-                exp: "7 ವರ್ಷಗಳಲ್ಲಿ ಕಡ್ಡಾಯವಾಗಿ 4 ವರ್ಷಗಳ ಕಾಲ ಭಾರತದ ಭೂಪ್ರದೇಶದಲ್ಲಿಯೇ ವಾಸವಾಗಿರಬೇಕು."
-            },
-            {
-                q: "14. ನೋಂದಣಿ ಮೂಲಕ ಪೌರತ್ವ ಪಡೆಯಲು 1986 ರ ತಿದ್ದುಪಡಿಯ ಪ್ರಕಾರ ನೋಂದಣಿ ಅವಧಿಯನ್ನು ಎಷ್ಟು ವರ್ಷಕ್ಕೆ ಹೆಚ್ಚಿಸಲಾಯಿತು?",
-                options: ["A) 1 ವರ್ಷ", "B) 3 ವರ್ಷ", "C) 5 ವರ್ಷ", "D) 7 ವರ್ಷ"],
+                q: "4. ವಿದೇಶದಲ್ಲಿ ವಾಸಿಸುವ ಭಾರತೀಯ ಮೂಲದ ವ್ಯಕ್ತಿಗೆ ಮಗು ಜನಿಸಿದಾಗ ನಾಗರಿಕತ್ವ ಪಡೆಯುವ ಅರ್ಹತೆಯನ್ನು ತಿಳಿಸುವ ವಿಧಿ ಯಾವುದು?",
+                options: [
+                    "A) ವಿಧಿ - 6",
+                    "B) ವಿಧಿ - 7",
+                    "C) ವಿಧಿ - 8",
+                    "D) ವಿಧಿ - 9"
+                ],
                 correct: 2,
-                exp: "1986 ರಲ್ಲಿ തಿದ್ದುಪಡಿ ಕಾಯ್ದೆ ಮಾಡಿ ನೋಂದಣಿ ಮೂಲಕ ಪಡೆಯುವ ನಾಗರಿಕತ್ವಕ್ಕೆ 6 ತಿಂಗಳಿದ್ದ ಅವಧಿಯನ್ನು 5 ವರ್ಷಕ್ಕೆ ಹೆಚ್ಚಿಸಲಾಯಿತು."
+                exp: "ಉತ್ತರ C: ವಿಧಿ-8 ರ ಪ್ರಕಾರ ವಿದೇಶದಲ್ಲಿ ವಾಸಿಸುವ ಭಾರತೀಯ ಮೂಲದ ವ್ಯಕ್ತಿಗೆ ಮಗು ಜನಿಸಿದಾಗ ಅದು ಭಾರತೀಯ ಮೂಲದ ಆಧಾರದ ಮೇಲೆ ನಾಗರಿಕತ್ವ ಪಡೆಯಲು ಅರ್ಹವಾಗಿದೆ."
             },
             {
-                q: "15. ವಿದೇಶಕ್ಕೆ ಸೇರಿದ ಭೂಪ್ರದೇಶ ಭಾರತಕ್ಕೆ ಸೇರ್ಪಡೆಯಾದರೆ ಅಲ್ಲಿನ ನಾಗರಿಕರಿಗೆ ಪೌರತ್ವ ಸಿಗುವುದು ಯಾವ ನಿಯಮದಡಿ?",
-                options: ["A) ನೋಂದಣಿ ಮೂಲಕ", "B) ಭೂಪ್ರದೇಶ ಸೇರ್ಪಡೆಯಿಂದ (Acquisition of Territory)", "C) ವಂಶದ ಮೂಲಕ", "D) ಸಹಜೀಕೃತದ ಮೂಲಕ"],
+                q: "5. ಸಂವಿಧಾನದ ವಿಧಿ-9 ರ ಪ್ರಕಾರ ಒಬ್ಬ ಭಾರತೀಯ ನಾಗರಿಕನ ಪೌರತ್ವವು ಯಾವಾಗ ತಾನಾಗಿಯೇ ರದ್ದಾಗುತ್ತದೆ?",
+                options: [
+                    "A) ಸಂಸತ್ತಿನ ವಿರುದ್ಧ ಪ್ರತಿಭಟನೆ ಮಾಡಿದಾಗ",
+                    "B) ಸ್ವ-ಇಚ್ಛೆಯಿಂದ ವಿದೇಶದ ನಾಗರಿಕತ್ವ ಪಡೆದಾಗ",
+                    "C) 3 ವರ್ಷಗಳ ಕಾಲ ವಿದೇಶ ಪ್ರವಾಸ ಮಾಡಿದಾಗ",
+                    "D) ಚುನಾವಣೆಯಲ್ಲಿ ಮತದಾನ ಮಾಡದಿದ್ದಾಗ"
+                ],
                 correct: 1,
-                exp: "ಯಾವುದೇ ವಿದೇಶಿ ಭೂಪ್ರದೇಶ ಭಾರತಕ್ಕೆ ಸೇರ್ಪಡೆಯಾದರೆ (Incorporation of Territory) ಅಲ್ಲಿನ ಜನರಿಗೆ ಭಾರತದ ಪೌರತ್ವ ಸಿಗುತ್ತದೆ."
+                exp: "ಉತ್ತರ B: ವಿಧಿ-9 ರ ಪ್ರಕಾರ ಭಾರತದ ನಾಗರಿಕನು ಸ್ವ-ಇಚ್ಛೆಯಿಂದ ವಿದೇಶದ ನಾಗರಿಕತ್ವ ಪಡೆದಾಗ ಭಾರತದ ನಾಗರಿಕತ್ವವು ತಾನಾಗಿಯೇ ರದ್ದಾಗುತ್ತದೆ."
             },
             {
-                q: "16. ಭಾರತೀಯ ನಾಗರಿಕತ್ವವನ್ನು ಕಳೆದುಕೊಳ್ಳುವ 3 ಮುಖ್ಯ ನಿಯಮಗಳಲ್ಲಿ ಸೇರಿಲ್ಲದ್ದು ಯಾವುದು?",
-                options: ["A) ತ್ಯಜಿಸುವುದು (Renunciation)", "B) ರದ್ದು ಮಾಡುವುದು (Termination)", "C) ಕಸಿದುಕೊಳ್ಳುವುದು (Deprivation)", "D) ದಂಡ ವಿಧಿಸುವುದು (Penalty)"],
+                q: "6. 1955 ರ ಪೌರತ್ವ ಕಾಯ್ದೆಯ ಪ್ರಕಾರ ನಾಗರಿಕತ್ವ ಪಡೆಯುವ ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ ನಿಯಮಗಳು ಕ್ರಮವಾಗಿ ಎಷ್ಟಿವೆ?",
+                options: [
+                    "A) ಪಡೆಯುವ 3 ನಿಯಮಗಳು ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ 5 ನಿಯಮಗಳು",
+                    "B) ಪಡೆಯುವ 5 ನಿಯಮಗಳು ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ 3 ನಿಯಮಗಳು",
+                    "C) ಪಡೆಯುವ 4 ನಿಯಮಗಳು ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ 2 ನಿಯಮಗಳು",
+                    "D) ಪಡೆಯುವ 6 ನಿಯಮಗಳು ಮತ್ತು ಕಳೆದುಕೊಳ್ಳುವ 4 ನಿಯಮಗಳು"
+                ],
+                correct: 1,
+                exp: "ಉತ್ತರ B: 1955 ಡಿಸೆಂಬರ್ 30 ರ ಕಾಯ್ದೆಯಂತೆ ಪೌರತ್ವ ಪಡೆಯಲು 5 ನಿಯಮಗಳು ಹಾಗೂ ಕಳೆದುಕೊಳ್ಳಲು 3 ನಿಯಮಗಳನ್ನು ಮಾಡಲಾಗಿದೆ."
+            },
+            {
+                q: "7. ಜನನದ ಮೂಲಕ (Birth) ನಾಗರಿಕತ್ವ ಪಡೆಯುವ ವಿಷಯದಲ್ಲಿ ಈ ಕೆಳಗಿನ ಯಾರಿಗೆ ನಾಗರಿಕತ್ವ ನೀಡಲಾಗುವುದಿಲ್ಲ?",
+                options: [
+                    "A) ಭಾರತೀಯ ಪೋಷಕರಿಗೆ ಜನಿಸಿದ ಮಕ್ಕಳಿಗೆ",
+                    "B) ವೈರಿ ರಾಷ್ಟ್ರದವರು ಭೂಪ್ರದೇಶ ವಶಪಡಿಸಿಕೊಂಡಾಗ ಜನಿಸಿದ ಮಗುವಿಗೆ",
+                    "C) ರಾಜತಾಂತ್ರಿಕ ರಾಯಭಾರಿಗಳಿಗೆ ಭಾರತದಲ್ಲಿ ಜನಿಸಿದ ಮಗುವಿಗೆ",
+                    "D) B ಮತ್ತು C ಎರಡೂ ಸರಿ"
+                ],
                 correct: 3,
-                exp: "ಪೌರತ್ವ ಕಳೆದುಕೊಳ್ಳುವ 3 ನಿಯಮಗಳು: 1) ತ್ಯಜಿಸುವುದು 2) ರದ್ದು ಮಾಡುವುದು 3) ಕಸಿದುಕೊಳ್ಳುವುದು."
+                exp: "ಉತ್ತರ D: ವೈರಿ ರಾಷ್ಟ್ರದವರ ಮಕ್ಕಳಿಗೆ ಮತ್ತು ರಾಜತಾಂತ್ರಿಕ ರಾಯಭಾರಿಗಳಿಗೆ ಭಾರತದಲ್ಲಿ ಮಗು ಜನಿಸಿದರೆ ಜನನದ ಆಧಾರದಲ್ಲಿ ನಾಗರಿಕತ್ವ ನೀಡಲಾಗುವುದಿಲ್ಲ."
             },
             {
-                q: "17. ಯಾವುದೇ ಮಾಹಿತಿ ನೀಡದೆ ವಿದೇಶದಲ್ಲಿ ಎಷ್ಟು ವರ್ಷಗಳ ಕಾಲ ವಾಸವಾಗಿದ್ದರೆ ಭಾರತದ ನಾಗರಿಕತ್ವವನ್ನು ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು?",
-                options: ["A) 3 ವರ್ಷ", "B) 5 ವರ್ಷ", "C) 7 ವರ್ಷ", "D) 10 ವರ್ಷ"],
+                q: "8. ವಂಶದ ಮೂಲಕ (Descent) ಪೌರತ್ವ ಪಡೆಯಲು 1992 ರ ತಿದ್ದುಪಡಿಯ ನಂತರ ಇರುವ ಹೊಸ ನಿಯಮವೇನು?",
+                options: [
+                    "A) ತಂದೆ ಮಾತ್ರ ಭಾರತೀಯನಾಗಿರಬೇಕು",
+                    "B) ತಂದೆ ಅಥವಾ ತಾಯಿ ಇಬ್ಬರಲ್ಲಿ ಯಾರಾದರೂ ಒಬ್ಬರು ಭಾರತೀಯರಾಗಿದ್ದರೂ ಸಾಕು",
+                    "C) ತಂದೆ-ತಾಯಿ ಇಬ್ಬರೂ ಕಡ್ಡಾಯವಾಗಿ ವಿದೇಶಿಯರಾಗಿರಬೇಕು",
+                    "D) ಯಾವುದೇ ಷರತ್ತುಗಳಿಲ್ಲದೆ ಪೌರತ್ವ ಸಿಗುತ್ತದೆ"
+                ],
+                correct: 1,
+                exp: "ಉತ್ತರ B: 1992ರ ನಂತರ ತಂದೆ ಅಥವಾ ತಾಯಿ ಇಬ್ಬರಲ್ಲಿ ಯಾರಾದರೂ ಒಬ್ಬರು ಭಾರತೀಯರಾಗಿದ್ದರೂ ವಂಶದ ಮೂಲಕ ನಾಗರಿಕತ್ವ ಪಡೆಯಬಹುದು."
+            },
+            {
+                q: "9. ಸಹಜೀಕೃತದ ಮೂಲಕ (Naturalisation) ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಬಯಸುವ ವಿದೇಶಿ ವ್ಯಕ್ತಿ ಭಾರತದಲ್ಲಿ ಕಡ್ಡಾಯವಾಗಿ ಎಷ್ಟು ವರ್ಷ ವಾಸವಾಗಿರಬೇಕು?",
+                options: [
+                    "A) 2 ವರ್ಷ",
+                    "B) 3 ವರ್ಷ",
+                    "C) 4 ವರ್ಷ (ಒಟ್ಟು 7 ವರ್ಷಗಳಲ್ಲಿ)",
+                    "D) 10 ವರ್ಷ"
+                ],
                 correct: 2,
-                exp: "ಯಾವುದೇ ಮಾಹಿತಿ ನೀಡದೆ ವಿದೇಶದಲ್ಲಿ ಸತತ 7 ವರ್ಷಗಳ ಕಾಲ ವಾಸವಾಗಿದ್ದರೆ ನಾಗರಿಕತ್ವವನ್ನು ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು."
+                exp: "ಉತ್ತರ C: ವ್ಯಕ್ತಿಯು ಭಾರತಕ್ಕೆ ಬಂದು 7 ವರ್ಷಗಳಾಗಿರಬೇಕು, ಅದರಲ್ಲಿ ಕಡ್ಡಾಯವಾಗಿ 4 ವರ್ಷ ಭಾರತದ ಭೂಪ್ರದೇಶದಲ್ಲಿ ವಾಸವಾಗಿರಬೇಕು."
             },
             {
-                q: "18. ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ (Dual Citizenship) ಪಡೆದವರಿಗೆ ಕೆಳಗಿನ ಯಾವ ಹಕ್ಕು ಇರುವುದಿಲ್ಲ?",
-                options: ["A) ಮತದಾನದ ಹಕ್ಕು", "B) ಚುನಾವಣೆಗೆ ನಿಲ್ಲುವ ಹಕ್ಕು", "C) ಸರ್ಕಾರಿ ಹುದ್ದೆ ಪಡೆಯುವ ಹಕ್ಕು", "D) ಮೇಲಿನ ಎಲ್ಲವೂ"],
-                correct: 3,
-                exp: "ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ ಪಡೆದವರಿಗೆ ಮತದಾನ, ಚುನಾವಣೆಗೆ ನಿಲ್ಲುವ ಮತ್ತು ಸರ್ಕಾರಿ ಹುದ್ದೆ ಪಡೆಯುವ ಹಕ್ಕುಗಳು ಇರುವುದಿಲ್ಲ."
+                q: "10. 1986 ರ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆಯ ಪ್ರಕಾರ ನೋಂದಣಿ ಮೂಲಕ (Registration) ನಾಗರಿಕತ್ವ ಪಡೆಯಲು ಇದ್ದ 6 ತಿಂಗಳ ಅವಧಿಯನ್ನು ಎಷ್ಟು ವರ್ಷಕ್ಕೆ ಹೆಚ್ಚಿಸಲಾಯಿತು?",
+                options: [
+                    "A) 2 ವರ್ಷ",
+                    "B) 3 ವರ್ಷ",
+                    "C) 5 ವರ್ಷ",
+                    "D) 7 ವರ್ಷ"
+                ],
+                correct: 2,
+                exp: "ಉತ್ತರ C: 1986 ರ ತಿದ್ದುಪಡಿ ಮೂಲಕ ನೋಂದಣಿ ಆಧಾರದ ಪೌರತ್ವದ ಅವಧಿಯನ್ನು 6 ತಿಂಗಳಿನಿಂದ 5 ವರ್ಷಕ್ಕೆ ಹೆಚ್ಚಿಸಲಾಯಿತು."
             },
             {
-                q: "19. ಏಕ ನಾಗರಿಕತ್ವ (Single Citizenship) ಹೊಂದಿರುವ ದೇಶಗಳಿಗೆ ಉದಾಹರಣೆ ಯಾವುದು?",
-                options: ["A) ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್", "B) ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್", "C) ಕೆನಡಾ ಮತ್ತು ಆಸ್ಟ್ರೇಲಿಯಾ", "D) ಭಾರತ ಮತ್ತು ಅಮೇರಿಕಾ"],
-                correct: 1,
-                exp: "ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್ ದೇಶಗಳು ಏಕ ನಾಗರಿಕತ್ವವನ್ನು ಹೊಂದಿವೆ."
-            },
-            {
-                q: "20. ದ್ವಿ-ನಾಗರಿಕತ್ವ (Dual Citizenship) ಹೊಂದಿರುವ ದೇಶಗಳಿಗೆ ಉದಾಹರಣೆ ಯಾವುದು?",
-                options: ["A) ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್", "B) ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್", "C) ಜಪಾನ್ ಮತ್ತು ಚೀನಾ", "D) ಫ್ರಾನ್ಸ್ ಮತ್ತು ಗ್ರೀಸ್"],
-                correct: 1,
-                exp: "ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್ ದೇಶಗಳಲ್ಲಿ ದ್ವಿ-ನಾಗರಿಕತ್ವ ಚಾಲ್ತಿಯಲ್ಲಿದೆ."
-            },
-            {
-                q: "21. ಪ್ರತಿ ವರ್ಷ ಜನವರಿ 9 ನ್ನು ಯಾವ ದಿನವನ್ನಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?",
-                options: ["A) ಗಣರಾಜ್ಯೋತ್ಸವ", "B) ಪ್ರವಾಸಿ ಭಾರತೀಯ ದಿವಸ್", "C) ಸಂವಿಧಾನ ದಿನ", "D) ಯುವ ದಿನ"],
-                correct: 1,
-                exp: "ಮಹಾತ್ಮಾ ಗಾಂಧೀಜಿಯವರು ದಕ್ಷಿಣ ಆಫ್ರಿಕಾದಿಂದ ಭಾರತಕ್ಕೆ 1915 ಜನವರಿ 9 ರಂದು ಹಿಂತಿರುಗಿದ ನೆನಪಿಗಾಗಿ ಪ್ರತಿ ವರ್ಷ ಜನವರಿ 9ನ್ನು 'ಪ್ರವಾಸಿ ಭಾರತೀಯ ದಿವಸ್' ಆಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ."
-            },
-            {
-                q: "22. ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಯಾವ ಆಯೋಗದ ನೇತೃತ್ವದಲ್ಲಿ High level committee ನೇಮಕ ಮಾಡಲಾಯಿತು?",
-                options: ["A) ಎಲ್.ಎಂ. ಸಿಂಘ್ವಿ", "B) ಸರ್ಕಾರಿಯಾ ಆಯೋಗ", "C) ಎಂ.ಎನ್. ವೆಂಕಟಾಚಲಯ್ಯ", "D) ಕೆ.ಎಸ್. ಹೆಗ್ಡೆ"],
+                q: "11. ಭಾರತ ಸರ್ಕಾರವು ವಿದೇಶದ ಯಾವುದೇ ಭೂಪ್ರದೇಶವನ್ನು ತನ್ನ ದೇಶಕ್ಕೆ ಸೇರ್ಪಡೆಗೊಳಿಸಿದಾಗ ಅಲ್ಲಿನ ಜನರಿಗೆ ನಾಗರಿಕತ್ವ ಹೇಗೆ ಸಿಗುತ್ತದೆ?",
+                options: [
+                    "A) ಭೂಪ್ರದೇಶದ ಸೇರ್ಪಡೆಯಿಂದ (Incorporation of Territory) ಸ್ವಯಂಚಾಲಿತವಾಗಿ",
+                    "B) ಪರೀಕ್ಷೆ ಬರೆಯುವ ಮೂಲಕ",
+                    "C) ದಂಡ ತೆರುವ ಮೂಲಕ",
+                    "D) ಅವರಿಗೆ ನಾಗರಿಕತ್ವ ಸಿಗುವುದಿಲ್ಲ"
+                ],
                 correct: 0,
-                exp: "ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಎಲ್.ಎಂ. ಸಿಂಘ್ವಿ (L.M. Singhvi) ಅವರ ನೇತೃತ್ವದಲ್ಲಿ High Level Committee on the Indian Diaspora ನೇಮಿಸಲಾಯಿತು."
+                exp: "ಉತ್ತರ A: ವಿದೇಶಿ ಭೂಪ್ರದೇಶ ಭಾರತಕ್ಕೆ ಸೇರ್ಪಡೆಯಾದರೆ ಅಲ್ಲಿ ನೆಲೆಸಿರುವ ನಾಗರಿಕರಿಗೆ ಭೂಪ್ರದೇಶದ ಸೇರ್ಪಡೆಯಿಂದ ನಾಗರಿಕತ್ವ ನೀಡಲಾಗುತ್ತದೆ."
             },
             {
-                q: "23. ನೋಂದಣಿ ಅಥವಾ ಸಹಜೀಕೃತದ ಮೂಲಕ ಪೌರತ್ವ ಪಡೆದ ವ್ಯಕ್ತಿ 5 ವರ್ಷಗಳಲ್ಲಿ ಎಷ್ಟು ವರ್ಷ ಜೈಲುವಾಸ ಅನುಭವಿಸಿದರೆ ಪೌರತ್ವ ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು?",
-                options: ["A) 6 ತಿಂಗಳು", "B) 1 ವರ್ಷ", "C) 2 ವರ್ಷ", "D) 3 ವರ್ಷ"],
+                q: "12. ನಾಗರಿಕತ್ವವನ್ನು ಕಸಿದುಕೊಳ್ಳುವ (Deprivation) ನಿಯಮಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ತಪ್ಪಾದ ಹೇಳಿಕೆಯನ್ನು ಗುರುತಿಸಿ:",
+                options: [
+                    "A) ಮಾಹಿತಿ ನೀಡದೆ ವಿದೇಶದಲ್ಲಿ 7 ವರ್ಷ ವಾಸವಿದ್ದರೆ ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು",
+                    "B) ಸಂವಿಧಾನಕ್ಕೆ ಅನಾ his/her ಗೌರವ ತೋರಿದರೆ ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು",
+                    "C) ನೋಂದಣಿ ನಂತರ 5 ವರ್ಷಗಳಲ್ಲಿ 2 ವರ್ಷ ಜೈಲುವಾಸ ಅನುಭವಿಸಿದ್ದರೆ ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು",
+                    "D) ಭಾರತದಲ್ಲಿ ಸ್ವಂತ ಆಸ್ತಿ ಖರೀದಿಸಿದರೆ ಕಸಿದುಕೊಳ್ಳಲಾಗುವುದು"
+                ],
+                correct: 3,
+                exp: "ಉತ್ತರ D: D ಹೇಳಿಕೆಯು ತಪ್ಪಾಗಿದೆ. ಉಳಿದ ಮೂರು ಕಾರಣಗಳಿಂದ ನಾಗರಿಕತ್ವವನ್ನು ಕಸಿದುಕೊಳ್ಳಲಾಗುತ್ತದೆ."
+            },
+            {
+                q: "13. ಭಾರತವು ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವದ (Dual Citizenship) ಸೌಲಭ್ಯವನ್ನು ಎಷ್ಟು ನಿರ್ದಿಷ್ಟ ದೇಶಗಳಲ್ಲಿರುವ ಭಾರತೀಯ ಮೂಲದವರಿಗೆ ಕಲ್ಪಿಸಿದೆ?",
+                options: [
+                    "A) 10 ದೇಶಗಳು",
+                    "B) 12 ದೇಶಗಳು",
+                    "C) 16 ದೇಶಗಳು",
+                    "D) 22 ದೇಶಗಳು"
+                ],
                 correct: 2,
-                exp: "ನೋಂದಣಿ/ಸಹಜೀಕೃತದಿಂದ ಪೌರತ್ವ ಪಡೆದ ವ್ಯಕ್ತಿ ಮುಂದಿನ 5 ವರ್ಷಗಳಲ್ಲಿ 2 ವರ್ಷ ಜೈಲುವಾಸ ಅನುಭವಿಸಿದರೆ ಆತನ ಪೌರತ್ವವನ್ನು ಕಸಿದುಕೊಳ್ಳಲಾಗುತ್ತದೆ."
+                exp: "ಉತ್ತರ C: 2003 ರ ಕಾಯ್ದೆ ತಿದ್ದುಪಡಿ ಅನ್ವಯ 16 ನಿರ್ದಿಷ್ಟ ದೇಶಗಳಲ್ಲಿ ವಾಸವಾಗಿರುವ ಭಾರತೀಯ ಮೂಲದವರಿಗೆ ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ ಕಲ್ಪಿಸಲಾಗಿದೆ."
+            },
+            {
+                q: "14. ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ ಪಡೆದ ವ್ಯಕ್ತಿಗಳಿಗೆ ಭಾರತದಲ್ಲಿ ಈ ಕೆಳಗಿನ ಯಾವ ಹಕ್ಕುಗಳು ಇರುವುದಿಲ್ಲ?",
+                options: [
+                    "A) ಮತದಾನದ ಹಕ್ಕು",
+                    "B) ಚುನಾವಣೆಗೆ ನಿಲ್ಲುವ ಹಕ್ಕು",
+                    "C) ಸರ್ಕಾರಿ ಹುದ್ದೆಯನ್ನು ಪಡೆಯುವ ಹಕ್ಕು",
+                    "D) ಮೇಲಿನ ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಇರುವುದಿಲ್ಲ"
+                ],
+                correct: 3,
+                exp: "ಉತ್ತರ D: ದ್ವಿ-ರಾಷ್ಟ್ರ ನಾಗರಿಕತ್ವ ಪಡೆದವರಿಗೆ ಮತದಾನ, ಚುನಾವಣೆಗೆ ಸ್ಪರ್ಧಿಸುವುದು ಹಾಗೂ ಸರ್ಕಾರಿ ಹುದ್ದೆ ಹೊಂದುವ ಹಕ್ಕು ಇರುವುದಿಲ್ಲ."
+            },
+            {
+                q: "15. ಏಕ ನಾಗರಿಕತ್ವ (Single Citizenship) ಹೊಂದಿರುವ ದೇಶಗಳಿಗೆ ಉದಾಹರಣೆ ಯಾವುದು?",
+                options: [
+                    "A) ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್",
+                    "B) ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್",
+                    "C) ಭಾರತ ಮತ್ತು ಅಮೇರಿಕಾ",
+                    "D) ಕೆನಡಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್"
+                ],
+                correct: 0,
+                exp: "ಉತ್ತರ A: ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್ ದೇಶಗಳು ಏಕ ನಾಗರಿಕತ್ವ ವ್ಯವಸ್ಥೆಯನ್ನು ಹೊಂದಿವೆ."
+            },
+            {
+                q: "16. ದ್ವಿ-ನಾಗರಿಕತ್ವ (Dual Citizenship) ವ್ಯವಸ್ಥೆಯನ್ನು ಹೊಂದಿರುವ ದೇಶಗಳು ಯಾವುವು?",
+                options: [
+                    "A) ಭಾರತ ಮತ್ತು ಬ್ರಿಟನ್",
+                    "B) ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್",
+                    "C) ಬ್ರಿಟನ್ ಮತ್ತು ಕೆನಡಾ",
+                    "D) ಭಾರತ ಮತ್ತು ಆಸ್ಟ್ರೇಲಿಯಾ"
+                ],
+                correct: 1,
+                exp: "ಉತ್ತರ B: ಅಮೇರಿಕಾ ಮತ್ತು ಸ್ವಿಟ್ಜರ್‌ಲ್ಯಾಂಡ್ ದೇಶಗಳು ದ್ವಿ-ನಾಗರಿಕತ್ವ ವ್ಯವಸ್ಥೆಯನ್ನು ಹೊಂದಿವೆ."
+            },
+            {
+                q: "17. ಪ್ರತಿ ವರ್ಷ ಜನವರಿ 9 ನ್ನು 'ಪ್ರವಾಸಿ ಭಾರತೀಯ ದಿವಸ' ಎಂದು ಆಚರಿಸಲು ಮುಖ್ಯ ಕಾರಣವೇನು?",
+                options: [
+                    "A) 1955 ರಲ್ಲಿ ಪೌರತ್ವ ಕಾಯ್ದೆ ಜಾರಿಯಾದ ದಿನ",
+                    "B) ಗಾಂಧೀಜಿಯವರು 1915 ಜನವರಿ 9 ರಂದು ದಕ್ಷಿಣ ಆಫ್ರಿಕಾದಿಂದ ಭಾರತಕ್ಕೆ ಬಂದ ಸವಿನೆನಪಿಗಾಗಿ",
+                    "C) ಸಂವಿಧಾನ ಜಾರಿಗೆ ಬಂದ ದಿನ",
+                    "D) ಎಲ್.ಎಂ. ಸಿಂಘ್ವಿ ಸಮಿತಿ ವರದಿ ನೀಡಿದ ದಿನ"
+                ],
+                correct: 1,
+                exp: "ಉತ್ತರ B: 1915 ಜನವರಿ 9 ರಂದು ಮಹಾತ್ಮ ಗಾಂಧೀಜಿಯವರು ದಕ್ಷಿಣ ಆಫ್ರಿಕಾದಿಂದ ಭಾರತಕ್ಕೆ ಮರಳಿದ ನೆನಪಿಗಾಗಿ ಪ್ರತಿವರ್ಷ ಪ್ರವಾಸಿ ದಿನ ಆಚರಿಸಲಾಗುತ್ತದೆ."
             }
         ];
 
-        let currentQIndex = 0;
+        let currentQ = 0;
         let userAnswers = new Array(quizData.length).fill(null);
 
-        function initQuiz() {
-            renderPalette();
-            loadQuestion(0);
-        }
+        function loadQuestion() {
+            const qData = quizData[currentQ];
+            document.getElementById("q-tracker").innerText = `Part 2 - Question ${currentQ + 1} of ${quizData.length}`;
+            document.getElementById("question-text").innerText = qData.q;
 
-        function loadQuestion(index) {
-            currentQIndex = index;
-            const q = quizData[index];
+            const optsContainer = document.getElementById("options-container");
+            optsContainer.innerHTML = "";
 
-            document.getElementById("subHeaderInfo").innerText = `Page ${index + 1} - Question ${index + 1} of ${quizData.length}`;
-            document.getElementById("questionText").innerText = q.q;
+            const expBox = document.getElementById("explanation-box");
+            expBox.style.display = "none";
 
-            const optionsBox = document.getElementById("optionsBox");
-            optionsBox.innerHTML = "";
-
-            const expBox = document.getElementById("explanationBox");
-            const expText = document.getElementById("explanationText");
-
-            const selected = userAnswers[index];
-
-            q.options.forEach((opt, idx) => {
+            qData.options.forEach((opt, idx) => {
                 const btn = document.createElement("button");
                 btn.className = "option-btn";
                 btn.innerText = opt;
-
-                if (selected !== null) {
+                
+                if (userAnswers[currentQ] !== null) {
                     btn.disabled = true;
-                    if (idx === q.correct) {
+                    if (idx === qData.correct) {
                         btn.classList.add("correct");
                     }
-                    if (selected === idx && selected !== q.correct) {
+                    if (userAnswers[currentQ] === idx && idx !== qData.correct) {
                         btn.classList.add("wrong");
                     }
                 } else {
                     btn.onclick = () => selectOption(idx);
                 }
-
-                optionsBox.appendChild(btn);
+                optsContainer.appendChild(btn);
             });
 
-            if (selected !== null) {
-                expText.innerText = q.exp;
+            if (userAnswers[currentQ] !== null) {
                 expBox.style.display = "block";
-            } else {
-                expBox.style.display = "none";
+                expBox.innerText = qData.exp;
+                if (userAnswers[currentQ] === qData.correct) {
+                    expBox.classList.add("correct-bg");
+                } else {
+                    expBox.classList.remove("correct-bg");
+                }
             }
 
-            updatePaletteHighlights();
-        }
+            document.getElementById("prev-btn").disabled = currentQ === 0;
+            document.getElementById("next-btn").disabled = currentQ === quizData.length - 1;
 
-        function selectOption(optionIndex) {
-            userAnswers[currentQIndex] = optionIndex;
-            loadQuestion(currentQIndex);
+            renderPalette();
             updateScore();
         }
 
-        function renderPalette() {
-            const grid = document.getElementById("paletteGrid");
-            grid.innerHTML = "";
-            quizData.forEach((_, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "palette-btn";
-                btn.id = `palette-${idx}`;
-                btn.innerText = idx + 1;
-                btn.onclick = () => loadQuestion(idx);
-                grid.appendChild(btn);
-            });
+        function selectOption(index) {
+            userAnswers[currentQ] = index;
+            loadQuestion();
         }
 
-        function updatePaletteHighlights() {
+        function navigate(step) {
+            currentQ += step;
+            loadQuestion();
+        }
+
+        function renderPalette() {
+            const grid = document.getElementById("palette-grid");
+            grid.innerHTML = "";
+
             quizData.forEach((_, idx) => {
-                const btn = document.getElementById(`palette-${idx}`);
+                const btn = document.createElement("div");
                 btn.className = "palette-btn";
-                if (idx === currentQIndex) {
-                    btn.classList.add("active");
-                }
-                const ans = userAnswers[idx];
-                if (ans !== null) {
-                    if (ans === quizData[idx].correct) {
-                        btn.classList.add("answered");
+                btn.innerText = idx + 1;
+
+                if (idx === currentQ) btn.classList.add("active");
+
+                if (userAnswers[idx] !== null) {
+                    if (userAnswers[idx] === quizData[idx].correct) {
+                        btn.classList.add("answered-correct");
                     } else {
-                        btn.classList.add("wrong-ans");
+                        btn.classList.add("answered-wrong");
                     }
                 }
+
+                btn.onclick = () => {
+                    currentQ = idx;
+                    loadQuestion();
+                };
+                grid.appendChild(btn);
             });
         }
 
         function updateScore() {
             let score = 0;
             userAnswers.forEach((ans, idx) => {
-                if (ans === quizData[idx].correct) {
-                    score++;
-                }
+                if (ans === quizData[idx].correct) score++;
             });
-            document.getElementById("scoreText").innerText = `Score: ${score} / ${quizData.length}`;
+            document.getElementById("score-text").innerText = `Score: ${score} / ${quizData.length}`;
         }
 
-        function nextQuestion() {
-            if (currentQIndex < quizData.length - 1) {
-                loadQuestion(currentQIndex + 1);
+        function retest() {
+            if (confirm("ನಿಮಗೆ ಮತ್ತೆ ಪರೀಕ್ಷೆಯನ್ನು ಆರಂಭಿಸಲು ಇಷ್ಟವಿದೆಯೇ? (Are you sure you want to restart the test?)")) {
+                userAnswers = new Array(quizData.length).fill(null);
+                currentQ = 0;
+                loadQuestion();
             }
         }
 
-        function prevQuestion() {
-            if (currentQIndex > 0) {
-                loadQuestion(currentQIndex - 1);
-            }
-        }
-
-        function resetQuiz() {
-            userAnswers = new Array(quizData.length).fill(null);
-            updateScore();
-            loadQuestion(0);
-        }
-
-        // Ensures DOM elements are fully loaded before initializing
-        window.onload = initQuiz;
+        // Initialize quiz on page load
+        loadQuestion();
     </script>
 </body>
 </html>
