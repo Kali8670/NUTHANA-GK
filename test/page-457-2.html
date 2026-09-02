@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Indian Constitution (Q1-Q10)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .test-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .timer {
+            color: #ff3333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1250px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-card {
+            flex: 3;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-header {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border-bottom: 2px solid #e8eaf6;
+            padding-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 22px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            color: #333;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f3ff;
+            border-color: #1a237e;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            background-color: #4caf50 !important;
+            border-color: #388e3c !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(76, 175, 80, 0.8);
+            animation: pulse-green 1.5s infinite alternate;
+        }
+
+        .option-btn.wrong {
+            background-color: #f44336 !important;
+            border-color: #d32f2f !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(244, 67, 54, 0.8);
+            animation: pulse-red 1.5s infinite alternate;
+        }
+
+        .option-btn[disabled] {
+            cursor: default;
+        }
+
+        .explanation-block {
+            margin-top: 15px;
+            padding: 16px;
+            background-color: #e8eaf6;
+            border-left: 5px solid #1a237e;
+            border-radius: 6px;
+            display: none;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: #1a237e;
+        }
+
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .nav-btn, .action-btn {
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .nav-btn {
+            background-color: #1a237e;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover:not([disabled]) {
+            background-color: #283593;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+
+        .score-box {
+            background-color: #f8f9fa;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border: 1px solid #e0e0e0;
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            border-color: #1a237e;
+            background-color: #e8eaf6;
+        }
+
+        .palette-btn.active {
+            border: 3px solid #1a237e !important;
+            font-size: 1.05rem;
+            box-shadow: 0 0 8px rgba(26, 35, 126, 0.5);
+        }
+
+        .palette-btn.correct-btn {
+            background-color: #4caf50 !important;
+            color: white !important;
+            border-color: #388e3c !important;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+        }
+
+        .palette-btn.wrong-btn {
+            background-color: #f44336 !important;
+            color: white !important;
+            border-color: #d32f2f !important;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.8);
+        }
+
+        .action-btns-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .retest-btn {
+            background-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        }
+
+        .retest-btn:hover {
+            background-color: #43a047;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.9);
+        }
+
+        .wrong-test-btn {
+            background-color: #f44336;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+        }
+
+        .wrong-test-btn:hover {
+            background-color: #e53935;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.9);
+        }
+
+        @keyframes pulse-green {
+            from { box-shadow: 0 0 6px rgba(76, 175, 80, 0.6); }
+            to { box-shadow: 0 0 14px rgba(76, 175, 80, 0.9); }
+        }
+
+        @keyframes pulse-red {
+            from { box-shadow: 0 0 6px rgba(244, 67, 54, 0.6); }
+            to { box-shadow: 0 0 14px rgba(244, 67, 54, 0.9); }
+        }
+
+        @media (max-width: 850px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-panel {
+                min-width: 100%;
+            }
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testHeaderTitle">Mock Test - State Government (Q1-Q10)</div>
+        <div class="timer" id="timer">Time: 30:00</div>
+    </header>
+
+    <div class="main-container">
+        <!-- Quiz Card -->
+        <div class="quiz-card">
+            <div class="question-header" id="questionHeader">Question Number: 1</div>
+            <div class="question-text" id="questionText">Loading Question...</div>
+            
+            <div class="options-container" id="optionsContainer">
+                <!-- Dynamic Options -->
+            </div>
+
+            <div class="explanation-block" id="explanationBlock">
+                <!-- Dynamic Explanation -->
+            </div>
+
+            <div class="navigation-btns">
+                <button class="nav-btn" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </div>
+
+        <!-- Right Side Palette -->
+        <div class="side-panel">
+            <div class="score-box" id="scoreDisplay">Score: 0 / 10</div>
+            <div class="palette-title">Question Palette</div>
+            <div class="palette-grid" id="paletteGrid">
+                <!-- Dynamic Palette Buttons -->
+            </div>
+
+            <div class="action-btns-container">
+                <button class="action-btn retest-btn" onclick="resetFullTest()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="action-btn wrong-test-btn" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            {
+                id: 1,
+                question: "ರಾಜ್ಯಪಾಲರಿಗೆ ಸಂಬಂಧಿಸಿದಂತೆ, ಸಂವಿಧಾನದ 'ವಿಧ 153' ರ ಮುಖ್ಯ ನಿಬಂಧನೆ ಏನು?",
+                options: [
+                    "ರಾಜ್ಯಪಾಲರ ಪ್ರಮಾಣ ವಚನ",
+                    "ಪ್ರತಿಯೊಂದು ರಾಜ್ಯಕ್ಕೂ ಒಬ್ಬ ರಾಜ್ಯಪಾಲರು ಇರಬೇಕು",
+                    "ರಾಜ್ಯಪಾಲರ ಕಾರ್ಯಾಂಗೀಯ ಅಧಿಕಾರಗಳು",
+                    "ರಾಜ್ಯಪಾಲರ ಅಧ್ಯಾದೇಶ ಹೊರಡಿಸುವ ಅಧಿಕಾರ"
+                ],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದ 153ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಪ್ರತಿಯೊಂದು ರಾಜ್ಯಕ್ಕೂ ಒಬ್ಬ ರಾಜ್ಯಪಾಲರು ಇರತಕ್ಕದ್ದು. ಇವರನ್ನು ರಾಜ್ಯದ ಪ್ರಥಮ ಪ್ರಜೆ ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 2,
+                question: "ರಾಜ್ಯಪಾಲರ ಕ್ಷಮಾದಾನದ ಅಧಿಕಾರವನ್ನು (Pardoning Power) ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯಲ್ಲಿ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: [
+                    "ವಿಧ 161",
+                    "ವಿಧ 160",
+                    "ವಿಧ 159",
+                    "ವಿಧ 165"
+                ],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ 161ನೇ ವಿಧಿಯು ರಾಜ್ಯಪಾಲರ ಕ್ಷಮಾದಾನದ ಅಧಿಕಾರವನ್ನು ವಿವರಿಸುತ್ತದೆ. ಇದರನ್ವಯ ಶಿಕ್ಷೆಯನ್ನು ಕಡಿಮೆ ಮಾಡುವುದು, ಅಮಾನತಿನಲ್ಲಿಡುವುದು ಅಥವಾ ರದ್ದು ಮಾಡುವ ಅಧಿಕಾರ ಅವರಿಗಿರುತ್ತದೆ."
+            },
+            {
+                id: 3,
+                question: "ಸಂವಿಧಾನದ 165ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ರಾಜ್ಯಪಾಲರು ಯಾರನ್ನು ನೇಮಕ ಮಾಡುತ್ತಾರೆ?",
+                options: [
+                    "ಮುಖ್ಯಮಂತ್ರಿಗಳನ್ನು",
+                    "ಲೋಕಸೇವಾ ಆಯೋಗದ ಅಧ್ಯಕ್ಷರನ್ನು",
+                    "ಅಡ್ವೊಕೇಟ್ ಜನರಲ್ (Advocate General)",
+                    "ಜಿಲ್ಲಾ ನ್ಯಾಯಾಧೀಶರನ್ನು"
+                ],
+                correct: 2,
+                explanation: "ವಿಧ 165 ರ ಅನ್ವಯ ರಾಜ್ಯಪಾಲರು ರಾಜ್ಯದ ಅಡ್ವೊಕೇಟ್ ಜನರಲ್ (Advocate General) ಅವರನ್ನು ನೇಮಕ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                id: 4,
+                question: "ರಾಜ್ಯಪಾಲರು ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯ ಅನ್ವಯ ಸುಗ್ರೀವಾಜ್ಞೆಯನ್ನು (Ordinance) ಹೊರಡಿಸುವ ಅಧಿಕಾರವನ್ನು ಹೊಂದಿದ್ದಾರೆ?",
+                options: [
+                    "ವಿಧ 200",
+                    "ವಿಧ 213",
+                    "ವಿಧ 176",
+                    "ವಿಧ 192"
+                ],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದ 213ನೇ ವಿಧಿಯ ಅನ್ವಯ ರಾಜ್ಯಪಾಲರು ರಾಷ್ಟ್ರಪತಿಯವರ ಪೂರ್ವಾನ್ವಯ ಸಮ್ಮತಿ ಪಡೆದು ಸುಗ್ರೀವಾಜ್ಞೆಯನ್ನು (Ordinance) ಹೊರಡಿಸಬಹುದು."
+            },
+            {
+                id: 5,
+                question: "ಸಂವಿಧಾನದ ವಿಧಿ 163 ರ ಮುಖ್ಯ ಉದ್ದೇಶವೇನು?",
+                options: [
+                    "ಅಡ್ವೊಕೇಟ್ ಜನರಲ್ ನೇಮಕ",
+                    "ರಾಜ್ಯಪಾಲರ ಕಾರ್ಯಾಂಗೀಯ ಸಹಾಯಕ್ಕಾಗಿ ಮುಖ್ಯಮಂತ್ರಿ ಮತ್ತು ಸಚಿವ ಸಂಪುಟ ಇರಬೇಕು",
+                    "ಶಾಸಕರ ಅನರ್ಹತೆ ತೀರ್ಮಾನ",
+                    "ರಾಜ್ಯ ಲೋಕಸೇವಾ ಆಯೋಗದ ಸ್ಥಾಪನೆ"
+                ],
+                correct: 1,
+                explanation: "ವಿಧ 163 ರ ಅನ್ವಯ ರಾಜ್ಯಪಾಲರು ತಮ್ಮ ಕಾರ್ಯ ನಿರ್ವಹಿಸಲು ಮುಖ್ಯಮಂತ್ರಿ ಹಾಗೂ ಅವರ ಸಚಿವ ಸಂಪುಟದ ನೆರವು ಮತ್ತು ಸಲಹೆಯನ್ನು ಹೊಂದಿರಬೇಕು."
+            },
+            {
+                id: 6,
+                question: "ಭಾರತದಲ್ಲಿ ಅತ್ಯಂತ ಹೆಚ್ಚು ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರಗಳನ್ನು (Seats) ಹೊಂದಿರುವ ರಾಜ್ಯ ಯಾವುದು?",
+                options: [
+                    "ಕರ್ನಾಟಕ (224)",
+                    "ಪಶ್ಚಿಮ ಬಂಗಾಳ",
+                    "ಮಹಾರಾಷ್ಟ್ರ",
+                    "ಉತ್ತರ ಪ್ರದೇಶ (403)"
+                ],
+                correct: 3,
+                explanation: "ಉತ್ತರ ಪ್ರದೇಶ ರಾಜ್ಯವು ಅತ್ಯಂತ ಹೆಚ್ಚು ಅಂದರೆ 403 ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಹೊಂದಿದೆ."
+            },
+            {
+                id: 7,
+                question: "ಭಾರತದಲ್ಲಿ ಅತ್ಯಂತ ಕಡಿಮೆ ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಹೊಂದಿರುವ ರಾಜ್ಯ ಯಾವುದು?",
+                options: [
+                    "ಸಿಕ್ಕಿಂ (32)",
+                    "ಗೋವಾ",
+                    "ಮಿಜೋರಾಂ",
+                    "ಪುದುಚೇರಿ"
+                ],
+                correct: 0,
+                explanation: "ಸಿಕ್ಕಿಂ ರಾಜ್ಯವು ಅತ್ಯಂತ ಕಡಿಮೆ ಅಂದರೆ 32 ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಹೊಂದಿದೆ."
+            },
+            {
+                id: 8,
+                question: "ಕರ್ನಾಟಕ ವಿಧಾನಸಭೆಯ ಮೊದಲ ಮಹಿಳಾ ಸಭಾಪತಿ ಯಾರು?",
+                options: [
+                    "ಸರೋಜಿನಿ ನಾಯ್ಡು",
+                    "ಕೆ.ಎಸ್. ನಾಗರತ್ನಮ್ಮ",
+                    "ಸರೋಜಾದೇವಿ",
+                    "ವಿ.ಎಸ್. ರಮಾದೇವಿ"
+                ],
+                correct: 1,
+                explanation: "ಕರ್ನಾಟಕ ವಿಧಾನಸಭೆಯ ಮೊದಲ ಮಹಿಳಾ ಸಭಾಪತಿ ಕೆ.ಎಸ್. ನಾಗರತ್ನಮ್ಮ ಅವರು."
+            },
+            {
+                id: 9,
+                question: "ಹಣಕಾಸು ಮಸೂದೆಯನ್ನು (Money Bill) ಮೊದಲು ಎಲ್ಲಿ ಮಂಡಿಸಬೇಕು?",
+                options: [
+                    "ವಿಧಾನಪರಿಷತ್‌ನಲ್ಲಿ ಮಾತ್ರ",
+                    "ವಿಧಾನಸಭೆಯಲ್ಲಿ ಮಾತ್ರ",
+                    "ಯಾವುದೇ ಸದನದಲ್ಲಿ ಮಂಡಿಸಬಹುದು",
+                    "ರಾಜ್ಯಪಾಲರ ಸಮ್ಮತಿಯ ನಂತರ ವಿಧಾನಪರಿಷತ್ತಿನಲ್ಲಿ"
+                ],
+                correct: 1,
+                explanation: "ಹಣಕಾಸು ಮಸೂದೆಯನ್ನು ಮೊದಲು ಕಡ್ಡಾಯವಾಗಿ ವಿಧಾನಸಭೆಯಲ್ಲಿಯೇ ಮಂಡಿಸಬೇಕು."
+            },
+            {
+                id: 10,
+                question: "ಬೆಂಗಳೂರಿನ ವಿಧಾನ ಸೌಧದಲ್ಲಿ ಮೊದಲ ಅಧಿವೇಶನ ಯಾವಾಗ ನಡೆಯಿತು?",
+                options: [
+                    "1951 ಜುಲೈ 13",
+                    "1952 ಮಾರ್ಚ್ 30",
+                    "1956 ಡಿಸೆಂಬರ್ 19 ರಿಂದ 31 ರವರೆಗೆ",
+                    "1950 ಜನವರಿ 26"
+                ],
+                correct: 2,
+                explanation: "ವಿಧಾನಸೌಧದಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ 1956 ಡಿಸೆಂಬರ್ 19 ರಿಂದ 31 ರವರೆಗೆ ಪ್ರಥಮ ಅಧಿವೇಶನವನ್ನು ನಡೆಸಲಾಗಿತ್ತು."
+            }
+        ];
+
+        let currentActiveQuestions = [...allQuestions];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let wrongTestCounter = 1;
+        let timerInterval;
+        let totalSeconds = 1800; // 30 Minutes
+
+        function initQuiz() {
+            startTimer();
+            renderQuiz();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "Time Up!";
+                    return;
+                }
+                totalSeconds--;
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                document.getElementById('timer').innerText = `Time: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function renderQuiz() {
+            if (currentActiveQuestions.length === 0) return;
+
+            const q = currentActiveQuestions[currentQuestionIndex];
+            document.getElementById('questionHeader').innerText = `Question Number: ${q.id}`;
+            document.getElementById('questionText').innerText = q.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOption = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (idx === selectedOption && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(q.id, idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) {
+                expBlock.style.display = 'block';
+                expBlock.innerHTML = `<strong>ವಿವರಣೆ (Explanation):</strong> ${q.explanation}`;
+            } else {
+                expBlock.style.display = 'none';
+            }
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentActiveQuestions.length - 1;
+
+            updatePaletteAndScore();
+        }
+
+        function selectOption(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            renderQuiz();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < currentActiveQuestions.length) {
+                currentQuestionIndex = newIndex;
+                renderQuiz();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuiz();
+        }
+
+        function updatePaletteAndScore() {
+            const paletteGrid = document.getElementById('paletteGrid');
+            paletteGrid.innerHTML = '';
+
+            let score = 0;
+
+            currentActiveQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id;
+
+                if (idx === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        btn.classList.add('correct-btn');
+                        score++;
+                    } else {
+                        btn.classList.add('wrong-btn');
+                    }
+                }
+
+                btn.onclick = () => jumpToQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+
+            document.getElementById('scoreDisplay').innerText = `Score: ${score} / ${currentActiveQuestions.length}`;
+        }
+
+        function resetFullTest() {
+            currentActiveQuestions = [...allQuestions];
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            wrongTestCounter = 1;
+            document.getElementById('testHeaderTitle').innerText = "Mock Test - State Government (Q1-Q10)";
+            totalSeconds = 1800;
+            startTimer();
+            renderQuiz();
+        }
+
+        function startWrongTest() {
+            const wrongQuestions = currentActiveQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            currentActiveQuestions = wrongQuestions;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('testHeaderTitle').innerText = `Wrong Test-${wrongTestCounter}`;
+            wrongTestCounter++;
+
+            renderQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
