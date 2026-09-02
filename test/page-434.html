@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Indian Constitution</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --accent-red: #d32f2f;
+            --correct-bg: #c8e6c9;
+            --correct-border: #2e7d32;
+            --wrong-bg: #ffcdd2;
+            --wrong-border: #c62828;
+            --active-blue: #2196f3;
+            --bg-gray: #f4f6f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Layout */
+        header {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .test-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .timer-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #ff8a80;
+            border: 1px solid rgba(255, 138, 128, 0.4);
+        }
+
+        /* Main Container Layout */
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Quiz Card Panel */
+        .quiz-panel {
+            flex: 3;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #fff;
+            border: 2px solid #e0e0e0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #424242;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--active-blue);
+            background-color: #e3f2fd;
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: #1b5e20 !important;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: #b71c1c !important;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background-color: #e8eaf6;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-nav {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-nav:hover {
+            background-color: #0d47a1;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Question Palette Sidebar */
+        .palette-panel {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 280px;
+        }
+
+        .score-board {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .palette-btn.active {
+            border: 3px solid var(--active-blue) !important;
+        }
+
+        .palette-btn.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct-border);
+            color: #1b5e20;
+        }
+
+        .palette-btn.wrong {
+            background-color: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: #b71c1c;
+        }
+
+        .control-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-retest {
+            background-color: #757575;
+            color: white;
+        }
+
+        .btn-retest:hover {
+            background-color: #616161;
+        }
+
+        .btn-wrong {
+            background-color: var(--accent-red);
+            color: white;
+        }
+
+        .btn-wrong:hover {
+            background-color: #b71c1c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .palette-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testTitle">ಭಾರತೀಯ ಸಂವಿಧಾನ - Mock Test</div>
+        <div class="timer-box" id="timer">Time Remaining: 15:00</div>
+    </header>
+
+    <div class="container">
+        <main class="quiz-panel">
+            <div>
+                <div class="question-header" id="questionText">Loading question...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-box" id="explanationBox"></div>
+            </div>
+
+            <div class="navigation-btns">
+                <button class="btn btn-nav" id="prevBtn" onclick="navigate(-1)">Previous</button>
+                <button class="btn btn-nav" id="nextBtn" onclick="navigate(1)">Next</button>
+            </div>
+        </main>
+
+        <aside class="palette-panel">
+            <div>
+                <div class="score-board" id="scoreBoard">Score: 0 / 0</div>
+                <div class="palette-grid" id="paletteGrid"></div>
+            </div>
+
+            <div class="control-btns">
+                <button class="btn btn-retest" onclick="resetFullTest()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="btn btn-wrong" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Master Question Data Set
+        const originalQuestions = [
+            {
+                id: 1,
+                question: "ಸಂವಿಧಾನದ ಯಾವ ಭಾಗ ಮತ್ತು ವಿಧಿಗಳಲ್ಲಿ ಕೇಂದ್ರ ಸರ್ಕಾರದ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ?",
+                options: [
+                    "ಭಾಗ-3, ವಿಧಿ 12 ರಿಂದ 35",
+                    "ಭಾಗ-4, ವಿಧಿ 36 ರಿಂದ 51",
+                    "ಭಾಗ-5, ವಿಧಿ 52 ರಿಂದ 151",
+                    "ಭಾಗ-6, ವಿಧಿ 152 ರಿಂದ 237"
+                ],
+                correct: 2,
+                explanation: "<strong>ವಿವರಣೆ:</strong> ಭಾರತೀಯ ಸಂವಿಧಾನದ <strong>ಭಾಗ-5</strong> ರಲ್ಲಿ <strong>52ನೇ ವಿಧಿಯಿಂದ 151ನೇ ವಿಧಿಯವರೆಗೂ</strong> ಕೇಂದ್ರ ಸರ್ಕಾರದ (Union Government) ಕಾರ್ಯಾಂಗ, ಶಾಸಕಾಂಗ ಮತ್ತು ನ್ಯಾಯಾಂಗದ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                id: 2,
+                question: "The Union / Central Government is described in which Part of the Indian Constitution?",
+                options: [
+                    "Part IV (Articles 36 to 51)",
+                    "Part V (Articles 52 to 151)",
+                    "Part VI (Articles 152 to 237)",
+                    "Part IX (Articles 243 to 243O)"
+                ],
+                correct: 1,
+                explanation: "<strong>Explanation:</strong> Part V of the Indian Constitution deals with the Union/Central Government, covering Articles 52 through 151."
+            }
+        ];
+
+        // State Tracking Variables
+        let activeQuestions = [...originalQuestions];
+        let userAnswers = {}; // Map of question ID -> selected index
+        let currentActiveIndex = 0;
+        let wrongTestCounter = 1;
+        let baseTitle = "ಭಾರತೀಯ ಸಂವಿಧಾನ - Mock Test";
+
+        // DOM Elements
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const explanationBox = document.getElementById('explanationBox');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paletteGrid = document.getElementById('paletteGrid');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const testTitle = document.getElementById('testTitle');
+
+        // Initializer
+        function initQuiz() {
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+            startTimer(15 * 60);
+        }
+
+        // Render Current Question
+        function loadQuestion(index) {
+            currentActiveIndex = index;
+            const q = activeQuestions[index];
+
+            questionText.innerHTML = `<strong>Q${q.id}.</strong> ${q.question}`;
+            optionsContainer.innerHTML = '';
+            
+            const selectedOption = userAnswers[q.id];
+            const isAnswered = selectedOption !== undefined;
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = optText;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (selectedOption === optIdx && optIdx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => handleAnswer(q.id, optIdx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Handle Explanation Visibility
+            if (isAnswered) {
+                explanationBox.innerHTML = q.explanation;
+                explanationBox.style.display = 'block';
+            } else {
+                explanationBox.style.display = 'none';
+            }
+
+            // Update Control Buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === activeQuestions.length - 1;
+
+            highlightPalette();
+        }
+
+        // Process Answer Selection
+        function handleAnswer(qId, selectedIdx) {
+            userAnswers[qId] = selectedIdx;
+            loadQuestion(currentActiveIndex);
+            renderPalette();
+            updateScore();
+        }
+
+        // Navigation Controls
+        function navigate(direction) {
+            const newIndex = currentActiveIndex + direction;
+            if (newIndex >= 0 && newIndex < activeQuestions.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        // Question Palette Rendering
+        function renderPalette() {
+            paletteGrid.innerHTML = '';
+            
+            activeQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id; // Retains Original Global Question Number
+
+                const answer = userAnswers[q.id];
+                if (answer !== undefined) {
+                    if (answer === q.correct) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+
+                if (idx === currentActiveIndex) {
+                    btn.classList.add('active');
+                }
+
+                btn.onclick = () => loadQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        function highlightPalette() {
+            const buttons = paletteGrid.children;
+            for (let i = 0; i < buttons.length; i++) {
+                if (i === currentActiveIndex) {
+                    buttons[i].classList.add('active');
+                } else {
+                    buttons[i].classList.remove('active');
+                }
+            }
+        }
+
+        // Update Score Display
+        function updateScore() {
+            let correctCount = 0;
+            activeQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+            scoreBoard.innerText = `Score: ${correctCount} / ${activeQuestions.length}`;
+        }
+
+        // Full Retest Reset
+        function resetFullTest() {
+            activeQuestions = [...originalQuestions];
+            userAnswers = {};
+            wrongTestCounter = 1;
+            testTitle.innerText = baseTitle;
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        // Test Incorrect Answers Feature
+        function startWrongTest() {
+            const wrongQuestions = activeQuestions.filter(q => {
+                const ans = userAnswers[q.id];
+                return ans !== undefined && ans !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("ಖಾತ್ರಿಪಡಿಸಲಾಗಿದೆ: ಪುನರಾವರ್ತಿಸಲು ಯಾವುದೇ ತಪ್ಪು ಉತ್ತರಗಳಿಲ್ಲ! (No incorrect answers found to retest!)");
+                return;
+            }
+
+            // Clear previous user choices for these specific wrong questions
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            activeQuestions = wrongQuestions;
+            testTitle.innerText = `${baseTitle} (Wrong Test-${wrongTestCounter})`;
+            wrongTestCounter++;
+
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        // Timer Implementation
+        function startTimer(durationSeconds) {
+            let timer = durationSeconds;
+            const timerDisplay = document.getElementById('timer');
+            
+            setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+
+                const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+                const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerDisplay.innerText = `Time Remaining: ${displayMinutes}:${displaySeconds}`;
+
+                if (--timer < 0) {
+                    timer = 0;
+                    timerDisplay.innerText = "Time Expired!";
+                }
+            }, 1000);
+        }
+
+        // Initialize App on Page Load
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
