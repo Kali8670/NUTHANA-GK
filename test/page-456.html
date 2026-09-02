@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Indian Constitution (Q74-Q77)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .test-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .timer {
+            color: #ff3333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1250px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-card {
+            flex: 3;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-header {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border-bottom: 2px solid #e8eaf6;
+            padding-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 22px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            color: #333;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f3ff;
+            border-color: #1a237e;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            background-color: #4caf50 !important;
+            border-color: #388e3c !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(76, 175, 80, 0.8);
+            animation: pulse-green 1.5s infinite alternate;
+        }
+
+        .option-btn.wrong {
+            background-color: #f44336 !important;
+            border-color: #d32f2f !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(244, 67, 54, 0.8);
+            animation: pulse-red 1.5s infinite alternate;
+        }
+
+        .option-btn[disabled] {
+            cursor: default;
+        }
+
+        .explanation-block {
+            margin-top: 15px;
+            padding: 16px;
+            background-color: #e8eaf6;
+            border-left: 5px solid #1a237e;
+            border-radius: 6px;
+            display: none;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: #1a237e;
+        }
+
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .nav-btn, .action-btn {
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .nav-btn {
+            background-color: #1a237e;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover:not([disabled]) {
+            background-color: #283593;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+
+        .score-box {
+            background-color: #f8f9fa;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border: 1px solid #e0e0e0;
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            border-color: #1a237e;
+            background-color: #e8eaf6;
+        }
+
+        .palette-btn.active {
+            border: 3px solid #1a237e !important;
+            font-size: 1.05rem;
+            box-shadow: 0 0 8px rgba(26, 35, 126, 0.5);
+        }
+
+        .palette-btn.correct-btn {
+            background-color: #4caf50 !important;
+            color: white !important;
+            border-color: #388e3c !important;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+        }
+
+        .palette-btn.wrong-btn {
+            background-color: #f44336 !important;
+            color: white !important;
+            border-color: #d32f2f !important;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.8);
+        }
+
+        .action-btns-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .retest-btn {
+            background-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        }
+
+        .retest-btn:hover {
+            background-color: #43a047;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.9);
+        }
+
+        .wrong-test-btn {
+            background-color: #f44336;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+        }
+
+        .wrong-test-btn:hover {
+            background-color: #e53935;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.9);
+        }
+
+        @keyframes pulse-green {
+            from { box-shadow: 0 0 6px rgba(76, 175, 80, 0.6); }
+            to { box-shadow: 0 0 14px rgba(76, 175, 80, 0.9); }
+        }
+
+        @keyframes pulse-red {
+            from { box-shadow: 0 0 6px rgba(244, 67, 54, 0.6); }
+            to { box-shadow: 0 0 14px rgba(244, 67, 54, 0.9); }
+        }
+
+        @media (max-width: 850px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-panel {
+                min-width: 100%;
+            }
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testHeaderTitle">Mock Test - Indian Constitution (Q74-Q77)</div>
+        <div class="timer" id="timer">Time: 30:00</div>
+    </header>
+
+    <div class="main-container">
+        <div class="quiz-card">
+            <div class="question-header" id="questionHeader">Question Number: 74</div>
+            <div class="question-text" id="questionText">Loading Question...</div>
+            
+            <div class="options-container" id="optionsContainer">
+                </div>
+
+            <div class="explanation-block" id="explanationBlock">
+                </div>
+
+            <div class="navigation-btns">
+                <button class="nav-btn" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="score-box" id="scoreDisplay">Score: 0 / 4</div>
+            <div class="palette-title">Question Palette</div>
+            <div class="palette-grid" id="paletteGrid">
+                </div>
+
+            <div class="action-btns-container">
+                <button class="action-btn retest-btn" onclick="resetFullTest()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="action-btn wrong-test-btn" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            {
+                id: 74,
+                question: "ಭಾರತದ ಅತ್ಯುನ್ನತ ಮತ್ತು ಶ್ರೇಷ್ಠ ನ್ಯಾಯಾಲಯವಾದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯವು (Supreme Court) ಯಾವ ವರ್ಷ ಸ್ಥಾಪನೆಯಾಯಿತು?",
+                options: [
+                    "15 ಆಗಸ್ಟ್ 1947",
+                    "26 ಜನವರಿ 1950",
+                    "28 ಜನವರಿ 1950",
+                    "26 ನವೆಂಬರ್ 1949"
+                ],
+                correct: 2,
+                explanation: "ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯವನ್ನು (Supreme Court) 1950 ಜನವರಿ 28 ರಂದು ದೆಹಲಿಯಲ್ಲಿ ಸ್ಥಾಪಿಸಲಾಯಿತು."
+            },
+            {
+                id: 75,
+                question: "ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯಲ್ಲಿ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯದ (Supreme Court) ಸ್ಥಾಪನೆ ಮತ್ತು ರಚನೆಯ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ?",
+                options: [
+                    "ವಿಧ 124",
+                    "ವಿಧ 139",
+                    "ವಿಧ 147",
+                    "ವಿಧ 32"
+                ],
+                correct: 0,
+                explanation: "ಸಂವಿಧಾನದ 124ನೇ ವಿಧಿಯಲ್ಲಿ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯದ ಸ್ಥಾಪನೆ ಮತ್ತು ರಚನೆಯ ಕುರಿತು ವಿವರಿಸಲಾಗಿದೆ. ಪ್ರಸ್ತುತ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು ಸೇರಿದಂತೆ ಒಟ್ಟು 34 ನ್ಯಾಯಾಧೀಶರಿದ್ದಾರೆ."
+            },
+            {
+                id: 76,
+                question: "ಸುಪ್ರೀಂ ಕೋರ್ಟ್‌ನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರ ನಿವೃತ್ತಿಯ ವಯಸ್ಸು ಎಷ್ಟು?",
+                options: [
+                    "60 ವರ್ಷಗಳು",
+                    "62 ವರ್ಷಗಳು",
+                    "65 ವರ್ಷಗಳು",
+                    "70 ವರ್ಷಗಳು"
+                ],
+                correct: 2,
+                explanation: "ಸುಪ್ರೀಂ ಕೋರ್ಟ್‌ನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು ಮತ್ತು ಇತರ ನ್ಯಾಯಾಧೀಶರ ನಿವೃತ್ತಿಯ ವಯಸ್ಸು 65 ವರ್ಷಗಳು."
+            },
+            {
+                id: 77,
+                question: "ಮೂಲಭೂತ ಹಕ್ಕುಗಳ ಉಲ್ಲಂಘನೆಯಾದಾಗ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯವು ಸಂವಿಧಾನದ 32ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಎಷ್ಟು ರೀತಿಯ ರಿಟ್‌ಗಳನ್ನು (Writs) ಹೊರಡಿಸಬಹುದು?",
+                options: [
+                    "3 ರಿಟ್‌ಗಳು",
+                    "4 ರಿಟ್‌ಗಳು",
+                    "5 ರಿಟ್‌ಗಳು",
+                    "6 ರಿಟ್‌ಗಳು"
+                ],
+                correct: 2,
+                explanation: "ಮೂಲಭೂತ ಹಕ್ಕುಗಳ ಉಲ್ಲಂಘನೆಯಾದಾಗ 32ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯವು 5 ರೀತಿಯ ರಿಟ್‌ಗಳನ್ನು (Writs) ಹೊರಡಿಸುತ್ತದೆ."
+            }
+        ];
+
+        let currentActiveQuestions = [...allQuestions];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let wrongTestCounter = 1;
+        let timerInterval;
+        let totalSeconds = 1800; // 30 Minutes
+
+        function initQuiz() {
+            startTimer();
+            renderQuiz();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "Time Up!";
+                    return;
+                }
+                totalSeconds--;
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                document.getElementById('timer').innerText = `Time: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function renderQuiz() {
+            if (currentActiveQuestions.length === 0) return;
+
+            const q = currentActiveQuestions[currentQuestionIndex];
+            document.getElementById('questionHeader').innerText = `Question Number: ${q.id}`;
+            document.getElementById('questionText').innerText = q.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOption = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (idx === selectedOption && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(q.id, idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) {
+                expBlock.style.display = 'block';
+                expBlock.innerHTML = `<strong>ವಿವರಣೆ (Explanation):</strong> ${q.explanation}`;
+            } else {
+                expBlock.style.display = 'none';
+            }
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentActiveQuestions.length - 1;
+
+            updatePaletteAndScore();
+        }
+
+        function selectOption(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            renderQuiz();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < currentActiveQuestions.length) {
+                currentQuestionIndex = newIndex;
+                renderQuiz();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuiz();
+        }
+
+        function updatePaletteAndScore() {
+            const paletteGrid = document.getElementById('paletteGrid');
+            paletteGrid.innerHTML = '';
+
+            let score = 0;
+
+            currentActiveQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id;
+
+                if (idx === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        btn.classList.add('correct-btn');
+                        score++;
+                    } else {
+                        btn.classList.add('wrong-btn');
+                    }
+                }
+
+                btn.onclick = () => jumpToQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+
+            document.getElementById('scoreDisplay').innerText = `Score: ${score} / ${currentActiveQuestions.length}`;
+        }
+
+        function resetFullTest() {
+            currentActiveQuestions = [...allQuestions];
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            wrongTestCounter = 1;
+            document.getElementById('testHeaderTitle').innerText = "Mock Test - Indian Constitution (Q74-Q77)";
+            totalSeconds = 1800;
+            startTimer();
+            renderQuiz();
+        }
+
+        function startWrongTest() {
+            const wrongQuestions = currentActiveQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            currentActiveQuestions = wrongQuestions;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('testHeaderTitle').innerText = `Wrong Test-${wrongTestCounter}`;
+            wrongTestCounter++;
+
+            renderQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
