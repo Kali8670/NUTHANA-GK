@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Indian Constitution (Q43-Q73)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .test-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .timer {
+            color: #ff3333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1250px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-card {
+            flex: 3;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-header {
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border-bottom: 2px solid #e8eaf6;
+            padding-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 22px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            color: #333;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #f0f3ff;
+            border-color: #1a237e;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            background-color: #4caf50 !important;
+            border-color: #388e3c !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(76, 175, 80, 0.8);
+            animation: pulse-green 1.5s infinite alternate;
+        }
+
+        .option-btn.wrong {
+            background-color: #f44336 !important;
+            border-color: #d32f2f !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(244, 67, 54, 0.8);
+            animation: pulse-red 1.5s infinite alternate;
+        }
+
+        .option-btn[disabled] {
+            cursor: default;
+        }
+
+        .explanation-block {
+            margin-top: 15px;
+            padding: 16px;
+            background-color: #e8eaf6;
+            border-left: 5px solid #1a237e;
+            border-radius: 6px;
+            display: none;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: #1a237e;
+        }
+
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .nav-btn, .action-btn {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover:not([disabled]), .action-btn:hover {
+            background-color: #283593;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+
+        .score-box {
+            background-color: #f8f9fa;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border: 1px solid #e0e0e0;
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            border-color: #1a237e;
+            background-color: #e8eaf6;
+        }
+
+        .palette-btn.active {
+            border: 3px solid #1a237e !important;
+            font-size: 1rem;
+            box-shadow: 0 0 8px rgba(26, 35, 126, 0.5);
+        }
+
+        .palette-btn.correct-btn {
+            background-color: #4caf50 !important;
+            color: white !important;
+            border-color: #388e3c !important;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+        }
+
+        .palette-btn.wrong-btn {
+            background-color: #f44336 !important;
+            color: white !important;
+            border-color: #d32f2f !important;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.8);
+        }
+
+        .action-btns-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .retest-btn {
+            background-color: #00897b;
+        }
+
+        .retest-btn:hover {
+            background-color: #00695c;
+        }
+
+        .wrong-test-btn {
+            background-color: #d81b60;
+        }
+
+        .wrong-test-btn:hover {
+            background-color: #ad1457;
+        }
+
+        @keyframes pulse-green {
+            from { box-shadow: 0 0 6px rgba(76, 175, 80, 0.6); }
+            to { box-shadow: 0 0 14px rgba(76, 175, 80, 0.9); }
+        }
+
+        @keyframes pulse-red {
+            from { box-shadow: 0 0 6px rgba(244, 67, 54, 0.6); }
+            to { box-shadow: 0 0 14px rgba(244, 67, 54, 0.9); }
+        }
+
+        @media (max-width: 850px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-panel {
+                min-width: 100%;
+            }
+            .palette-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testHeaderTitle">Mock Test - Indian Constitution (Q43-Q73)</div>
+        <div class="timer" id="timer">Time: 30:00</div>
+    </header>
+
+    <div class="main-container">
+        <div class="quiz-card">
+            <div class="question-header" id="questionHeader">Question Number: 43</div>
+            <div class="question-text" id="questionText">Loading Question...</div>
+            
+            <div class="options-container" id="optionsContainer">
+                </div>
+
+            <div class="explanation-block" id="explanationBlock">
+                </div>
+
+            <div class="navigation-btns">
+                <button class="nav-btn" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="score-box" id="scoreDisplay">Score: 0 / 31</div>
+            <div class="palette-title">Question Palette</div>
+            <div class="palette-grid" id="paletteGrid">
+                </div>
+
+            <div class="action-btns-container">
+                <button class="action-btn retest-btn" onclick="resetFullTest()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="action-btn wrong-test-btn" onclick="startWrongTest()">Test Wrong Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            {
+                id: 43,
+                question: "ಪ್ರಧಾನಮಂತ್ರಿಯವರ ಅಧಿಕಾರ ಅವಧಿ ಎಷ್ಟು ಮತ್ತು ಅವರು ಯಾರ ಇಷ್ಟದ ಪರ್ಯಂತ ಅಧಿಕಾರದಲ್ಲಿರುತ್ತಾರೆ?",
+                options: [
+                    "ಖಚಿತ 5 ವರ್ಷಗಳು",
+                    "6 ವರ್ಷಗಳು",
+                    "ಲೋಕಸಭೆಯಲ್ಲಿ ಬಹುಮತ ಇರುವವರೆಗೂ ರಾಷ್ಟ್ರಪತಿಯವರ ಇಷ್ಟದ ಪರ್ಯಂತ (ಸಾಮಾನ್ಯವಾಗಿ 5 ವರ್ಷ)",
+                    "ರಾಜ್ಯಸಭೆಯ ಇಷ್ಟದ ಪರ್ಯಂತ"
+                ],
+                correct: 2,
+                explanation: "ಪ್ರಧಾನಮಂತ್ರಿಯವರ ಅಧಿಕಾರ ಅವಧಿ ಸಾಮಾನ್ಯವಾಗಿ 5 ವರ್ಷ. ಆದರೆ ಲೋಕಸಭೆಯಲ್ಲಿ ಬಹುಮತ ಇರುವವರೆಗೂ ಅವರು ರಾಷ್ಟ್ರಪತಿಯವರ ಇಷ್ಟದ ಪರ್ಯಂತ ಅಧಿಕಾರದಲ್ಲಿರುತ್ತಾರೆ."
+            },
+            {
+                id: 44,
+                question: "ಸಂವಿಧಾನದ 75ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಪ್ರಧಾನಮಂತ್ರಿಯವರನ್ನು ಯಾರು ನೇಮಿಸುತ್ತಾರೆ?",
+                options: [
+                    "ಲೋಕಸಭೆಯ ಸಭಾಪತಿ",
+                    "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು",
+                    "ರಾಷ್ಟ್ರಪತಿಗಳು",
+                    "ಉಪರಾಷ್ಟ್ರಪತಿಗಳು"
+                ],
+                correct: 2,
+                explanation: "ಸಂವಿಧಾನದ 75ನೇ ವಿಧಿಯ ಅನ್ವಯ ಬಹುಮತ ಪಡೆದ ಪಕ್ಷದ ನಾಯಕನನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರು ಪ್ರಧಾನಮಂತ್ರಿ ಎಂದು ನೇಮಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 45,
+                question: "ಕೆಳಗಿನ ಯಾವ ಸಂಸ್ಥೆ/ಮಂಡಳಿಗೆ ಪ್ರಧಾನಮಂತ್ರಿಯವರು ಅಧ್ಯಕ್ಷರಾಗಿರುವುದಿಲ್ಲ?",
+                options: [
+                    "ನೀತಿ ಆಯೋಗ (NITI Aayog)",
+                    "ರಾಷ್ಟ್ರೀಯ ಅಭಿವೃದ್ಧಿ ಪರಿಷತ್ತು (NDC)",
+                    "ಅಂತರರಾಜ್ಯ ಪರಿಷತ್ತು",
+                    "ಕೇಂದ್ರ ಲೋಕಸೇವಾ ಆಯೋಗ (UPSC)"
+                ],
+                correct: 3,
+                explanation: "ಪ್ರಧಾನಮಂತ್ರಿಯವರು ನೀತಿ ಆಯೋಗ, ರಾಷ್ಟ್ರೀಯ ಅಭಿವೃದ್ಧಿ ಪರಿಷತ್ತು, ರಾಷ್ಟ್ರೀಯ ಭಾವೈಕ್ಯ ಪರಿಷತ್ತು, ಅಂತರರಾಜ್ಯ ಪರಿಷತ್ತು ಮತ್ತು ರಾಷ್ಟ್ರೀಯ ಜಲಸಂಪನ್ಮೂಲ ಮಂಡಳಿಗಳ ಅಧ್ಯಕ್ಷರಾಗಿರುತ್ತಾರೆ. UPSC ಸ್ವತಂತ್ರ ಸಂಸ್ಥೆಯಾಗಿದೆ."
+            },
+            {
+                id: 46,
+                question: "1946 ಸೆಪ್ಟೆಂಬರ್ 2 ರಂದು ರಚಿತವಾದ ತತ್ಕಾಲಿಕ ಸರ್ಕಾರದಲ್ಲಿ ಮೊದಲ ಪ್ರಧಾನಮಂತ್ರಿಯಾಗಿದ್ದವರು ಯಾರು?",
+                options: [
+                    "ಜವಾಹರಲಾಲ್ ನೆಹರೂ",
+                    "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ",
+                    "ಗುಲ್ಜಾರಿಲಾಲ್ ನಂದಾ",
+                    "ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್"
+                ],
+                correct: 0,
+                explanation: "1946 ಸೆಪ್ಟೆಂಬರ್ 2 ರಂದು ರಚಿತವಾದ ತತ್ಕಾಲಿಕ ಸರ್ಕಾರದಲ್ಲಿ ಜವಾಹರಲಾಲ್ ನೆಹರೂ ಅವರು ಮೊದಲ ಪ್ರಧಾನಮಂತ್ರಿಯಾಗಿದ್ದರು."
+            },
+            {
+                id: 47,
+                question: "ಜವಾಹರಲಾಲ್ ನೆಹರೂ ಅವರ ಸಮಾಧಿ ಸ್ಥಳದ ಹೆಸರೇನು?",
+                options: [
+                    "ವಿಜಯಘಾಟ್",
+                    "ಶಾಂತಿಬನ",
+                    "ಶಕ್ತಿ ಸ್ಥಳ",
+                    "ವೀರ ಭೂಮಿ"
+                ],
+                correct: 1,
+                explanation: "ಜವಾಹರಲಾಲ್ ನೆಹರೂ ಅವರ ಸಮಾಧಿ ಸ್ಥಳವನ್ನು 'ಶಾಂತಿಬನ' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 48,
+                question: "'ಅಪರೇಷನ್ ಫ್ಲಡ್' (ಹಸಿರು ಕ್ರಾಂತಿ ಮತ್ತು ಕ್ಷೀರ ಕ್ರಾಂತಿಗೆ ಉತ್ತೇಜನ) ಪರಿಚಯಿಸಿದ ಭಾರತದ 2ನೇ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಜವಾಹರಲಾಲ್ ನೆಹರೂ",
+                    "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ",
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ"
+                ],
+                correct: 1,
+                explanation: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅವರು 2ನೇ ಪ್ರಧಾನಿಯಾಗಿದ್ದು, ಅಪರೇಷನ್ ಫ್ಲಡ್ ಮತ್ತು ಹಸಿರು ಕ್ರಾಂತಿಯನ್ನು ಭಾರತ ದೇಶಕ್ಕೆ ಪರಿಚಯಿಸಿದರು."
+            },
+            {
+                id: 49,
+                question: "1965ರ ಭಾರತ-ಪಾಕಿಸ್ತಾನ ಯುದ್ಧದ ನಂತರ 1966 ಜನವರಿ 10 ರಂದು ತಾಷ್ಕೆಂಟ್ ಘೋಷಣೆಗೆ ಸಹಿ ಹಾಕಿದ ಭಾರತದ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಜವಾಹರಲಾಲ್ ನೆಹರೂ",
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ",
+                    "ರಾಜೀವ್ ಗಾಂಧಿ"
+                ],
+                correct: 2,
+                explanation: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅವರು ತಾಷ್ಕೆಂಟ್‌ನಲ್ಲಿ ನಡೆದ ಒಪ್ಪಂದಕ್ಕೆ ಸಹಿ ಹಾಕಿದರು ಮತ್ತು ಜನವರಿ 11, 1966 ರಂದು ಅಲ್ಲಿಯೇ ನಿಧನರಾದರು."
+            },
+            {
+                id: 50,
+                question: "1971ರ ಭಾರತ-ಪಾಕ್ ಯುದ್ಧ, ಸಿಮ್ಲಾ ಒಪ್ಪಂದ (1972) ಮತ್ತು 1975ರ ರಾಷ್ಟ್ರೀಯ ತುರ್ತುಪರಿಸ್ಥಿತಿ ಘೋಷಣೆ ಯಾರ ಅಧಿಕಾರಾವಧಿಯಲ್ಲಿ ನಡೆದವು?",
+                options: [
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ",
+                    "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ",
+                    "ರಾಜೀವ್ ಗಾಂಧಿ"
+                ],
+                correct: 0,
+                explanation: "ಇಂದಿರಾ ಗಾಂಧಿ ಅವರ ಅವಧಿಯಲ್ಲಿ 1971ರ ಯುದ್ಧ, ಬಾಂಗ್ಲಾದೇಶ ವಿಮೋಚನೆ, ಸಿಮ್ಲಾ ಒಪ್ಪಂದ ಮತ್ತು 1975ರ ಆಂತರಿಕ ತುರ್ತುಪರಿಸ್ಥಿತಿ ಜರುಗಿದವು."
+            },
+            {
+                id: 51,
+                question: "1974ರಲ್ಲಿ 'ಅಪರೇಷನ್ ಸ್ಮೈಲಿಂಗ್ ಬುದ್ಧ' (ಪೋಖ್ರಾನ್-1) ಅಣು ಪರೀಕ್ಷೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನಡೆಸಿದ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ರಾಜೀವ್ ಗಾಂಧಿ",
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ",
+                    "ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್"
+                ],
+                correct: 1,
+                explanation: "ಇಂದಿರಾ ಗಾಂಧಿ ಅವರ ಅವಧಿಯಲ್ಲಿ 1974 ರಲ್ಲಿ ಪೋಖ್ರಾನ್-1 (ಅಪರೇಷನ್ ಸ್ಮೈಲಿಂಗ್ ಬುದ್ಧ) ಪ್ರಥಮ ಅಣು ಪರೀಕ್ಷೆ ನಡೆಯಿತು."
+            },
+            {
+                id: 52,
+                question: "ಇಂದಿರಾ ಗಾಂಧಿ ಅವರ ಸಮಾಧಿ ಸ್ಥಳವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?",
+                options: [
+                    "ಕಿಶಾನ್ ಘಾಟ್",
+                    "ಶಾಂತಿಬನ",
+                    "ಶಕ್ತಿ ಸ್ಥಳ",
+                    "ವೀರ ಭೂಮಿ"
+                ],
+                correct: 2,
+                explanation: "ಇಂದಿರಾ ಗಾಂಧಿ ಅವರ ಸಮಾಧಿ ಸ್ಥಳವನ್ನು 'ಶಕ್ತಿ ಸ್ಥಳ' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 53,
+                question: "ಭಾರತದ ಮೊದಲ ಕಾಂಗ್ರೇಸೇತರ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಚರಣ್‌ಸಿಂಗ್",
+                    "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ",
+                    "ವಿ.ಪಿ. ಸಿಂಗ್",
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ"
+                ],
+                correct: 1,
+                explanation: "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ ಅವರು ಜನತಾ ಪಕ್ಷದ ನಾಯಕರಾಗಿ ಭಾರತದ ಮೊದಲ ಕಾಂಗ್ರೆಸೇತರ ಪ್ರಧಾನಿಯಾದರು."
+            },
+            {
+                id: 54,
+                question: "ಕೇಂದ್ರ ಬಜೆಟ್ ಅನ್ನು ಅತ್ಯಂತ ಹೆಚ್ಚು ಬಾರಿ (10 ಬಾರಿ) ಮಂಡಿಸಿದ ಪ್ರಧಾನಿ/ಹಣಕಾಸು ಸಚಿವರು ಯಾರು?",
+                options: [
+                    "ಪಿ. ಚಿದಂಬರಂ",
+                    "ಪ್ರಣಬ್ ಮುಖರ್ಜಿ",
+                    "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ",
+                    "ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್"
+                ],
+                correct: 2,
+                explanation: "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ ಅವರು 10 ಬಾರಿ ಕೇಂದ್ರ ಬಜೆಟ್ ಮಂಡಿಸಿದ್ದಾರೆ."
+            },
+            {
+                id: 55,
+                question: "ಒಂದು ದಿನವೂ ಕೂಡ ಸಂಸತ್ತಿನಲ್ಲಿ ಭಾಗವಹಿಸದ ಭಾರತದ ಪ್ರಧಾನಮಂತ್ರಿ ಯಾರು?",
+                options: [
+                    "ದೇವೇಗೌಡ",
+                    "ಚರಣ್‌ಸಿಂಗ್",
+                    "ಐ.ಕೆ. ಗುಜ್ರಾಲ್",
+                    "ಚಂದ್ರಶೇಖರ್"
+                ],
+                correct: 1,
+                explanation: "ಚರಣ್‌ಸಿಂಗ್ (ಸಮಾಧಿ: ಕಿಸಾನ್ ಘಾಟ್) ಅವರು ತಮ್ಮ ಅಧಿಕಾರಾವಧಿಯಲ್ಲಿ ಒಂದು ದಿನವೂ ಸಂಸತ್ತನ್ನು ಎದುರಿಸಲಿಲ್ಲ."
+            },
+            {
+                id: 56,
+                question: "ಅತ್ಯಂತ ಕಿರಿಯ ವಯಸ್ಸಿನಲ್ಲಿ ಭಾರತದ ಪ್ರಧಾನಿಯಾದವರು ಯಾರು?",
+                options: [
+                    "ರಾಜೀವ್ ಗಾಂಧಿ",
+                    "ನರೇಂದ್ರ ಮೋದಿ",
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ಶರದ್ ಪವಾರ್"
+                ],
+                correct: 0,
+                explanation: "ರಾಜೀವ್ ಗಾಂಧಿ ಅವರು ಅತ್ಯಂತ ಕಿರಿಯ ವಯಸ್ಸಿನಲ್ಲಿ (40 ನೇ ವಯಸ್ಸಿನಲ್ಲಿ) ಪ್ರಧಾನಿಯಾದರು."
+            },
+            {
+                id: 57,
+                question: "ಮತದಾನದ ವಯಸ್ಸನ್ನು 21 ವರ್ಷದಿಂದ 18 ವರ್ಷಕ್ಕೆ ಇಳಿಸಿದ 61ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (1988) ಯಾರ ಅವಧಿಯಲ್ಲಿ ಜಾರಿಗೆ ಬಂದಿತು?",
+                options: [
+                    "ಇಂದಿರಾ ಗಾಂಧಿ",
+                    "ರಾಜೀವ್ ಗಾಂಧಿ",
+                    "ವಿ.ಪಿ. ಸಿಂಗ್",
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ"
+                ],
+                correct: 1,
+                explanation: "ರಾಜೀವ್ ಗಾಂಧಿ ಅವರ ಅವಧಿಯಲ್ಲಿ 61ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ತಂದು ಮತದಾನದ ವಯಸ್ಸನ್ನು 21 ರಿಂದ 18ಕ್ಕೆ ಇಳಿಸಲಾಯಿತು."
+            },
+            {
+                id: 58,
+                question: "ರಾಜೀವ್ ಗಾಂಧಿ ಅವರ ಸಮಾಧಿ ಸ್ಥಳವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?",
+                options: [
+                    "ವಿಜಯಘಾಟ್",
+                    "ವೀರ ಭೂಮಿ",
+                    "ಶಕ್ತಿ ಸ್ಥಳ",
+                    "ಏಕತಾ ಸ್ಥಳ"
+                ],
+                correct: 1,
+                explanation: "ರಾಜೀವ್ ಗಾಂಧಿ ಅವರ ಸಮಾಧಿ ಸ್ಥಳವನ್ನು 'ವೀರ ಭೂಮಿ' ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 59,
+                question: "ಮಂಡಲ್ ಆಯೋಗದ ವರದಿಯನ್ನು ಜಾರಿಗೆ ತರಲು ಪ್ರಯತ್ನಿಸಿದ ರಾಷ್ಟ್ರೀಯ ರಂಗ ಒಕ್ಕೂಟ ಸರ್ಕಾರದ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ವಿ.ಪಿ. ಸಿಂಗ್ (ವಿಶ್ವನಾಥ್ ಪ್ರತಾಪ್ ಸಿಂಗ್)",
+                    "ಚಂದ್ರಶೇಖರ್",
+                    "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ",
+                    "ಐ.ಕೆ. ಗುಜ್ರಾಲ್"
+                ],
+                correct: 0,
+                explanation: "1989ರಲ್ಲಿ ವಿ.ಪಿ. ಸಿಂಗ್ ಅವರು ಮಂಡಲ್ ಆಯೋಗದ ವರದಿಯನ್ನು ಜಾರಿಗೆ ತರಲು ಕ್ರಮ ಕೈಗೊಂಡರು."
+            },
+            {
+                id: 60,
+                question: "'ಆಧುನಿಕ ಭಾರತದ ಚಾಣಕ್ಯ' ಎಂದು ಕರೆಯಲ್ಪಡುವ ದಕ್ಷಿಣ ಭಾರತದಿಂದ ಆಯ್ಕೆಯಾದ ಮೊದಲ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ",
+                    "ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್",
+                    "ವಿ.ವಿ. ಗಿರಿ",
+                    "ಸರ್ವೇಪಲ್ಲಿ ರಾಧಾಕೃಷ್ಣನ್"
+                ],
+                correct: 1,
+                explanation: "ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್ ಅವರು ದಕ್ಷಿಣ ಭಾರತದಿಂದ ಪ್ರಧಾನಿಯಾದ ಮೊದಲ ವ್ಯಕ್ತಿಯಾಗಿದ್ದು, ಅವರನ್ನು ಆಧುನಿಕ ಭಾರತದ ಚಾಣಕ್ಯ ಎನ್ನಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 61,
+                question: "1991 ರಲ್ಲಿ ಹೊಸ ಆರ್ಥಿಕ ನೀತಿ (ಉದಾರೀಕರಣ, ಖಾಸಗೀಕರಣ, ಜಾಗತೀಕರಣ - LPG) ಜಾರಿಗೆ ತಂದಾಗ ಭಾರತದ ಪ್ರಧಾನಿ ಯಾರಾಗಿದ್ದರು?",
+                options: [
+                    "ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್",
+                    "ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್",
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ",
+                    "ಐ.ಕೆ. ಗುಜ್ರಾಲ್"
+                ],
+                correct: 1,
+                explanation: "1991 ರಲ್ಲಿ ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್ ಪ್ರಧಾನಿಯಾಗಿದ್ದಾಗ ಆರ್ಥಿಕ ಸುಧಾರಣೆಗಳನ್ನು (LPG) ಜಾರಿಗೆ ತರಲಾಯಿತು. ಮನಮೋಹನ್ ಸಿಂಗ್ ಅವರು ಹಣಕಾಸು ಸಚಿವರಾಗಿದ್ದರು."
+            },
+            {
+                id: 62,
+                question: "'ಇನ್‌ಸೈಡರ್' (Insider) ಪುಸ್ತಕದ ಕರ್ತೃ ಯಾರು?",
+                options: [
+                    "ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್",
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ",
+                    "ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್",
+                    "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ"
+                ],
+                correct: 2,
+                explanation: "'ಇನ್‌ಸೈಡರ್' ಪ್ರಸಿದ್ಧ ಗ್ರಂಥವನ್ನು ಮಾಜಿ ಪ್ರಧಾನಿ ಪಿ.ವಿ. ನರಸಿಂಹರಾವ್ ಅವರು ರಚಿಸಿದರು."
+            },
+            {
+                id: 63,
+                question: "ದೇಶದ ಪ್ರಧಾನಿಯಾದ ಮೊದಲ ಕನ್ನಡಿಗ ಯಾರು?",
+                options: [
+                    "ಕೆ.ಸಿ. ರೆಡ್ಡಿ",
+                    "ಎಸ್. ನಿಜಲಿಂಗಪ್ಪ",
+                    "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ",
+                    "ರಾಮಕೃಷ್ಣ ಹೆಗಡೆ"
+                ],
+                correct: 2,
+                explanation: "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ ಅವರು 1996ರಲ್ಲಿ ಭಾರತದ ಪ್ರಧಾನಿಯಾದ ಮೊದಲ ಕನ್ನಡಿಗರಾಗಿದ್ದಾರೆ."
+            },
+            {
+                id: 64,
+                question: "ಸರ್ವ ಶಿಕ್ಷಣ ಅಭಿಯಾನ (2001) ಮತ್ತು ಸುವರ್ಣ ಚತುಷ್ಕೋನ ರಸ್ತೆ ಯೋಜನೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ",
+                    "ಎಚ್.ಡಿ. ದೇವೇಗೌಡ",
+                    "ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್",
+                    "ನರೇಂದ್ರ ಮೋದಿ"
+                ],
+                correct: 0,
+                explanation: "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ ಅವರು 'ಸರ್ವ ಶಿಕ್ಷಣ ಅಭಿಯಾನ' ಮತ್ತು 'ಸುವರ್ಣ ಚತುಷ್ಕೋನ' ಯೋಜನೆಗಳನ್ನು ಜಾರಿಗೆ ತಂದರು."
+            },
+            {
+                id: 65,
+                question: "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ ಅವರ ಜನ್ಮದಿನವಾದ ಡಿಸೆಂಬರ್ 25 ಅನ್ನು 2014 ರಿಂದ ಏನೆಂದು ಆಚರಿಸಲಾಗುತ್ತದೆ?",
+                options: [
+                    "ಶಿಕ್ಷಕರ ದಿನ",
+                    "ಉತ್ತಮ ಆಡಳಿತ ದಿನ (Good Governance Day)",
+                    "ರಾಷ್ಟ್ರೀಯ ಐಕ್ಯತಾ ದಿನ",
+                    "ಕಿಸಾನ್ ದಿವಸ್"
+                ],
+                correct: 1,
+                explanation: "ವಾಜಪೇಯಿ ಅವರ ಜನ್ಮದಿನ ಡಿಸೆಂಬರ್ 25 ರಂದು 'ಉತ್ತಮ ಆಡಳಿತ ದಿನ' (Good Governance Day) ಎಂದು ಆಚರಿಸಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 66,
+                question: "2005ರಲ್ಲಿ 'ರಾಷ್ಟ್ರೀಯ ಗ್ರಾಮೀಣ ಉದ್ಯೋಗ ಖಾತ್ರಿ ಯೋಜನೆ' (MGNREGA) ಜಾರಿಗೆ ತಂದ ಪ್ರಧಾನಿ ಯಾರು?",
+                options: [
+                    "ಅಟಲ್ ಬಿಹಾರಿ ವಾಜಪೇಯಿ",
+                    "ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್",
+                    "ನರೇಂದ್ರ ಮೋದಿ",
+                    "ಐ.ಕೆ. ಗುಜ್ರಾಲ್"
+                ],
+                correct: 1,
+                explanation: "ಯುಪಿಎ ಸರ್ಕಾರದ ಅವಧಿಯಲ್ಲಿ ಪ್ರಧಾನಿ ಡಾ. ಮನಮೋಹನ್ ಸಿಂಗ್ ಅವರು NREGA ಯೋಜನೆಯನ್ನು ಜಾರಿಗೆ ತಂದರು."
+            },
+            {
+                id: 67,
+                question: "ಕೃಷ್ಣಾ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣ (1st Krishna Water Disputes Tribunal) ಸ್ಥಾಪನೆಯಾದ ವರ್ಷ ಯಾವುದು?",
+                options: [
+                    "1956",
+                    "1969",
+                    "1986",
+                    "2004"
+                ],
+                correct: 1,
+                explanation: "ಮೊದಲ ಕೃಷ್ಣಾ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವು 1969 ರಲ್ಲಿ ಸ್ಥಾಪನೆಯಾಯಿತು."
+            },
+            {
+                id: 68,
+                question: "ಗೋದಾವರಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವು ಯಾವ ವರ್ಷದಲ್ಲಿ ಸ್ಥಾಪನೆಯಾಯಿತು?",
+                options: [
+                    "1969",
+                    "1978",
+                    "1990",
+                    "2010"
+                ],
+                correct: 0,
+                explanation: "ಗೋದಾವರಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವನ್ನು 1969 ರಲ್ಲಿ ಸ್ಥಾಪಿಸಲಾಯಿತು."
+            },
+            {
+                id: 69,
+                question: "ಕಾವೇರಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣ ಸ್ಥಾಪನೆಯಾದ ವರ್ಷ ಯಾವುದು?",
+                options: [
+                    "1969",
+                    "1986",
+                    "1990",
+                    "2004"
+                ],
+                correct: 2,
+                explanation: "ಕಾವೇರಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವನ್ನು 1990 ರಲ್ಲಿ ಸ್ಥಾಪಿಸಲಾಯಿತು (ವ್ಯಾಪ್ತಿ: ಕರ್ನಾಟಕ, ತಮಿಳುನಾಡು, ಕೇರಳ, ಪುದುಚೇರಿ)."
+            },
+            {
+                id: 70,
+                question: "ಮಹದಾಯಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವು ಯಾವ ವರ್ಷ ಸ್ಥಾಪನೆಯಾಯಿತು?",
+                options: [
+                    "2004",
+                    "2010",
+                    "2014",
+                    "1990"
+                ],
+                correct: 1,
+                explanation: "ಮಹದಾಯಿ ಜಲವಿವಾದ ನ್ಯಾಯಾಧಿಕರಣವನ್ನು 2010 ರಲ್ಲಿ ಸ್ಥಾಪಿಸಲಾಯಿತು (ಗೋವಾ, ಕರ್ನಾಟಕ, ಮಹಾರಾಷ್ಟ್ರ)."
+            },
+            {
+                id: 71,
+                question: "ರಾಷ್ಟ್ರಪತಿಗಳು, ಉಪರಾಷ್ಟ್ರಪತಿಗಳು ಹಾಗೂ ರಾಜ್ಯಪಾಲರ ಹುದ್ದೆಗೆ ಸ್ಪರ್ಧಿಸಲು ಇರಬೇಕಾದ ಕನಿಷ್ಠ ವಯಸ್ಸು ಎಷ್ಟು?",
+                options: [
+                    "25 ವರ್ಷಗಳು",
+                    "30 ವರ್ಷಗಳು",
+                    "35 ವರ್ಷಗಳು",
+                    "21 ವರ್ಷಗಳು"
+                ],
+                correct: 2,
+                explanation: "ರಾಷ್ಟ್ರಪತಿ, ಉಪರಾಷ್ಟ್ರಪತಿ ಮತ್ತು ರಾಜ್ಯಪಾಲ ಹುದ್ದೆಗಳಿಗೆ ಕನಿಷ್ಠ ವಯೋಮಿತಿ 35 ವರ್ಷಗಳು."
+            },
+            {
+                id: 72,
+                question: "ಪ್ರಧಾನಮಂತ್ರಿ ಮತ್ತು ಲೋಕಸಭಾ ಸದಸ್ಯರಾಗಲು ಇರಬೇಕಾದ ಕನಿಷ್ಠ ವಯೋಮಿತಿ ಎಷ್ಟು?",
+                options: [
+                    "18 ವರ್ಷಗಳು",
+                    "21 ವರ್ಷಗಳು",
+                    "25 ವರ್ಷಗಳು",
+                    "30 ವರ್ಷಗಳು"
+                ],
+                correct: 2,
+                explanation: "ಲೋಕಸಭಾ ಸದಸ್ಯ ಹಾಗೂ ಪ್ರಧಾನಮಂತ್ರಿಯಾಗಲು ಕನಿಷ್ಠ 25 ವರ್ಷ ವಯಸ್ಸಾಗಿರಬೇಕು."
+            },
+            {
+                id: 73,
+                question: "ಲೋಕಸಭೆಯ ಸದಸ್ಯರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸಬೇಕು?",
+                options: [
+                    "ರಾಷ್ಟ್ರಪತಿಗಳಿಗೆ",
+                    "ಪ್ರಧಾನಮಂತ್ರಿಗೆ",
+                    "ಲೋಕಸಭೆಯ ಸಭಾಪತಿಗೆ (Speaker)",
+                    "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರಿಗೆ"
+                ],
+                correct: 2,
+                explanation: "ಲೋಕಸಭೆಯ ಸದಸ್ಯರು ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಲೋಕಸಭೆಯ ಸಭಾಪತಿಯವರಿಗೆ (Speaker) ಸಲ್ಲಿಸುತ್ತಾರೆ."
+            }
+        ];
+
+        let currentActiveQuestions = [...allQuestions];
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let wrongTestCounter = 1;
+        let timerInterval;
+        let totalSeconds = 1800; // 30 Minutes
+
+        function initQuiz() {
+            startTimer();
+            renderQuiz();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "Time Up!";
+                    return;
+                }
+                totalSeconds--;
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                document.getElementById('timer').innerText = `Time: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function renderQuiz() {
+            if (currentActiveQuestions.length === 0) return;
+
+            const q = currentActiveQuestions[currentQuestionIndex];
+            document.getElementById('questionHeader').innerText = `Question Number: ${q.id}`;
+            document.getElementById('questionText').innerText = q.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOption = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (idx === selectedOption && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(q.id, idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) {
+                expBlock.style.display = 'block';
+                expBlock.innerHTML = `<strong>ವಿವರಣೆ (Explanation):</strong> ${q.explanation}`;
+            } else {
+                expBlock.style.display = 'none';
+            }
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentActiveQuestions.length - 1;
+
+            updatePaletteAndScore();
+        }
+
+        function selectOption(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            renderQuiz();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < currentActiveQuestions.length) {
+                currentQuestionIndex = newIndex;
+                renderQuiz();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuiz();
+        }
+
+        function updatePaletteAndScore() {
+            const paletteGrid = document.getElementById('paletteGrid');
+            paletteGrid.innerHTML = '';
+
+            let score = 0;
+
+            currentActiveQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id;
+
+                if (idx === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        btn.classList.add('correct-btn');
+                        score++;
+                    } else {
+                        btn.classList.add('wrong-btn');
+                    }
+                }
+
+                btn.onclick = () => jumpToQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+
+            document.getElementById('scoreDisplay').innerText = `Score: ${score} / ${currentActiveQuestions.length}`;
+        }
+
+        function resetFullTest() {
+            currentActiveQuestions = [...allQuestions];
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            wrongTestCounter = 1;
+            document.getElementById('testHeaderTitle').innerText = "Mock Test - Indian Constitution (Q43-Q73)";
+            totalSeconds = 1800;
+            startTimer();
+            renderQuiz();
+        }
+
+        function startWrongTest() {
+            const wrongQuestions = currentActiveQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            currentActiveQuestions = wrongQuestions;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('testHeaderTitle').innerText = `Wrong Test-${wrongTestCounter}`;
+            wrongTestCounter++;
+
+            renderQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
