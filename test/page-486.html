@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Important Constitutional Amendments</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #1a237e;
+            color: #fff;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .timer-box {
+            background-color: #d32f2f;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 0 8px rgba(211, 47, 47, 0.6);
+        }
+
+        /* Main Container Layout */
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .question-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #1a237e;
+            border-bottom: 2px solid #e8eaf6;
+            padding-bottom: 12px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #e8eaf6;
+            border-color: #1a237e;
+        }
+
+        /* Glowing Red/Green Feedback States */
+        .option-btn.correct {
+            background-color: #e8f5e9 !important;
+            border-color: #2e7d32 !important;
+            color: #1b5e20 !important;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        }
+
+        .option-btn.wrong {
+            background-color: #ffebee !important;
+            border-color: #c62828 !important;
+            color: #b71c1c !important;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background-color: #eef2f7;
+            border-left: 4px solid #1a237e;
+            padding: 15px;
+            border-radius: 0 6px 6px 0;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .explanation-box strong {
+            color: #1a237e;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .nav-btn {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover:not([disabled]) {
+            background-color: #283593;
+        }
+
+        .nav-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Right Side Panel */
+        .side-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 280px;
+        }
+
+        .score-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .score-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a237e;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .retest-btn {
+            background-color: #2e7d32;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+        }
+
+        .retest-btn:hover {
+            background-color: #1b5e20;
+        }
+
+        .wrong-test-btn {
+            background-color: #c62828;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+        }
+
+        .wrong-test-btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .palette-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            flex: 1;
+        }
+
+        .palette-card h3 {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #1a237e;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+            gap: 8px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        /* Palette States (Blue for Active, Glow Green/Red for Correct/Wrong) */
+        .palette-btn.active {
+            border: 2px solid #1a237e !important;
+            background-color: #e8eaf6;
+            color: #1a237e;
+        }
+
+        .palette-btn.correct {
+            background-color: #2e7d32 !important;
+            color: white !important;
+            border-color: #2e7d32 !important;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+        }
+
+        .palette-btn.wrong {
+            background-color: #c62828 !important;
+            color: white !important;
+            border-color: #c62828 !important;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .side-panel {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="test-title">CBT Mock Test: Important Constitutional Amendments</h1>
+        <div class="timer-box" id="timer">30:00</div>
+    </header>
+
+    <div class="main-container">
+        <div class="quiz-section">
+            <div class="card">
+                <div class="question-title" id="question-text">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+                <div class="options-container" id="options-container"></div>
+                <div class="explanation-box" id="explanation-box">
+                    <strong>ವಿವರಣೆ (Explanation):</strong>
+                    <span id="explanation-text"></span>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">ಹಿಂದಿನ (Previous)</button>
+                <button class="nav-btn" id="next-btn" onclick="navigate(1)">ಮುಂದಿನ (Next)</button>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="score-card">
+                <h3>ಪ್ರಸ್ತುತ ಅಂಕ (Overall Score)</h3>
+                <div class="score-value" id="score-display">0 / 0</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn retest-btn" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="action-btn wrong-test-btn" onclick="testWrongAnswers()">Test Wrong Answers</button>
+            </div>
+
+            <div class="palette-card">
+                <h3>ಪ್ರಶ್ನೆಗಳ ವಿವರ (Questions)</h3>
+                <div class="palette-grid" id="palette-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // High-Yield Question Bank Extracted from Uploaded KPSC/KEA Source Material
+        const fullQuestionBank = [
+            {
+                id: 1,
+                question: "ಸಂವಿಧಾನಕ್ಕೆ 9ನೇ ಅನುಸೂಚಿಯನ್ನು (Schedule-9) ಸೇರ್ಪಡೆಗೊಳಿಸಿದ ಮೊದಲ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ ಯಾವ ವರ್ಷದಲ್ಲಿ ಜಾರಿಗೆ ಬಂದಿತು?",
+                options: ["1950", "1951", "1952", "1955"],
+                correct: 1,
+                explanation: "1ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ (1951): ಭೂಸುಧಾರಣೆ ಕಾಯ್ದೆಗಳನ್ನು ಕೋರ್ಟ್‌ನಲ್ಲಿ ಪ್ರಶ್ನಿಸದಂತೆ ತಡೆಯಲು 9ನೇ ಅನುಸೂಚಿಯನ್ನು ಸಂವಿಧಾನಕ್ಕೆ ಸೇರಿಸಲಾಯಿತು."
+            },
+            {
+                id: 2,
+                question: "ಭಾರತದ 'ಕುಬ್ಜ ಸಂವಿಧಾನ' (Mini Constitution) ಎಂದು ಕರೆಯಲ್ಪಡುವ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ ಯಾವುದು?",
+                options: ["44ನೇ ತಿದ್ದುಪಡಿ (1978)", "42ನೇ ತಿದ್ದುಪಡಿ (1976)", "73ನೇ ತಿದ್ದುಪಡಿ (1992)", "86ನೇ ತಿದ್ದುಪಡಿ (2002)"],
+                correct: 1,
+                explanation: "42ನೇ ತಿದ್ದುಪಡಿ (1976) ಅತ್ಯಂತ ದೊಡ್ಡ ತಿದ್ದುಪಡಿಯಾಗಿದ್ದು, ಇದನ್ನು 'ಕುಬ್ಜ ಸಂವಿಧಾನ' ಎನ್ನಲಾಗುತ್ತದೆ. ಇದು ಪೀಠಿಕೆಗೆ 'ಸಮಾಜವಾದಿ, ಜಾತ್ಯತೀತ, ಸಮಗ್ರತೆ' ಪದಗಳನ್ನು ಮತ್ತು ಮೂಲಭೂತ ಕರ್ತವ್ಯಗಳನ್ನು ಸೇರಿಸಿತು."
+            },
+            {
+                id: 3,
+                question: "ಮತದಾನದ ವಯಸ್ಸನ್ನು 21 ವರ್ಷದಿಂದ 18 ವರ್ಷಕ್ಕೆ ಇಳಿಸಿದ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["52ನೇ ತಿದ್ದುಪಡಿ", "61ನೇ ತಿದ್ದುಪಡಿ", "69ನೇ ತಿದ್ದುಪಡಿ", "86ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "61ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ (1989): 326ನೇ ವಿಧಿಗೆ ತಿದ್ದುಪಡಿ ತಂದು ಮತದಾನದ ವಯಸ್ಸನ್ನು 21 ರಿಂದ 18ಕ್ಕೆ ಇಳಿಸಲಾಯಿತು."
+            },
+            {
+                id: 4,
+                question: "ಪಕ್ಷಾಂತರ ನಿಷೇಧ ಕಾನೂನನ್ನು (Anti-Defection Law) ಸಂವಿಧಾನದ 10ನೇ ಅನುಸೂಚಿಗೆ ಸೇರಿಸಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["44ನೇ ತಿದ್ದುಪಡಿ", "52ನೇ ತಿದ್ದುಪಡಿ", "73ನೇ ತಿದ್ದುಪಡಿ", "91ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "52ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (1985) ಮೂಲಕ ಪಕ್ಷಾಂತರ ನಿಷೇಧ ಕಾಯ್ದೆಯನ್ನು 10ನೇ ಅನುಸೂಚಿಯಾಗಿ ಸಂವಿಧಾನಕ್ಕೆ ಸೇರಿಸಲಾಯಿತು."
+            },
+            {
+                id: 5,
+                question: "ಪಂಚಾಯತ್ ರಾಜ್ ಸಂಸ್ಥೆಗಳಿಗೆ ಸಾಂವಿಧಾನಿಕ ಸ್ಥಾನಮಾನ ನೀಡಿದ ಮತ್ತು 11ನೇ ಅನುಸೂಚಿಯನ್ನು ಸೇರಿಸಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["71ನೇ ತಿದ್ದುಪಡಿ", "73ನೇ ತಿದ್ದುಪಡಿ", "74ನೇ ತಿದ್ದುಪಡಿ", "86ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "73ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (1992-93): 'ಹೊಸ ಪಂಚಾಯತ್ ರಾಜ್ ರಾಜ್ಯಕಾಯ್ದೆ' ರೂಪಿಸಿ 11ನೇ ಅನುಸೂಚಿಗೆ 29 ವಿಷಯಗಳನ್ನು ಸೇರಿಸಿತು."
+            },
+            {
+                id: 6,
+                question: "ನಗರ ಸ್ಥಳೀಯ ಸಂಸ್ಥೆಗಳಿಗೆ (ಮುನಿಸಿಪಾಲಿಟಿಗಳಿಗೆ) ಸಾಂವಿಧಾನಿಕ ಸ್ಥಾನಮಾನ ನೀಡಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["72ನೇ ತಿದ್ದುಪಡಿ", "73ನೇ ತಿದ್ದುಪಡಿ", "74ನೇ ತಿದ್ದುಪಡಿ", "75ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 2,
+                explanation: "74ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (1993): ನಗರ ಸ್ಥಳೀಯ ಸರ್ಕಾರಗಳ ರಚನೆ ಮಾಡಿ 12ನೇ ಅನುಸೂಚಿಯನ್ನು ಸೇರಿಸಿತು."
+            },
+            {
+                id: 7,
+                question: "6 ರಿಂದ 14 ವರ್ಷದ ಮಕ್ಕಳಿಗೆ ಉಚಿತ ಮತ್ತು ಕಡ್ಡಾಯ ಶಿಕ್ಷಣವನ್ನು ಮೂಲಭೂತ ಹಕ್ಕನ್ನಾಗಿ ಮಾಡಿದ (21A ವಿಧಿ) ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["44ನೇ ತಿದ್ದುಪಡಿ", "86ನೇ ತಿದ್ದುಪಡಿ", "91ನೇ ತಿದ್ದುಪಡಿ", "103ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "86ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2002): ಪ್ರಾಥಮಿಕ ಶಿಕ್ಷಣವನ್ನು ಮೂಲಭೂತ ಹಕ್ಕನ್ನಾಗಿ ಮಾಡಿ ವಿಧಿ 21(ಎ) ಅನ್ನು ಸಂವಿಧಾನಕ್ಕೆ ಸೇರಿಸಲಾಯಿತು."
+            },
+            {
+                id: 8,
+                question: "ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಮಂತ್ರಿಮಂಡಲದ ಒಟ್ಟು ಗಾತ್ರವನ್ನು ಕೆಳಮನೆಯ ಶೇ. 15 ಕ್ಕೆ ಮಿತಿಗೊಳಿಸಿದ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ ಯಾವುದು?",
+                options: ["89ನೇ ತಿದ್ದುಪಡಿ", "91ನೇ ತಿದ್ದುಪಡಿ", "92ನೇ ತಿದ್ದುಪಡಿ", "97ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "91ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2003): ಮಂತ್ರಿಮಂಡಲದ ಗರಿಷ್ಠ ಸಂಖ್ಯೆಯನ್ನು ಕೆಳಮನೆಯ ಒಟ್ಟು ಸದಸ್ಯರ ಸಂಖ್ಯೆಯ ಶೇ. 15% ಕ್ಕೆ ಮಿತಿಗೊಳಿಸಿತು."
+            },
+            {
+                id: 9,
+                question: "ಸರಕು ಮತ್ತು ಸೇವಾ ತೆರಿಗೆಯನ್ನು (GST) ಜಾರಿಗೆ ತಂದ ಸಂವಿಧಾನಾತ್ಮಕ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["100ನೇ ತಿದ್ದುಪಡಿ", "101ನೇ ತಿದ್ದುಪಡಿ", "102ನೇ ತಿದ್ದುಪಡಿ", "103ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "101ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2016): ದೇಶಾದ್ಯಂತ ಜುಲೈ 1, 2017 ರಿಂದ ಸರಕು ಮತ್ತು ಸೇವಾ ತೆರಿಗೆ (GST) ಜಾರಿಗೆ ತರಲಾಯಿತು."
+            },
+            {
+                id: 10,
+                question: "ಸಂವಿಧಾನದ 371(J) ವಿಧಿಯ ಅಡಿಯಲ್ಲಿ ಹೈದರಾಬಾದ್-ಕರ್ನಾಟಕ (ಕಲ್ಯಾಣ ಕರ್ನಾಟಕ) ಪ್ರದೇಶಕ್ಕೆ ವಿಶೇಷ ಸ್ಥಾನಮಾನ ನೀಡಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["96ನೇ ತಿದ್ದುಪಡಿ", "97ನೇ ತಿದ್ದುಪಡಿ", "98ನೇ ತಿದ್ದುಪಡಿ", "99ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 2,
+                explanation: "98ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2012): ಕರ್ನಾಟಕ ರಾಜ್ಯಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ 371(J) ಅಡಿಯಲ್ಲಿ ಹೈದರಾಬಾದ್ ಕರ್ನಾಟಕ ಭಾಗಕ್ಕೆ ವಿಶೇಷ ಸ್ಥಾನಮಾನ ನೀಡಿತು."
+            },
+            {
+                id: 11,
+                question: "ಆರ್ಥಿಕವಾಗಿ ಹಿಂದುಳಿದ ವರ್ಗದವರಿಗೆ (EWS) ಶೇಕಡಾ 10 ರಷ್ಟು ಮೀಸಲಾತಿ ಕಲ್ಪಿಸಿದ ತಿದ್ದುಪಡಿ ಕಾಯ್ದೆ ಯಾವುದು?",
+                options: ["101ನೇ ತಿದ್ದುಪಡಿ", "102ನೇ ತಿದ್ದುಪಡಿ", "103ನೇ ತಿದ್ದುಪಡಿ", "104ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 2,
+                explanation: "103ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2019): ಆರ್ಥಿಕವಾಗಿ ಹಿಂದುಳಿದ ಸಾಮಾನ್ಯ ವರ್ಗದ ಅಭ್ಯರ್ಥಿಗಳಿಗೆ ಶೇ. 10 ರಷ್ಟು ಮೀಸಲಾತಿ ನೀಡಿದೆ."
+            },
+            {
+                id: 12,
+                question: "ಲೋಕಸಭೆ ಮತ್ತು ರಾಜ್ಯ ವಿಧಾನಸಭೆಗಳಲ್ಲಿ ಮಹಿಳೆಯರಿಗೆ ಶೇಕಡಾ 33 (1/3) ರಷ್ಟು ಮೀಸಲಾತಿ ಕಲ್ಪಿಸುವ 'ನಾರಿ ಶಕ್ತಿ ವಂದನ್ ಅಧಿನಿಯಮ' ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["103ನೇ ತಿದ್ದುಪಡಿ", "104ನೇ ತಿದ್ದುಪಡಿ", "105ನೇ ತಿದ್ದುಪಡಿ", "106ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 3,
+                explanation: "106ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2023): ಲೋಕಸಭೆ, ರಾಜ್ಯ ವಿಧಾನಸಭೆ ಮತ್ತು ದೆಹಲಿ ವಿಧಾನಸಭೆಯಲ್ಲಿ ಮಹಿಳೆಯರಿಗೆ 1/3 ರಷ್ಟು ಸ್ಥಾನಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲು ಜಾರಿಗೆ ತರಲಾಯಿತು."
+            },
+            {
+                id: 13,
+                question: "44ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (1978) ಮೂಲಕ ಯಾವ ಹಕ್ಕನ್ನು ಮೂಲಭೂತ ಹಕ್ಕುಗಳ ಪಟ್ಟಿಯಿಂದ ತೆಗೆದುಹಾಕಲಾಯಿತು?",
+                options: ["ಸಮಾನತೆಯ ಹಕ್ಕು", "ಆಸ್ತಿಯ ಹಕ್ಕು", "ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯದ ಹಕ್ಕು", "ಶೈಕ್ಷಣಿಕ ಹಕ್ಕು"],
+                correct: 1,
+                explanation: "44ನೇ ತಿದ್ದುಪಡಿ (1978): ಆಸ್ತಿಯ ಹಕ್ಕನ್ನು ಮೂಲಭೂತ ಹಕ್ಕುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ, 300A ವಿಧಿಯಡಿ ಕಾನೂನಾತ್ಮಕ ಹಕ್ಕನ್ನಾಗಿ ಮಾಡಲಾಯಿತು."
+            },
+            {
+                id: 14,
+                question: "ಸಂವಿಧಾನದ 8ನೇ ಅನುಸೂಚಿಗೆ ಬೋಡೋ, ಡೋಗ್ರಿ, ಮೈಥಿಲಿ ಮತ್ತು ಸಂತಾಲಿ ಭಾಷೆಗಳನ್ನು ಸೇರಿಸಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["21ನೇ ತಿದ್ದುಪಡಿ", "71ನೇ ತಿದ್ದುಪಡಿ", "92ನೇ ತಿದ್ದುಪಡಿ", "96ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 2,
+                explanation: "92ನೇ ತಿದ್ದುಪಡಿ (2003): ಬೋಡೋ, ಡೋಗ್ರಿ, ಮೈಥಿಲಿ ಮತ್ತು ಸಂತಾಲಿ ಭಾಷೆಗಳನ್ನು ಸೇರಿಸಿ ಒಟ್ಟು ಅಧಿಕೃತ ಭಾಷೆಗಳ ಸಂಖ್ಯೆಯನ್ನು 22ಕ್ಕೆ ಹೆಚ್ಚಿಸಿತು."
+            },
+            {
+                id: 15,
+                question: "ಸಹಕಾರಿ ಸಂಘಗಳ (Co-operative Societies) ಅಭಿವೃದ್ಧಿಗಾಗಿ ಸಂವಿಧಾನಕ್ಕೆ ಭಾಗ 9(B) ಅನ್ನು ಸೇರಿಸಿದ ತಿದ್ದುಪಡಿ ಯಾವುದು?",
+                options: ["95ನೇ ತಿದ್ದುಪಡಿ", "97ನೇ ತಿದ್ದುಪಡಿ", "99ನೇ ತಿದ್ದುಪಡಿ", "100ನೇ ತಿದ್ದುಪಡಿ"],
+                correct: 1,
+                explanation: "97ನೇ ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ (2012): ಸಹಕಾರಿ ಸಂಘಗಳಿಗೆ ಸಾಂವಿಧಾನಿಕ ಸ್ಥಾನಮಾನ ನೀಡಿ ಭಾಗ 9(B) ಅನ್ನು ಸೇರಿಸಿತು."
+            }
+        ];
+
+        // State Variables
+        let activeQuestions = [...fullQuestionBank];
+        let userAnswers = {}; // Map of question ID -> selected Option Index
+        let currentIndex = 0;
+        let wrongTestCount = 1;
+        let timeRemaining = 30 * 60; // 30 minutes in seconds
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationBox = document.getElementById('explanation-box');
+        const explanationText = document.getElementById('explanation-text');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const paletteGrid = document.getElementById('palette-grid');
+        const scoreDisplay = document.getElementById('score-display');
+        const testTitle = document.getElementById('test-title');
+        const timerDisplay = document.getElementById('timer');
+
+        // Timer Functionality
+        function startTimer() {
+            setInterval(() => {
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                    const mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                    const secs = (timeRemaining % 60).toString().padStart(2, '0');
+                    timerDisplay.textContent = `${mins}:${secs}`;
+                }
+            }, 1000);
+        }
+
+        // Render Current Question View
+        function renderQuestion() {
+            const q = activeQuestions[currentIndex];
+            questionText.textContent = `Q${q.id}. ${q.question}`;
+            optionsContainer.innerHTML = '';
+            
+            const hasAnswered = userAnswers.hasOwnProperty(q.id);
+            const selectedOpt = userAnswers[q.id];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = `${String.fromCharCode(65 + idx)}) ${opt}`;
+
+                if (hasAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (selectedOpt === idx && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => selectOption(q.id, idx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Reveal explanation if answered
+            if (hasAnswered) {
+                explanationText.textContent = q.explanation;
+                explanationBox.style.display = 'block';
+            } else {
+                explanationBox.style.display = 'none';
+            }
+
+            // Button controls
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === activeQuestions.length - 1;
+
+            updatePalette();
+            updateScore();
+        }
+
+        // Handle Option Selection
+        function selectOption(questionId, selectedIdx) {
+            userAnswers[questionId] = selectedIdx;
+            renderQuestion();
+        }
+
+        // Smooth Navigation
+        function navigate(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < activeQuestions.length) {
+                currentIndex = newIndex;
+                renderQuestion();
+            }
+        }
+
+        // Question Palette Update preserving Global IDs
+        function updatePalette() {
+            paletteGrid.innerHTML = '';
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.textContent = q.id; // Retain original global question number
+
+                if (index === currentIndex) {
+                    btn.classList.add('active');
+                }
+
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentIndex = index;
+                    renderQuestion();
+                };
+
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        // Score Counter Update
+        function updateScore() {
+            let correctCount = 0;
+            Object.keys(userAnswers).forEach(qId => {
+                const q = fullQuestionBank.find(item => item.id == qId);
+                if (q && userAnswers[qId] === q.correct) {
+                    correctCount++;
+                }
+            });
+            scoreDisplay.textContent = `${correctCount} / ${activeQuestions.length}`;
+        }
+
+        // Reset Test Completely
+        function retestAll() {
+            activeQuestions = [...fullQuestionBank];
+            userAnswers = {};
+            currentIndex = 0;
+            wrongTestCount = 1;
+            testTitle.textContent = "CBT Mock Test: Important Constitutional Amendments";
+            renderQuestion();
+        }
+
+        // Test Incorrect Answers Only
+        function testWrongAnswers() {
+            const wrongQuestions = activeQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No incorrect answers found to retest!)");
+                return;
+            }
+
+            // Clear choices for incorrect questions only
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            activeQuestions = wrongQuestions;
+            currentIndex = 0;
+            testTitle.textContent = `CBT Mock Test: Wrong Test-${wrongTestCount}`;
+            wrongTestCount++;
+
+            renderQuestion();
+        }
+
+        // Initialize App
+        startTimer();
+        renderQuestion();
+    </script>
+</body>
+</html>
