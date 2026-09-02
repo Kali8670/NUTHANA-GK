@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Indian Constitution Chapter 10</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0f24;
+            --header-bg: #0d1b2a;
+            --card-bg: #131e3a;
+            --card-border: #1e2d5a;
+            --slate-bg: #1e293b;
+            --slate-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --accent-blue: #2563eb;
+            --accent-blue-hover: #1d4ed8;
+            --glow-cyan: #00f2fe;
+            
+            --correct-bg: #1b4332;
+            --correct-border: #2ec4b6;
+            --correct-text: #e8f5e9;
+            
+            --wrong-bg: #4a151b;
+            --wrong-border: #e63946;
+            --wrong-text: #ffebee;
+            
+            --btn-retest: #475569;
+            --btn-retest-hover: #334155;
+            --btn-wrong: #dc2626;
+            --btn-wrong-hover: #b91c1c;
+
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(0, 242, 254, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(13, 27, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .test-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .timer-badge {
+            background-color: #2c121e;
+            color: #ff5252;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 12px rgba(255, 82, 82, 0.15);
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 28px;
+            gap: 28px;
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Quiz Panel */
+        .quiz-panel {
+            flex: 3;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .question-header {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .option-btn {
+            background-color: var(--slate-bg);
+            border: 2px solid var(--slate-border);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--accent-blue);
+            background-color: rgba(37, 99, 235, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .option-btn[disabled] {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(46, 196, 182, 0.25);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.25);
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--slate-border);
+            border-left: 5px solid var(--glow-cyan);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            display: none;
+            color: #e2e8f0;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Controls */
+        .navigation-btns {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover:not([disabled]) {
+            transform: translateY(-2px);
+        }
+
+        .btn-nav {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-nav:hover:not([disabled]) {
+            background-color: var(--accent-blue-hover);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn:disabled {
+            background-color: var(--slate-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--slate-border);
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Sidebar Palette */
+        .palette-panel {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 320px;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            color: #ffffff;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .palette-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+            gap: 10px;
+            margin-bottom: 24px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .palette-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .palette-grid::-webkit-scrollbar-thumb {
+            background: var(--slate-border);
+            border-radius: 4px;
+        }
+
+        .palette-btn {
+            width: 42px;
+            height: 42px;
+            border: 2px solid var(--slate-border);
+            background: var(--slate-bg);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn:hover {
+            border-color: var(--glow-cyan);
+            color: var(--glow-cyan);
+            transform: scale(1.08);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+
+        .palette-btn.active {
+            border-color: var(--glow-cyan) !important;
+            border-width: 3px !important;
+            box-shadow: 0 0 15px var(--glow-cyan);
+        }
+
+        .palette-btn.correct {
+            background-color: var(--correct-border);
+            border-color: var(--correct-border);
+            color: #052e16;
+        }
+
+        .palette-btn.wrong {
+            background-color: var(--wrong-border);
+            border-color: var(--wrong-border);
+            color: #ffffff;
+        }
+
+        .control-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-retest {
+            background-color: var(--btn-retest);
+            color: white;
+        }
+
+        .btn-retest:hover {
+            background-color: var(--btn-retest-hover);
+            box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
+        }
+
+        .btn-wrong {
+            background-color: var(--btn-wrong);
+            color: white;
+        }
+
+        .btn-wrong:hover {
+            background-color: var(--btn-wrong-hover);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+            }
+            .palette-panel {
+                min-width: 100%;
+            }
+            header {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="test-title" id="testTitle">ಅಧ್ಯಾಯ-10 ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ</div>
+        <div class="timer-badge" id="timer">⏱️ Time Remaining: 45:00</div>
+    </header>
+
+    <div class="container">
+        <main class="quiz-panel">
+            <div>
+                <div class="question-header" id="questionText">Loading question...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-box" id="explanationBox"></div>
+            </div>
+
+            <div class="navigation-btns">
+                <button class="btn btn-nav" id="prevBtn" onclick="navigate(-1)">← Previous</button>
+                <button class="btn btn-nav" id="nextBtn" onclick="navigate(1)">Next →</button>
+            </div>
+        </main>
+
+        <aside class="palette-panel">
+            <div>
+                <div class="score-board" id="scoreBoard">Score: 0 / 0</div>
+                <div class="palette-title">Question Palette (1 to 54)</div>
+                <div class="palette-grid" id="paletteGrid"></div>
+            </div>
+
+            <div class="control-btns">
+                <button class="btn btn-retest" onclick="resetFullTest()">🔄 ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="btn btn-wrong" onclick="startWrongTest()">⚠️ Test Wrong Answers</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Full Question Dataset (Extracted from study material points 1 to 54)
+        const originalQuestions = [
+            {
+                id: 1,
+                question: "ಭಾರತೀಯ ಸಂವಿಧಾನದ 5ನೇ ಭಾಗದಲ್ಲಿ ಕೇಂದ್ರ ಸರ್ಕಾರದ ಕುರಿತು ಯಾವ ವಿಧಿಗಳಿಂದ ಯಾವ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: ["ವಿಧಿ 12 ರಿಂದ 35", "ವಿಧಿ 36 ರಿಂದ 51", "ವಿಧಿ 52 ರಿಂದ 151", "ವಿಧಿ 152 ರಿಂದ 237"],
+                correct: 2,
+                explanation: "ಕೇಂದ್ರ ಸರ್ಕಾರದ ಕುರಿತು ಸಂವಿಧಾನದ 5ನೇ ಭಾಗದಲ್ಲಿ (Part V) 52ನೇ ವಿಧಿಯಿಂದ 151ನೇ ವಿಧಿಯವರೆಗೂ ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                id: 2,
+                question: "ಸಂವಿಧಾನದ 52ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆಯನ್ನು ಬ್ರಿಟನ್ ದೇಶದ ಯಾವ ಹುದ್ದೆಗೆ ಹೋಲಿಸಲಾಗಿದೆ?",
+                options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಬ್ರಿಟನ್ ದೊರೆ (Monarch)", "ಲಾರ್ಡ್ ಚಾನ್ಸೆಲರ್", "ಸ್ಪೀಕರ್"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದಲ್ಲಿ ಭಾರತ ದೇಶಕ್ಕೆ ಒಂದು ರಾಷ್ಟ್ರಪತಿ ಹುದ್ದೆಗೆ ಅವಕಾಶ ಕಲ್ಪಿಸಲಾಗಿದ್ದು, ಈ ಹುದ್ದೆಯನ್ನು ಬ್ರಿಟನ್ ದೊರೆಯ ಹುದ್ದೆಗೆ ಹೋಲಿಸಲಾಗಿದೆ (ವಿಧಿ-52)."
+            },
+            {
+                id: 3,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಕಾರ್ಯಕಾಂಗೀಯ ಅಧಿಕಾರದ ಕುರಿತು ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯಲ್ಲಿ ಮಾಹಿತಿ ನೀಡಲಾಗಿದೆ?",
+                options: ["ವಿಧಿ 52", "ವಿಧಿ 53", "ವಿಧಿ 54", "ವಿಧಿ 55"],
+                correct: 1,
+                explanation: "ವಿಧಿ-53 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರ ಕಾರ್ಯಾಂಗೀಯ ಅಧಿಕಾರದ (Executive Powers) ಕುರಿತು ಮಾಹಿತಿಯನ್ನು ನೀಡಲಾಗಿದೆ."
+            },
+            {
+                id: 4,
+                question: "ರಾಷ್ಟ್ರಪತಿಗಳ ಚುನಾವಣೆ (ವಿಧಿ-54) ಯಾವ ಮಾದರಿಯ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ?",
+                options: ["ನೇರ ಮತದಾನ", "ಪರೋಕ್ಷ ಹಾಗೂ ಗುಪ್ತ ಮತದಾನ", "ಬಹಿರಂಗ ಮತದಾನ", "ಸಾರ್ವಜನಿಕ ಧ್ವನಿ ಮತ"],
+                correct: 1,
+                explanation: "ರಾಷ್ಟ್ರಪತಿಗಳ ಚುನಾವಣೆಯು (ವಿಧಿ-54) ಪರೋಕ್ಷ ಹಾಗೂ ಗುಪ್ತ ಮತದಾನದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ."
+            },
+            {
+                id: 5,
+                question: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯ (ವಿಧಿ-54) ಎಲೆಕ್ಟೋರಲ್ ಕಾಲೇಜ್‌ನಲ್ಲಿ ಮತದಾನ ಮಾಡುವವರು ಯಾರು?",
+                options: ["ಲೋಕಸಭೆ ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು", "ಲೋಕಸಭೆ, ರಾಜ್ಯಸಭೆ, ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆ ಹಾಗೂ ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶಗಳ (ದೆಹಲಿ, ಪುದುಚೇರಿ) ಚುನಾಯಿತ ಸದಸ್ಯರು", "ವಿಧಾನ ಪರಿಷತ್ತಿನ ಎಲ್ಲಾ ಸದಸ್ಯರು", "ಸಂಸತ್ತಿನ ನಾಮನಿರ್ದೇಶಿತ ಸದಸ್ಯರು"],
+                correct: 1,
+                explanation: "ರಾಷ್ಟ್ರಪತಿ ಚುನಾವಣೆಯಲ್ಲಿ ಮತದಾನ ಮಾಡುವವರು: ಲೋಕಸಭೆ & ರಾಜ್ಯಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು, ಎಲ್ಲಾ ರಾಜ್ಯಗಳ ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು ಮತ್ತು ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶದ (ದೆಹಲಿ, ಪುದುಚೇರಿ) ವಿಧಾನಸಭೆಯ ಚುನಾಯಿತ ಸದಸ್ಯರು."
+            },
+            {
+                id: 6,
+                question: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು ಮೊದಲು ಏನೆಂದು ಕರೆಯಲಾಗುತ್ತಿತ್ತು ಮತ್ತು ಇದನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿದವರು ಯಾರು?",
+                options: ["ಇಂಪೀರಿಯಲ್ ಪ್ಯಾಲೇಸ್, ಎಡ್ವಿನ್ ಲುಟಿಯನ್ಸ್", "ವೈಸ್‌ರಾಯ್ ಭವನ, ಲಾರ್ಡ್ ಲುಟಿಯನ್ಸ್", "ಗವರ್ನರ್ ಹೌಸ್, ಹೆರ್ಬರ್ಟ್ ಬೇಕರ್", "ರಾಷ್ಟ್ರಪತಿ ನಿವಾಸ, ರಾಬರ್ಟ್ ಕ್ಲೈವ್"],
+                correct: 1,
+                explanation: "ರಾಷ್ಟ್ರಪತಿ ಭವನವನ್ನು ರೈಸಿನ್ ಹಿಲ್ಸ್ ಭವನ ಎಂದೂ ಕರೆಯುವರು. ಇದನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿದವರು ಲಾರ್ಡ್ ಲುಟಿಯನ್ಸ್ ಮತ್ತು ಇದು ಮೊದಲು ವೈಸ್‌ರಾಯ್ ಭವನವಾಗಿತ್ತು."
+            },
+            {
+                id: 7,
+                question: "ಸಂವಿಧಾನದ 60ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಪ್ರಮಾಣವಚನವನ್ನು ಯಾರು ಬೋಧಿಸುತ್ತಾರೆ?",
+                options: ["ಉಪರಾಷ್ಟ್ರಪತಿ", "ಪ್ರಧಾನಮಂತ್ರಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್‌ನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್"],
+                correct: 2,
+                explanation: "ವಿಧಿ-60 ರ ಪ್ರಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಪ್ರಮಾಣವಚನವನ್ನು ಸುಪ್ರೀಂ ಕೋರ್ಟ್‌ನ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು ಬೋಧಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 8,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಮಹಾಭಿಯೋಗ (Impeachment - ವಿಧಿ 61) ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಭಾಗವಹಿಸುವವರು ಯಾರು?",
+                options: ["ಲೋಕಸಭೆ ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು (ಚುನಾಯಿತ ಮತ್ತು ನಾಮನಿರ್ದೇಶಿತ)", "ವಿಧಾನಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು", "ಕೇವಲ ಚುನಾಯಿತ ಸಂಸತ್ ಸದಸ್ಯರು", "ವಿಧಾನ ಪರಿಷತ್ತಿನ ಸದಸ್ಯರು"],
+                correct: 0,
+                explanation: "ಮಹಾಭಿಯೋಗದಲ್ಲಿ (ವಿಧಿ-61) ಲೋಕಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು ಮತ್ತು ರಾಜ್ಯಸಭೆಯ ಎಲ್ಲಾ ಸದಸ್ಯರು ಭಾಗವಹಿಸುತ್ತಾರೆ. ಆದರೆ ಇಲ್ಲಿ ವಿಧಾನಸಭೆಯ ಸದಸ್ಯರು ಭಾಗವಹಿಸುವಂತಿಲ್ಲ."
+            },
+            {
+                id: 9,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?",
+                options: ["ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು", "ಉಪರಾಷ್ಟ್ರಪತಿ", "ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಸಂಸತ್ತಿನ ಸ್ಪೀಕರ್"],
+                correct: 1,
+                explanation: "ರಾಷ್ಟ್ರಪತಿಯವರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ಉಪರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಸಲ್ಲಿಸುವುದರ ಮೂಲಕ ತಮ್ಮ ಹುದ್ದೆಯನ್ನು ಖಾಲಿ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                id: 10,
+                question: "ಸಂವಿಧಾನದ 80ನೇ ವಿಧಿಯ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಕಲೆ, ಸಾಹಿತ್ಯ, ವಿಜ್ಞಾನ, ಸಮಾಜಸೇವೆ ಕ್ಷೇತ್ರಗಳಿಂದ ರಾಜ್ಯಸಭೆಗೆ ಎಷ್ಟು ಜನರನ್ನು ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ?",
+                options: ["2 ಜನರು", "10 ಜನರು", "12 ಜನರು", "14 ಜನರು"],
+                correct: 2,
+                explanation: "ವಿಧಿ-80 ರ ಅನ್ವಯ ಕಲೆ, ಸಾಹಿತ್ಯ, ವಿಜ್ಞಾನ ಮತ್ತು ಸಮಾಜಸೇವೆ ಕ್ಷೇತ್ರದಲ್ಲಿ ಸಾಧನೆ ಮಾಡಿದ 12 ಜನರನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ರಾಜ್ಯಸಭೆಗೆ ನಾಮಕರಣ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                id: 11,
+                question: "ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರ ಹೊಂದಿದ್ದಾರೆ?",
+                options: ["ವಿಧಿ 85", "ವಿಧಿ 86", "ವಿಧಿ 108", "ವಿಧಿ 123"],
+                correct: 1,
+                explanation: "ವಿಧಿ-86 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನದಲ್ಲಿ ಭಾಷಣ ಮಾಡುವ ಅಧಿಕಾರ ಹೊಂದಿದ್ದಾರೆ."
+            },
+            {
+                id: 12,
+                question: "ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯುವ ಅಧಿಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಯಾವ ವಿಧಿಯ ಮೂಲಕ ಸಿಗುತ್ತದೆ?",
+                options: ["ವಿಧಿ 86", "ವಿಧಿ 108", "ವಿಧಿ 110", "ವಿಧಿ 280"],
+                correct: 1,
+                explanation: "ವಿಧಿ-108 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು (Joint Session) ಕರೆಯುತ್ತಾರೆ."
+            },
+            {
+                id: 13,
+                question: "ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?",
+                options: ["ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಹಣಕಾಸು ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಮಸೂದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಮಸೂದೆ"],
+                correct: 1,
+                explanation: "ಹಣಕಾಸು ಮಸೂದೆ (Financial Bill/Money Bill), ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆ ಹಾಗೂ ಆಯವ್ಯಯ ಮಸೂದೆಗಳ ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ."
+            },
+            {
+                id: 14,
+                question: "ಯಾವ ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ?",
+                options: ["ಸಾಮಾನ್ಯ ಮಸೂದೆ", "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ತಡೆ ಮಸೂದೆ", "ಪೋಟಾ ಕಾಯ್ದೆ ಮಸೂದೆ"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ (Constitutional Amendment Bill) ಸಂಬಂಧಿಸಿದಂತೆ ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು ಕರೆಯಲು ಅವಕಾಶವಿಲ್ಲ."
+            },
+            {
+                id: 15,
+                question: "ಆಯವ್ಯಯ ಮಸೂದೆ (Budget) ಯ ವಿಷಯದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಅವಕಾಶವಿದೆಯೇ?",
+                options: ["ಹೌದು, ಕರೆಯಬಹುದು", "ಇಲ್ಲ, ಕರೆಯಲು ಬರುವುದಿಲ್ಲ", "ಕೇವಲ ಲೋಕಸಭೆ ಒಪ್ಪಿದರೆ ಕರೆಯಬಹುದು", "ರಾಜ್ಯಸಭೆ ವಿನಂತಿಸಿದರೆ ಕರೆಯಬಹುದು"],
+                correct: 1,
+                explanation: "ಆಯವ್ಯಯ ಮಸೂದೆಯ (Budget) ಸಂದರ್ಭದಲ್ಲಿ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲು ಬರುವುದಿಲ್ಲ."
+            },
+            {
+                id: 16,
+                question: "ಭಾರತದಲ್ಲಿ ಮೊದಲು ಜಂಟಿ ಅಧಿವೇಶನವನ್ನು 1961 ರಲ್ಲಿ ಯಾವ ಮಸೂದೆಗಾಗಿ ಕರೆಯಲಾಗಿತ್ತು?",
+                options: ["ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆ", "ಪೋಟಾ ಮಸೂದೆ", "ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆ", "ಭ್ರಷ್ಟಾಚಾರ ತಡೆ ಮಸೂದೆ"],
+                correct: 2,
+                explanation: "ಭಾರತದಲ್ಲಿ 1961 ರಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ ಮಸೂದೆಗೆ (Dowry Prohibition Act) ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು."
+            },
+            {
+                id: 17,
+                question: "1978 ರಲ್ಲಿ ಯಾವ ಮಸೂದೆಗಾಗಿ ಸಂಸತ್ತಿನ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು?",
+                options: ["ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆ", "POTA ಕಾಯ್ದೆ", "ಮಹಿಳಾ ಮೀಸಲಾತಿ"],
+                correct: 1,
+                explanation: "1978 ರಲ್ಲಿ ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ ಮಸೂದೆಗಾಗಿ (Banking Service Commission Bill) 2ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು."
+            },
+            {
+                id: 18,
+                question: "2002 ರಲ್ಲಿ ಕರೆಯಲಾದ 3ನೇ ಜಂಟಿ ಅಧಿವೇಶನವು ಯಾವ ಕಾಯ್ದೆಗೆ ಸಂಬಂಧಿಸಿತ್ತು?",
+                options: ["ವರದಕ್ಷಿಣೆ ನಿಷೇಧ ಕಾಯ್ದೆ", "ಬ್ಯಾಂಕಿಂಗ್ ಸೇವಾ ಆಯೋಗ", "ಪೋಟಾ (POTA) ಕಾಯ್ದೆ", "ಸಂವಿಧಾನ ತಿದ್ದುಪಡಿ"],
+                correct: 2,
+                explanation: "2002 ರಲ್ಲಿ ಪೋಟಾ (POTA - Prevention of Terrorism Act) ಕಾಯ್ದೆ ಮಸೂದೆಗಾಗಿ 3ನೇ ಬಾರಿಗೆ ಜಂಟಿ ಅಧಿವೇಶನ ಕರೆಯಲಾಗಿತ್ತು."
+            },
+            {
+                id: 19,
+                question: "ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ಇಲ್ಲದಿರುವಾಗ ಸುಗ್ರೀವಾಜ್ಞೆ (Ordinance) ಹೊರಡಿಸುವ ಅಧಿಕಾರ ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಯಾವ ವಿಧಿಯ ಅನ್ವಯ ಸಿಗುತ್ತದೆ?",
+                options: ["ವಿಧಿ 72", "ವಿಧಿ 110", "ವಿಧಿ 123", "ವಿಧಿ 143"],
+                correct: 2,
+                explanation: "ವಿಧಿ-123 ರ ಅನ್ವಯ ಸಂಸತ್ತಿನ ಅಧಿವೇಶನ ಇಲ್ಲದಿದ್ದಾಗ ರಾಷ್ಟ್ರಪತಿ ಸುಗ್ರೀವಾಜ್ಞೆಯನ್ನು ಹೊರಡಿಸುವ ಅಧಿಕಾರ ಹೊಂದಿರುತ್ತಾರೆ."
+            },
+            {
+                id: 20,
+                question: "ಸಂವಿಧಾನದ 75ನೇ ವಿಧಿಯ ಪ್ರಕಾರ ಬಹುಮತ ಪಡೆದ ಪಕ್ಷದ ನಾಯಕನನ್ನು ಪ್ರಧಾನ ಮಂತ್ರಿಯನ್ನಾಗಿ ನೇಮಕ ಮಾಡುವವರು ಯಾರು?",
+                options: ["ಉಪರಾಷ್ಟ್ರಪತಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು"],
+                correct: 1,
+                explanation: "ವಿಧಿ-75 ರ ಅನ್ವಯ ಬಹುಮತ ಪಡೆದ ಪಕ್ಷದ ನಾಯಕನನ್ನು ಪ್ರಧಾನ ಮಂತ್ರಿಯನ್ನಾಗಿ ನೇಮಕ ಮಾಡುವ ಅಧಿಕಾರವನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ಹೊಂದಿರುತ್ತಾರೆ."
+            },
+            {
+                id: 21,
+                question: "ಸಂವಿಧಾನದ ಯಾವ ವಿಧಿಯ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ನೇಮಿಸುತ್ತಾರೆ?",
+                options: ["ವಿಧಿ 74", "ವಿಧಿ 75", "ವಿಧಿ 76", "ವಿಧಿ 78"],
+                correct: 2,
+                explanation: "ವಿಧಿ-76 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಭಾರತದ ಅಟಾರ್ನಿ ಜನರಲ್ (Attorney General) ಅವರನ್ನು ನೇಮಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 22,
+                question: "ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿ ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?",
+                options: ["ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು", "ಕಾನೂನು ಸಚಿವರು", "ಅಟಾರ್ನಿ ಜನರಲ್", "ಸೊಲಿಸಿಟರ್ ಜನರಲ್"],
+                correct: 2,
+                explanation: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರನ್ನು ದೇಶದ ಅತ್ಯುನ್ನತ ಕಾನೂನು ಅಧಿಕಾರಿ (Highest Law Officer) ಎಂದು ಕರೆಯಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 23,
+                question: "ಅಟಾರ್ನಿ ಜನರಲ್ ತಮ್ಮ ರಾಜೀನಾಮೆ ಪತ್ರವನ್ನು ಯಾರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ?",
+                options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ಲೋಕಸಭಾ ಸ್ಪೀಕರ್", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಮೂರ್ತಿ", "ರಾಷ್ಟ್ರಪತಿ"],
+                correct: 3,
+                explanation: "ಅಟಾರ್ನಿ ಜನರಲ್ ಅವರು ತಮ್ಮ ರಾಜೀನಾಮೆಯನ್ನು ರಾಷ್ಟ್ರಪತಿಯವರಿಗೆ ಸಲ್ಲಿಸುತ್ತಾರೆ."
+            },
+            {
+                id: 24,
+                question: "ಸಂವಿಧಾನದ 155ನೇ ವಿಧಿಯ ಅನ್ವಯ ಕೇಂದ್ರ ಸಚಿವ ಸಂಪುಟದ ಶಿಫಾರಸಿನ ಆಧಾರದ ಮೇಲೆ ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ನೇಮಿಸುವವರು ಯಾರು?",
+                options: ["ಪ್ರಧಾನ ಮಂತ್ರಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಗೃಹ ಸಚಿವರು", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್"],
+                correct: 1,
+                explanation: "ವಿಧಿ-155 ರ ಅನ್ವಯ ಕೇಂದ್ರ ಸಚಿವ ಸಂಪುಟದ ಶಿಫಾರಸಿನ ಆಧಾರದ ಮೇಲೆ ರಾಜ್ಯಗಳ ರಾಜ್ಯಪಾಲರನ್ನು ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಕ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                id: 25,
+                question: "ಸಂವಿಧಾನದ 148ನೇ ವಿಧಿಯ ಅನ್ವಯ ಲೆಕ್ಕ ನಿಯಂತ್ರಕರು ಮತ್ತು ಮಹಾ ಲೆಕ್ಕ ಪರಿಶೋಧಕರನ್ನು (CAG) ನೇಮಿಸುವವರು ಯಾರು?",
+                options: ["ಹಣಕಾಸು ಸಚಿವರು", "ಪ್ರಧಾನಮಂತ್ರಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಸಂಸತ್ತು"],
+                correct: 2,
+                explanation: "ವಿಧಿ-148 ರ ಅನ್ವಯ ಲೆಕ್ಕ ನಿಯಂತ್ರಕರು ಮತ್ತು ಮಹಾ ಲೆಕ್ಕ ಪರಿಶೋಧಕರನ್ನು (CAG) ರಾಷ್ಟ್ರಪತಿಗಳು ನೇಮಕ ಮಾಡುತ್ತಾರೆ."
+            },
+            {
+                id: 26,
+                question: "ರಾಷ್ಟ್ರಪತಿಯವರ ಕ್ಷಮಾಪದಾನ ಅಧಿಕಾರದ (Pardon Power) ಕುರಿತು ವಿವರಿಸುವ ಸಂವಿಧಾನದ ವಿಧಿ ಯಾವುದು?",
+                options: ["ವಿಧಿ 61", "ವಿಧಿ 72", "ವಿಧಿ 123", "ವಿಧಿ 143"],
+                correct: 1,
+                explanation: "ವಿಧಿ-72 ರ ಅನ್ವಯ ರಾಷ್ಟ್ರಪತಿಯವರು ಕ್ಷಮಾಪದಾನ ನೀಡುವ, ಶಿಕ್ಷೆ ಕಡಿಮೆ ಮಾಡುವ, ಶಿಕ್ಷೆ ಬದಲಿಸುವ ಅಥವಾ ಮರಣದಂಡನೆ ಶಿಕ್ಷೆಯನ್ನು ರದ್ದು ಮಾಡುವ ಅಧಿಕಾರ ಹೊಂದಿರುತ್ತಾರೆ."
+            },
+            {
+                id: 27,
+                question: "ಸಂವಿಧಾನದ 18ನೇ ಭಾಗದಲ್ಲಿ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಅಧಿಕಾರಗಳನ್ನು ಯಾವ ವಿಧಿಯಿಂದ ಯಾವ ವಿಧಿಯವರೆಗೆ ವಿವರಿಸಲಾಗಿದೆ?",
+                options: ["ವಿಧಿ 350 ರಿಂದ 360", "ವಿಧಿ 352 ರಿಂದ 360", "ವಿಧಿ 356 ರಿಂದ 365", "ವಿಧಿ 360 ರಿಂದ 370"],
+                correct: 1,
+                explanation: "ಸಂವಿಧಾನದ 18ನೇ ಭಾಗದಲ್ಲಿ 352ನೇ ವಿಧಿಯಿಂದ 360ನೇ ವಿಧಿಯವರೆಗೂ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯ ವಿಷಯಗಳನ್ನು ವಿವರಿಸಲಾಗಿದೆ."
+            },
+            {
+                id: 28,
+                question: "ಭಾರತದಲ್ಲಿ ಮೊದಲ ಬಾರಿಗೆ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ 352) ಯಾವಾಗ ಘೋಷಿಸಲಾಯಿತು?",
+                options: ["1962 ಅಕ್ಟೋಬರ್ 26 (ಚೀನಾ ದಾಳಿ)", "1971 ಡಿಸೆಂಬರ್ 3 (ಪಾಕಿಸ್ತಾನ ದಾಳಿ)", "1975 ಜೂನ್ 25 (ಆಂತರಿಕ ಗಲಭೆ)", "1999 ಕಾರ್ಗಿಲ್ ಯುದ್ಧ"],
+                correct: 0,
+                explanation: "1962 ಅಕ್ಟೋಬರ್ 26 ರಂದು ಭಾರತದ ಮೇಲೆ ಚೀನಾ ದಾಳಿ ಮಾಡಿದಾಗ ಮೊದಲ ಬಾರಿಗೆ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಘೋಷಿಸಲಾಯಿತು."
+            },
+            {
+                id: 29,
+                question: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ 356 - ರಾಷ್ಟ್ರಪತಿ ಆಳ್ವಿಕೆ) ಘೋಷಿಸಿದ ರಾಜ್ಯ ಯಾವುದು?",
+                options: ["ಕರ್ನಾಟಕ (1968)", "ಪಂಜಾಬ್ (1951)", "ಕೇರಳ (1959)", "ಉತ್ತರ ಪ್ರದೇಶ (1968)"],
+                correct: 1,
+                explanation: "ಮೊದಲ ಬಾರಿಗೆ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ವಿಧಿ-356) ಪಂಜಾಬ್ ರಾಜ್ಯದಲ್ಲಿ 1951 ರಲ್ಲಿ ಘೋಷಿಸಲಾಯಿತು."
+            },
+            {
+                id: 30,
+                question: "ಕರ್ನಾಟಕದಲ್ಲಿ ಇಲ್ಲಿಯವರೆಗೆ ಒಟ್ಟು ಎಷ್ಟು ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು (ರಾಷ್ಟ್ರಪತಿ ಆಳ್ವಿಕೆ) ಘೋಷಿಸಲಾಗಿದೆ?",
+                options: ["4 ಬಾರಿ", "5 ಬಾರಿ", "6 ಬಾರಿ", "8 ಬಾರಿ"],
+                correct: 2,
+                explanation: "ಕರ್ನಾಟಕದಲ್ಲಿ ಈವರೆಗೆ ಒಟ್ಟು 6 ಬಾರಿ ರಾಜ್ಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಯನ್ನು ಘೋಷಿಸಲಾಗಿದೆ."
+            },
+            {
+                id: 31,
+                question: "ಮಸೂದೆಯೊಂದನ್ನು ತಮ್ಮಲ್ಲಿಯೇ ಇಟ್ಟುಕೊಳ್ಳುವ ರಾಷ್ಟ್ರಪತಿಯವರ ವೀಟೋ ಅಧಿಕಾರ ಯಾವುದು?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ (Pocket Veto)", "ಸಸ್ಪೆನ್ಸಿವ್/ಸಹಾಯಕ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ (Absolute Veto)", "ಕ್ವಾಲಿಫೈಡ್ ವೀಟೋ"],
+                correct: 0,
+                explanation: "ಪಾಕೆಟ್ ವೀಟೋ ಎಂದರೆ ಒಂದು ಮಸೂದೆಯನ್ನು ತಮ್ಮಲ್ಲಿಯೇ ಇಟ್ಟುಕೊಳ್ಳುವುದು."
+            },
+            {
+                id: 32,
+                question: "ಮಸೂದೆಯೊಂದನ್ನು ಮರು ಪರಿಶೀಲನೆಗೆ ಮರಳಿ ಕಳುಹಿಸುವ ರಾಷ್ಟ್ರಪತಿಯವರ ವೀಟೋ ಅಧಿಕಾರ ಯಾವುದು?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸುಪರ್/ಸಸ್ಪೆನ್ಸಿವ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ", "ವಿಶೇಷ ವೀಟೋ"],
+                correct: 1,
+                explanation: "ಸುಪರ್ (ಸಸ್ಪೆನ್ಸಿವ್) ವೀಟೋ ಎಂದರೆ ಒಂದು ಮಸೂದೆಯನ್ನು ಮರು ಪರಿಶೀಲನೆಗೆ ಕಳುಹಿಸುವುದು."
+            },
+            {
+                id: 33,
+                question: "ಮಸೂದೆಯೊಂದಕ್ಕೆ ಕಡ್ಡಾಯವಾಗಿ ಒಪ್ಪಿಗೆ ನೀಡದಿರುವ ಅಥವಾ ಸಂಪೂರ್ಣ ತಿರಸ್ಕರಿಸುವ ಅಧಿಕಾರ ಯಾವುದು?",
+                options: ["ಪಾಕೆಟ್ ವೀಟೋ", "ಸುಪರ್ ವೀಟೋ", "ನಿರಂಕುಶ ವೀಟೋ (Absolute Veto)", "ಅಮಾನತು ವೀಟೋ"],
+                correct: 2,
+                explanation: "ನಿರಂಕುಶ ವೀಟೋ ಎಂದರೆ ಒಂದು ಮಸೂದೆಗೆ ಕಡ್ಡಾಯವಾಗಿ ಒಪ್ಪಿಗೆ ನೀಡದಿರುವುದು/ತಿರಸ್ಕರಿಸುವುದು."
+            },
+            {
+                id: 34,
+                question: "ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಮೂಲ ರಾಜ್ಯ ಯಾವುದು?",
+                options: ["ಉತ್ತರ ಪ್ರದೇಶ", "ಜರಡೇಯಿ (ಬಿಹಾರ)", "ಮಧ್ಯಪ್ರದೇಶ", "ಒಡಿಶಾ"],
+                correct: 1,
+                explanation: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಮೂಲ ಸ್ಥಳ ಬಿಹಾರದ ಜರಡೇಯಿ."
+            },
+            {
+                id: 35,
+                question: "ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್ ಅವರ ಆತ್ಮಚರಿತ್ರೆ ಯಾವುದು?",
+                options: ["ಇಂಡಿಯಾ ಡಿವೈಡೆಡ್", "ಸತ್ಯಾಗ್ರಹ ಅಟ್ ಚಂಪಾರಣ್ಯ", "ಮೈ ಟ್ರುತ್", "ವಿಂಗ್ಸ್ ಆಫ್ ಫೈರ್"],
+                correct: 1,
+                explanation: "ಸತ್ಯಾಗ್ರಹ ಅಟ್ ಚಂಪಾರಣ್ಯ (Satyagraha at Champaran) ಇವರ ಆತ್ಮಚರಿತ್ರೆಯಾಗಿದೆ (ಹಾಗೂ ಇವರು 'ಇಂಡಿಯಾ ಡಿವೈಡೆಡ್' ಪುಸ್ತಕವನ್ನೂ ಬರೆದಿದ್ದಾರೆ)."
+            },
+            {
+                id: 36,
+                question: "ಭಾರತದ ಮೊದಲ ಉಪರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ 2ನೇ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದ ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರ ಮೂಲ ರಾಜ್ಯ ಯಾವುದು?",
+                options: ["ಆಂಧ್ರಪ್ರದೇಶ", "ತಿರುಚಾನಪಳ್ಳಿ (ತಮಿಳುನಾಡು)", "ಕರ್ನಾಟಕ", "ಕೇರಳ"],
+                correct: 1,
+                explanation: "ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರ ಮೂಲ ಸ್ಥಳ ತಿರುಚಾನಪಳ್ಳಿ (ತಮಿಳುನಾಡು)."
+            },
+            {
+                id: 37,
+                question: "ಯಾರ ಜನ್ಮದಿನವಾದ ಸೆಪ್ಟೆಂಬರ್ 5 ರಂದು ಪ್ರತಿವರ್ಷ 'ಶಿಕ್ಷಕರ ದಿನಾಚರಣೆ'ಯಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ?",
+                options: ["ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ಡಾ|| ಝಾಕೀರ್ ಹುಸೇನ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ"],
+                correct: 1,
+                explanation: "ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರ ಜನ್ಮದಿನದ ಅಂಗವಾಗಿ ಸೆಪ್ಟೆಂಬರ್ 5 ರಂದು ಪ್ರತಿವರ್ಷ ಶಿಕ್ಷಕರ ದಿನಾಚರಣೆಯನ್ನಾಗಿ ಆಚರಿಸಲಾಗುತ್ತದೆ."
+            },
+            {
+                id: 38,
+                question: "1962 ರ ಚೀನಾ-ಭಾರತ ಯುದ್ಧದ ಸಂದರ್ಭದಲ್ಲಿ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಹೇರಿದಾಗ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದವರು ಯಾರು?",
+                options: ["ಡಾ|| ಬಾಬು ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್", "ವಿ.ವಿ. ಗಿರಿ", "ಫಕ್ರುದ್ದೀನ್ ಅಲಿ ಅಹಮದ್"],
+                correct: 1,
+                explanation: "1962 ರ ಚೀನಾ-ಭಾರತ ಯುದ್ಧದ ಫಲವಾಗಿ ರಾಷ್ಟ್ರೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿ ಹೇರಿದಾಗ ಡಾ|| ಎಸ್. ರಾಧಾಕೃಷ್ಣನ್ ಅವರು ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದರು."
+            },
+            {
+                id: 39,
+                question: "ಭಾರತದ ಮೊದಲ ಮುಸ್ಲಿಂ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಅಧಿಕಾರದಲ್ಲಿರುವಾಗಲೇ ನಿಧನರಾದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಫಕ್ರುದ್ದೀನ್ ಅಲಿ ಅಹಮದ್", "ಡಾ|| ಝಾಕೀರ್ ಹುಸೇನ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ಮಹಮ್ಮದ್ ಹಿದಾಯತುಲ್ಲಾ"],
+                correct: 1,
+                explanation: "ಡಾ|| ಝಾಕೀರ್ ಹುಸೇನ್ ಅವರು ಭಾರತದ ಮೊದಲ ಮುಸ್ಲಿಂ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಅಧಿಕಾರದಲ್ಲಿದ್ದಾಗಲೇ ನಿಧನರಾದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದಾರೆ."
+            },
+            {
+                id: 40,
+                question: "ಕರ್ನಾಟಕದ ಹಂಗಾಮಿ ರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ ಬಿ.ಡಿ. ಜತ್ತಿ ಅವರ ಪೂರ್ಣ ಹೆಸರೇನು?",
+                options: ["ಬಸಪ್ಪ ದಾನಪ್ಪ ಜತ್ತಿ", "ಬಸವರಾಜ್ ಧರ್ಮಪ್ಪ ಜತ್ತಿ", "ಬಾಗಲಕೋಟೆ ದೇವಪ್ಪ ಜತ್ತಿ", "ಬಸವಣ್ಣ ದೇವಜತ್ತಿ"],
+                correct: 0,
+                explanation: "ಬಿ.ಡಿ. ಜತ್ತಿ ಅವರ ಪೂರ್ಣ ಹೆಸರು ಬಸಪ್ಪ ದಾನಪ್ಪ ಜತ್ತಿ. ಇವರು ಬಾಗಲಕೋಟೆ ಜಿಲ್ಲೆಯ ಸಾವಳಗಿ ಗ್ರಾಮದವರು."
+            },
+            {
+                id: 41,
+                question: "ಹಂಗಾಮಿ ರಾಷ್ಟ್ರಪತಿಯಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ ಕನ್ನಡಿಗ ಬಿ.ಡಿ. ಜತ್ತಿ ಅವರು ಮೂಲತಃ ಯಾವ ಜಿಲ್ಲೆಯ ಸಾವಳಗಿ ಗ್ರಾಮದವರು?",
+                options: ["ಬೆಳಗಾವಿ", "ವಿಜಯಪುರ", "ಬಾಗಲಕೋಟೆ", "ಧಾರವಾಡ"],
+                correct: 2,
+                explanation: "ಬಿ.ಡಿ. ಜತ್ತಿ ಅವರು ಬಾಗಲಕೋಟೆ ಜಿಲ್ಲೆಯ ಸಾವಳಗಿ ಗ್ರಾಮದವರು."
+            },
+            {
+                id: 42,
+                question: "1984 ರಲ್ಲಿ ನಡೆದ 'ಆಪರೇಷನ್ ಬ್ಲೂ ಸ್ಟಾರ್' ಸಂದರ್ಭದಲ್ಲಿ ಹಾಗೂ ಇಂದಿರಾ ಗಾಂಧಿಯವರ ಹತ್ಯೆಯಾದಾಗ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದವರು ಯಾರು?",
+                options: ["ಆರ್. ವೆಂಕಟರಾಮನ್", "ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್", "ಶಂಕರ್ ದಯಾಳ್ ಶರ್ಮ", "ಕೆ.ಆರ್. ನಾರಾಯಣನ್"],
+                correct: 1,
+                explanation: "1984 ರಲ್ಲಿ ನಡೆದ ಆಪರೇಷನ್ ಬ್ಲೂಸ್ಟಾರ್ ಹಾಗೂ ಇಂದಿರಾ ಗಾಂಧಿ ಹತ್ಯೆಯಾದಾಗ ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್ ಅವರು ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದರು."
+            },
+            {
+                id: 43,
+                question: "ಭಾರತದ ಮೊಟ್ಟಮೊದಲ ಸಿಖ್ ಧರ್ಮದ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಮನ್ಮೋಹನ್ ಸಿಂಗ್", "ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್", "ಪ್ರತಾಪ್ ಸಿಂಗ್ ಕೈರೋನ್", "ಬೂಟಾ ಸಿಂಗ್"],
+                correct: 1,
+                explanation: "ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್ ಅವರು ಭಾರತದ ಮೊಟ್ಟಮೊದಲ ಸಿಖ್ ಧರ್ಮದ ರಾಷ್ಟ್ರಪತಿ."
+            },
+            {
+                id: 44,
+                question: "1986 ರ ಭಾರತೀಯ ಅಂಚೆ ಕಚೇರಿ ತಿದ್ದುಪಡಿ ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಮೊದಲ ಬಾರಿಗೆ 'ಪಾಕೆಟ್ ವೀಟೋ' ಬಳಸಿದ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಆರ್. ವೆಂಕಟರಾಮನ್", "ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್", "ಡಾ|| ರಾಜೇಂದ್ರ ಪ್ರಸಾದ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ"],
+                correct: 1,
+                explanation: "1986 ರಲ್ಲಿ ಭಾರತೀಯ ಅಂಚೆ ಕಚೇರಿ (ತಿದ್ದುಪಡಿ) ಮಸೂದೆಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಜ್ಞಾನಿ ಜೈಲ್ ಸಿಂಗ್ ಅವರು ಪಾಕೆಟ್ ವೀಟೋ ಬಳಸಿದ್ದರು."
+            },
+            {
+                id: 45,
+                question: "'ಮಿಸೈಲ್ ಮ್ಯಾನ್' ಎಂದೇ ಪ್ರಸಿದ್ಧರಾದ ಭಾರತದ 11ನೇ ರಾಷ್ಟ್ರಪತಿ ಡಾ|| ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ ಅವರ ಮೂಲ ಸ್ಥಳ ಯಾವುದು?",
+                options: ["ಮಧುರೈ", "ರಾಮೇಶ್ವರಂ (ತಮಿಳುನಾಡು)", "ತಿರುವನಂತಪುರಂ", "ಚೆನ್ನೈ"],
+                correct: 1,
+                explanation: "ಡಾ|| ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ ಅವರ ಮೂಲ ಸ್ಥಳ ರಾಮೇಶ್ವರಂ (ತಮಿಳುನಾಡು)."
+            },
+            {
+                id: 46,
+                question: "1998 ರ ಪೊಖ್ರಾನ್-2 (ಆಪರೇಷನ್ ಶಕ್ತಿ) ಅಣುಪರೀಕ್ಷೆಯ ನೇತೃತ್ವ ವಹಿಸಿದ್ದ ವಿಜ್ಞಾನಿ ಮತ್ತು ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಕೆ.ಆರ್. ನಾರಾಯಣನ್", "ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ವಿ.ವಿ. ಗಿರಿ", "ಪ್ರಣಬ್ ಮುಖರ್ಜಿ"],
+                correct: 1,
+                explanation: "1998 ರ ಪೊಖ್ರಾನ್-2 ಕಾರ್ಯಾಚರಣೆಯ (ಆಪರೇಷನ್ ಶಕ್ತಿ) ಪ್ರಮುಖ ಸೂತ್ರಧಾರರಾಗಿದ್ದವರು ಡಾ|| ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ."
+            },
+            {
+                id: 47,
+                question: "ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಡಾ|| ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ ಅವರು ಬರೆದ ಪ್ರಸಿದ್ಧ ಕೃತಿ ಯಾವುದು?",
+                options: ["Wings of Fire (ಅಗ್ನಿಯ ರೆಕ್ಕೆಗಳು)", "Ignited Minds", "Target 3 Billion", "ಮೇಲಿನ ಎಲ್ಲವೂ"],
+                correct: 3,
+                explanation: "Wings of Fire, Ignited Minds, Target 3 Billion ಮುಂತಾದ ಪ್ರಸಿದ್ಧ ಕೃತಿಗಳನ್ನು ಡಾ|| ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ ಬರೆದಿದ್ದಾರೆ."
+            },
+            {
+                id: 48,
+                question: "ಭಾರತದ ಮೊದಲ ಮಹಿಳಾ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ದ್ರೌಪದಿ ಮುರ್ಮು", "ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ಸರೋಜಿನಿ ನಾಯ್ಡು", "ಸುಚೇತಾ ಕೃಪಲಾನಿ"],
+                correct: 1,
+                explanation: "ಶ್ರೀಮತಿ ಪ್ರತಿಭಾ ಪಾಟೀಲ್ ಅವರು ಭಾರತದ ಮೊದಲ ಮಹಿಳಾ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದಾರೆ (2007-2012)."
+            },
+            {
+                id: 49,
+                question: "ರಾಜಸ್ಥಾನದ ಮೊದಲ ಮಹಿಳಾ ರಾಜ್ಯಪಾಲರಾಗಿ ಸೇವೆ ಸಲ್ಲಿಸಿದ ನಂತರ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿಯಾದವರು ಯಾರು?",
+                options: ["ದ್ರೌಪದಿ ಮುರ್ಮು", "ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ಪದ್ಮಜಾ ನಾಯ್ಡು", "ಶೀಲಾ ದೀಕ್ಷಿತ್"],
+                correct: 1,
+                explanation: "ಪ್ರತಿಭಾ ಪಾಟೀಲ್ ಅವರು ರಾಜಸ್ಥಾನದ ಮೊದಲ ಮಹಿಳಾ ರಾಜ್ಯಪಾಲರಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದರು."
+            },
+            {
+                id: 50,
+                question: "ತಮ್ಮ ಅಧಿಕಾರಾವಧಿಯಲ್ಲಿ ಅತಿ ಹೆಚ್ಚು ಸಂಖ್ಯೆಯ ಕ್ಷಮಾಪದಾನ (Pardon) ನೀಡಿದ ಭಾರತದ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ಪ್ರಣಬ್ ಮುಖರ್ಜಿ", "ರಾಮನಾಥ್ ಕೋವಿಂದ್"],
+                correct: 1,
+                explanation: "ಪ್ರತಿಭಾ ಪಾಟೀಲ್ ಅವರು ಅತಿ ಹೆಚ್ಚು ಸಂಖ್ಯೆಯ ಕ್ಷಮಾಪದಾನ ನೀಡಿದ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದಾರೆ."
+            },
+            {
+                id: 51,
+                question: "ಭಾರತದ 14ನೇ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದ ರಾಮನಾಥ್ ಕೋವಿಂದ್ ಅವರು ಮೂಲತಃ ಯಾವ ರಾಜ್ಯದವರು?",
+                options: ["ಬಿಹಾರ", "ಉತ್ತರ ಪ್ರದೇಶ", "ಮಧ್ಯಪ್ರದೇಶ", "ರಾಜಸ್ಥಾನ"],
+                correct: 1,
+                explanation: "ರಾಮನಾಥ್ ಕೋವಿಂದ್ ಅವರು ಮೂಲತಃ ಉತ್ತರ ಪ್ರದೇಶ ರಾಜ್ಯದವರು. ಇವರು ಭಾರತದ 2ನೇ ದಲಿತ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದಾರೆ."
+            },
+            {
+                id: 52,
+                question: "ರಾಮನಾಥ್ ಕೋವಿಂದ್ ಅವರು ರಾಷ್ಟ್ರಪತಿಯಾಗುವ ಮೊದಲು (2015-2017) ಯಾವ ರಾಜ್ಯದ ರಾಜ್ಯಪಾಲರಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದರು?",
+                options: ["ಜಾರ್ಖಂಡ್", "ಉತ್ತರ ಪ್ರದೇಶ", "ಬಿಹಾರ", "ಪಶ್ಚಿಮ ಬಂಗಾಳ"],
+                correct: 2,
+                explanation: "ರಾಮನಾಥ್ ಕೋವಿಂದ್ ಅವರು 2015 ರಿಂದ 2017 ರವರೆಗೆ ಬಿಹಾರದ ರಾಜ್ಯಪಾಲರಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಿದ್ದರು."
+            },
+            {
+                id: 53,
+                question: "ಭಾರತದ ಎರಡನೇ ಮಹಿಳಾ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಬುಡಕಟ್ಟು (ST) ಸಮುದಾಯಕ್ಕೆ ಸೇರಿದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಯಾರು?",
+                options: ["ಪ್ರತಿಭಾ ಪಾಟೀಲ್", "ದ್ರೌಪದಿ ಮುರ್ಮು", "ಅನಸೂಯ ಉಯಿಕೆ", "ಮೀರಾ ಕುಮಾರ್"],
+                correct: 1,
+                explanation: "ಶ್ರೀಮತಿ ದ್ರೌಪದಿ ಮುರ್ಮು ಅವರು ಭಾರತದ 2ನೇ ಮಹಿಳಾ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಬುಡಕಟ್ಟು ಸಮುದಾಯಕ್ಕೆ ಸೇರಿದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿಯಾಗಿದ್ದಾರೆ."
+            },
+            {
+                id: 54,
+                question: "ಸ್ವಾತಂತ್ರ್ಯದ ನಂತರ (After 1947) ಜನಿಸಿದ ಭಾರತದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಅತ್ಯಂತ ಕಿರಿಯ ವಯಸ್ಸಿನಲ್ಲಿ ರಾಷ್ಟ್ರಪತಿಯಾದವರು ಯಾರು?",
+                options: ["ಎ.ಪಿ.ಜೆ. ಅಬ್ದುಲ್ ಕಲಾಂ", "ರಾಮನಾಥ್ ಕೋವಿಂದ್", "ದ್ರೌಪದಿ ಮುರ್ಮು", "ಎನ್. ಸಂಜೀವರೆಡ್ಡಿ"],
+                correct: 2,
+                explanation: "ದ್ರೌಪದಿ ಮುರ್ಮು ಅವರು ಸ್ವಾತಂತ್ರ್ಯದ ನಂತರ ಜನಿಸಿದ ಮೊದಲ ರಾಷ್ಟ್ರಪತಿ ಹಾಗೂ ಈ ಹುದ್ದೆಗೇರಿದ ಅತ್ಯಂತ ಕಿರಿಯ ವ್ಯಕ್ತಿಯಾಗಿದ್ದಾರೆ. (ಇವರು 2015-2021 ರವರೆಗೆ ಜಾರ್ಖಂಡ್ ರಾಜ್ಯಪಾಲರಾಗಿದ್ದರು)."
+            }
+        ];
+
+        // State Tracking Controls
+        let activeQuestions = [...originalQuestions];
+        let userAnswers = {};
+        let currentActiveIndex = 0;
+        let wrongTestCounter = 1;
+        const baseTitle = "ಅಧ್ಯಾಯ-10 ಭಾಗ-5 : ಕೇಂದ್ರ ಸರ್ಕಾರ";
+
+        // DOM Nodes
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const explanationBox = document.getElementById('explanationBox');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paletteGrid = document.getElementById('paletteGrid');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const testTitle = document.getElementById('testTitle');
+
+        // Init App
+        function initQuiz() {
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+            startTimer(45 * 60);
+        }
+
+        // Render Current Question Item
+        function loadQuestion(index) {
+            currentActiveIndex = index;
+            const q = activeQuestions[index];
+
+            questionText.innerHTML = `<strong>Q${q.id}.</strong> ${q.question}`;
+            optionsContainer.innerHTML = '';
+            
+            const selectedOption = userAnswers[q.id];
+            const isAnswered = selectedOption !== undefined;
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = optText;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (selectedOption === optIdx && optIdx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => handleAnswer(q.id, optIdx);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            if (isAnswered) {
+                explanationBox.innerHTML = q.explanation;
+                explanationBox.style.display = 'block';
+            } else {
+                explanationBox.style.display = 'none';
+            }
+
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === activeQuestions.length - 1;
+
+            highlightPalette();
+        }
+
+        // Handle Answer Click
+        function handleAnswer(qId, selectedIdx) {
+            userAnswers[qId] = selectedIdx;
+            loadQuestion(currentActiveIndex);
+            renderPalette();
+            updateScore();
+        }
+
+        // Navigation Next / Prev
+        function navigate(direction) {
+            const newIndex = currentActiveIndex + direction;
+            if (newIndex >= 0 && newIndex < activeQuestions.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        // Render Palette Buttons (Preserving Global Original Numbers 1 to 54)
+        function renderPalette() {
+            paletteGrid.innerHTML = '';
+            
+            activeQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = q.id; // Strictly original Question Number
+
+                const answer = userAnswers[q.id];
+                if (answer !== undefined) {
+                    if (answer === q.correct) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+
+                if (idx === currentActiveIndex) {
+                    btn.classList.add('active');
+                }
+
+                btn.onclick = () => loadQuestion(idx);
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        // Highlight Active Question Button
+        function highlightPalette() {
+            const buttons = paletteGrid.children;
+            for (let i = 0; i < buttons.length; i++) {
+                if (i === currentActiveIndex) {
+                    buttons[i].classList.add('active');
+                } else {
+                    buttons[i].classList.remove('active');
+                }
+            }
+        }
+
+        // Update Dynamic Score Display
+        function updateScore() {
+            let correctCount = 0;
+            activeQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+            scoreBoard.innerText = `Score: ${correctCount} / ${activeQuestions.length}`;
+        }
+
+        // Action: Reset Complete Test
+        function resetFullTest() {
+            activeQuestions = [...originalQuestions];
+            userAnswers = {};
+            wrongTestCounter = 1;
+            testTitle.innerText = baseTitle;
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        // Action: Filter and Retest Wrong Answers Only
+        function startWrongTest() {
+            const wrongQuestions = activeQuestions.filter(q => {
+                const ans = userAnswers[q.id];
+                return ans !== undefined && ans !== q.correct;
+            });
+
+            if (wrongQuestions.length === 0) {
+                alert("ಖಾತ್ರಿಪಡಿಸಲಾಗಿದೆ: ಪುನರಾವರ್ತಿಸಲು ಯಾವುದೇ ತಪ್ಪು ಉತ್ತರಗಳಿಲ್ಲ! (No incorrect answers found to retest!)");
+                return;
+            }
+
+            // Clear choices for incorrect questions to allow re-attempt
+            wrongQuestions.forEach(q => {
+                delete userAnswers[q.id];
+            });
+
+            activeQuestions = wrongQuestions;
+            testTitle.innerText = `${baseTitle} (Wrong Test-${wrongTestCounter})`;
+            wrongTestCounter++;
+
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        // Standard Timer Display
+        function startTimer(durationSeconds) {
+            let timer = durationSeconds;
+            const timerDisplay = document.getElementById('timer');
+            
+            setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+
+                const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+                const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerDisplay.innerText = `⏱️ Time Remaining: ${displayMinutes}:${displaySeconds}`;
+
+                if (--timer < 0) {
+                    timer = 0;
+                    timerDisplay.innerText = "⏱️ Time Expired!";
+                }
+            }, 1000);
+        }
+
+        // Launch Quiz
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
