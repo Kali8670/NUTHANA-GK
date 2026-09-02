@@ -17,7 +17,6 @@
             color: #333;
         }
 
-        /* Top Header Bar */
         .top-header {
             background-color: #0b2545;
             color: #ffffff;
@@ -42,7 +41,6 @@
             font-size: 13px;
         }
 
-        /* Sub Header / Info Bar */
         .sub-header {
             background-color: #e9ecef;
             padding: 6px 15px;
@@ -51,14 +49,12 @@
             border-bottom: 1px solid #ccc;
         }
 
-        /* Container Layout */
         .main-container {
             display: flex;
             flex-direction: row;
             min-height: calc(100vh - 75px);
         }
 
-        /* Left Side: Question Area */
         .quiz-area {
             flex: 1;
             padding: 20px;
@@ -113,7 +109,6 @@
             color: #721c24;
         }
 
-        /* Explanation Box */
         .explanation-box {
             display: none;
             background-color: #f8d7da;
@@ -126,7 +121,6 @@
             line-height: 1.5;
         }
 
-        /* Navigation Buttons Bottom */
         .nav-buttons {
             display: flex;
             gap: 15px;
@@ -152,7 +146,6 @@
         .btn-retest { background-color: #dc3545; }
         .btn-retest:hover { background-color: #bd2130; }
 
-        /* Right Side: Question Palette */
         .palette-area {
             width: 280px;
             background-color: #ffffff;
@@ -207,7 +200,6 @@
             border-color: #dc3545;
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
@@ -235,7 +227,6 @@
     </div>
 
     <div class="main-container">
-        <!-- Quiz Main Section -->
         <div class="quiz-area">
             <div class="question-title" id="questionText">ಪ್ರಶ್ನೆ...</div>
 
@@ -252,7 +243,6 @@
             </div>
         </div>
 
-        <!-- Palette Sidebar Section -->
         <div class="palette-area">
             <div class="palette-title">
                 <span>Question Palette</span>
@@ -522,8 +512,8 @@
             loadQuestion(0);
         }
 
-        // Initialize on page load
-        initQuiz();
+        // Ensures DOM elements are fully loaded before initializing
+        window.onload = initQuiz;
     </script>
 </body>
 </html>
