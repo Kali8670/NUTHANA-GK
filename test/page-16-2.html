@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CBT Mock Test - ಪ್ರಮುಖ ಘಾಟ್ ಮಾರ್ಗಗಳು</title>
+  <title>CBT Mock Test - ರಾಜ್ಯದ ಪ್ರಮುಖ ಜಲಪಾತಗಳು</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f4f6f9; color: #333; }
@@ -35,8 +35,8 @@
 </head>
 <body>
   <header>
-    <h1 id="test-title">CBT Mock Test: ಪ್ರಮುಖ ಘಾಟ್ ಮಾರ್ಗಗಳು</h1>
-    <div class="timer" id="timer">Time Left: 10:00</div>
+    <h1 id="test-title">CBT Mock Test: ರಾಜ್ಯದ ಪ್ರಮುಖ ಜಲಪಾತಗಳು</h1>
+    <div class="timer" id="timer">Time Left: 15:00</div>
   </header>
   <div class="main-container">
     <div class="quiz-card">
@@ -58,16 +58,23 @@
 
   <script>
     const originalQuestions = [
-      { id: 1, question: "1) ಚಾರ್ಮುಡಿ ಘಾಟ್ ಯಾವ ಎರಡು ಸ್ಥಳಗಳನ್ನು ಸಂಪರ್ಕಿಸುತ್ತದೆ?", options: ["ಹಾಸನ - ಸಕಲೇಶಪುರ", "ಮಂಗಳೂರು - ಚಿಕ್ಕಮಗಳೂರು", "ಶಿವಮೊಗ್ಗ - ಉಡುಪಿ", "ಕುಮಟಾ - ಶಿರಸಿ"], correct: 1, explanation: "ಚಾರ್ಮುಡಿ ಘಾಟ್ ಮಂಗಳೂರು ಮತ್ತು ಚಿಕ್ಕಮಗಳೂರು ಸ್ಥಳಗಳನ್ನು ಸಂಪರ್ಕಿಸುತ್ತದೆ." },
-      { id: 2, question: "2) ಶಿರಾಡಿ ಘಾಟ್ ಸಂಪರ್ಕಿಸುವ ಮಾರ್ಗ ಯಾವುದು?", options: ["ಶಿವಮೊಗ್ಗ - ಕುಂದಾಪುರ", "ಹಾಸನ - ಸಕಲೇಶಪುರ - ಮಂಗಳೂರು", "ಮಾದೇ - ಮೈಸೂರು", "ಹಾಸನ - ಕುಕ್ಕೆಸುಬ್ರಮಣ್ಯ"], correct: 1, explanation: "ಶಿರಾಡಿ ಘಾಟ್ ಹಾಸನ - ಸಕಲೇಶಪುರ - ಮಂಗಳೂರು ಮಾರ್ಗವನ್ನು ಸಂಪರ್ಕಿಸುತ್ತದೆ." },
-      { id: 3, question: "3) ಆಗುಂಬೆ ಘಾಟ್ ಯಾವ ಪ್ರದೇಶಗಳನ್ನು ಸಂಪರ್ಕಿಸುತ್ತದೆ?", options: ["ಮಂಗಳೂರು - ಚಿಕ್ಕಮಗಳೂರು", "ಶಿವಮೊಗ್ಗ - ಉಡುಪಿ", "ಹಾಸನ - ಮಂಗಳೂರು", "ಕುಮಟಾ - ಶಿರಸಿ"], correct: 1, explanation: "ಆಗುಂಬೆ ಘಾಟ್ ಶಿವಮೊಗ್ಗ ಮತ್ತು ಉಡುಪಿ ಮಧ್ಯೆ ಇದೆ." }
+      { id: 1, question: "1) ಜೋಗ ಜಲಪಾತ ಯಾವ ನದಿಯ ಮೇಲಿದೆ ಮತ್ತು ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಘಟಪ್ರಭಾ - ಬೆಳಗಾವಿ", "ಶರಾವತಿ - ಶಿವಮೊಗ್ಗ", "ನೇತ್ರಾವತಿ - ದಕ್ಷಿಣ ಕನ್ನಡ", "ಕಾವೇರಿ - ಮಂಡ್ಯ"], correct: 1, explanation: "ಜೋಗ ಜಲಪಾತ ಶರಾವತಿ ನದಿಗೆ ಸೇರಿದ್ದು, ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ." },
+      { id: 2, question: "2) ಗೋಕಾಕ್ ಜಲಪಾತವು ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಘಟಪ್ರಭಾ ನದಿ", "ದೋಣಿ ನದಿ", "ಅಘನಾಶಿನಿ ನದಿ", "ಬೇಡ್ತಿ ನದಿ"], correct: 0, explanation: "ಗೋಕಾಕ್ ಜಲಪಾತ ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ ಘಟಪ್ರಭಾ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 3, question: "3) ಛಾಯಾ ಭಗವತಿ ಜಲಪಾತ ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಉತ್ತರ ಕನ್ನಡ", "ರಾಯಚೂರು", "ಮೈಸೂರು", "ಚಾಮರಾಜನಗರ"], correct: 1, explanation: "ಛಾಯಾ ಭಗವತಿ ಜಲಪಾತ ದೋಣಿ ನದಿಯಲ್ಲಿದ್ದು, ರಾಯಚೂರು ಜಿಲ್ಲೆಯಲ್ಲಿದೆ." },
+      { id: 4, question: "4) ಬಂಡಾಜೆ ಜಲಪಾತ ಯಾವ ನದಿ ಹಾಗೂ ಜಿಲ್ಲೆಗೆ ಸೇರಿದೆ?", options: ["ನೇತ್ರಾವತಿ - ದಕ್ಷಿಣ ಕನ್ನಡ", "ಕಾವೇರಿ - ಮಂಡ್ಯ", "ಶರಾವತಿ - ಶಿವಮೊಗ್ಗ", "ಅಘನಾಶಿನಿ - ಉತ್ತರ ಕನ್ನಡ"], correct: 0, explanation: "ಬಂಡಾಜೆ ಜಲಪಾತ ದಕ್ಷಿಣ ಕನ್ನಡ ಜಿಲ್ಲೆಯ ನೇತ್ರಾವತಿ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 5, question: "5) ಉಂಚಳ್ಳಿ ಜಲಪಾತ ಯಾವ ನದಿಯಿಂದ ರೂಪುಗೊಂಡಿದೆ?", options: ["ಬೇಡ್ತಿ ನದಿ", "ಅಘನಾಶಿನಿ ನದಿ", "ಕಾವೇರಿ ನದಿ", "ಘಟಪ್ರಭಾ ನದಿ"], correct: 1, explanation: "ಉಂಚಳ್ಳಿ ಜಲಪಾತವು ಉತ್ತರ ಕನ್ನಡ ಜಿಲ್ಲೆಯ ಅಘನಾಶಿನಿ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 6, question: "6) ಚುಂಚನಕಟ್ಟೆ ಜಲಪಾತ ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಮಂಡ್ಯ", "ಚಾಮರಾಜನಗರ", "ಮೈಸೂರು", "ಬೆಳಗಾವಿ"], correct: 2, explanation: "ಚುಂಚನಕಟ್ಟೆ ಜಲಪಾತ ಮೈಸೂರು ಜಿಲ್ಲೆಯ ಕಾವೇರಿ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 7, question: "7) ಶಿಂಷಾ ಜಲಪಾತ ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಮಂಡ್ಯ", "ಶಿವಮೊಗ್ಗ", "ದಕ್ಷಿಣ ಕನ್ನಡ", "ರಾಯಚೂರು"], correct: 0, explanation: "ಶಿಂಷಾ ಜಲಪಾತ ಮಂಡ್ಯ ಜಿಲ್ಲೆಯ ಕಾವೇರಿ/ಶಿಂಷಾ ನದಿಗೆ ಸಂಬಂಧಿಸಿದೆ." },
+      { id: 8, question: "8) ಗಗನ ಚುಕ್ಕಿ ಜಲಪಾತ ಎಲ್ಲಿದೆ?", options: ["ಮಂಡ್ಯ", "ಚಾಮರಾಜನಗರ", "ಮೈಸೂರು", "ಬೆಳಗಾವಿ"], correct: 1, explanation: "ಗಗನ ಚುಕ್ಕಿ ಜಲಪಾತ ಚಾಮರಾಜನಗರ ಜಿಲ್ಲೆಯ ಕಾವೇರಿ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 9, question: "9) ಭರಚುಕ್ಕಿ ಜಲಪಾತ ಯಾವ ನದಿ ಮೇಲಿದೆ?", options: ["ಶರಾವತಿ ನದಿ", "ಕಾವೇರಿ ನದಿ", "ನೇತ್ರಾವತಿ ನದಿ", "ದೋಣಿ ನದಿ"], correct: 1, explanation: "ಭರಚುಕ್ಕಿ ಜಲಪಾತವು ಚಾಮರಾಜನಗರ ಜಿಲ್ಲೆಯ ಕಾವೇರಿ ನದಿಯಲ್ಲಿದೆ." },
+      { id: 10, question: "10) ಮಾಗೋಡು ಜಲಪಾತ ಯಾವ ನದಿ ಮತ್ತು ಜಿಲ್ಲೆಗೆ ಸೇರಿದೆ?", options: ["ಬೇಡ್ತಿ - ಉತ್ತರ ಕನ್ನಡ", "ಘಟಪ್ರಭಾ - ಬೆಳಗಾವಿ", "ಕಾವೇರಿ - ಮಂಡ್ಯ", "ಅಘನಾಶಿನಿ - ಉತ್ತರ ಕನ್ನಡ"], correct: 0, explanation: "ಮಾಗೋಡು ಜಲಪಾತ ಉತ್ತರ ಕನ್ನಡ ಜಿಲ್ಲೆಯ ಬೇಡ್ತಿ ನದಿಯಲ್ಲಿದೆ." }
     ];
 
     let currentQuestions = [...originalQuestions];
     let currentIndex = 0;
     let userAnswers = {};
     let wrongTestCounter = 1;
-    let timeLeft = 600;
+    let timeLeft = 900;
 
     function startTimer() {
       setInterval(() => {
@@ -161,7 +168,7 @@
       currentQuestions = [...originalQuestions];
       currentIndex = 0;
       wrongTestCounter = 1;
-      document.getElementById('test-title').innerText = "CBT Mock Test: ಪ್ರಮುಖ ಘಾಟ್ ಮಾರ್ಗಗಳು";
+      document.getElementById('test-title').innerText = "CBT Mock Test: ರಾಜ್ಯದ ಪ್ರಮುಖ ಜಲಪಾತಗಳು";
       renderQuestion();
     }
 
