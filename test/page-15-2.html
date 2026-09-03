@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBT Mock Test - ಕರ್ನಾಟಕದ ಬ್ಯಾಂಕ್‌ಗಳು</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
+    header { background-color: #1a237e; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    header h1 { font-size: 1.2rem; }
+    .timer { color: #ff5252; font-weight: bold; font-size: 1.2rem; background: rgba(0,0,0,0.2); padding: 5px 12px; border-radius: 4px; }
+    .main-container { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .quiz-card { flex: 2; min-width: 300px; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; }
+    .options-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .option-btn { padding: 12px 15px; border: 1px solid #ccc; background-color: #fff; border-radius: 5px; text-align: left; cursor: pointer; font-size: 1rem; transition: background 0.2s; }
+    .option-btn:hover:not([disabled]) { background-color: #e8eaf6; }
+    .option-btn:disabled { cursor: not-allowed; }
+    .explanation { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 15px; border-radius: 4px; margin-top: 15px; display: none; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
+    .nav-btn { padding: 10px 20px; background-color: #1a237e; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .nav-btn:disabled { background-color: #c5cae9; cursor: not-allowed; }
+    .palette-card { flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .score-board { font-size: 1rem; font-weight: bold; margin-bottom: 15px; text-align: center; }
+    .palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .palette-btn { padding: 10px; border: 1px solid #ccc; background-color: #f5f5f5; border-radius: 4px; font-weight: bold; cursor: pointer; text-align: center; }
+    .palette-btn.active { border: 2px solid #1a237e; background-color: #e8eaf6; }
+    .palette-btn.correct { background-color: #c8e6c9; border-color: #4caf50; color: #1b5e20; }
+    .palette-btn.wrong { background-color: #ffcdd2; border-color: #f44336; color: #b71c1c; }
+    .action-btn { width: 100%; padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-bottom: 10px; color: white; }
+    .retest-btn { background-color: #f57c00; }
+    .test-wrong-btn { background-color: #d32f2f; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="test-title">CBT Mock Test: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ಬ್ಯಾಂಕ್‌ಗಳು</h1>
+    <div class="timer" id="timer">Time Left: 10:00</div>
+  </header>
+  <div class="main-container">
+    <div class="quiz-card">
+      <div class="question-title" id="q-text">Loading question...</div>
+      <div class="options-container" id="options-box"></div>
+      <div class="explanation" id="explanation-box"></div>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next</button>
+      </div>
+    </div>
+    <div class="palette-card">
+      <div class="score-board" id="score-text">Score: 0 / 0</div>
+      <div class="palette-grid" id="palette-grid"></div>
+      <button class="action-btn retest-btn" onclick="retest()">ಮರುಪರೀಕ್ಷೆ (Retest)</button>
+      <button class="action-btn test-wrong-btn" onclick="testWrongAnswers()">Test Wrong Answers</button>
+    </div>
+  </div>
+
+  <script>
+    const originalQuestions = [
+      { id: 1, question: "1) ಕೆನರಾ ಬ್ಯಾಂಕ್ ಸ್ಥಾಪಕರು ಯಾರು ಮತ್ತು ಸ್ಥಾಪನೆಯಾದ ವರ್ಷ ಯಾವುದು?", options: ["ಖಾನ್ ಬಹದ್ದೂರ್ ಹಾಜಿ, 1906", "ಸುಬ್ಬರಾವ್ ಪೈ, 1906", "ಎಮ್. ವಿಶ್ವೇಶ್ವರಯ್ಯ, 1913", "ಬಾಲಕೃಷ್ಣ ಶೆಟ್ಟಿ, 1931"], correct: 1, explanation: "ಕೆನರಾ ಬ್ಯಾಂಕ್ ಅನ್ನು 1906 ರಲ್ಲಿ ಮಂಗಳೂರಿನಲ್ಲಿ ಸುಬ್ಬರಾವ್ ಪೈ ಅವರು ಸ್ಥಾಪಿಸಿದರು." },
+      { id: 2, question: "2) ಎಸ್‌ಬಿಎಂ (SBM - ಸ್ಟೇಟ್ ಬ್ಯಾಂಕ್ ಆಫ್ ಮೈಸೂರು) ಸಂಸ್ಥಾಪಕರು ಯಾರು?", options: ["ಸುಬ್ಬರಾವ್ ಪೈ", "ಬಿ.ಆರ್. ವ್ಯಾಸರಾಯ್ ಆಚಾರ್", "ಎಮ್. ವಿಶ್ವೇಶ್ವರಯ್ಯ", "ಖಾನ್ ಬಹದ್ದೂರ್ ಹಾಜಿ"], correct: 2, explanation: "ಎಸ್.ಬಿ.ಎಂ ಬ್ಯಾಂಕ್ ಅನ್ನು 1913 ರಲ್ಲಿ ಎಮ್. ವಿಶ್ವೇಶ್ವರಯ್ಯ ಅವರ ಮಾರ್ಗದರ್ಶನದಲ್ಲಿ ಸ್ಥಾಪಿಸಲಾಯಿತು." },
+      { id: 3, question: "3) ಕರ್ನಾಟಕ ಬ್ಯಾಂಕ್ ಸ್ಥಾಪನೆಯಾದ ವರ್ಷ ಯಾವುದು?", options: ["1906", "1913", "1924", "1930"], correct: 2, explanation: "ಕರ್ನಾಟಕ ಬ್ಯಾಂಕ್ 1924 ರಲ್ಲಿ ಮಂಗಳೂರಿನಲ್ಲಿ ಸ್ಥಾಪನೆಯಾಯಿತು (ಬಿ.ಆರ್. ವ್ಯಾಸರಾಯ್ ಆಚಾರ್)." }
+    ];
+
+    let currentQuestions = [...originalQuestions];
+    let currentIndex = 0;
+    let userAnswers = {};
+    let wrongTestCounter = 1;
+    let timeLeft = 600;
+
+    function startTimer() {
+      setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          let m = Math.floor(timeLeft / 60);
+          let s = timeLeft % 60;
+          document.getElementById('timer').innerText = `Time Left: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+      }, 1000);
+    }
+
+    function renderQuestion() {
+      if (currentQuestions.length === 0) return;
+      const q = currentQuestions[currentIndex];
+      document.getElementById('q-text').innerText = q.question;
+      const optionsBox = document.getElementById('options-box');
+      optionsBox.innerHTML = '';
+
+      const isAnswered = userAnswers[q.id] !== undefined;
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        
+        if (isAnswered) {
+          btn.disabled = true;
+          if (idx === q.correct) btn.style.backgroundColor = '#c8e6c9';
+          if (idx === userAnswers[q.id] && idx !== q.correct) btn.style.backgroundColor = '#ffcdd2';
+        } else {
+          btn.onclick = () => selectOption(idx);
+        }
+        optionsBox.appendChild(btn);
+      });
+
+      const expBox = document.getElementById('explanation-box');
+      if (isAnswered) {
+        expBox.style.display = 'block';
+        expBox.innerHTML = `<strong>ವಿವರಣೆ:</strong> ${q.explanation}`;
+      } else {
+        expBox.style.display = 'none';
+      }
+
+      document.getElementById('prev-btn').disabled = currentIndex === 0;
+      document.getElementById('next-btn').disabled = currentIndex === currentQuestions.length - 1;
+      renderPalette();
+      updateScore();
+    }
+
+    function selectOption(index) {
+      const q = currentQuestions[currentIndex];
+      userAnswers[q.id] = index;
+      renderQuestion();
+    }
+
+    function navigate(direction) {
+      currentIndex += direction;
+      renderQuestion();
+    }
+
+    function renderPalette() {
+      const grid = document.getElementById('palette-grid');
+      grid.innerHTML = '';
+      currentQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'palette-btn';
+        btn.innerText = q.id;
+        
+        if (idx === currentIndex) btn.classList.add('active');
+        if (userAnswers[q.id] !== undefined) {
+          if (userAnswers[q.id] === q.correct) btn.classList.add('correct');
+          else btn.classList.add('wrong');
+        }
+        btn.onclick = () => { currentIndex = idx; renderQuestion(); };
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateScore() {
+      let score = 0;
+      Object.keys(userAnswers).forEach(qId => {
+        const q = originalQuestions.find(item => item.id == qId);
+        if (q && userAnswers[qId] === q.correct) score++;
+      });
+      document.getElementById('score-text').innerText = `Score: ${score} / ${currentQuestions.length}`;
+    }
+
+    function retest() {
+      userAnswers = {};
+      currentQuestions = [...originalQuestions];
+      currentIndex = 0;
+      wrongTestCounter = 1;
+      document.getElementById('test-title').innerText = "CBT Mock Test: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ಬ್ಯಾಂಕ್‌ಗಳು";
+      renderQuestion();
+    }
+
+    function testWrongAnswers() {
+      const wrongList = currentQuestions.filter(q => userAnswers[q.id] !== undefined && userAnswers[q.id] !== q.correct);
+      if (wrongList.length === 0) {
+        alert("ಯಾವುದೇ ತಪ್ಪು ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
+        return;
+      }
+      wrongList.forEach(q => delete userAnswers[q.id]);
+      currentQuestions = wrongList;
+      currentIndex = 0;
+      document.getElementById('test-title').innerText = `CBT Mock Test: Wrong Test-${wrongTestCounter++}`;
+      renderQuestion();
+    }
+
+    window.onload = () => {
+      startTimer();
+      renderQuestion();
+    };
+  </script>
+</body>
+</html>
