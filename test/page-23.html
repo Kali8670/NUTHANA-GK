@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Chapter H</title>
+    <style>
+        :root { --primary-blue: #1a237e; --card-bg: #ffffff; --body-bg: #f4f6f9; --text-color: #333333; --correct-green: #2e7d32; --wrong-red: #c62828; --active-blue: #2196f3; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--primary-blue); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .test-title { font-size: 1.2rem; font-weight: bold; }
+        .timer-box { background-color: #ffffff; color: #d32f2f; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1rem; border: 2px solid #d32f2f; }
+        .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .quiz-section { flex: 3; display: flex; flex-direction: column; gap: 20px; }
+        .quiz-card { background: var(--card-bg); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background-color: #f8f9fa; border: 2px solid #e0e0e0; padding: 12px 18px; border-radius: 6px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background-color: #e8eaf6; border-color: var(--primary-blue); }
+        .option-btn:disabled { cursor: not-allowed; }
+        .option-btn.correct { background-color: #e8f5e9 !important; border-color: var(--correct-green) !important; color: var(--correct-green) !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .option-btn.wrong { background-color: #ffebee !important; border-color: var(--wrong-red) !important; color: var(--wrong-red) !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .explanation-block { margin-top: 20px; padding: 15px; background-color: #e8eaf6; border-left: 5px solid var(--primary-blue); border-radius: 4px; display: none; }
+        .explanation-block.visible { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 15px; }
+        .action-btn { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-nav { background-color: var(--primary-blue); color: white; }
+        .btn-nav:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .btn-retest { background-color: #4caf50; color: white; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .btn-wrong-test { background-color: #f44336; color: white; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .palette-card { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .score-display { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; text-align: center; padding: 10px; background-color: #f0f4f8; border-radius: 5px; }
+        .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .palette-btn { aspect-ratio: 1; border: 1px solid #ccc; background-color: #ffffff; border-radius: 5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .palette-btn.active { border: 3px solid var(--active-blue); transform: scale(1.05); }
+        .palette-btn.correct { background-color: #e8f5e9; border-color: var(--correct-green); color: var(--correct-green); box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
+        .palette-btn.wrong { background-color: #ffebee; border-color: var(--wrong-red); color: var(--wrong-red); box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
+        .global-controls { display: flex; flex-direction: column; gap: 10px; }
+        @media (max-width: 768px) { .main-container { flex-direction: column; } .sidebar { order: -1; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="test-title" id="testHeaderTitle">Chapter H: ಪ್ರಮುಖ ಲೇಖಕರ ಕಾವ್ಯನಾಮಗಳು</div>
+        <div class="timer-box" id="timer">00:00</div>
+    </header>
+
+    <div class="main-container">
+        <main class="quiz-section">
+            <div class="quiz-card">
+                <div class="question-text" id="questionText">Loading...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-block" id="explanationBlock"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="action-btn btn-nav" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="action-btn btn-nav" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </main>
+        <aside class="sidebar">
+            <div class="palette-card">
+                <div class="score-display">Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
+                <div class="palette-grid" id="paletteGrid"></div>
+                <div class="global-controls">
+                    <button class="action-btn btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                    <button class="action-btn btn-wrong-test" onclick="startWrongTest()">Test Wrong Answers</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const rawQuestions = [
+            { id: 1, question: "ಅರಕಲಗೂಡು ನರಸಿಂಹರಾವ್ ಕೃಷ್ಣರಾವ್ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ಅ.ನ.ಕೃ", "ಸೀತಾತನಯ", "ಡಿ.ವಿ.ಜಿ.", "ದೇ.ಜ.ಗೌ."], correct: 0, explanation: "ಅರಕಲಗೂಡು ನರಸಿಂಹರಾವ್ ಕೃಷ್ಣರಾವ್ - 'ಅ.ನ.ಕೃ'." },
+            { id: 2, question: "ಗೋರೂರು ರಾಮಸ್ವಾಮಿ ಅಯ್ಯಂಗಾರ್ ಅವರ ಕಾವ್ಯನಾಮವನ್ನು ಗುರುತಿಸಿ.", options: ["ಸೀತಾತನಯ", "ವಿನಾಯಕ", "ಅಂಬಿಕಾತನಯದತ್ತ", "ನಿಸರ್ಗಪ್ರಿಯ"], correct: 0, explanation: "ಗೋರೂರು ರಾಮಸ್ವಾಮಿ ಅಯ್ಯಂಗಾರ್ - 'ಸೀತಾತನಯ'." },
+            { id: 3, question: "ಶ್ರೀಕಂಠಯ್ಯ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ಡಿ.ವಿ.ಜಿ.", "ಕಾವ್ಯಾನಂದ", "ರಾಮೋ/ವಿಶಾಖಾ", "ಅ.ನ.ಕೃ"], correct: 0, explanation: "ಶ್ರೀಕಂಠಯ್ಯ - 'ಡಿ.ವಿ.ಜಿ.'." },
+            { id: 4, question: "ದೇವೇಗೌಡ ಜವರೇಗೌಡ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ದೇ.ಜ.ಗೌ.", "ವಿನಾಯಕ", "ಸೀತಾತನಯ", "ಅಂಬಿಕಾತನಯದತ್ತ"], correct: 0, explanation: "ದೇವೇಗೌಡ ಜವರೇಗೌಡ - 'ದೇ.ಜ.ಗೌ.'." },
+            { id: 5, question: "ವಿನಾಯಕ ಕೃಷ್ಣ ಗೋಕಾಕ್ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ವಿನಾಯಕ", "ನಿಸರ್ಗಪ್ರಿಯ", "ಕಾವ್ಯಾನಂದ", "ರಾಮೋ"], correct: 0, explanation: "ವಿನಾಯಕ ಕೃಷ್ಣ ಗೋಕಾಕ - 'ವಿನಾಯಕ'." },
+            { id: 6, question: "ದ.ರಾ.ಬೇಂದ್ರೆ ಅವರ ಪ್ರಸಿದ್ಧ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ಅಂಬಿಕಾತನಯದತ್ತ", "ಸೀತಾತನಯ", "ವಿನಾಯಕ", "ಡಿ.ವಿ.ಜಿ."], correct: 0, explanation: "ದ.ರಾ.ಬೇಂದ್ರೆ - 'ಅಂಬಿಕಾತನಯದತ್ತ'." },
+            { id: 7, question: "ಸಿದ್ಧಲಿಂಗಯ್ಯ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ನಿಸರ್ಗಪ್ರಿಯ", "ಕಾವ್ಯಾನಂದ", "ರಾಮೋ/ವಿಶಾಖಾ", "ಅ.ನ.ಕೃ"], correct: 0, explanation: "ಸಿದ್ಧಲಿಂಗಯ್ಯ - 'ನಿಸರ್ಗಪ್ರಿಯ'." },
+            { id: 8, question: "ಸಿದ್ಧಯ್ಯ ಪುರಾಣಿಕ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ಕಾವ್ಯಾನಂದ", "ನಿಸರ್ಗಪ್ರಿಯ", "ಅಂಬಿಕಾತನಯದತ್ತ", "ದೇ.ಜ.ಗೌ."], correct: 0, explanation: "ಸಿದ್ಧಯ್ಯ ಪುರಾಣಿಕ - 'ಕಾವ್ಯಾನಂದ'." },
+            { id: 9, question: "ಶ್ರೀರಾಮ ಮೋಳೆಯಾರ ಅವರ ಕಾವ್ಯನಾಮ ಯಾವುದು?", options: ["ರಾಮೋ/ವಿಶಾಖಾ", "ಕಾವ್ಯಾನಂದ", "ಸೀತಾತನಯ", "ವಿನಾಯಕ"], correct: 0, explanation: "ಶ್ರೀರಾಮ ಮೋಳೆಯಾರ - 'ರಾಮೋ/ವಿಶಾಖಾ'." }
+        ];
+
+        let activeQuestions = [...rawQuestions], userAnswers = {}, currentIndex = 0, wrongTestCounter = 1, timerSeconds = 0, timerInterval = null;
+
+        function startTimer() {
+            clearInterval(timerInterval); timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                document.getElementById('timer').textContent = `${String(Math.floor(timerSeconds/60)).padStart(2,'0')}:${String(timerSeconds%60).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function initQuiz() { currentIndex = 0; renderPalette(); renderQuestion(); updateScore(); startTimer(); }
+
+        function renderPalette() {
+            const grid = document.getElementById('paletteGrid'); grid.innerHTML = '';
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn' + (index === currentIndex ? ' active' : '');
+                btn.textContent = q.id;
+                if (userAnswers.hasOwnProperty(q.id)) btn.classList.add(userAnswers[q.id] === q.correct ? 'correct' : 'wrong');
+                btn.onclick = () => { currentIndex = index; renderQuestion(); renderPalette(); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const currentQ = activeQuestions[currentIndex];
+            document.getElementById('questionText').textContent = `${currentQ.id}. ${currentQ.question}`;
+            const optionsContainer = document.getElementById('optionsContainer'); optionsContainer.innerHTML = '';
+            const isAnswered = userAnswers.hasOwnProperty(currentQ.id), selectedOpt = userAnswers[currentQ.id];
+
+            currentQ.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = optText;
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === currentQ.correct) btn.classList.add('correct');
+                    if (optIdx === selectedOpt && selectedOpt !== currentQ.correct) btn.classList.add('wrong');
+                } else { btn.onclick = () => selectOption(optIdx); }
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) { expBlock.textContent = `ವಿವರಣೆ: ${currentQ.explanation}`; expBlock.classList.add('visible'); }
+            else { expBlock.classList.remove('visible'); expBlock.textContent = ''; }
+
+            document.getElementById('prevBtn').disabled = (currentIndex === 0);
+            document.getElementById('nextBtn').disabled = (currentIndex === activeQuestions.length - 1);
+        }
+
+        function selectOption(optIndex) { userAnswers[activeQuestions[currentIndex].id] = optIndex; renderQuestion(); renderPalette(); updateScore(); }
+        function navigateQuestion(direction) { if (currentIndex + direction >= 0 && currentIndex + direction < activeQuestions.length) { currentIndex += direction; renderQuestion(); renderPalette(); } }
+        function updateScore() {
+            let score = rawQuestions.reduce((acc, q) => userAnswers[q.id] === q.correct ? acc + 1 : acc, 0);
+            document.getElementById('scoreVal').textContent = score; document.getElementById('totalVal').textContent = rawQuestions.length;
+        }
+        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter H: ಪ್ರಮುಖ ಲೇಖಕರ ಕಾವ್ಯನಾಮಗಳು"; initQuiz(); }
+        function startWrongTest() {
+            const wrongQs = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
+            if (wrongQs.length === 0) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
+            wrongQs.forEach(q => delete userAnswers[q.id]); activeQuestions = wrongQs;
+            document.getElementById('testHeaderTitle').textContent = `Chapter H: Wrong Test-${wrongTestCounter++}`;
+            currentIndex = 0; renderPalette(); renderQuestion(); updateScore();
+        }
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
