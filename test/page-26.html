@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಕರ್ನಾಟಕ ಪ್ರಮುಖ ಪ್ರವಾಸಿ ಸ್ಥಳಗಳು - CBT Mock Test</title>
+    <style>
+        :root {
+            --primary-blue: #1a237e;
+            --bg-gray: #f4f6f9;
+            --text-dark: #2c3e50;
+            --correct-green: #2e7d32;
+            --correct-glow: #4caf50;
+            --wrong-red: #c62828;
+            --wrong-glow: #f44336;
+            --active-blue: #0288d1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        #timer {
+            color: #ff5252;
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 12px;
+            border-radius: 5px;
+            border: 1px solid #ff5252;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a237e;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 14px 18px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background: #e3f2fd;
+            border-color: #90caf9;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-green) !important;
+            color: white !important;
+            border-color: var(--correct-green) !important;
+            box-shadow: 0 0 10px var(--correct-glow);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-red) !important;
+            color: white !important;
+            border-color: var(--wrong-red) !important;
+            box-shadow: 0 0 10px var(--wrong-glow);
+        }
+
+        .explanation-block {
+            background-color: #e8f5e9;
+            border-left: 5px solid var(--correct-green);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .nav-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover:not([disabled]) {
+            background-color: #283593;
+        }
+
+        .nav-btn[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        aside {
+            width: 320px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-retest {
+            background-color: var(--correct-glow);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+            transition: transform 0.1s;
+        }
+
+        .btn-test-wrong {
+            background-color: var(--wrong-glow);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+            transition: transform 0.1s;
+        }
+
+        .action-buttons button:active {
+            transform: scale(0.98);
+        }
+
+        .score-board {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #e0e0e0;
+        }
+
+        .palette-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 450px;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid #ccc;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .palette-btn.active {
+            border: 2px solid var(--active-blue);
+            box-shadow: 0 0 5px var(--active-blue);
+        }
+
+        .palette-btn.correct {
+            background-color: var(--correct-green);
+            color: white;
+            border-color: var(--correct-green);
+            box-shadow: 0 0 6px var(--correct-glow);
+        }
+
+        .palette-btn.wrong {
+            background-color: var(--wrong-red);
+            color: white;
+            border-color: var(--wrong-red);
+            box-shadow: 0 0 6px var(--wrong-glow);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+            }
+            .palette-container {
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="test-title">ಕರ್ನಾಟಕ ಪ್ರಮುಖ ಪ್ರವಾಸಿ ಸ್ಥಳಗಳು - Mock Test</h1>
+        <div id="timer">60:00</div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="quiz-card">
+                <div class="question-header" id="question-header">Question 1</div>
+                <div class="question-text" id="question-text">Loading...</div>
+                <div class="options-container" id="options-container"></div>
+                <div class="explanation-block" id="explanation-block"></div>
+                <div class="controls">
+                    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">Previous</button>
+                    <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next</button>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="action-buttons">
+                <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="btn-test-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
+            </div>
+            <div class="score-board" id="score-board">
+                Score: 0 / 130
+            </div>
+            <div class="palette-container">
+                <div class="palette-grid" id="palette-grid"></div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const rawData = [
+            { id: 1, text: "❖ ಇದು ಚಿಕ್ಕಬಳ್ಳಾಪುರ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 2, text: "❖ ಇಲ್ಲಿಂದ ಪಾಲಾವತಿ, ಅರ್ಕಾವತಿ ಮತ್ತು ಪಿನಾಕಿನಿ ನದಿಗಳು ಹುಟ್ಟುತ್ತವೆ.", type: "statement" },
+            { id: 3, text: "❖ ಇದು ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 4, text: "❖ ದಕ್ಷಿಣ ಭಾರತದ ಚಿರಾಪುಂಜಿ ಎಂದು ಕರೆಯಲಾಗಿದೆ.", type: "statement" },
+            { id: 5, text: "❖ ಇಲ್ಲಿನ ಸೂರ್ಯಾಸ್ತ ರಮಣೀಯ ದೃಶ್ಯವಾಗಿದೆ.", type: "statement" },
+            { id: 6, text: "❖ ಇದನ್ನು ಕಾಳಿಂಗಸರ್ಪಗಳ ರಾಜಧಾನಿ ಎನ್ನುವರು.", type: "statement" },
+            { id: 7, text: "❖ ಇಲ್ಲಿ ಭಾರತದ ಏಕೈಕ ಸರೀಸೃಪಗಳ ಸಂಶೋಧನಾ ಕೇಂದ್ರವಿದೆ.", type: "statement" },
+            { id: 8, text: "🔴 ನಾಗರಹೊಳೆ", type: "topic" },
+            { id: 9, text: "❖ ಇದು ಕೊಡಗು ಜಿಲ್ಲೆಯಲ್ಲಿದ್ದು,", type: "statement" },
+            { id: 10, text: "❖ ಕೇಶವ ದೇವಾಲಯ ಪ್ರಸಿದ್ಧವಾಗಿದೆ.", type: "statement" },
+            { id: 11, text: "❖ ಇಲ್ಲಿ ರಾಷ್ಟ್ರೀಯ ಉದ್ಯಾನವನವಿದೆ. ಇದನ್ನು ರಾಜೀವ ಗಾಂಧಿ ನ್ಯಾಷನಲ್ ಪಾರ್ಕ್ ಎಂದು ಕರೆಯುವರು.", type: "statement" },
+            { id: 12, text: "🔴 ಮೈಸೂರು", type: "topic" },
+            { id: 13, text: "❖ ಇದನ್ನು ಕರ್ನಾಟಕದ ಸಾಂಸ್ಕೃತಿಕ ರಾಜಧಾನಿ ಎನ್ನುವರು.", type: "statement" },
+            { id: 14, text: "❖ ತಮಿಳು ಗ್ರಂಥಗಳಲ್ಲಿ ಎರು ಮೈನಾಡು ಎಂದು ಮೈಸೂರಿಗೆ ಕರೆಯಲಾಗಿದೆ.", type: "statement" },
+            { id: 15, text: "❖ ಮೈಸೂರು ಬಳಿ ವಿಶ್ವವಿಖ್ಯಾತಿಯ ಕೃಷ್ಣರಾಜಸಾಗರ ಅಣೆಕಟ್ಟು ಇದೆ.", type: "statement" },
+            { id: 16, text: "🔴 ಶ್ರೀರಂಗಪಟ್ಟಣ", type: "topic" },
+            { id: 17, text: "❖ ಕಾವೇರಿ ನದಿಯ ದಂಡೆಯ ಮೇಲೆ ಈ ನಗರವಿದೆ.", type: "statement" },
+            { id: 18, text: "🔴 ರಂಗನತಿಟ್ಟು", type: "topic" },
+            { id: 19, text: "❖ ಇದು ಮಂಡ್ಯ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 20, text: "❖ ಇದು ಪ್ರಸಿದ್ಧ ಪಕ್ಷಿಧಾಮವಾಗಿದೆ.", type: "statement" },
+            { id: 21, text: "❖ ಇದು ಕಾವೇರಿನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 22, text: "❖ ಇದಕ್ಕೆ ಕರ್ನಾಟಕದ ಪಕ್ಷಿಕಾಶಿ ಎಂದು ಕರೆಯುವರು.", type: "statement" },
+            { id: 23, text: "🔴 ಬೇಲೂರು", type: "topic" },
+            { id: 24, text: "❖ ಇದು ಹಾಸನ ಜಿಲ್ಲೆಯಲ್ಲಿ ಇದೆ.", type: "statement" },
+            { id: 25, text: "❖ ಹೊಯ್ಸಳರ ಕಾಲದ ಪ್ರಸಿದ್ಧ ವಾಸ್ತುಶಿಲ್ಪ ಕೇಂದ್ರಗಳು", type: "statement" },
+            { id: 26, text: "❖ ಶ್ರೀ ಚನ್ನಕೇಶವ ದೇವಾಲಯವನ್ನು ವಿಷ್ಣುವರ್ಧನ ನಿರ್ಮಿಸಿದನು.", type: "statement" },
+            { id: 27, text: "❖ ಕುವೆಂಪು 'ಕಲೆ ಬಲೆ' ಎಂದಿದ್ದಾರೆ.", type: "statement" },
+            { id: 28, text: "🔴 ಬನವಾಸಿ", type: "topic" },
+            { id: 29, text: "❖ ಇದು ಕದಂಬರ ರಾಜಧಾನಿ.", type: "statement" },
+            { id: 30, text: "❖ ಇದು ಉತ್ತರ ಕನ್ನಡ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 31, text: "❖ ವರದಾ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 32, text: "❖ ಶಾಸನಗಳಲ್ಲಿ ಹಿಂದೆ ವೈಜಯಂತಿಪುರ ಮತ್ತು ಮಹಾಭಾರತದಲ್ಲಿ ವನವಾಸಿ ಎಂದು ಕರೆಯಲಾಗಿದೆ.", type: "statement" },
+            { id: 33, text: "❖ ಮಧುಕೇಶ್ವರ ದೇವಾಲಯ ಪ್ರಸಿದ್ಧವಾಗಿದೆ.", type: "statement" },
+            { id: 34, text: "🔴 ಮೂಡಬಿದರೆ", type: "topic" },
+            { id: 35, text: "❖ ಇದು ದಕ್ಷಿಣ ಕನ್ನಡ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 36, text: "❖ ಇಲ್ಲಿ 1000 ಕಂಬಗಳ ಬಸದಿ ಇದೆ.", type: "statement" },
+            { id: 37, text: "❖ ಇದನ್ನು ಜೈನರ ಕಾಶಿ ಎಂದು ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 38, text: "❖ ಇಲ್ಲಿ 18 ಜೈನರ ಬಸದಿಗಳಿವೆ.", type: "statement" },
+            { id: 39, text: "🔴 ಚಿತ್ರದುರ್ಗ", type: "topic" },
+            { id: 40, text: "🔴 ಹಂಪಿ", type: "topic" },
+            { id: 41, text: "❖ ಇದು ತುಂಗಭದ್ರಾ ದಕ್ಷಿಣ ದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 42, text: "❖ ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ರಾಜಧಾನಿ ಆಗಿತ್ತು.", type: "statement" },
+            { id: 43, text: "❖ ಇದನ್ನು ಮೊದಲು ಕಿಷ್ಕಿಂಧೆ ಎನ್ನುತ್ತಿದ್ದರು.", type: "statement" },
+            { id: 44, text: "❖ ಇದು 1986ರಲ್ಲಿ ಯುನೆಸ್ಕೋ ವಿಶ್ವಪರಂಪರೆ ಪಟ್ಟಿಗೆ ಸೇರಿದೆ.", type: "statement" },
+            { id: 45, text: "🔴 ಬಾದಾಮಿ", type: "topic" },
+            { id: 46, text: "❖ ಇದು ಬಾಗಲಕೋಟೆ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 47, text: "❖ ಚಾಲುಕ್ಯರ ರಾಜಧಾನಿಯಾಗಿತ್ತು", type: "statement" },
+            { id: 48, text: "❖ ಇದನ್ನು ವಾತಾಪಿ ಎಂದು ಕರೆಯುವರು.", type: "statement" },
+            { id: 49, text: "❖ ಪ್ರಸಿದ್ಧ ಗುಹಾಂತರ ದೇವಾಲಯಗಳಿವೆ.", type: "statement" },
+            { id: 50, text: "❖ ಇಲ್ಲಿ ಕಪ್ಪೆ ಅರಭಟ್ಟನ ಶಾಸನ ಕಾಣಬಹುದು.", type: "statement" },
+            { id: 51, text: "❖ ಇಲ್ಲಿ ಪ್ರಸಿದ್ಧವಾದ ಬನಶಂಕರಿ ದೇವಸ್ಥಾನವಿದೆ.", type: "statement" },
+            { id: 52, text: "🔴 ಲಕ್ಕುಂಡಿ", type: "topic" },
+            { id: 53, text: "❖ ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಕಾಲದ ಕಾಶಿ ವಿಶ್ವೇಶ್ವರ ದೇವಾಲಯ ಕಂಡು ಬರುತ್ತದೆ.", type: "statement" },
+            { id: 54, text: "🔴 ಐಹೊಳೆ", type: "topic" },
+            { id: 55, text: "❖ ಬಾಗಲಕೋಟೆ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 56, text: "❖ ಇದನ್ನು ಭಾರತದ ದೇವಾಲಯಗಳ ತೊಟ್ಟಿಲೆಂದು ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 57, text: "❖ ಇಲ್ಲಿ ರವಿಕೀರ್ತಿ ಹೊರಡಿಸಿದ ಐಹೊಳೆ ಶಾಸನವಿದೆ.", type: "statement" },
+            { id: 58, text: "🔴 ಇಟಗಿ", type: "topic" },
+            { id: 59, text: "❖ ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಮಹಾದೇವ ದೇವಾಲಯವಿದೆ. ಇದನ್ನು ಕರ್ನಾಟಕದ ದೇವಾಲಯಗಳ ಚಕ್ರವರ್ತಿ ಎಂದು ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 60, text: "❖ ಇದು ಕೊಪ್ಪಳ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 61, text: "🔴 ಶೃಂಗೇರಿ", type: "topic" },
+            { id: 62, text: "❖ ಇದಕ್ಕೆ ಮೃಗವಧೆ ಪೀಠ ಎಂತಲೂ ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 63, text: "❖ ಇದು ತುಂಗಾ ನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 64, text: "🔴 ಆನೆಗೊಂದಿ", type: "topic" },
+            { id: 65, text: "❖ ಇದು ವಿಜಯನಗರ ಅರಸರ ಮೊದಲನೇ ರಾಜಧಾನಿ.", type: "statement" },
+            { id: 66, text: "❖ ಇದು ಕೊಪ್ಪಳ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 67, text: "🔴 ನಂಜನಗೂಡು", type: "topic" },
+            { id: 68, text: "❖ ಕಪಿಲಾ ನದಿ ದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 69, text: "🔴 ಬೆಂಗಳೂರು", type: "topic" },
+            { id: 70, text: "🔴 ಧರ್ಮಸ್ಥಳ", type: "topic" },
+            { id: 71, text: "❖ ಇದು ದಕ್ಷಿಣ ಕನ್ನಡ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 72, text: "❖ ಇದು ನೇತ್ರಾವತಿ ನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ.", type: "statement" },
+            { id: 73, text: "🔴 ಕಲಬುರಗಿ", type: "topic" },
+            { id: 74, text: "❖ ಈ ಸ್ಥಳದಲ್ಲಿ ಧ್ವಜ ಸತ್ಯಾಗ್ರಹ ನಡೆಯಿತು.", type: "statement" },
+            { id: 75, text: "🔴 ವಿಧುರಾಶ್ವತ್ಥ", type: "topic" },
+            { id: 76, text: "❖ ಇದನ್ನು ಕರ್ನಾಟಕದ ಜಾಲಿಯನ್‌ವಾಲಾಬಾಗ್ ಎನ್ನುತ್ತಾರೆ.", type: "statement" },
+            { id: 77, text: "❖ ಇಲ್ಲಿ ಸಂಚಾರಿ ನ್ಯಾಯಾಲಯ ಪೀಠವಿದೆ.", type: "statement" },
+            { id: 78, text: "🔴 ಕಾಗಿನೆಲೆ", type: "topic" },
+            { id: 79, text: "🔴 ಕೂಡಲಸಂಗಮ", type: "topic" },
+            { id: 80, text: "❖ ಇದು ಬಾಗಲಕೋಟೆ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 81, text: "❖ ಕೃಷ್ಣಾ ಮತ್ತು ಮಲಪ್ರಭಾ ನದಿಗಳು ಕೂಡುವ ಸ್ಥಳವಾಗಿದೆ.", type: "statement" },
+            { id: 82, text: "❖ ಬಸವೇಶ್ವರರ ಐಕ್ಯ ಸ್ಥಳ.", type: "statement" },
+            { id: 83, text: "🔴 ಅಂಕೋಲಾ", type: "topic" },
+            { id: 84, text: "❖ ಇದು ಉತ್ತರ ಕನ್ನಡ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 85, text: "❖ ಇಲ್ಲಿ ಉಪ್ಪಿನ ಸತ್ಯಾಗ್ರಹ ನಡೆದಿದೆ.", type: "statement" },
+            { id: 86, text: "🔴 ಇಕ್ಕೇರಿ", type: "topic" },
+            { id: 87, text: "❖ ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 88, text: "❖ ಕೆಳದಿ ಅರಸರ ಎರಡನೇ ರಾಜಧಾನಿಯಾಗಿತ್ತು.", type: "statement" },
+            { id: 89, text: "🔴 ಈಸೂರು", type: "topic" },
+            { id: 90, text: "❖ ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 91, text: "❖ 'ಭಾರತ ಬಿಟ್ಟು ತೊಲಗಿ' ಚಳುವಳಿಯಲ್ಲಿ ಸ್ವಾತಂತ್ರ್ಯ ಘೋಷಣೆ ಮಾಡಿಕೊಂಡ ಪ್ರಥಮ ಗ್ರಾಮ", type: "statement" },
+            { id: 92, text: "🔴 ಹಲ್ಮಿಡಿ", type: "topic" },
+            { id: 93, text: "❖ ಇದು ಹಾಸನ ಜಿಲ್ಲೆಯ ಬೇಲೂರು ತಾಲೂಕಿನಲ್ಲಿದೆ.", type: "statement" },
+            { id: 94, text: "❖ ಕನ್ನಡದ ಪ್ರಥಮ ಶಾಸನ ಲಭ್ಯವಾದ ಸ್ಥಳ.", type: "statement" },
+            { id: 95, text: "❖ ಇಲ್ಲಿ ವೀರಭದ್ರೇಶ್ವರ ದೇವಾಲಯದ ಎದುರಿಗೆ ಹಲ್ಮಿಡಿ ಶಾಸನ ಕಂಡು ಬರುತ್ತದೆ.", type: "statement" },
+            { id: 96, text: "❖ ಹಲ್ಮಿಡಿ ಶಾಸನವು ಪೂರ್ವದ ಹಳಗನ್ನಡ ಭಾಷೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 97, text: "❖ ಇದು ಹಾವೇರಿ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 98, text: "🔴 ದ್ವಾರ ಸಮುದ್ರ", type: "topic" },
+            { id: 99, text: "❖ ಇದು ಹಾಸನ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 100, text: "❖ ಇದು ಹೊಯ್ಸಳರ ರಾಜಧಾನಿಯಾಗಿತ್ತು", type: "statement" },
+            { id: 101, text: "❖ ಇದನ್ನು ಈಗ ಹಳೇಬೀಡು ಎಂದು ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 102, text: "🔴 ಕಿತ್ತೂರು", type: "topic" },
+            { id: 103, text: "❖ ಇದು ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 104, text: "❖ ಕಿತ್ತೂರು ಮನೆತನದ ರಾಜಧಾನಿ", type: "statement" },
+            { id: 105, text: "🔴 ಬೆಳಗಾವಿ", type: "topic" },
+            { id: 106, text: "🔴 ಆಲಮಟ್ಟಿ", type: "topic" },
+            { id: 107, text: "❖ ಇದು ವಿಜಯಪುರ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 108, text: "❖ ಕೃಷ್ಣಾ ನದಿಗೆ ಅಣೆಕಟ್ಟನ್ನು ಕಟ್ಟಲಾಗಿದೆ.", type: "statement" },
+            { id: 109, text: "❖ ಈ ಅಣೆಕಟ್ಟಿನ ಜಲಾಶಯಕ್ಕೆ ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಸಾಗರ ಎಂದು ಕರೆಯುತ್ತಾರೆ.", type: "statement" },
+            { id: 110, text: "🔴 ಗೋಕಾಕ್ ಜಲಪಾತ", type: "topic" },
+            { id: 111, text: "❖ ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ ಗೋಕಾಕ್ ಪಟ್ಟಣದ ಬಳಿ ಇದೆ.", type: "statement" },
+            { id: 112, text: "❖ ಈ ಜಲಪಾತ 178 ಅಡಿಗಳ ಎತ್ತರದಿಂದ ಧುಮುಕುತ್ತದೆ.", type: "statement" },
+            { id: 113, text: "❖ ಇದನ್ನು ನಯಾಗರ ಜಲಪಾತಕ್ಕೆ ಹೋಲಿಸಲಾಗಿದೆ.", type: "statement" },
+            { id: 114, text: "🔴 ಶ್ರವಣಬೆಳಗೊಳ", type: "topic" },
+            { id: 115, text: "❖ ಗಂಗರ ಕಾಲದ ಪ್ರಸಿದ್ಧ ಐತಿಹಾಸಿಕ ಸ್ಥಳವಾಗಿದ್ದು", type: "statement" },
+            { id: 116, text: "❖ ಇದು ಹಾಸನ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 117, text: "❖ ಇಲ್ಲಿ 58 ಅಡಿ ಎತ್ತರದ ಗೊಮ್ಮಟೇಶ್ವರ ಮೂರ್ತಿ ಇದೆ.", type: "statement" },
+            { id: 118, text: "❖ ಮೌರ್ಯ ಚಕ್ರವರ್ತಿ ಚಂದ್ರಗುಪ್ತ ಮೌರ್ಯ ಜೈನಮುನಿ ಭದ್ರಬಾಹು ಮುನಿಯೊಂದಿಗೆ ಇಲ್ಲಿಗೆ ಬಂದು ಸಲ್ಲೇಖನ ವ್ರತ ಕೈಗೊಂಡ ಎಂಬ ಉಲ್ಲೇಖವಿದೆ.", type: "statement" },
+            { id: 119, text: "❖ ಈ ಮೂರ್ತಿಯನ್ನು ಚಾವುಂಡರಾಯನು ಆರಿಷ್ಟ ನೇಮಿಯಿಂದ ಕೆತ್ತಿಸಿದನು.", type: "statement" },
+            { id: 120, text: "🔴 ಜೋಗ್ ಜಲಪಾತ", type: "topic" },
+            { id: 121, text: "❖ ಇದನ್ನು ಗೇರುಸೊಪ್ಪ ಜಲಪಾತವೆಂದು ಸಹ ಕರೆಯಲಾಗಿದೆ.", type: "statement" },
+            { id: 122, text: "❖ ಶರಾವತಿ ನದಿಯ 253 ಮೀಟರ್ ಎತ್ತರದಿಂದ ಧುಮುಕ್ಕಿ ಈ ಜಲಪಾತವನ್ನು ನಿರ್ಮಿಸಿದೆ. ರಾಜ, ರಾಣಿ, ರೋರರ್, ರಾಕೆಟ್ ಎಂಬ ನಾಲ್ಕು ಭಾಗಗಳಾಗಿ ಧುಮುಕುತ್ತವೆ.", type: "statement" },
+            { id: 123, text: "🔴 ಶಿವಪುರ", type: "topic" },
+            { id: 124, text: "❖ ಮಂಡ್ಯ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ.", type: "statement" },
+            { id: 125, text: "❖ ಕಾಂಗ್ರೆಸ್‌ನ ಪ್ರಪ್ರಥಮ ಧ್ವಜ ಸತ್ಯಾಗ್ರಹ ನಡೆದ ಸ್ಥಳ", type: "statement" },
+            { id: 126, text: "❖ ಇದರ ಅಧ್ಯಕ್ಷ ಸ್ಥಾನವನ್ನು ಟಿ.ಸಿದ್ದಲಿಂಗಯ್ಯ ವಹಿಸಿಕೊಂಡಿದ್ದರು.", type: "statement" },
+            { id: 127, text: "🔴 ರಕ್ಕಸತಂಗಡಗಿ", type: "topic" },
+            { id: 128, text: "❖ ರಕ್ಕಸಗಿ ಮತ್ತು ತಂಗಡಗಿ ಗ್ರಾಮಗಳ ಪ್ರದೇಶದಲ್ಲಿ ಕದನ ನಡೆದಿದ್ದರಿಂದ ಇದನ್ನು ರಕ್ಕಸತಂಗಡಗಿ ಕದನ ಎಂದು ಕರೆಯುವರು.", type: "statement" },
+            { id: 129, text: "❖ ಈ ಸ್ಥಳದಲ್ಲಿ ತಾಳಿಕೋಟೆ ಯುದ್ಧ ನಡೆಯಿತು.", type: "statement" },
+            { id: 130, text: "❖ ಈ ಕದನವು ಕೃಷ್ಣಾ ನದಿಯ ಉತ್ತರ ದಂಡೆಯ ಮೇಲೆ 27 ದಿನಗಳ ಕಾಲ ನಡೆಯಿತು.", type: "statement" }
+        ];
+
+        const placesDistricts = [
+            { place: "ನಂದಿಬೆಟ್ಟ (Nandi Hills)", district: "ಚಿಕ್ಕಬಳ್ಳಾಪುರ (Chikkaballapur)" },
+            { place: "ಆಗುಂಬೆ (Agumbe)", district: "ಶಿವಮೊಗ್ಗ (Shivamogga)" },
+            { place: "ನಾಗರಹೊಳೆ (Nagarahole)", district: "ಕೊಡಗು (Kodagu)" },
+            { place: "ಮೈಸೂರು (Mysuru)", district: "ಮೈಸೂರು (Mysuru)" },
+            { place: "ಶ್ರೀರಂಗಪಟ್ಟಣ (Srirangapatna)", district: "ಮಂಡ್ಯ (Mandya)" },
+            { place: "ರಂಗನತಿಟ್ಟು (Ranganathittu)", district: "ಮಂಡ್ಯ (Mandya)" },
+            { place: "ಬೇಲೂರು (Belur)", district: "ಹಾಸನ (Hassan)" },
+            { place: "ಬನವಾಸಿ (Banavasi)", district: "ಉತ್ತರ ಕನ್ನಡ (Uttara Kannada)" },
+            { place: "ಮೂಡಬಿದರೆ (Moodabidri)", district: "ದಕ್ಷಿಣ ಕನ್ನಡ (Dakshina Kannada)" },
+            { place: "ಚಿತ್ರದುರ್ಗ (Chitradurga)", district: "ಚಿತ್ರದುರ್ಗ (Chitradurga)" },
+            { place: "ಹಂಪಿ (Hampi)", district: "ವಿಜಯನಗರ/ಬಳ್ಳಾರಿ (Vijayanagara)" },
+            { place: "ಬಾದಾಮಿ (Badami)", district: "ಬಾಗಲಕೋಟೆ (Bagalkote)" },
+            { place: "ಲಕ್ಕುಂಡಿ (Lakkundi)", district: "ಗದಗ (Gadag)" },
+            { place: "ಐಹೊಳೆ (Aihole)", district: "ಬಾಗಲಕೋಟೆ (Bagalkote)" },
+            { place: "ಇಟಗಿ (Itagi)", district: "ಕೊಪ್ಪಳ (Koppal)" },
+            { place: "ಶೃಂಗೇರಿ (Sringeri)", district: "ಚಿಕ್ಕಮಗಳೂರು (Chikkamagaluru)" },
+            { place: "ಆನೆಗೊಂದಿ (Anegundi)", district: "ಕೊಪ್ಪಳ (Koppal)" },
+            { place: "ಧರ್ಮಸ್ಥಳ (Dharmasthala)", district: "ದಕ್ಷಿಣ ಕನ್ನಡ (Dakshina Kannada)" },
+            { place: "ಕಲಬುರಗಿ (Kalaburagi)", district: "ಕಲಬುರಗಿ (Kalaburagi)" },
+            { place: "ವಿಧುರಾಶ್ವತ್ಥ (Vidurashwatha)", district: "ಚಿಕ್ಕಬಳ್ಳಾಪುರ (Chikkaballapur)" },
+            { place: "ಕಾಗಿನೆಲೆ (Kaginele)", district: "ಹಾವೇರಿ (Haveri)" },
+            { place: "ಕೂಡಲಸಂಗಮ (Kudalasangama)", district: "ಬಾಗಲಕೋಟೆ (Bagalkote)" },
+            { place: "ಅಂಕೋಲಾ (Ankola)", district: "ಉತ್ತರ ಕನ್ನಡ (Uttara Kannada)" },
+            { place: "ಇಕ್ಕೇರಿ (Ikkeri)", district: "ಶಿವಮೊಗ್ಗ (Shivamogga)" },
+            { place: "ಈಸೂರು (Isuru)", district: "ಶಿವಮೊಗ್ಗ (Shivamogga)" },
+            { place: "ಹಲ್ಮಿಡಿ (Halmidi)", district: "ಹಾಸನ (Hassan)" },
+            { place: "ದ್ವಾರಸಮುದ್ರ (Dwarasamudra)", district: "ಹಾಸನ (Hassan)" },
+            { place: "ಕಿತ್ತೂರು (Kittur)", district: "ಬೆಳಗಾವಿ (Belagavi)" },
+            { place: "ಆಲಮಟ್ಟಿ (Alamatti)", district: "ವಿಜಯಪುರ (Vijayapura)" },
+            { place: "ಗೋಕಾಕ್ (Gokak)", district: "ಬೆಳಗಾವಿ (Belagavi)" },
+            { place: "ಶ್ರವಣಬೆಳಗೊಳ (Shravanabelagola)", district: "ಹಾಸನ (Hassan)" },
+            { place: "ಜೋಗ್ ಜಲಪಾತ (Jog Falls)", district: "ಶಿವಮೊಗ್ಗ (Shivamogga)" },
+            { place: "ಶಿವಪುರ (Shivapura)", district: "ಮಂಡ್ಯ (Mandya)" },
+            { place: "ರಕ್ಕಸತಂಗಡಗಿ (Rakkasatangadagi)", district: "ವಿಜಯಪುರ (Vijayapura)" }
+        ];
+
+        function generateQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < rawData.length; i++) {
+                const item = rawData[i];
+                let questionObj = {};
+                const globalNum = item.id;
+
+                if (item.type === "topic") {
+                    const placeName = item.text.replace('🔴', '').trim();
+                    const correctDistObj = placesDistricts.find(p => p.place.includes(placeName));
+                    const correctDist = correctDistObj ? correctDistObj.district : "ಸೂಕ್ತ ಜಿಲ್ಲೆ";
+
+                    let distOptions = [correctDist];
+                    let distPool = placesDistricts.map(p => p.district).filter(d => d !== correctDist);
+                    distPool = [...new Set(distPool)];
+                    
+                    while (distOptions.length < 4 && distPool.length > 0) {
+                        const randIdx = Math.floor(Math.random() * distPool.length);
+                        distOptions.push(distPool.splice(randIdx, 1)[0]);
+                    }
+                    distOptions.sort(() => Math.random() - 0.5);
+
+                    questionObj = {
+                        globalId: globalNum,
+                        question: `ವಿಷಯ/ಸ್ಥಳ: "${placeName}" - ಈ ಪ್ರಮುಖ ಸ್ಥಳವು ಯಾವ ಜಿಲ್ಲೆಗೆ ಸಂಬಂಧಿಸಿದೆ?`,
+                        options: distOptions,
+                        correct: distOptions.indexOf(correctDist),
+                        explanation: `ವಿವರಣೆ: ${placeName} ಸ್ಥಳವು ${correctDist} ಜಿಲ್ಲೆಯಲ್ಲಿದೆ/ಸಂಬಂಧಿಸಿದೆ.`
+                    };
+                } else {
+                    const cleanText = item.text.replace('❖', '').trim();
+                    
+                    questionObj = {
+                        globalId: globalNum,
+                        question: `ಖಾತ್ರಿಪಡಿಸಿ/ಗುರುತಿಸಿ: "${cleanText}" - ಈ ಕೆಳಗಿನ ಹೇಳಿಕೆ ಸರಿಯೇ?`,
+                        options: [
+                            "ಹೌದು (ಸರಿಯಾದ ಹೇಳಿಕೆ)",
+                            "ಅಲ್ಲ (ತಪ್ಪಾದ ಹೇಳಿಕೆ)",
+                            "ಅಪೂರ್ಣ ಮಾಹಿತಿ",
+                            "ಯಾವುದೂ ಅಲ್ಲ"
+                        ],
+                        correct: 0,
+                        explanation: `ವಿವರಣೆ: ನೀಡಿರುವ ಹೇಳಿಕೆ: "${cleanText}" ಎಂಬುದು ಪಠ್ಯದ ಪ್ರಕಾರ ಸರಿಯಾದ ಮಾಹಿತಿಯಾಗಿದೆ.`
+                    };
+                }
+                questions.push(questionObj);
+            }
+            return questions;
+        }
+
+        const allQuestions = generateQuestions();
+        let activeQuestions = [...allQuestions];
+        let userAnswers = {}; 
+        let currentIndex = 0;
+        let wrongTestCount = 1;
+
+        // Timer
+        let timeLeft = 3600;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time's up!");
+            } else {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                timerElement.textContent = `${m}:${s}`;
+            }
+        }, 1000);
+
+        function renderQuestion() {
+            const q = activeQuestions[currentIndex];
+            const globalId = q.globalId;
+
+            document.getElementById('question-header').textContent = `Question ${currentIndex + 1} of ${activeQuestions.length} (Global #${globalId})`;
+            document.getElementById('question-text').textContent = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const expBlock = document.getElementById('explanation-block');
+            expBlock.style.display = 'none';
+
+            const hasAnswered = userAnswers.hasOwnProperty(globalId);
+            const selectedOpt = userAnswers[globalId];
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                
+                if (hasAnswered) {
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (selectedOpt === idx && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    btn.onclick = () => handleAnswer(idx);
+                }
+                optionsContainer.appendChild(btn);
+            });
+
+            if (hasAnswered) {
+                expBlock.textContent = q.explanation;
+                expBlock.style.display = 'block';
+            }
+
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').disabled = currentIndex === activeQuestions.length - 1;
+
+            updatePaletteHighlight();
+        }
+
+        function handleAnswer(optionIndex) {
+            const q = activeQuestions[currentIndex];
+            const globalId = q.globalId;
+
+            userAnswers[globalId] = optionIndex;
+
+            renderQuestion();
+            updatePalette();
+            updateScore();
+        }
+
+        function navigate(direction) {
+            if (currentIndex + direction >= 0 && currentIndex + direction < activeQuestions.length) {
+                currentIndex += direction;
+                renderQuestion();
+            }
+        }
+
+        function renderPalette() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = '';
+
+            activeQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.textContent = q.globalId;
+                btn.id = `palette-btn-${idx}`;
+
+                const ans = userAnswers[q.globalId];
+                if (ans !== undefined) {
+                    if (ans === q.correct) {
+                        btn.classList.add('correct');
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentIndex = idx;
+                    renderQuestion();
+                };
+
+                grid.appendChild(btn);
+            });
+            updatePaletteHighlight();
+        }
+
+        function updatePalette() {
+            const q = activeQuestions[currentIndex];
+            const btn = document.getElementById(`palette-btn-${currentIndex}`);
+            if (!btn) return;
+
+            btn.classList.remove('correct', 'wrong');
+            const ans = userAnswers[q.globalId];
+            if (ans !== undefined) {
+                if (ans === q.correct) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('wrong');
+                }
+            }
+        }
+
+        function updatePaletteHighlight() {
+            activeQuestions.forEach((_, idx) => {
+                const btn = document.getElementById(`palette-btn-${idx}`);
+                if (btn) {
+                    if (idx === currentIndex) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        function updateScore() {
+            let score = 0;
+            allQuestions.forEach(q => {
+                if (userAnswers[q.globalId] === q.correct) {
+                    score++;
+                }
+            });
+            document.getElementById('score-board').textContent = `Score: ${score} / ${allQuestions.length}`;
+        }
+
+        function retestAll() {
+            userAnswers = {};
+            activeQuestions = [...allQuestions];
+            currentIndex = 0;
+            wrongTestCount = 1;
+            document.getElementById('test-title').textContent = "ಕರ್ನಾಟಕ ಪ್ರಮುಖ ಪ್ರವಾಸಿ ಸ್ಥಳಗಳು - Mock Test";
+            
+            renderPalette();
+            renderQuestion();
+            updateScore();
+        }
+
+        function testWrongAnswers() {
+            const wrongQs = allQuestions.filter(q => {
+                return userAnswers.hasOwnProperty(q.globalId) && userAnswers[q.globalId] !== q.correct;
+            });
+
+            if (wrongQs.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+
+            wrongQs.forEach(q => {
+                delete userAnswers[q.globalId];
+            });
+
+            activeQuestions = wrongQs;
+            currentIndex = 0;
+            
+            document.getElementById('test-title').textContent = `Wrong Test-${wrongTestCount}`;
+            wrongTestCount++;
+
+            renderPalette();
+            renderQuestion();
+            updateScore();
+        }
+
+        // Initialize Test
+        renderPalette();
+        renderQuestion();
+        updateScore();
+    </script>
+</body>
+</html>
