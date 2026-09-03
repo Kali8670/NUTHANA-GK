@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ಕರ್ನಾಟಕದ ರಾಜಮನೆತನಗಳ ಸಂಕ್ಷಿಪ್ತ ಮಾಹಿತಿ - CBT Mock Test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Styling */
+    header {
+      background-color: #1a237e;
+      color: #fff;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .timer-container {
+      background-color: #ffebee;
+      color: #d32f2f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 1px solid #ffcdd2;
+      box-shadow: 0 0 8px rgba(211, 47, 47, 0.4);
+    }
+
+    /* Main Layout */
+    .main-container {
+      display: flex;
+      flex: 1;
+      padding: 20px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Quiz Card Styling */
+    .quiz-card {
+      flex: 3;
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .question-header {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1a237e;
+      border-bottom: 2px solid #e8eaf6;
+      padding-bottom: 10px;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .option-btn {
+      padding: 14px 18px;
+      border: 2px solid #e0e0e0;
+      background-color: #fff;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #424242;
+    }
+
+    .option-btn:hover:not([disabled]) {
+      background-color: #f5f5f5;
+      border-color: #bdbdbd;
+    }
+
+    .option-btn.correct {
+      background-color: #e8f5e9 !important;
+      border-color: #4caf50 !important;
+      color: #1b5e20 !important;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    }
+
+    .option-btn.wrong {
+      background-color: #ffebee !important;
+      border-color: #f44336 !important;
+      color: #b71c1c !important;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+    }
+
+    .explanation-block {
+      background-color: #e8eaf6;
+      border-left: 5px solid #1a237e;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3f51b5;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #303f9f;
+    }
+
+    .nav-btn:disabled {
+      background-color: #c5cae9;
+      cursor: not-allowed;
+    }
+
+    /* Right Panel / Palette */
+    .palette-panel {
+      flex: 1;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      min-width: 280px;
+    }
+
+    .score-box {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .palette-title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 5px;
+      margin-bottom: 20px;
+    }
+
+    .palette-btn {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #ccc;
+      background-color: #fafafa;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .palette-btn.active {
+      border: 2px solid #2196f3 !important;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.8);
+    }
+
+    .palette-btn.correct {
+      background-color: #4caf50 !important;
+      color: white;
+      border-color: #388e3c;
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+    }
+
+    .palette-btn.wrong {
+      background-color: #f44336 !important;
+      color: white;
+      border-color: #d32f2f;
+      box-shadow: 0 0 8px rgba(244, 67, 54, 0.7);
+    }
+
+    /* Action Buttons */
+    .action-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .btn-retest {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+      transition: background 0.2s;
+    }
+
+    .btn-retest:hover {
+      background-color: #43a047;
+    }
+
+    .btn-test-wrong {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+      transition: background 0.2s;
+    }
+
+    .btn-test-wrong:hover {
+      background-color: #e53935;
+    }
+
+    @media (max-width: 850px) {
+      .main-container {
+        flex-direction: column;
+      }
+      .palette-panel {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title" id="test-title">ಕರ್ನಾಟಕದ ರಾಜಮನೆತನಗಳ ಸಂಕ್ಷಿಪ್ತ ಮಾಹಿತಿ</div>
+    <div class="timer-container" id="timer">00:00</div>
+  </header>
+
+  <div class="main-container">
+    <div class="quiz-card">
+      <div>
+        <div class="question-header" id="question-text">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+        <div class="options-container" id="options-container"></div>
+        <div class="explanation-block" id="explanation-block"></div>
+      </div>
+      
+      <div class="navigation-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">ಹಿಂದಿನ (Previous)</button>
+        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">ಮುಂದಿನ (Next)</button>
+      </div>
+    </div>
+
+    <div class="palette-panel">
+      <div class="score-box" id="score-box">ಅಂಕಗಳು: 0 / 94</div>
+      <div class="palette-title">ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ (Question Palette)</div>
+      <div class="palette-grid" id="palette-grid"></div>
+
+      <div class="action-container">
+        <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+        <button class="btn-test-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const rawQuestions = [
+      // ಶತಾವಹನರು
+      { id: 1, q: "ಶತಾವಹನರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["ಕ್ರಿ.ಪೂ. 235 ರಿಂದ ಕ್ರಿ.ಶ. 220", "ಕ್ರಿ.ಶ. 345 ರಿಂದ 540", "ಕ್ರಿ.ಶ. 753 ರಿಂದ 973", "ಕ್ರಿ.ಶ. 1336 ರಿಂದ 1646"], ans: 0, exp: "ಶತಾವಹನರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಕ್ರಿ.ಪೂ. 235 ರಿಂದ ಕ್ರಿ.ಶ. 220." },
+      { id: 2, q: "ಶತಾವಹನ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಸಿಮುಖ", "ಮಯೂರವರ್ಮ", "ದಂತಿದುರ್ಗ", "ಜಯಸಿಂಹ"], ans: 0, exp: "ಶತಾವಹನ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ಸಿಮುಖ." },
+      { id: 3, q: "ಶತಾವಹನರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ವರುಣ", "ಸಿಂಹ ಮತ್ತು ವಾನರ ಧ್ವಜ", "ಗರುಡ", "ಬಲಮುಖ ವರಾಹ"], ans: 0, exp: "ಶತಾವಹನರ ರಾಜಲಾಂಛನ ವರುಣ." },
+      { id: 4, q: "ಶತಾವಹನರ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಬನವಾಸಿ", "ಪೈಠಾಣ ಅಥವಾ ಪ್ರತಿಷ್ಠಾನ", "ಬಾದಾಮಿ", "ಮಾನ್ಯಖೇಟ"], ans: 1, exp: "ಶತಾವಹನರ ರಾಜಧಾನಿ ಪೈಠಾಣ ಅಥವಾ ಪ್ರತಿಷ್ಠಾನ (ಗೋೋದಾವರಿನದಿ ದಂಡದ ಮೇಲಿದೆ)." },
+      { id: 5, q: "ಶತಾವಹನರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ಗೌತಮಿ ಪುತ್ರ ಶಾತಕರ್ಣಿ", "ಕಾಕುತ್ಸ್ಥವರ್ಮ", "ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ", "ಅಮೋಘ ವರ್ಷ ನೃಪತುಂಗ"], ans: 0, exp: "ಶತಾವಹನರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಗೌತಮಿ ಪುತ್ರ ಶಾತಕರ್ಣಿ." },
+      { id: 6, q: "ಶತಾವಹನರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["ಯಜ್ಞಶ್ರೀ ಶಾತಕರ್ಣಿ", "2ನೇ ಕೃಷ್ಣ", "IIನೇ ಕೀರ್ತಿವರ್ಮ", "4ನೇ ಸೋಮೇಶ್ವರ"], ans: 0, exp: "ಶತಾವಹನರ ಕೊನೆಯ ದೊರೆ ಯಜ್ಞಶ್ರೀ ಶಾತಕರ್ಣಿ." },
+
+      // ಕದಂಬರು
+      { id: 7, q: "ಕದಂಬರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["345–540", "235–220", "753–973", "1336–1646"], ans: 0, exp: "ಕದಂಬರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಕ್ರಿ.ಶ. 345–540." },
+      { id: 8, q: "ಕದಂಬ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಮಯೂರವರ್ಮ", "ಕಾಕುತ್ಸ್ಥವರ್ಮ", "ಸಿಮುಖ", "ಶಾಂತಿವರ್ಮ"], ans: 0, exp: "ಕದಂಬ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ಮಯೂರವರ್ಮ." },
+      { id: 9, q: "ಕದಂಬರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಸಿಂಹ ಮತ್ತು ವಾನರ ಧ್ವಜ", "ವರುಣ", "ಗರುಡ", "ಬಲಮುಖ ವರಾಹ"], ans: 0, exp: "ಕದಂಬರ ರಾಜಲಾಂಛನ ಸಿಂಹ ಮತ್ತು ವಾನರ ಧ್ವಜ." },
+      { id: 10, q: "ಕದಂಬರ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಬನವಾಸಿ", "ಪೈಠಾಣ", "ಬಾದಾಮಿ", "ಮಾನ್ಯಖೇಟ"], ans: 0, exp: "ಕದಂಬರ ರಾಜಧಾನಿ ಬನವಾಸಿ (ವರದಾ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ)." },
+      { id: 11, q: "ಕದಂಬರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ಕಾಕುತ್ಸ್ಥವರ್ಮ", "ಮಯೂರವರ್ಮ", "2ನೇ ಕೃಷ್ಣ", "ಮೃಗೇಶವರ್ಮ"], ans: 0, exp: "ಕದಂಬರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಕಾಕುತ್ಸ್ಥವರ್ಮ." },
+      { id: 12, q: "ಕದಂಬರ ಪ್ರಮುಖವಾದ ಶಾಸನ ಯಾವುದು?", options: ["ಹಲ್ಮಿಡಿಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ", "ಸಂಜಾನ ಶಾಸನ", "ಶಿರೂರಿನ ಶಾಸನ"], ans: 0, exp: "ಕದಂಬರ ಕಾಲದ ಪ್ರಮುಖವಾದ ಶಾಸನ ಹಲ್ಮಿಡಿಶಾಸನ." },
+      { id: 13, q: "ಕದಂಬರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["2ನೇ ಕೃಷ್ಣ", "ಯಜ್ಞಶ್ರೀ ಶಾತಕರ್ಣಿ", "IIನೇ ಕೀರ್ತಿವರ್ಮ", "4ನೇ ಸೋಮೇಶ್ವರ"], ans: 0, exp: "ಕದಂಬರ ಕೊನೆಯ ದೊರೆ 2ನೇ ಕೃಷ್ಣ." },
+
+      // ರಾಷ್ಟ್ರಕೂಟರು
+      { id: 14, q: "ರಾಷ್ಟ್ರಕೂಟರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["753–973", "345–540", "1337–1527", "1399–1947"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಕ್ರಿ.ಶ. 753–973." },
+      { id: 15, q: "ರಾಷ್ಟ್ರಕೂಟ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ದಂತಿದುರ್ಗ", "Iನೇ ಕರ್ಕ", "ಅಮೋಘವರ್ಷ", "3ನೇ ಗೋವಿಂದ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟ ರಾಜಮನೆತನದ ಸ್ಥಾಪಕ ದಂತಿದುರ್ಗ." },
+      { id: 16, q: "ರಾಷ್ಟ್ರಕೂಟರ ಮೂಲಪುರುಷ ಯಾರು?", options: ["Iನೇ ಕರ್ಕ", "ದಂತಿದುರ್ಗ", "IIನೇ ಕರ್ಕ", "ಧ್ರುವ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ಮೂಲಪುರುಷ Iನೇ ಕರ್ಕ." },
+      { id: 17, q: "ರಾಷ್ಟ್ರಕೂಟರ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಎಲಿಚಪುರ, ಮಯೂರಖಂಡಿ ಮತ್ತು ಮಾನ್ಯಖೇಟ", "ಬಾದಾಮಿ ಮತ್ತು ವಾತಾಪಿ", "ಸೊಸೇವೂರು, ವೆಲಾಪೂರ", "ಆನೆಗುಂದಿ, ಹಂಪಿ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ರಾಜಧಾನಿಗಳು ಎಲಿಚಪುರ, ಮಯೂರಖಂಡಿ ಮತ್ತು ಮಾನ್ಯಖೇಟ." },
+      { id: 18, q: "ರಾಷ್ಟ್ರಕೂಟರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಗರುಡ", "ವರುಣ", "ಬಲಮುಖ ವರಾಹ", "ಮದಗಜ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ರಾಜಲಾಂಛನ ಗರುಡ." },
+      { id: 19, q: "ರಾಷ್ಟ್ರಕೂಟರ ಪ್ರಸಿದ್ಧ ದೊರೆಗಳು ಯಾರು?", options: ["IIIನೇ ಗೋವಿಂದ ಮತ್ತು ಅಮೋಘ ವರ್ಷ ನೃಪತುಂಗ", "ಇಮ್ಮಡಿ Pulakeshi", "ಕಾಕುತ್ಸ್ಥವರ್ಮ", "ಕೃಷ್ಣದೇವರಾಯ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ಪ್ರಸಿದ್ಧ ದೊರೆಗಳು IIIನೇ ಗೋವಿಂದ ಮತ್ತು ಅಮೋಘ ವರ್ಷ ನೃಪತುಂಗ." },
+      { id: 20, q: "ರಾಷ್ಟ್ರಕೂಟರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["IIನೇ ಕರ್ಕ", "Iನೇ ಕರ್ಕ", "ದಂತಿದುರ್ಗ", "3ನೇ ಕೃಷ್ಣ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ಕೊನೆಯ ದೊರೆ IIನೇ ಕರ್ಕ." },
+      { id: 21, q: "ದಂಡೋರಿ ಮತ್ತು ನವಸಾರಿ ಶಾಸನಗಳು ಯಾವ ವರ್ಷದ್ದಾಗಿವೆ?", options: ["805ರ ಶಾಸನ", "753ರ ಶಾಸನ", "973ರ ಶಾಸನ", "850ರ ಶಾಸನ"], ans: 0, exp: "ದಂಡೋರಿ ಮತ್ತು ನವಸಾರಿ ಶಾಸನಗಳು 805ರ ಶಾಸನಗಳಾಗಿವೆ." },
+      { id: 22, q: "ಕೆಳಗಿನವುಗಳಲ್ಲಿ ಯಾವುದು ರಾಷ್ಟ್ರಕೂಟರ ಪ್ರಮುಖ ಶಾಸನವಾಗಿದೆ?", options: ["ಸಂಜಾನ ಶಾಸನ", "ಐಹೊಳೆ ಶಾಸನ", "ಹಲ್ಮಿಡಿ ಶಾಸನ", "ಬಾದಾಮಿ ಬಂಡೆಗಲ್ಲು ಶಾಸನ"], ans: 0, exp: "ಸಂಜಾನ ಶಾಸನ, ನಿಲಗುಂದ ಮತ್ತು ಶಿರೂರಿನ ಶಾಸನಗಳು ರಾಷ್ಟ್ರಕೂಟರ ಪ್ರಮುಖ ಶಾಸನಗಳು." },
+      { id: 23, q: "ನಿಲಗುಂದ ಮತ್ತು ಶಿರೂರಿನ ಶಾಸನಗಳು ಯಾವ ಮನೆತನಕ್ಕೆ ಸೇರಿವೆ?", options: ["ರಾಷ್ಟ್ರಕೂಟರು", "ಕದಂಬರು", "ಚಾಲುಕ್ಯರು", "ಹೊಯ್ಸಳರು"], ans: 0, exp: "ನಿಲಗುಂದ ಮತ್ತು ಶಿರೂರಿನ ಶಾಸನಗಳು ರಾಷ್ಟ್ರಕೂಟರ ಪ್ರಮುಖ ಶಾಸನಗಳಾಗಿವೆ." },
+
+      // ಬಾದಾಮಿ ಚಾಲುಕ್ಯರು
+      { id: 24, q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಜಯಸಿಂಹ", "ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ", "IIನೇ ಕೀರ್ತಿವರ್ಮ", "ಮಂಗಳೇಶ"], ans: 0, exp: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಸ್ಥಾಪಕ ಜಯಸಿಂಹ." },
+      { id: 25, q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಬಾದಾಮಿ / ವಾತಾಪಿ", "ಮಾನ್ಯಖೇಟ", "ಬನವಾಸಿ", "ದ್ವಾರಸಮುದ್ರ"], ans: 0, exp: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ರಾಜಧಾನಿಗಳು ಬಾದಾಮಿ / ವಾತಾಪಿ." },
+      { id: 26, q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಬಲಮುಖ ವರಾಹ", "ಗರುಡ", "ವರುಣ", "ಮದಗಜ"], ans: 0, exp: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ರಾಜಲಾಂಛನ ಬಲಮುಖ ವರಾಹ." },
+      { id: 27, q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ", "ಜಯಸಿಂಹ", "1ನೇ ಪುಲಕೇಶಿ", "ವಿಕ್ರಮಾದಿತ್ಯ"], ans: 0, exp: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ." },
+      { id: 28, q: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["IIನೇ ಕೀರ್ತಿವರ್ಮ", "ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ", "ಮಂಗಳೇಶ", "1ನೇ ವಿಕ್ರಮಾದಿತ್ಯ"], ans: 0, exp: "ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಕೊನೆಯ ದೊರೆ IIನೇ ಕೀರ್ತಿವರ್ಮ." },
+      { id: 29, q: "ರವಿಪ್ರೀತಿ ರಚಿಸಿದ ಐಹೊಳೆ ಶಾಸನವು ಯಾರ ಕಾಲಕ್ಕೆ ಸೇರಿದ್ದು?", options: ["ಬಾದಾಮಿ ಚಾಲುಕ್ಯರು", "ರಾಷ್ಟ್ರಕೂಟರು", "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರು", "ಹೊಯ್ಸಳರು"], ans: 0, exp: "ಐಹೊಳೆ ಶಾಸನ, ಮಹಾಕೂಟ ಶಾಸನ, ಬಾದಾಮಿ ಬಂಡೆಗಲ್ಲು ಶಾಸನ, ಹೈದರಾಬಾದ್ ಸ್ತಂಭ ಶಾಸನ, ಕಪ್ಪೆ ಅರಭಟ್ಟ ಶಾಸನಗಳು ಬಾದಾಮಿ ಚಾಲುಕ್ಯರದ್ದು." },
+      { id: 30, q: "ಕಪ್ಪೆ ಅರಭಟ್ಟ ಶಾಸನವು ಯಾವ ಮನೆತನಕ್ಕೆ ಸೇರಿದೆ?", options: ["ಬಾದಾಮಿ ಚಾಲುಕ್ಯರು", "ಕದಂಬರು", "ಗಂಗರು", "ವಿಜಯನಗರ"], ans: 0, exp: "ಕಪ್ಪೆ ಅರಭಟ್ಟ ಶಾಸನ ಬಾದಾಮಿ ಚಾಲುಕ್ಯರ ಪ್ರಮುಖ ಶಾಸನ." },
+
+      // ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರು
+      { id: 31, q: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಸ್ಥಾಪಕ ಯಾರು?", options: ["IIನೇ ತೈಲಪ", "1ನೇ ಸೋಮೇಶ್ವರ", "6ನೇ ವಿಕ್ರಮಾದಿತ್ಯ", "4ನೇ ಸೋಮೇಶ್ವರ"], ans: 0, exp: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಸ್ಥಾಪಕ IIನೇ ತೈಲಪ." },
+      { id: 32, q: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಬಲಮುಖ ವರಾಹ", "ಎಡಮುಖ ವರಾಹ", "ಗರುಡ", "ಗಂಡ ಭೇರುಂಡ"], ans: 0, exp: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ರಾಜಲಾಂಛನ ಬಲಮುಖ ವರಾಹ." },
+      { id: 33, q: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಮಾನ್ಯಖೇಟ ಮತ್ತು ಕಲ್ಯಾಣ", "ಬಾದಾಮಿ ಮತ್ತು ವಾತಾಪಿ", "ಸೊಸೇವೂರು ಮತ್ತು ಬೇಲೂರು", "ಶ್ರೀರಂಗಪಟ್ಟಣ"], ans: 0, exp: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ರಾಜಧಾನಿಗಳು ಮಾನ್ಯಖೇಟ ಮತ್ತು ಕಲ್ಯಾಣ." },
+      { id: 34, q: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಪ್ರಸಿದ್ಧ ದೊರೆಗಳು ಯಾರು?", options: ["1ನೇ ಸೋಮೇಶ್ವರ ಮತ್ತು 6ನೇ ವಿಕ್ರಮಾದಿತ್ಯ", "ಇಮ್ಮಡಿ ಪುಲಕೇಶಿ", "ಕೃಷ್ಣದೇವರಾಯ", "ವಿಷ್ಣುವರ್ಧನ"], ans: 0, exp: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಪ್ರಸಿದ್ಧ ದೊರೆಗಳು 1ನೇ ಸೋಮೇಶ್ವರ ಮತ್ತು 6ನೇ ವಿಕ್ರಮಾದಿತ್ಯ." },
+      { id: 35, q: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["4ನೇ ಸೋಮೇಶ್ವರ", "IIನೇ ತೈಲಪ", "6ನೇ ವಿಕ್ರಮಾದಿತ್ಯ", "3ನೇ ಜಗದೇಖಮಲ್ಲ"], ans: 0, exp: "ಕಲ್ಯಾಣ ಚಾಲುಕ್ಯರ ಕೊನೆಯ ದೊರೆ 4ನೇ ಸೋಮೇಶ್ವರ." },
+
+      // ದ್ವಾರಸಮುದ್ರ ಹೊಯ್ಸಳರು
+      { id: 36, q: "ದ್ವಾರಸಮುದ್ರ ಹೊಯ್ಸಳರ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಸಳ", "ಸುದತ್ತಾಚಾರ್ಯ", "ವಿಷ್ಣುವರ್ಧನ", "ವಿರೂಪಾಕ್ಷ ಬಲ್ಲಾಳ"], ans: 0, exp: "ದ್ವಾರಸಮುದ್ರ ಹೊಯ್ಸಳರ ಸ್ಥಾಪಕ ಸಳ." },
+      { id: 37, q: "ಹೊಯ್ಸಳರ ಮಾರ್ಗದರ್ಶಕ ಯಾರು?", options: ["ಸುದತ್ತಾಚಾರ್ಯ (ಜೈನ ಮುನಿ)", "ವಿದ್ಯಾರಣ್ಯರು", "ಸಿಂಹನಂದಿ", "ವಿಶ್ವಾಮಿತ್ರ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ಮಾರ್ಗದರ್ಶಕ ಸುದತ್ತಾಚಾರ್ಯ (ಜೈನ ಮುನಿ)." },
+      { id: 38, q: "ಹೊಯ್ಸಳರ ರಾಜ ಲಾಂಛನ ಯಾವುದು?", options: ["ಸಳನು ಹುಲಿಯನ್ನು ಕೊಲ್ಲುತ್ತಿರುವ ದೃಶ್ಯ", "ಗರುಡ", "ಬಲಮುಖ ವರಾಹ", "ಗಂಡ ಭೇರುಂಡ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ರಾಜ ಲಾಂಛನ ಸಳನು ಹುಲಿಯನ್ನು ಕೊಲ್ಲುತ್ತಿರುವ ದೃಶ್ಯ (ಈ ವಿಗ್ರಹವು ದ್ವಾರ ಸಮುದ್ರದಲ್ಲಿ ಕಂಡು ಬಂದಿದೆ)." },
+      { id: 39, q: "ಹೊಯ್ಸಳರ ಮೂಲ ರಾಜಧಾನಿ (ಆರಂಭಿಕ) ಯಾವುದು?", options: ["ಸೊಸೇವೂರು (ಅಂಗಡಿ ಗ್ರಾಮ)", "ವೇಲಾಪೂರ (ಬೇಲೂರು)", "ದ್ವಾರಸಮುದ್ರ (ಹಳೆಬೀಡು)", "ಮೇಲಿನ ಎಲ್ಲವೂ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ರಾಜಧಾನಿಗಳು: ಸೊಸೇವೂರು (ಅಂಗಡಿ ಗ್ರಾಮ), ವೇಲಾಪೂರ (ಬೇಲೂರು), ದ್ವಾರಸಮುದ್ರ (ಹಳೆಬೀಡು)." },
+      { id: 40, q: "ಹೊಯ್ಸಳರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ವಿಷ್ಣುವರ್ಧನ", "ಸಳ", "ವಿರೂಪಾಕ್ಷ ಬಲ್ಲಾಳ", "2ನೇ ವೀರಬಲ್ಲಾಳ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ಪ್ರಸಿದ್ಧ ದೊರೆ ವಿಷ್ಣುವರ್ಧನ." },
+      { id: 41, q: "ಹೊಯ್ಸಳರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["ವಿರೂಪಾಕ್ಷ ಬಲ್ಲಾಳ", "3ನೇ ಬಲ್ಲಾಳ", "ವಿಷ್ಣುವರ್ಧನ", "ಸಳ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ಕೊನೆಯ ದೊರೆ ವಿರೂಪಾಕ್ಷ ಬಲ್ಲಾಳ." },
+      { id: 42, q: "ಹೊಯ್ಸಳರ ಪ್ರಮುಖ ದೇವಾಲಯ ಯಾವುದು?", options: ["ಬೇಲೂರು ಚೆನ್ನಕೇಶವ ದೇವಾಲಯ", "ವಿರೂಪಾಕ್ಷ ದೇವಾಲಯ", "ಮಲ್ಲಿಕಾರ್ಜುನ ದೇವಾಲಯ", "ಬಾದಾಮಿ ಗುಹಾಂತರ ದೇವಾಲಯ"], ans: 0, exp: "ಹೊಯ್ಸಳರ ಪ್ರಮುಖ ದೇವಾಲಯ ಬೇಲೂರು ಚೆನ್ನಕೇಶವ ದೇವಾಲಯ." },
+
+      // ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯ
+      { id: 43, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["1336–1646", "1347–1527", "1399–1947", "753–973"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ 1336–1646." },
+      { id: 44, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಸ್ಥಾಪಕರು ಯಾರು?", options: ["ಹಕ್ಕ ಮತ್ತು ಬುಕ್ಕ", "ಕೃಷ್ಣದೇವರಾಯ", "ಅಚ್ಯುತರಾಯ", "ರಾಮರಾಯ"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಸ್ಥಾಪಕರು ಹಕ್ಕ ಮತ್ತು ಬುಕ್ಕ." },
+      { id: 45, q: "ಹಕ್ಕ, ಬುಕ್ಕ, ಮಾರಪ್ಪ, ಮುದ್ದಪ್ಪ ಮತ್ತು ಕಂಪಣ ಇವರು ಯಾರು?", options: ["ಸಹೋದರರು", "ತಂದೆ-ಮಕ್ಕಳು", "ಮಂತ್ರಿಗಳು", "ಸೇನಾಧಿಪತಿಗಳು"], ans: 0, exp: "ಹಕ್ಕ, ಬುಕ್ಕ, ಮಾರಪ್ಪ, ಮುದ್ದಪ್ಪ, ಕಂಪಣ ಇವರು ಐದು ಜನ ಸಹೋದರರಾಗಿದ್ದರು." },
+      { id: 46, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯ ಸ್ಥಾಪನೆಗೆ ಮಾರ್ಗದರ್ಶಕರು ಯಾರು?", options: ["ವಿದ್ಯಾರಣ್ಯರು", "ಸುದತ್ತಾಚಾರ್ಯ", "ಸಿಂಹನಂದಿ", "ರಮಾನಂದರು"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯಕ್ಕೆ ವಿದ್ಯಾರಣ್ಯರು ಮಾರ್ಗದರ್ಶಕರಾಗಿದ್ದರು." },
+      { id: 47, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ಕೃಷ್ಣದೇವರಾಯ", "ಇಮ್ಮಡಿ ಪ್ರೌಢದೇವರಾಯ", "IIIನೇ ಶ್ರೀರಂಗ", "ಅಚ್ಯುತರಾಯ"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಪ್ರಸಿದ್ಧ ದೊರೆ ಕೃಷ್ಣದೇವರಾಯ." },
+      { id: 48, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["IIIನೇ ಶ್ರೀರಂಗ", "ಅಳಿಯ ರಾಮರಾಯ", "2ನೇ ವೆಂಕಟ", "ತಿರುಮಲ"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಕೊನೆಯ ದೊರೆ IIIನೇ ಶ್ರೀರಂಗ." },
+      { id: 49, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಎಡಮುಖ ವರಾಹ", "ಬಲಮುಖ ವರಾಹ", "ಗರುಡ", "ಗಂಡ ಭೇರುಂಡ"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ರಾಜಲಾಂಛನ ಎಡಮುಖ ವರಾಹ." },
+      { id: 50, q: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಆನೆಗುಂದಿ (ಕೊಪ್ಪಳ), ಹಂಪಿ (ವಿಜಯನಗರ), ಪೆನುಗೊಂಡ (ಆಂಧ್ರಪ್ರದೇಶ)", "ಮಾನ್ಯಖೇಟ ಮತ್ತು ಕಲ್ಯಾಣ", "ಸೊಸೇವೂರು, ಬೇಲೂರು", "ಶ್ರೀರಂಗಪಟ್ಟಣ, ಮೈಸೂರು"], ans: 0, exp: "ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ರಾಜಧಾನಿಗಳು: ಆನೆಗುಂದಿ (ಕೊಪ್ಪಳ), ಹಂಪಿ (ವಿಜಯನಗರ) ಮತ್ತು ಪೆನುಗೊಂಡ (ಆಂಧ್ರಪ್ರದೇಶ)." },
+
+      // ವಿಜಯನಗರ ಸಾಮ್ರಾಜ್ಯದ ಸಾಹಿತ್ಯ
+      { id: 51, q: "'ಮನು ಚರಿತಂ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ", "ವಿದ್ಯಾರಣ್ಯರು", "ಕುಮಾರ ವ್ಯಾಸ", "ಕನಕದಾಸರು"], ans: 0, exp: "ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ ಅವರು 'ಮನು ಚರಿತಂ' ಕೃತಿಯನ್ನು ರಚಿಸಿದರು." },
+      { id: 52, q: "'ಶಂಕರ ವಿಜಯ' ಮತ್ತು 'ಸರ್ವದರ್ಶನ ಸಂಗ್ರಹ' ಕೃತಿಗಳನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ವಿದ್ಯಾರಣ್ಯರು", "ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ", "ಸಾಯಣಾಚಾರ್ಯ", "ಲಕ್ಷ್ಮಣ ದಂಡೇಶ"], ans: 0, exp: "ವಿದ್ಯಾರಣ್ಯರು 'ಶಂಕರ ವಿಜಯ' ಮತ್ತು 'ಸರ್ವದರ್ಶನ ಸಂಗ್ರಹ' ಕೃತಿಗಳನ್ನು ಬರೆದಿದ್ದಾರೆ." },
+      { id: 53, q: "2ನೇ ದೇವರಾಯ (ಪ್ರೌಢದೇವರಾಯ) ರಚಿಸಿದ ಗ್ರಂಥ ಯಾವುದು?", options: ["ಮಹಾ ನಾಟಕ ಸುಧಾನಿಧಿ", "ಗದುಗಿನ ಭಾರತ", "ಶಿವತತ್ವ ಚಿಂತಾಮಣಿ", "ತೊರವೆ ರಾಮಾಯಣ"], ans: 0, exp: "2ನೇ ದೇವರಾಯರು 'ಮಹಾ ನಾಟಕ ಸುಧಾನಿಧಿ' ಯನ್ನು ರಚಿಸಿದರು." },
+      { id: 54, q: "'ಗದುಗಿನ ಭಾರತ' (ಕರ್ಣಾಟ ಭಾರತ ಕಥಾಮಂಜರಿ) ಬರೆದವರು ಯಾರು?", options: ["ಕುಮಾರ ವ್ಯಾಸ", "ನರಹರಿ", "ಕನಕದಾಸರು", "ಪುರಂದರ ದಾಸರು"], ans: 0, exp: "'ಗದುಗಿನ ಭಾರತ' ಕೃತಿಯನ್ನು ಕುಮಾರ ವ್ಯಾಸ ಬರೆದಿದ್ದಾರೆ." },
+      { id: 55, q: "'ಶಿವತತ್ವ ಚಿಂತಾಮಣಿ' ಕೃತಿಯ ಕರ್ತೃ ಯಾರು?", options: ["ಲಕ್ಷ್ಮಣ ದಂಡೇಶ", "ನರಹರಿ", "ಸಾಯಣಾಚಾರ್ಯ", "ವಿದ್ಯಾರಣ್ಯರು"], ans: 0, exp: "ಲಕ್ಷ್ಮಣ ದಂಡೇಶ ಅವರು 'ಶಿವತತ್ವ ಚಿಂತಾಮಣಿ' ಯನ್ನು ರಚಿಸಿದರು." },
+      { id: 56, q: "'ತೊರವೆ ರಾಮಾಯಣ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ನರಹರಿ", "ಕುಮಾರ ವ್ಯಾಸ", "ಕನಕದಾಸರು", "ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ"], ans: 0, exp: "ನರಹರಿ (ತೊರವೆ ನರಹರಿ) ಅವರು 'ತೊರವೆ ರಾಮಾಯಣ' ಬರೆದಿದ್ದಾರೆ." },
+      { id: 57, q: "'ಆಯುರ್ವೇದ ಸುಧಾನಿಧಿ' ಕೃತಿಯನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ಸಾಯಣಾಚಾರ್ಯ", "ವಿದ್ಯಾರಣ್ಯರು", "ಲಕ್ಷ್ಮಣ ದಂಡೇಶ", "ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ"], ans: 0, exp: "ಸಾಯಣಾಚಾರ್ಯರು 'ಆಯುರ್ವೇದ ಸುಧಾನಿಧಿ' ಕೃತಿಯನ್ನು ರಚಿಸಿದರು." },
+      { id: 58, q: "'ನಳಚರಿತೆ', 'ರಾಮಧಾನ್ಯ ಚರಿತೆ' ಮತ್ತು 'ಮೋಹನ ತರಂಗಿಣಿ' ಕೃತಿಗಳ ಕರ್ತೃ ಯಾರು?", options: ["ಕನಕದಾಸರು", "ಪುರಂದರ ದಾಸರು", "ಕುಮಾರ ವ್ಯಾಸ", "ನರಹರಿ"], ans: 0, exp: "ಕನಕದಾಸರು 'ನಳಚರಿತೆ', 'ರಾಮಧಾನ್ಯ ಚರಿತೆ', ಹಾಗೂ 'ಮೋಹನ ತರಂಗಿಣಿ' ಯನ್ನು ಬರೆದಿದ್ದಾರೆ." },
+      { id: 59, q: "ಕೀರ್ತನೆಗಳ ಮೂಲಕ ದಾಸ ಸಾಹಿತ್ಯಕ್ಕೆ ಅಪಾರ ಕೊಡುಗೆ ನೀಡಿದವರು ಯಾರು?", options: ["ಪುರಂದರ ದಾಸರು", "ಅಲ್ಲಸಾನಿ ಪೆದ್ದಣ್ಣ", "ಲಕ್ಷ್ಮಣ ದಂಡೇಶ", "ಸಾಯಣಾಚಾರ್ಯ"], ans: 0, exp: "ಪುರಂದರ ದಾಸರು ತಮ್ಮ ಕೀರ್ತನೆಗಳಿಗೆ ಪ್ರಸಿದ್ಧರು." },
+
+      // ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯ
+      { id: 60, q: "ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯದ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["1347–1527", "1336–1646", "1399–1947", "1510–1600"], ans: 0, exp: "ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯದ ಕಾಲಾವಧಿ ಕ್ರಿ.ಶ. 1347–1527." },
+      { id: 61, q: "ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯದ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಅಲ್ಲಾವುದ್ದೀನ್ ಹಸನ್ ಗಂಗೂ ಬಹಮನ್ ಶಾ", "ಜಫರ್ ಖಾನ್", "ಯೂಸುಫ್ ಆದಿಲ್ ಶಾ", "ಮಹಮ್ಮದ್ ಗವಾನ್"], ans: 0, exp: "ಬಹಮನಿ ಸಾಮ್ರಾಜ್ಯದ ಸ್ಥಾಪಕ ಅಲ್ಲಾವುದ್ದೀನ್ ಹಸನ್ ಗಂಗೂ ಬಹಮನ್ ಶಾ." },
+      { id: 62, q: "ಅಲ್ಲಾವುದ್ದೀನ್ ಹಸನ್ ಗಂಗೂ ಬಹಮನ್ ಶಾನ ಮೂಲ ಹೆಸರೇನು?", options: ["ಜಫರ್ ಖಾನ್", "ಆದಿಲ್ ಖಾನ್", "ಹಸನ್ ಖಾನ್", "ಇಸ್ಮಾಯಿಲ್ ಶಾ"], ans: 0, exp: "ಬಹಮನಿ ಸ್ಥಾಪಕನ ಮೂಲ ಹೆಸರು ಜಫರ್ ಖಾನ್." },
+
+      // ಬಿಜಾಪುರದ ಆದಿಲ್ ಶಾಹಿ
+      { id: 63, q: "ಬಿಜಾಪುರದ ಆದಿಲ್ ಶಾಹಿ ಮನೆತನದ ಸ್ಥಾಪಕ ಯಾರು?", options: ["ಯೂಸುಫ್ ಆದಿಲ್ ಶಾ", "ಇಬ್ರಾಹಿಂ ಆದಿಲ್ ಶಾ", "ಅಲಿ ಆದಿಲ್ ಶಾ", "ಸಿಿಕಂದರ್ ಆದಿಲ್ ಶಾ"], ans: 0, exp: "ಬಿಜಾಪುರದ ಆದಿಲ್ ಶಾಹಿ ಸ್ಥಾಪಕ ಯೂಸುಫ್ ಆದಿಲ್ ಶಾ." },
+      { id: 64, q: "ಯೂಸುಫ್ ಆದಿಲ್ ಶಾನ ಧಾರ್ಮಿಕ ನೀತಿ ಹೇಗಿತ್ತು?", options: ["ಸರ್ವಧರ್ಮ ಸಹಿಷ್ಣುತಾ ವ್ಯಕ್ತಿಯಾಗಿದ್ದನು", "ಕಟ್ಟುನಿಟ್ಟಾದ ಧಾರ್ಮಿಕ ಸಹಿಷ್ಣುತೆ ಇರಲಿಲ್ಲ", "ಕೇವಲ ಸ್ವಧರ್ಮ ಪ್ರಚಾರಕ", "ಯಾವುದೂ ಅಲ್ಲ"], ans: 0, exp: "ಯೂಸುಫ್ ಆದಿಲ್ ಶಾ ಈತ ಸರ್ವಧರ್ಮ ಸಹಿಷ್ಣುತಾ ವ್ಯಕ್ತಿಯಾಗಿದ್ದನು." },
+      { id: 65, q: "1510ರಲ್ಲಿ ಪೋರ್ಚುಗೀಸರು ಯಾರಿಂದ ಗೋವಾವನ್ನು ವಶಪಡಿಸಿಕೊಂಡರು?", options: ["ಯೂಸುಫ್ ಆದಿಲ್ ಶಾ", "ಅಲ್ಲಾವುದ್ದೀನ್ ಬಹಮನ್ ಶಾ", "ಕೃಷ್ಣದೇವರಾಯ", "ಇಬ್ರಾಹಿಂ ಆದಿಲ್ ಶಾ"], ans: 0, exp: "1510ರಲ್ಲಿ ಪೋರ್ಚುಗೀಸರು ಬಿಜಾಪುರದ ಯೂಸುಫ್ ಆದಿಲ್ ಶಾನಿಂದ ಗೋವಾವನ್ನು ವಶಪಡಿಸಿಕೊಂಡರು." },
+
+      // ಮೈಸೂರಿನ ಒಡೆಯರು
+      { id: 66, q: "ಮೈಸೂರಿನ ಒಡೆಯರ್ ಮನೆತನದ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಯಾವುದು?", options: ["1399–1947", "1336–1646", "1347–1527", "753–973"], ans: 0, exp: "ಮೈಸೂರಿನ ಒಡೆಯರ ಆಳ್ವಿಕೆಯ ಕಾಲಾವಧಿ ಕ್ರಿ.ಶ. 1399–1947." },
+      { id: 67, q: "ಮೈಸೂರು ಸಂಸ್ಥಾನದ ಸ್ಥಾಪಕರು ಯಾರು?", options: ["ಯದುರಾಯ ಮತ್ತು ಕೃಷ್ಣರಾಯ", "ಚಿಕ್ಕದೇವರಾಜ ಒಡೆಯರ್", "ನಾಲ್ವಡಿ ಕೃಷ್ಣರಾಜ ಒಡೆಯರ್", "ಜಯಚಾಮರಾಜ ಒಡೆಯರ್"], ans: 0, exp: "ಮೈಸೂರಿನ ಒಡೆಯರ ಮನೆತನದ ಸ್ಥಾಪಕರು ಯದುರಾಯ ಮತ್ತು ಕೃಷ್ಣರಾಯ." },
+      { id: 68, q: "ಮೈಸೂರು ಒಡೆಯರ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಶ್ರೀರಂಗಪಟ್ಟಣ, ಮೈಸೂರು, ಬೆಂಗಳೂರು", "ಮಾನ್ಯಖೇಟ ಮತ್ತು ಕಲ್ಯಾಣ", "ಬಾದಾಮಿ ಮತ್ತು ವಾತಾಪಿ", "ಕೋಲಾರ, ತಲಕಾಡು"], ans: 0, exp: "ಮೈಸೂರು ಒಡೆಯರ ರಾಜಧಾನಿಗಳು ಶ್ರೀರಂಗಪಟ್ಟಣ, ಮೈಸೂರು, ಮತ್ತು ಬೆಂಗಳೂರು." },
+      { id: 69, q: "ಮೈಸೂರು ಒಡೆಯರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಗಂಡ ಭೇರುಂಡ", "ಬಲಮುಖ ವರಾಹ", "ಎಡಮುಖ ವರಾಹ", "ಗರುಡ"], ans: 0, exp: "ಮೈಸೂರಿನ ಒಡೆಯರ ರಾಜಲಾಂಛನ ಗಂಡ ಭೇರುಂಡ." },
+      { id: 70, q: "ಮೈಸೂರು ಒಡೆಯರು ಮೂಲತಃ ಎಲ್ಲಿಯವರು?", options: ["ದ್ವಾರಕೆಯವರು", "ವಿಜಯನಗರದವರು", "ಬಾದಾಮಿಯವರು", "ಕಲ್ಯಾಣದವರು"], ans: 0, exp: "ಮೈಸೂರು ಒಡೆಯರು ಮೂಲತಃ ದ್ವಾರಕೆಯವರು." },
+
+      // ರಾಷ್ಟ್ರಕೂಟರ ಸಾಹಿತ್ಯ
+      { id: 71, q: "'ಕವಿರಾಜ ಮಾರ್ಗ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಶ್ರೀ ವಿಜಯ", "ಜಿನಸೇನ", "ಶಿವಕೋಟ್ಯಾಚಾರ್ಯ", "ಗುಣಭದ್ರ"], ans: 0, exp: "'ಕವಿರಾಜ ಮಾರ್ಗ' ಕನ್ನಡದ ಉಪಲಬ್ಧ ಮೊದಲ ಗ್ರಂಥವಾಗಿದ್ದು, ಇದನ್ನು ಶ್ರೀ ವಿಜಯ ಬರೆದಿದ್ದಾನೆ." },
+      { id: 72, q: "'ಪೂರ್ವ ಪುರಾಣ' ಮತ್ತು 'ಜಯ ಧವಳ' ಕೃತಿಗಳನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಜಿನಸೇನ", "ಶ್ರೀ ವಿಜಯ", "ಪೊನ್ನ", "ಹಲಾಯುಧ"], ans: 0, exp: "ಜಿನಸೇನ ಮುನಿಯು 'ಪೂರ್ವ ಪುರಾಣ' ಮತ್ತು 'ಜಯ ಧವಳ' ಕೃತಿಗಳನ್ನು ಬರೆದಿದ್ದಾರೆ." },
+      { id: 73, q: "ವಡ್ಡಾರಾಧನೆ' ಎಂಬ ಗದ್ಯ ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಶಿವಕೋಟ್ಯಾಚಾರ್ಯ", "ಗುಣಭದ್ರ", "ಶ್ರೀ ವಿಕ್ರಮ", "ಪೊನ್ನ"], ans: 0, exp: "'ವಡ್ಡಾರಾಧನೆ' ಕನ್ನಡದ ಮೊದಲ ಗದ್ಯ ಕೃತಿಯಾಗಿದ್ದು, ಇದನ್ನು ಶಿವಕೋಟ್ಯಾಚಾರ್ಯ ರಚಿಸಿದರು." },
+      { id: 74, q: "'ಉತ್ತರ ಪುರಾಣ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಗುಣಭದ್ರ", "ಜಿನಸೇನ", "ಶ್ರೀ ವಿಜಯ", "ಹಲಾಯುಧ"], ans: 0, exp: "'ಉತ್ತರ ಪುರಾಣ' ವನ್ನು ಗುಣಭದ್ರ ರಚಿಸಿದರು." },
+      { id: 75, q: "'ಶಾಂತಿ ಪುರಾಣ' ಕೃತಿಯ ಕರ್ತೃ ಯಾರು?", options: ["ಪೊನ್ನ", "ಪಂಪ", "ರನ್ನ", "ಜನ್ನ"], ans: 0, exp: "ರಾಷ್ಟ್ರಕೂಟರ ಕಾಲದ ಕವಿ ಪೊನ್ನ 'ಶಾಂತಿ ಪುರಾಣ' ವನ್ನು ಬರೆದಿದ್ದಾರೆ." },
+      { id: 76, q: "'ನಳಚಂಪೂ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಶ್ರೀ ವಿಕ್ರಮ", "ಹಲಾಯುಧ", "ಶಿವಕೋಟ್ಯಾಚಾರ್ಯ", "ಜಿನಸೇನ"], ans: 0, exp: "'ನಳಚಂಪೂ' ಕೃತಿಯನ್ನು ಶ್ರೀ ವಿಕ್ರಮ ರಚಿಸಿದರು." },
+      { id: 77, q: "'ಕವಿರಹಸ್ಯ' ಮತ್ತು 'ಮೃತ ಸಂಜೀವಿನಿ' ಕೃತಿಗಳನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ಹಲಾಯುಧ", "ಶ್ರೀ ವಿಕ್ರಮ", "ಪೊನ್ನ", "ಗುಣಭದ್ರ"], ans: 0, exp: "ಹಲಾಯುಧ ಅವರು 'ಕವಿರಹಸ್ಯ' ಮತ್ತು 'ಮೃತ ಸಂಜೀವಿನಿ' ಕೃತಿಗಳನ್ನು ರಚಿಸಿದರು." },
+
+      // ಹೊಯ್ಸಳರ ಸಾಹಿತ್ಯ
+      { id: 78, q: "'ಯಶೋಧರ ಚರಿತೆ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ಜನ್ನ", "ಹರಿಹರ", "ರಾಘವಾಂಕ", "ಚಾಮರಸ"], ans: 0, exp: "ಜನ್ನ ಕವಿಯು 'ಯಶೋಧರ ಚರಿತೆ' ಯನ್ನು ರಚಿಸಿದನು." },
+      { id: 79, q: "'ರಗಳೆಗಳು' ಮತ್ತು 'ಗಿರಿಜಾ ಕಲ್ಯಾಣ' ಕೃತಿಗಳನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ಹರಿಹರ", "ರಾಘವಾಂಕ", "ಜನ್ನ", "ರಾಜಾದಿತ್ಯ"], ans: 0, exp: "ರಗಳೆಯ ಕವಿ ಹರಿಹರನು 'ರಗಳೆಗಳು' ಮತ್ತು 'ಗಿರಿಜಾ ಕಲ್ಯಾಣ' ಬರೆದನು." },
+      { id: 80, q: "'ಹರಿಶ್ಚಂದ್ರ ಕಾವ್ಯ' ಕೃತಿಯನ್ನು ರಚಿಸಿದವರು ಯಾರು?", options: ["ರಾಘವಾಂಕ", "ಹರಿಹರ", "ಚಾಮರಸ", "ಜನ್ನ"], ans: 0, exp: "ಷಟ್ಪದಿ ಕವಿ ರಾಘವಾಂಕನು 'ಹರಿಶ್ಚಂದ್ರ ಕಾವ್ಯ' ಬರೆದನು." },
+      { id: 81, q: "'ಪ್ರಭುಲಿಂಗ ಲೀಲೆ' ಕೃತಿಯ ಕರ್ತೃ ಯಾರು?", options: ["ಚಾಮರಸ", "ರಾಘವಾಂಕ", "ಹರಿಹರ", "ರಾಜಾದಿತ್ಯ"], ans: 0, exp: "ಚಾಮರಸನು 'ಪ್ರಭುಲಿಂಗ ಲೀಲೆ' ಯನ್ನು ರಚಿಸಿದನು." },
+      { id: 82, q: "'ಕ್ಷೇತ್ರಗಣಿತ' ಮತ್ತು 'ವ್ಯವಹಾರ ಗಣಿತ' ಕೃತಿಗಳನ್ನು ಬರೆದವರು ಯಾರು?", options: ["ರಾಜಾದಿತ್ಯ", "ಚಾಮರಸ", "ಜನ್ನ", "ಹರಿಹರ"], ans: 0, exp: "ಗಣಿತಜ್ಞ ರಾಜಾದಿತ್ಯನು 'ಕ್ಷೇತ್ರಗಣಿತ' ಮತ್ತು 'ವ್ಯವಹಾರ ಗಣಿತ' ಕೃತಿಗಳನ್ನು ರಚಿಸಿದನು." },
+
+      // ಗಂಗರು
+      { id: 83, q: "ಗಂಗ ಮನೆತನದ ಸ್ಥಾಪಕರು ಯಾರು?", options: ["ದಡಿಗ ಅಥವಾ ಮಾಧವ", "ದುರ್ವಿನೀತ", "ರಕ್ಕಸಗಂಗ", "ಮಾರಸಿಂಹ"], ans: 0, exp: "ಗಂಗ ಮನೆತನದ ಸ್ಥಾಪಕರು ದಡಿಗ ಅಥವಾ ಮಾಧವ." },
+      { id: 84, q: "ಗಂಗರ ಸಾಮ್ರಾಜ್ಯ ಸ್ಥಾಪನೆಗೆ ಮಾರ್ಗದರ್ಶಕರು ಯಾರು?", options: ["ಸಿಂಹನಂದಿ", "ಸುದತ್ತಾಚಾರ್ಯ", "ವಿದ್ಯಾರಣ್ಯರು", "ಜಿನಸೇನ"], ans: 0, exp: "ಗಂಗರ ಸಾಮ್ರಾಜ್ಯ ಸ್ಥಾಪನೆಗೆ ಸಿಂಹನಂದಿ (ಜೈನ ಮುನಿ) ಮಾರ್ಗದರ್ಶಕರಾಗಿದ್ದರು." },
+      { id: 85, q: "ಗಂಗರ ಪ್ರಸಿದ್ಧ ದೊರೆ ಯಾರು?", options: ["ದುರ್ವಿನೀತ", "ದಡಿಗ", "ರಕ್ಕಸಗಂಗ", "ಅವಿನೀತ"], ans: 0, exp: "ಗಂಗ ದೊರೆಗಳಲ್ಲಿ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧ ದೊರೆ ದುರ್ವಿನೀತ." },
+      { id: 86, q: "ಗಂಗರ ಕೊನೆಯ ದೊರೆ ಯಾರು?", options: ["ರಕ್ಕಸಗಂಗ", "ದುರ್ವಿನೀತ", "4ನೇ ರಾಚಮಲ್ಲ", "ಮಾರಸಿಂಹ"], ans: 0, exp: "ಗಂಗ ಮನೆತನದ ಕೊನೆಯ ದೊರೆ ರಕ್ಕಸಗಂಗ." },
+      { id: 87, q: "ಗಂಗರ ರಾಜಲಾಂಛನ ಯಾವುದು?", options: ["ಮದಗಜ", "ಗರುಡ", "ಬಲಮುಖ ವರಾಹ", "ವರುಣ"], ans: 0, exp: "ಗಂಗರ ರಾಜಲಾಂಛನ ಮದಗಜ." },
+      { id: 88, q: "ಗಂಗರ ರಾಜಧ್ವಜ ಯಾವುದು?", options: ["ಪಿಂಚಾಧ್ವಜ", "ವಾನರ ಧ್ವಜ", "ವೃಷಭ ಧ್ವಜ", "ಸಿಂಹ ಧ್ವಜ"], ans: 0, exp: "ಗಂಗರ ರಾಜಧ್ವಜ ಪಿಂಚಾಧ್ವಜ." },
+      { id: 89, q: "ಗಂಗರ ರಾಜಧಾನಿಗಳು ಯಾವುವು?", options: ["ಕೋಲಾರ, ತಲಕಾಡು, ಮಾಕುಂದ, ಮಣ್ಣೆಪುರ", "ಬಾದಾಮಿ ಮತ್ತು ವಾತಾಪಿ", "ಮಾನ್ಯಖೇಟ ಮತ್ತು ಕಲ್ಯಾಣ", "ಶ್ರೀರಂಗಪಟ್ಟಣ, ಮೈಸೂರು"], ans: 0, exp: "ಗಂಗರ ರಾಜಧಾನಿಗಳು: ಕೋಲಾರ, ತಲಕಾಡು, ಮಾಕುಂದ, ಮತ್ತು ಮಣ್ಣೆಪುರ (ಮಾನ್ಯಪುರ)." },
+
+      // ಹೆಚ್ಚುವರಿ ಮುಖ್ಯಾಂಶ ಪ್ರಶ್ನೆಗಳು (Boxes Header Context)
+      { id: 90, q: "ಶತಾವಹನರ ರಾಜಧಾನಿ ಪೈಠಾಣವು ಯಾವ ನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ?", options: ["ಗೋೋದಾವರಿ ನದಿ", "ವರದಾ ನದಿ", "ಕಾವೇರಿ ನದಿ", "ತುಂಗಭದ್ರಾ ನದಿ"], ans: 0, exp: "ಶತಾವಹನರ ರಾಜಧಾನಿ ಪೈಠಾಣವು ಗೋೋದಾವರಿ ನದಿಯ ದಂಡೆಯ ಮೇಲಿದೆ." },
+      { id: 91, q: "ಕದಂಬರ ರಾಜಧಾನಿ ಬನವಾಸಿಯು ಯಾವ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ?", options: ["ವರದಾ ನದಿ", "ಗೋೋದಾವರಿ ನದಿ", "ಕೃಷ್ಣಾ ನದಿ", "ಮಲಪ್ರಭಾ ನದಿ"], ans: 0, exp: "ಕದಂಬರ ರಾಜಧಾನಿ ಬನವಾಸಿ ವರದಾ ನದಿಯ ಎಡದಂಡೆಯ ಮೇಲಿದೆ." },
+      { id: 92, q: "ಹೊಯ್ಸಳರ ರಾಜಲಾಂಛನ 'ಸಳನು ಹುಲಿಯನ್ನು ಕೊಲ್ಲುತ್ತಿರುವ ವಿಗ್ರಹ'ವು ಎಲ್ಲಿ ಕಂಡುಬಂದಿದೆ?", options: ["ದ್ವಾರಸಮುದ್ರದಲ್ಲಿ", "ಬನವಾಸಿಯಲ್ಲಿ", "ಐಹೊಳೆಯಲ್ಲಿ", "ಬಾದಾಮಿಯಲ್ಲಿ"], ans: 0, exp: "ಈ ವಿಗ್ರಹವು ದ್ವಾರಸಮುದ್ರ (ಹಳೆಬೀಡು)ದಲ್ಲಿ ಕಂಡುಬಂದಿದೆ." },
+      { id: 93, q: "ವಿಜಯನಗರದ ಕೊಪ್ಪಳ ಪ್ರದೇಶದಲ್ಲಿರುವ ಆರಂಭಿಕ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಆನೆಗುಂದಿ", "ಹಂಪಿ", "ಪೆನುಗೊಂಡ", "ಉದಯಗಿರಿ"], ans: 0, exp: "ಆನೆಗುಂದಿ (ಕೊಪ್ಪಳ ಜಿಲ್ಲೆ) ವಿಜಯನಗರದ ಆರಂಭಿಕ ರಾಜಧಾನಿಯಾಗಿತ್ತು." },
+      { id: 94, q: "ಹೊಯ್ಸಳರ ಮೂಲ ರಾಜಧಾನಿ 'ಸೊಸೇವೂರು' ಪ್ರಸ್ತುತ ಯಾವ ಗ್ರಾಮವಾಗಿದೆ?", options: ["ಅಂಗಡಿ ಗ್ರಾಮ", "ಹಳೆಬೀಡು", "ಬೇಲೂರು", "ಹಂಪಿ"], ans: 0, exp: "ಸೊಸೇವೂರು ಪ್ರಸ್ತುತ ಚಿಕ್ಕಮಗಳೂರು ಜಿಲ್ಲೆಯ 'ಅಂಗಡಿ ಗ್ರಾಮ' ಆಗಿದೆ." }
+    ];
+
+    let currentQuestionsList = [...rawQuestions];
+    let userAnswers = {}; // Map of question ID -> chosen option index
+    let currentActiveIndex = 0;
+    let wrongTestCounter = 1;
+    let timerInterval = null;
+    let totalSeconds = 0;
+
+    // DOM Elements
+    const qText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const expBlock = document.getElementById('explanation-block');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const paletteGrid = document.getElementById('palette-grid');
+    const scoreBox = document.getElementById('score-box');
+    const testTitle = document.getElementById('test-title');
+    const timerElem = document.getElementById('timer');
+
+    // Timer Implementation
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      totalSeconds = 0;
+      timerInterval = setInterval(() => {
+        totalSeconds++;
+        const mins = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+        const secs = String(totalSeconds % 60).padStart(2, '0');
+        timerElem.innerText = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    // Initialize Test
+    function initTest() {
+      userAnswers = {};
+      currentActiveIndex = 0;
+      startTimer();
+      renderPalette();
+      loadQuestion(currentActiveIndex);
+      updateScore();
+    }
+
+    // Load Question
+    function loadQuestion(index) {
+      currentActiveIndex = index;
+      const qData = currentQuestionsList[index];
+
+      qText.innerText = `Q${qData.id}. ${qData.q}`;
+      optionsContainer.innerHTML = '';
+      expBlock.style.display = 'none';
+      expBlock.innerText = `ವಿವರಣೆ (Explanation): ${qData.exp}`;
+
+      const answered = userAnswers.hasOwnProperty(qData.id);
+      const selectedOption = userAnswers[qData.id];
+
+      qData.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = optText;
+
+        if (answered) {
+          btn.disabled = true;
+          if (optIdx === qData.ans) {
+            btn.classList.add('correct');
+          }
+          if (selectedOption === optIdx && selectedOption !== qData.ans) {
+            btn.classList.add('wrong');
+          }
+        } else {
+          btn.onclick = () => selectAnswer(qData.id, optIdx);
+        }
+
+        optionsContainer.appendChild(btn);
+      });
+
+      if (answered) {
+        expBlock.style.display = 'block';
+      }
+
+      // Update Navigation Buttons
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === currentQuestionsList.length - 1;
+
+      // Highlight Palette
+      updatePaletteHighlight();
+    }
+
+    // Handle Option Selection
+    function selectAnswer(qId, selectedIdx) {
+      userAnswers[qId] = selectedIdx;
+      updateScore();
+      renderPalette();
+      loadQuestion(currentActiveIndex);
+    }
+
+    // Render Question Palette Grid
+    function renderPalette() {
+      paletteGrid.innerHTML = '';
+      currentQuestionsList.forEach((qData, idx) => {
+        const pBtn = document.createElement('button');
+        pBtn.className = 'palette-btn';
+        pBtn.innerText = qData.id; // Retain original Question Number
+
+        if (userAnswers.hasOwnProperty(qData.id)) {
+          if (userAnswers[qData.id] === qData.ans) {
+            pBtn.classList.add('correct');
+          } else {
+            pBtn.classList.add('wrong');
+          }
+        }
+
+        if (idx === currentActiveIndex) {
+          pBtn.classList.add('active');
+        }
+
+        pBtn.onclick = () => loadQuestion(idx);
+        paletteGrid.appendChild(pBtn);
+      });
+    }
+
+    // Update Highlight on Active Palette Item
+    function updatePaletteHighlight() {
+      const buttons = paletteGrid.querySelectorAll('.palette-btn');
+      buttons.forEach((btn, idx) => {
+        if (idx === currentActiveIndex) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Navigation Functions
+    function prevQuestion() {
+      if (currentActiveIndex > 0) {
+        loadQuestion(currentActiveIndex - 1);
+      }
+    }
+
+    function nextQuestion() {
+      if (currentActiveIndex < currentQuestionsList.length - 1) {
+        loadQuestion(currentActiveIndex + 1);
+      }
+    }
+
+    // Score Calculation
+    function updateScore() {
+      let score = 0;
+      rawQuestions.forEach(q => {
+        if (userAnswers[q.id] === q.ans) {
+          score++;
+        }
+      });
+      scoreBox.innerText = `ಅಂಕಗಳು: ${score} / ${rawQuestions.length}`;
+    }
+
+    // Button Action: Retest All
+    function retestAll() {
+      currentQuestionsList = [...rawQuestions];
+      userAnswers = {};
+      wrongTestCounter = 1;
+      testTitle.innerText = "ಕರ್ನಾಟಕದ ರಾಜಮನೆತನಗಳ ಸಂಕ್ಷಿಪ್ತ ಮಾಹಿತಿ";
+      initTest();
+    }
+
+    // Button Action: Test Wrong Answers
+    function testWrongAnswers() {
+      // Find all wrongly answered questions from original list
+      const wrongQuestions = rawQuestions.filter(q => {
+        return userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.ans;
+      });
+
+      if (wrongQuestions.length === 0) {
+        alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found!)");
+        return;
+      }
+
+      // Reset user answers for these wrong questions only
+      wrongQuestions.forEach(q => {
+        delete userAnswers[q.id];
+      });
+
+      currentQuestionsList = wrongQuestions;
+      testTitle.innerText = `Wrong Test-${wrongTestCounter}`;
+      wrongTestCounter++;
+
+      currentActiveIndex = 0;
+      renderPalette();
+      loadQuestion(currentActiveIndex);
+      updateScore();
+    }
+
+    // Initialize application on load
+    window.onload = initTest;
+  </script>
+</body>
+</html>
