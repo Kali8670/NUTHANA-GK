@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ಪ್ರಮುಖ ಆತ್ಮಕಥನಗಳು - Mock Test</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+    header { background-color: #1a237e; color: #fff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .header-title { font-size: 1.2rem; font-weight: bold; }
+    .timer-container { background-color: #ffebee; color: #d32f2f; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 1.1rem; border: 1px solid #ffcdd2; box-shadow: 0 0 8px rgba(211, 47, 47, 0.4); }
+    .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .quiz-card { flex: 3; background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+    .question-header { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #1a237e; border-bottom: 2px solid #e8eaf6; padding-bottom: 10px; }
+    .options-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .option-btn { padding: 14px 18px; border: 2px solid #e0e0e0; background-color: #fff; border-radius: 8px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; color: #424242; }
+    .option-btn:hover:not([disabled]) { background-color: #f5f5f5; border-color: #bdbdbd; }
+    .option-btn.correct { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #1b5e20 !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+    .option-btn.wrong { background-color: #ffebee !important; border-color: #f44336 !important; color: #b71c1c !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+    .explanation-block { background-color: #e8eaf6; border-left: 5px solid #1a237e; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; font-size: 0.95rem; line-height: 1.5; }
+    .navigation-buttons { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
+    .nav-btn { padding: 10px 20px; border: none; border-radius: 6px; background-color: #3f51b5; color: white; font-weight: bold; cursor: pointer; }
+    .nav-btn:disabled { background-color: #c5cae9; cursor: not-allowed; }
+    .palette-panel { flex: 1; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; min-width: 280px; }
+    .score-box { background: #f5f5f5; padding: 12px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #e0e0e0; }
+    .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 8px; max-height: 380px; overflow-y: auto; margin-bottom: 20px; }
+    .palette-btn { width: 100%; height: 40px; border: 1px solid #ccc; background-color: #fafafa; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .palette-btn.active { border: 2px solid #2196f3 !important; box-shadow: 0 0 8px rgba(33, 150, 243, 0.8); }
+    .palette-btn.correct { background-color: #4caf50 !important; color: white; box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
+    .palette-btn.wrong { background-color: #f44336 !important; color: white; box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
+    .action-container { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+    .btn-retest { background-color: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+    .btn-test-wrong { background-color: #f44336; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title" id="test-title">ಪ್ರಮುಖ ಸಾಹಿತಿಗಳ ಆತ್ಮಕಥನಗಳು</div>
+    <div class="timer-container" id="timer">00:00</div>
+  </header>
+  <div class="main-container">
+    <div class="quiz-card">
+      <div>
+        <div class="question-header" id="question-text"></div>
+        <div class="options-container" id="options-container"></div>
+        <div class="explanation-block" id="explanation-block"></div>
+      </div>
+      <div class="navigation-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+    <div class="palette-panel">
+      <div class="score-box" id="score-box">ಅಂಕಗಳು: 0 / 13</div>
+      <div class="palette-grid" id="palette-grid"></div>
+      <div class="action-container">
+        <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+        <button class="btn-test-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const bios = [
+      { author: "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್ (1)", bio: "ಭಾವ" },
+      { author: "ದೇ.ಜ.ಗೌ (2)", bio: "ಹೋರಾಟದ ಬದುಕು" },
+      { author: "ಬೇಂದ್ರೆ (4)", bio: "ನಡೆದು ಬಂದ ದಾರಿ" },
+      { author: "ಅರವಿಂದ ಮಾಲಗತ್ತಿ (5)", bio: "ಗೌರ್ಮಿಂಟ್ ಬ್ರಾಹ್ಮಣ" },
+      { author: "ಕುವೆಂಪು (6)", bio: "ನೆನಪಿನ ದೋಣಿಯಲ್ಲಿ" },
+      { author: "ಕಡಿದಾಳ್ ಮಂಜಪ್ಪ (9)", bio: "ನನಸಾಗದ ಕನಸು" },
+      { author: "ಕಯ್ಯಾರ ಕಿಞ್ಞಣ್ಣ ರೈ (12)", bio: "ದುಡಿತವೇ ನನ್ನ ದೇವರು" },
+      { author: "ಪಿ.ಲಂಕೇಶ್ (13)", bio: "ಹುಳಿ ಮಾವಿನ ಮರ" },
+      { author: "ಬೀಚಿ (14)", bio: "ನನ್ನ ಬಯೋಗ್ರಫಿ" },
+      { author: "ಹೆಚ್. ನರಸಿಂಹ (15)", bio: "ಹೋರಾಟದ ಹಾದಿ" },
+      { author: "ಡಾ|| ಸಿದ್ಧಲಿಂಗಯ್ಯ (16)", bio: "ಊರುಕೇರಿ" },
+      { author: "ಗಿರೀಶ್ ಕಾರ್ನಾಡ್ (17)", bio: "ಆಡಾಡತಾ ಆಯುಷ್ಯ" },
+      { author: "ಶಿವರಾಮ ಕಾರಂತ (18)", bio: "ಹುಚ್ಚು ಮನಸ್ಸಿನ ಹತ್ತು ಮುಖಗಳು" }
+    ];
+
+    const rawQuestions = bios.map((item, i) => ({
+      id: i + 1,
+      q: `'${item.author}' ಅವರ ಆತ್ಮಕಥನ ಯಾವುದು?`,
+      options: [item.bio, "ನೆನಪಿನ ದೋಣಿಯಲ್ಲಿ", "ಊರುಕೇರಿ", "ಭಾವ"],
+      ans: 0,
+      exp: `${item.author} ಅವರ ಆತ್ಮಕಥನ '${item.bio}'.`
+    }));
+
+    let currentQuestionsList = [...rawQuestions], userAnswers = {}, currentActiveIndex = 0, wrongTestCounter = 1, timerInterval, totalSeconds = 0;
+    function startTimer() { clearInterval(timerInterval); totalSeconds = 0; timerInterval = setInterval(() => { totalSeconds++; timer.innerText = `${String(Math.floor(totalSeconds/60)).padStart(2,'0')}:${String(totalSeconds%60).padStart(2,'0')}`; }, 1000); }
+    function initTest() { userAnswers = {}; currentActiveIndex = 0; startTimer(); renderPalette(); loadQuestion(0); updateScore(); }
+    function loadQuestion(index) {
+      currentActiveIndex = index; const qData = currentQuestionsList[index];
+      questionText.innerText = `Q${qData.id}. ${qData.q}`; optionsContainer.innerHTML = ''; explanationBlock.style.display = 'none';
+      explanationBlock.innerText = `ವಿವರಣೆ: ${qData.exp}`; const answered = userAnswers.hasOwnProperty(qData.id);
+      qData.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = optText;
+        if (answered) { btn.disabled = true; if (optIdx === qData.ans) btn.classList.add('correct'); if (userAnswers[qData.id] === optIdx && optIdx !== qData.ans) btn.classList.add('wrong'); }
+        else { btn.onclick = () => { userAnswers[qData.id] = optIdx; updateScore(); renderPalette(); loadQuestion(currentActiveIndex); }; }
+        optionsContainer.appendChild(btn);
+      });
+      if (answered) explanationBlock.style.display = 'block';
+      prevBtn.disabled = index === 0; nextBtn.disabled = index === currentQuestionsList.length - 1; updatePaletteHighlight();
+    }
+    function renderPalette() {
+      paletteGrid.innerHTML = ''; currentQuestionsList.forEach((qData, idx) => {
+        const pBtn = document.createElement('button'); pBtn.className = 'palette-btn'; pBtn.innerText = qData.id;
+        if (userAnswers.hasOwnProperty(qData.id)) pBtn.classList.add(userAnswers[qData.id] === qData.ans ? 'correct' : 'wrong');
+        pBtn.onclick = () => loadQuestion(idx); paletteGrid.appendChild(pBtn);
+      });
+    }
+    function updatePaletteHighlight() { Array.from(paletteGrid.children).forEach((btn, idx) => btn.classList.toggle('active', idx === currentActiveIndex)); }
+    function prevQuestion() { if (currentActiveIndex > 0) loadQuestion(currentActiveIndex - 1); }
+    function nextQuestion() { if (currentActiveIndex < currentQuestionsList.length - 1) loadQuestion(currentActiveIndex + 1); }
+    function updateScore() { let score = rawQuestions.filter(q => userAnswers[q.id] === q.ans).length; scoreBox.innerText = `ಅಂಕಗಳು: ${score} / ${rawQuestions.length}`; }
+    function retestAll() { currentQuestionsList = [...rawQuestions]; userAnswers = {}; wrongTestCounter = 1; testTitle.innerText = "ಪ್ರಮುಖ ಸಾಹಿತಿಗಳ ಆತ್ಮಕಥನಗಳು"; initTest(); }
+    function testWrongAnswers() {
+      const wrong = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.ans);
+      if (!wrong.length) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ!");
+      wrong.forEach(q => delete userAnswers[q.id]); currentQuestionsList = wrong; testTitle.innerText = `Wrong Test-${wrongTestCounter++}`; currentActiveIndex = 0; renderPalette(); loadQuestion(0); updateScore();
+    }
+    window.onload = initTest;
+  </script>
+</body>
+</html>
