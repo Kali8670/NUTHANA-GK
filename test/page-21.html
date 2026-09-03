@@ -1,110 +1,167 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು - CBT Mock Test</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
-    header { background-color: #1a237e; color: #fff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-    .header-title { font-size: 1.2rem; font-weight: bold; }
-    .timer-container { background-color: #ffebee; color: #d32f2f; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 1.1rem; border: 1px solid #ffcdd2; box-shadow: 0 0 8px rgba(211, 47, 47, 0.4); }
-    .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
-    .quiz-card { flex: 3; background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
-    .question-header { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #1a237e; border-bottom: 2px solid #e8eaf6; padding-bottom: 10px; }
-    .options-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-    .option-btn { padding: 14px 18px; border: 2px solid #e0e0e0; background-color: #fff; border-radius: 8px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; color: #424242; }
-    .option-btn:hover:not([disabled]) { background-color: #f5f5f5; border-color: #bdbdbd; }
-    .option-btn.correct { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #1b5e20 !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
-    .option-btn.wrong { background-color: #ffebee !important; border-color: #f44336 !important; color: #b71c1c !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
-    .explanation-block { background-color: #e8eaf6; border-left: 5px solid #1a237e; padding: 15px; border-radius: 4px; margin-top: 15px; margin-bottom: 20px; display: none; font-size: 0.95rem; line-height: 1.5; }
-    .navigation-buttons { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
-    .nav-btn { padding: 10px 20px; border: none; border-radius: 6px; background-color: #3f51b5; color: white; font-weight: bold; cursor: pointer; }
-    .nav-btn:hover { background-color: #303f9f; }
-    .nav-btn:disabled { background-color: #c5cae9; cursor: not-allowed; }
-    .palette-panel { flex: 1; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; min-width: 280px; }
-    .score-box { background: #f5f5f5; padding: 12px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #e0e0e0; }
-    .palette-title { font-size: 1rem; font-weight: bold; margin-bottom: 12px; color: #333; }
-    .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 8px; max-height: 380px; overflow-y: auto; padding-right: 5px; margin-bottom: 20px; }
-    .palette-btn { width: 100%; height: 40px; border: 1px solid #ccc; background-color: #fafafa; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .palette-btn.active { border: 2px solid #2196f3 !important; box-shadow: 0 0 8px rgba(33, 150, 243, 0.8); }
-    .palette-btn.correct { background-color: #4caf50 !important; color: white; border-color: #388e3c; box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
-    .palette-btn.wrong { background-color: #f44336 !important; color: white; border-color: #d32f2f; box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
-    .action-container { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-    .btn-retest { background-color: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
-    .btn-test-wrong { background-color: #f44336; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
-    @media (max-width: 850px) { .main-container { flex-direction: column; } .palette-panel { min-width: 100%; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Chapter D</title>
+    <style>
+        :root { --primary-blue: #1a237e; --card-bg: #ffffff; --body-bg: #f4f6f9; --text-color: #333333; --correct-green: #2e7d32; --wrong-red: #c62828; --active-blue: #2196f3; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--primary-blue); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .test-title { font-size: 1.2rem; font-weight: bold; }
+        .timer-box { background-color: #ffffff; color: #d32f2f; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1rem; border: 2px solid #d32f2f; }
+        .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .quiz-section { flex: 3; display: flex; flex-direction: column; gap: 20px; }
+        .quiz-card { background: var(--card-bg); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background-color: #f8f9fa; border: 2px solid #e0e0e0; padding: 12px 18px; border-radius: 6px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background-color: #e8eaf6; border-color: var(--primary-blue); }
+        .option-btn:disabled { cursor: not-allowed; }
+        .option-btn.correct { background-color: #e8f5e9 !important; border-color: var(--correct-green) !important; color: var(--correct-green) !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .option-btn.wrong { background-color: #ffebee !important; border-color: var(--wrong-red) !important; color: var(--wrong-red) !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .explanation-block { margin-top: 20px; padding: 15px; background-color: #e8eaf6; border-left: 5px solid var(--primary-blue); border-radius: 4px; display: none; }
+        .explanation-block.visible { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 15px; }
+        .action-btn { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-nav { background-color: var(--primary-blue); color: white; }
+        .btn-nav:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .btn-retest { background-color: #4caf50; color: white; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .btn-wrong-test { background-color: #f44336; color: white; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .palette-card { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .score-display { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; text-align: center; padding: 10px; background-color: #f0f4f8; border-radius: 5px; }
+        .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .palette-btn { aspect-ratio: 1; border: 1px solid #ccc; background-color: #ffffff; border-radius: 5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .palette-btn.active { border: 3px solid var(--active-blue); transform: scale(1.05); }
+        .palette-btn.correct { background-color: #e8f5e9; border-color: var(--correct-green); color: var(--correct-green); box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
+        .palette-btn.wrong { background-color: #ffebee; border-color: var(--wrong-red); color: var(--wrong-red); box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
+        .global-controls { display: flex; flex-direction: column; gap: 10px; }
+        @media (max-width: 768px) { .main-container { flex-direction: column; } .sidebar { order: -1; } }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-title" id="test-title">ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು</div>
-    <div class="timer-container" id="timer">00:00</div>
-  </header>
-  <div class="main-container">
-    <div class="quiz-card">
-      <div>
-        <div class="question-header" id="question-text">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
-        <div class="options-container" id="options-container"></div>
-        <div class="explanation-block" id="explanation-block"></div>
-      </div>
-      <div class="navigation-buttons">
-        <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">ಹಿಂದಿನ (Previous)</button>
-        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">ಮುಂದಿನ (Next)</button>
-      </div>
+    <header>
+        <div class="test-title" id="testHeaderTitle">Chapter D: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು</div>
+        <div class="timer-box" id="timer">00:00</div>
+    </header>
+
+    <div class="main-container">
+        <main class="quiz-section">
+            <div class="quiz-card">
+                <div class="question-text" id="questionText">Loading...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-block" id="explanationBlock"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="action-btn btn-nav" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="action-btn btn-nav" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </main>
+        <aside class="sidebar">
+            <div class="palette-card">
+                <div class="score-display">Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
+                <div class="palette-grid" id="paletteGrid"></div>
+                <div class="global-controls">
+                    <button class="action-btn btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                    <button class="action-btn btn-wrong-test" onclick="startWrongTest()">Test Wrong Answers</button>
+                </div>
+            </div>
+        </aside>
     </div>
-    <div class="palette-panel">
-      <div class="score-box" id="score-box">ಅಂಕಗಳು: 0 / 24</div>
-      <div class="palette-title">ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ (Question Palette)</div>
-      <div class="palette-grid" id="palette-grid"></div>
-      <div class="action-container">
-        <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
-        <button class="btn-test-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
-      </div>
-    </div>
-  </div>
-  <script>
-    const rawQuestions = [
-      { id: 1, q: "ಭದ್ರಾ ಯೋಜನೆಯ ಸ್ಥಳ, ಜಿಲ್ಲೆ ಮತ್ತು ನದಿ ಯಾವುದು?", options: ["ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ತುಂಗಾ ನದಿ", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ ನದಿ", "ಸ್ಥಳ: ಬೀಚನಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ಕಬಿನಿ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಘಟಪ್ರಭಾ"], ans: 0, exp: "ಭದ್ರಾ ಯೋಜನೆ: ಲಕ್ಕವಳ್ಳಿ, ಚಿಕ್ಕಮಗಳೂರು, ತುಂಗಾ ನದಿ." },
-      { id: 2, q: "ತುಂಗಾ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ ನದಿ", "ಸ್ಥಳ: ಹಂಗರೂ, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ", "ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ", "ಸ್ಥಳ: ಆಲಮಟ್ಟಿ, ಜಿಲ್ಲೆ: ವಿಜಯಪುರ, ನದಿ: ಕೃಷ್ಣಾ"], ans: 0, exp: "ತುಂಗಾ ಅಣೆಕಟ್ಟು: ಗಾಜನೂರು, ಶಿವಮೊಗ್ಗ, ತುಂಗಾ ನದಿ." },
-      { id: 3, q: "ಕಬಿನಿ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಬೀಚನಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ಕಬಿನಿ", "ಸ್ಥಳ: ಜಯವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಕಣ್ಣಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ"], ans: 0, exp: "ಕಬಿನಿ ಯೋಜನೆ: ಬೀಚನಹಳ್ಳಿ, ಮೈಸೂರು, ಕಬಿನಿ ನದಿ." },
-      { id: 4, q: "ನುಗು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಜಯವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ", "ಸ್ಥಳ: ಮಲ್ಲಾಪುರ, ಜಿಲ್ಲೆ: ವಿಜಯನಗರ, ನದಿ: ತುಂಗಭದ್ರಾ", "ಸ್ಥಳ: ಮಾನವಳಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ"], ans: 0, exp: "ನುಗು ಯೋಜನೆ: ಜಯವಾಳು, ಮೈಸೂರು, ನುಗು ನದಿ." },
-      { id: 5, q: "ಘಟಪ್ರಭಾ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಘಟಪ್ರಭಾ ನದಿ", "ಸ್ಥಳ: ಸವದತ್ತಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ", "ಸ್ಥಳ: ಸಾಗರ, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ಶರಾವತಿ", "ಸ್ಥಳ: ಕುಣಿಗಲ್, ಜಿಲ್ಲೆ: ತುಮಕೂರು, ನದಿ: ಶಿಂಷಾ"], ans: 0, exp: "ಘಟಪ್ರಭಾ ಯೋಜನೆ: ಹಿಡಕಲ್, ಬೆಳಗಾವಿ, ಘಟಪ್ರಭಾ ನದಿ." },
-      { id: 6, q: "ಹಾರಂಗಿ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಹದನೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ ನದಿ", "ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ", "ಸ್ಥಳ: ಆಲಮಟ್ಟಿ, ಜಿಲ್ಲೆ: ವಿಜಯಪುರ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ"], ans: 0, exp: "ಹಾರಂಗಿ ಯೋಜನೆ: ಹದನೂರು, ಕೊಡಗು, ಹಾರಂಗಿ ನದಿ." },
-      { id: 7, q: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ ನದಿ", "ಸ್ಥಳ: ಕಣ್ಣಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಮಲ್ಲಾಪುರ, ಜಿಲ್ಲೆ: ವಿಜಯನಗರ, ನದಿ: ತುಂಗಭದ್ರಾ", "ಸ್ಥಳ: ಅಟ್ಟಗುಳಿಪುರ, ಜಿಲ್ಲೆ: ಚಾಮರಾಜನಗರ, ನದಿ: ಚಿಕ್ಕಹೊಳೆ"], ans: 0, exp: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆ: ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ, ವೇದಾವತಿ ನದಿ." },
-      { id: 8, q: "ಕೃಷ್ಣರಾಜಸಾಗರ (KRS) ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಕಣ್ಣಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ", "ಸ್ಥಳ: ಬೀಚನಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ಕಬಿನಿ", "ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ"], ans: 0, exp: "ಕೃಷ್ಣರಾಜಸಾಗರ ಯೋಜನೆ: ಕಣ್ಣಂಬಾಡಿ, ಮಂಡ್ಯ, ಕಾವೇರಿ ನದಿ." },
-      { id: 9, q: "ತುಂಗಭದ್ರಾ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಮಲ್ಲಾಪುರ, ಜಿಲ್ಲೆ: ವಿಜಯನಗರ, ನದಿ: ತುಂಗಭದ್ರಾ", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಘಟಪ್ರಭಾ", "ಸ್ಥಳ: ಹೆರೂರು, ಜಿಲ್ಲೆ: ಕಲಬುರಗಿ, ನದಿ: ಬೆಣ್ಣೆತೊರೆ"], ans: 0, exp: "ತುಂಗಭದ್ರಾ ಯೋಜನೆ: ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ, ತುಂಗಭದ್ರಾ ನದಿ." },
-      { id: 10, q: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ", "ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ", "ಸ್ಥಳ: ಆಲಮಟ್ಟಿ, ಜಿಲ್ಲೆ: ವಿಜಯಪುರ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ಜೋಯಿಡಾ, ಜಿಲ್ಲೆ: ಉತ್ತರಕನ್ನಡ, ನದಿ: ಕಾಳಿ"], ans: 0, exp: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು: ಗೊರೂರು, ಹಾಸನ, ಹೇಮಾವತಿ ನದಿ." },
-      { id: 11, q: "ಕಾರಂಜಾ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ", "ಸ್ಥಳ: ಮಾನವಳಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ", "ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ತರೀಕೆರೆ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ"], ans: 0, exp: "ಕಾರಂಜಾ ಯೋಜನೆ: ಬಾಲಾಹಳ್ಳಿ, ಬೀದರ್, ಕಾರಂಜಾನದಿ." },
-      { id: 12, q: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು (ಆಲಮಟ್ಟಿ) ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಆಲಮಟ್ಟಿ, ಜಿಲ್ಲೆ: ವಿಜಯಪುರ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ", "ಸ್ಥಳ: ಹದನೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ"], ans: 0, exp: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು: ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ, ಕೃಷ್ಣಾ ನದಿ." },
-      { id: 13, q: "ಮಲಪ್ರಭಾ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಮನವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಘಟಪ್ರಭಾ", "ಸ್ಥಳ: ಸವದತ್ತಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ", "ಸ್ಥಳ: ಕುಣಿಗಲ್, ಜಿಲ್ಲೆ: ತುಮಕೂರು, ನದಿ: ಶಿಂಷಾ"], ans: 0, exp: "ಮಲಪ್ರಭಾ ಯೋಜನೆ: ಮನವಳ್ಳಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ ನದಿ." },
-      { id: 14, q: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಅಟ್ಟಗುಳಿಪುರ, ಜಿಲ್ಲೆ: ಚಾಮರಾಜನಗರ, ನದಿ: ಚಿಕ್ಕಹೊಳೆ", "ಸ್ಥಳ: ಜಯವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಹದನೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ", "ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ"], ans: 0, exp: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆ: ಅಟ್ಟಗುಳಿಪುರ, ಚಾಮರಾಜನಗರ, ಚಿಕ್ಕಹೊಳೆ ನದಿ." },
-      { id: 15, q: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಹೆರೂರು, ಜಿಲ್ಲೆ: ಕಲಬುರಗಿ, ನದಿ: ಬೆಣ್ಣೆತೊರೆ ನದಿ", "ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ತರೀಕೆರೆ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ", "ಸ್ಥಳ: ಸಾಗರ, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ಶರಾವತಿ"], ans: 0, exp: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆ: ಹೆರೂರು, ಕಲಬುರಗಿ, ಬೆಣ್ಣೆತೊರೆ ನದಿ." },
-      { id: 16, q: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ಆಲಮಟ್ಟಿ, ಜಿಲ್ಲೆ: ವಿಜಯಪುರ, ನದಿ: ಕೃಷ್ಣಾ", "ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ", "ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ"], ans: 0, exp: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು: ನಾರಾಯಣಪುರ, ಯಾದಗಿರಿ, ಕೃಷ್ಣಾ ನದಿ." },
-      { id: 17, q: "ನವಿಲುತೀರ್ಥ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಸವದತ್ತಿ, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಮಲಪ್ರಭಾ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ, ನದಿ: ಘಟಪ್ರಭಾ", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಜಯವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು"], ans: 0, exp: "ನವಿಲುತೀರ್ಥ ಯೋಜನೆ: ಸವದತ್ತಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ ನದಿ." },
-      { id: 18, q: "ಲಕ್ಕವಳ್ಳಿ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ತರೀಕೆರೆ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ", "ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಕಣ್ಣಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ"], ans: 0, exp: "ಲಕ್ಕವಳ್ಳಿ ಅಣೆಕಟ್ಟು: ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು, ಭದ್ರಾ ನದಿ." },
-      { id: 19, q: "ಲಿಂಗನಮಕ್ಕಿ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಸಾಗರ, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ಶರಾವತಿ", "ಸ್ಥಳ: ಜೋಯಿಡಾ, ಜಿಲ್ಲೆ: ಉತ್ತರಕನ್ನಡ, ನದಿ: ಕಾಳಿ", "ಸ್ಥಳ: ಕುಣಿಗಲ್, ಜಿಲ್ಲೆ: ತುಮಕೂರು, ನದಿ: ಶಿಂಷಾ", "ಸ್ಥಳ: ಯುಗಚಿ, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಯುಗಚಿ"], ans: 0, exp: "ಲಿಂಗನಮಕ್ಕಿ ಅಣೆಕಟ್ಟು: ಸಾಗರ, ಶಿವಮೊಗ್ಗ, ಶರಾವತಿ ನದಿ." },
-      { id: 20, q: "ಸೂಪಾ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಜೋಯಿಡಾ, ಜಿಲ್ಲೆ: ಉತ್ತರಕನ್ನಡ, ನದಿ: ಕಾಳಿ ನದಿ", "ಸ್ಥಳ: ಸಾಗರ, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ಶರಾವತಿ", "ಸ್ಥಳ: ಪಶ್ಚಿಮಘಟ್ಟ, ಜಿಲ್ಲೆ: ಉಡುಪಿ, ನದಿ: ವಾರಾಹಿ", "ಸ್ಥಳ: ಕಲಬುರಗಿ, ಜಿಲ್ಲೆ: ಕಲಬುರಗಿ, ನದಿ: ಗಂಡೋರಿಶಾಲ"], ans: 0, exp: "ಸೂಪಾ ಅಣೆಕಟ್ಟು: ಜೋಯಿಡಾ, ಉತ್ತರಕನ್ನಡ, ಕಾಳಿ ನದಿ." },
-      { id: 21, q: "ಮಾರಕನಹಳ್ಳಿ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಕುಣಿಗಲ್, ಜಿಲ್ಲೆ: ತುಮಕೂರು, ನದಿ: ಶಿಂಷಾ", "ಸ್ಥಳ: ಅಟ್ಟಗುಳಿಪುರ, ಜಿಲ್ಲೆ: ಚಾಮರಾಜನಗರ, ನದಿ: ಚಿಕ್ಕಹೊಳೆ", "ಸ್ಥಳ: ಜಯವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಹದನೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ"], ans: 0, exp: "ಮಾರಕನಹಳ್ಳಿ ಯೋಜನೆ: ಕುಣಿಗಲ್, ತುಮಕೂರು, ಶಿಂಷಾ ನದಿ." },
-      { id: 22, q: "ಗಂಡೋರಿಶಾಲಾ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಕಲಬುರಗಿ, ಜಿಲ್ಲೆ: ಕಲಬುರಗಿ, ನದಿ: ಗಂಡೋರಿಶಾಲಾ", "ಸ್ಥಳ: ಹೆರೂರು, ಜಿಲ್ಲೆ: ಕಲಬುರಗಿ, ನದಿ: ಬೆಣ್ಣೆತೊರೆ", "ಸ್ಥಳ: ಬಾಲಾಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಬೀದರ್, ನದಿ: ಕಾರಂಜಾನದಿ", "ಸ್ಥಳ: ನಾರಾಯಣಪುರ, ಜಿಲ್ಲೆ: ಯಾದಗಿರಿ, ನದಿ: ಕೃಷ್ಣಾ"], ans: 0, exp: "ಗಂಡೋರಿಶಾಲಾ ಯೋಜನೆ: ಕಲಬುರಗಿ, ಕಲಬುರಗಿ, ಗಂಡೋರಿಶಾಲಾ ನದಿ." },
-      { id: 23, q: "ವಾರಾಹಿ ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಪಶ್ಚಿಮಘಟ್ಟ, ಜಿಲ್ಲೆ: ಉಡುಪಿ, ನದಿ: ವಾರಾಹಿ", "ಸ್ಥಳ: ಸಾಗರ, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ಶರಾವತಿ", "ಸ್ಥಳ: ಜೋಯಿಡಾ, ಜಿಲ್ಲೆ: ಉತ್ತರಕನ್ನಡ, ನದಿ: ಕಾಳಿ", "ಸ್ಥಳ: ಯುಗಚಿ, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಯುಗಚಿ"], ans: 0, exp: "ವಾರಾಹಿ ಯೋಜನೆ: ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ, ವಾರಾಹಿ ನದಿ." },
-      { id: 24, q: "ಯುಗಚಿ ಅಣೆಕಟ್ಟು ಯೋಜನೆಯ ವಿವರಗಳು ಯಾವುವು?", options: ["ಸ್ಥಳ: ಯುಗಚಿ, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಯುಗಚಿ", "ಸ್ಥಳ: ಗೊರೂರು, ಜಿಲ್ಲೆ: ಹಾಸನ, ನದಿ: ಹೇಮಾವತಿ", "ಸ್ಥಳ: ಹದನೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು, ನದಿ: ಹಾರಂಗಿ", "ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ"], ans: 0, exp: "ಯುಗಚಿ ಅಣೆಕಟ್ಟು: ಯುಗಚಿ, ಹಾಸನ, ಯುಗಚಿ ನದಿ." }
-    ];
-    let currentQuestionsList = [...rawQuestions], userAnswers = {}, currentActiveIndex = 0, wrongTestCounter = 1, timerInterval = null, totalSeconds = 0;
-    const qText = document.getElementById('question-text'), optionsContainer = document.getElementById('options-container'), expBlock = document.getElementById('explanation-block'), prevBtn = document.getElementById('prev-btn'), nextBtn = document.getElementById('next-btn'), paletteGrid = document.getElementById('palette-grid'), scoreBox = document.getElementById('score-box'), testTitle = document.getElementById('test-title'), timerElem = document.getElementById('timer');
-    function startTimer() { if (timerInterval) clearInterval(timerInterval); totalSeconds = 0; timerInterval = setInterval(() => { totalSeconds++; timerElem.innerText = `${String(Math.floor(totalSeconds / 60)).padStart(2, '0')}:${String(totalSeconds % 60).padStart(2, '0')}`; }, 1000); }
-    function initTest() { userAnswers = {}; currentActiveIndex = 0; startTimer(); renderPalette(); loadQuestion(currentActiveIndex); updateScore(); }
-    function loadQuestion(index) { currentActiveIndex = index; const qData = currentQuestionsList[index]; qText.innerText = `Q${qData.id}. ${qData.q}`; optionsContainer.innerHTML = ''; expBlock.style.display = 'none'; expBlock.innerText = `ವಿವರಣೆ: ${qData.exp}`; const answered = userAnswers.hasOwnProperty(qData.id), selectedOption = userAnswers[qData.id]; qData.options.forEach((optText, optIdx) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = optText; if (answered) { btn.disabled = true; if (optIdx === qData.ans) btn.classList.add('correct'); if (selectedOption === optIdx && selectedOption !== qData.ans) btn.classList.add('wrong'); } else { btn.onclick = () => selectAnswer(qData.id, optIdx); } optionsContainer.appendChild(btn); }); if (answered) expBlock.style.display = 'block'; prevBtn.disabled = index === 0; nextBtn.disabled = index === currentQuestionsList.length - 1; updatePaletteHighlight(); }
-    function selectAnswer(qId, selectedIdx) { userAnswers[qId] = selectedIdx; updateScore(); renderPalette(); loadQuestion(currentActiveIndex); }
-    function renderPalette() { paletteGrid.innerHTML = ''; currentQuestionsList.forEach((qData, idx) => { const pBtn = document.createElement('button'); pBtn.className = 'palette-btn'; pBtn.innerText = qData.id; if (userAnswers.hasOwnProperty(qData.id)) { pBtn.classList.add(userAnswers[qData.id] === qData.ans ? 'correct' : 'wrong'); } if (idx === currentActiveIndex) pBtn.classList.add('active'); pBtn.onclick = () => loadQuestion(idx); paletteGrid.appendChild(pBtn); }); }
-    function updatePaletteHighlight() { paletteGrid.querySelectorAll('.palette-btn').forEach((btn, idx) => { btn.classList.toggle('active', idx === currentActiveIndex); }); }
-    function prevQuestion() { if (currentActiveIndex > 0) loadQuestion(currentActiveIndex - 1); }
-    function nextQuestion() { if (currentActiveIndex < currentQuestionsList.length - 1) loadQuestion(currentActiveIndex + 1); }
-    function updateScore() { let score = 0; rawQuestions.forEach(q => { if (userAnswers[q.id] === q.ans) score++; }); scoreBox.innerText = `ಅಂಕಗಳು: ${score} / ${rawQuestions.length}`; }
-    function retestAll() { currentQuestionsList = [...rawQuestions]; userAnswers = {}; wrongTestCounter = 1; testTitle.innerText = "ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು"; initTest(); }
-    function testWrongAnswers() { const wrongQuestions = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.ans); if (wrongQuestions.length === 0) { alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ! (No wrong answers found!)"); return; } wrongQuestions.forEach(q => delete userAnswers[q.id]); currentQuestionsList = wrongQuestions; testTitle.innerText = `Wrong Test-${wrongTestCounter++}`; currentActiveIndex = 0; renderPalette(); loadQuestion(currentActiveIndex); updateScore(); }
-    window.onload = initTest;
-  </script>
+
+    <script>
+        const rawQuestions = [
+            { id: 1, question: "ಭದ್ರಾ ಯೋಜನೆಯು ಯಾವ ಸ್ಥಳ, ಜಿಲ್ಲೆ ಮತ್ತು ನದಿಗೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಬೀಚನಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ಕಬಿನಿ", "ಸ್ಥಳ: ತರೀಕೆರೆ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ"], correct: 0, explanation: "ಭದ್ರಾ ಯೋಜನೆ - ಲಕ್ಕವಳ್ಳಿ, ಚಿಕ್ಕಮಗಳೂರು ಜಿಲ್ಲೆ, ತುಂಗಾ ನದಿ." },
+            { id: 2, question: "ತುಂಗಾ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿದೆ?", options: ["ಸ್ಥಳ: ಬಿರುವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ", "ಸ್ಥಳ: ಹದಗೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು"], correct: 1, explanation: "ತುಂಗಾ ಅಣೆಕಟ್ಟು - ಗಾಜನೂರು, ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆ, ತುಂಗಾ ನದಿ." },
+            { id: 3, question: "ಕಬಿನಿ ಯೋಜನೆಯು ಯಾವ ನದಿಗೆ ಕಟ್ಟಲಾಗಿದೆ?", options: ["ನುಗು", "ಕಬಿನಿ", "ಘಟಪ್ರಭಾ", "ಹಾರಂಗಿ"], correct: 1, explanation: "ಕಬಿನಿ ಯೋಜನೆ - ಬೀಚನಹಳ್ಳಿ, ಮೈಸೂರು ಜಿಲ್ಲೆ, ಕಬಿನಿ ನದಿ." },
+            { id: 4, question: "ನುಗು ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಸ್ಥಳ: ಬಿರುವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ", "ಸ್ಥಳ: ಕನ್ನಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಮಲ್ಲಾಪುರ, ಜಿಲ್ಲೆ: ವಿಜಯನಗರ, ನದಿ: ತುಂಗಭದ್ರಾ"], correct: 0, explanation: "ನುಗು ಯೋಜನೆ - ಬಿರುವಾಳು, ಮೈಸೂರು district, ನುಗು ನದಿ." },
+            { id: 5, question: "ಘಟಪ್ರಭಾ ಯೋಜನೆ ಯಾವ ಸ್ಥಳ ಮತ್ತು ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಹಿಡಕಲ್, ಬೆಳಗಾವಿ", "ಹದಗೂರು, ಕೊಡಗು", "ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ", "ಗೋರೂರು, ಹಾಸನ"], correct: 0, explanation: "ಘಟಪ್ರಭಾ ಯೋಜನೆ - ಹಿಡಕಲ್, ಬೆಳಗಾವಿ ಜಿಲ್ಲೆ, ಘಟಪ್ರಭಾ ನದಿ." },
+            { id: 6, question: "ಹಾರಂಗಿ ಯೋಜನೆ ಯಾವ ನದಿಗೆ ಸಂಬಂದಿಸಿದೆ?", options: ["ವೇದಾವತಿ", "ಕಾವೇರಿ", "ಹಾರಂಗಿ ನದಿ", "ಹೇಮಾವತಿ"], correct: 2, explanation: "ಹಾರಂಗಿ ಯೋಜನೆ - ಹದಗೂರು, ಕೊಡಗು ಜಿಲ್ಲೆ, ಹಾರಂಗಿ ನದಿ." },
+            { id: 7, question: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆ ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ವೇದಾವತಿ ನದಿ", "ತುಂಗಭದ್ರಾ", "ಮಾಂಜ್ರಾನದಿ", "ಕೃಷ್ಣಾ"], correct: 0, explanation: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆ - ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ ಜಿಲ್ಲೆ, ವೇದಾವತಿ ನದಿ." },
+            { id: 8, question: "ಕೃಷ್ಣರಾಜಸಾಗರ (KRS) ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕನ್ನಂಬಾಡಿ, ಮಂಡ್ಯ (ಕಾವೇರಿ ನದಿ)", "ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ (ತುಂಗಭದ್ರಾ)", "ಗೋರೂರು, ಹಾಸನ (ಹೇಮಾವತಿ)", "ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ (ಮಾಂಜ್ರಾನದಿ)"], correct: 0, explanation: "ಕೃಷ್ಣರಾಜಸಾಗರ ಯೋಜನೆ - ಕನ್ನಂಬಾಡಿ, ಮಂಡ್ಯ ಜಿಲ್ಲೆ, ಕಾವೇರಿ ನದಿ." },
+            { id: 9, question: "ತುಂಗಭದ್ರಾ ಯೋಜನೆ ಸ್ಥಳ ಯಾವುದು?", options: ["ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ", "ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ", "ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ", "ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ"], correct: 0, explanation: "ತುಂಗಭದ್ರಾ ಯೋಜನೆ - ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ district, ತುಂಗಭದ್ರಾ ನದಿ." },
+            { id: 10, question: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು ಇರುವ ಸ್ಥಳ ಮತ್ತು ಜಿಲ್ಲೆ ಯಾವುದು?", options: ["ಗೋರೂರು, ಹಾಸನ", "ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ", "ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ", "ಹೇರೂರು, ಕಲಬುರ್ಗಿ"], correct: 0, explanation: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು - ಗೋರೂರು, ಹಾಸನ ಜಿಲ್ಲೆ, ಹೇಮಾವತಿ ನದಿ." },
+            { id: 11, question: "ಕಾರಂಜಾ ಯೋಜನೆ ಯಾವ ನದಿಗೆ ಸೇರಿದೆ?", options: ["ಮಾಂಜ್ರಾನದಿ", "ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಚಿಕ್ಕಹೊಳೆ"], correct: 0, explanation: "ಕಾರಂಜಾ ಯೋಜನೆ - ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ ಜಿಲ್ಲೆ, ಮಾಂಜ್ರಾನದಿ." },
+            { id: 12, question: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು (ಆಲಮಟ್ಟಿ) ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಬೆಣ್ಣೆತೊರೆ", "ಶರಾವತಿ"], correct: 0, explanation: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು - ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ, ಕೃಷ್ಣಾ ನದಿ." },
+            { id: 13, question: "ಮಲಪ್ರಭಾ ಯೋಜನೆ ಎಲ್ಲಿ ನಿರ್ಮಿಸಲಾಗಿದೆ?", options: ["ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ", "ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ", "ಹೇರೂರು, ಕಲಬುರ್ಗಿ", "ಸವದತ್ತಿ, ಬೆಳಗಾವಿ"], correct: 0, explanation: "ಮಲಪ್ರಭಾ ಯೋಜನೆ - ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ ಜಿಲ್ಲೆ, ಮಲಪ್ರಭಾ ನದಿ." },
+            { id: 14, question: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ", "ನಾರಾಯಣಪುರ, ಯಾದಗಿರಿ", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ"], correct: 0, explanation: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆ - ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ, ಚಿಕ್ಕಹೊಳೆ ನದಿ." },
+            { id: 15, question: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಹೇರೂರು, ಕಲಬುರ್ಗಿ", "ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು", "ಕುಣಿಗಲ್, ತುಮಕೂರು", "ಯಗಚಿ, ಹಾಸನ"], correct: 0, explanation: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆ - ಹೇರೂರು, ಕಲಬುರ್ಗಿ, ಬೆಣ್ಣೆತೊರೆ ನದಿ." },
+            { id: 16, question: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು ಯಾವ ನದಿಗೆ ಅಡ್ಡಲಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ?", options: ["ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಭದ್ರಾ", "ಕಾಳಿ ನದಿ"], correct: 0, explanation: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು - ನಾರಾಯಣಪುರ, ಯಾದಗಿರಿ, ಕೃಷ್ಣಾ ನದಿ." },
+            { id: 17, question: "ನವಿಲುತೀರ್ಥ ಯೋಜನೆ ಎಲ್ಲಿ ಮತ್ತು ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಸವದತ್ತಿ, ಬೆಳಗಾವಿ (ಮಲಪ್ರಭಾ)", "ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು (ಭದ್ರಾ)", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ (ಶರಾವತಿ)", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ)"], correct: 0, explanation: "ನವಿಲುತೀರ್ಥ - ಸವದತ್ತಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ ನದಿ." },
+            { id: 18, question: "ಲಕ್ಷ್ಮವಳ್ಳಿ ಸ್ಥಳವು ಯಾವ ಯೋಜನೆಗೆ ಸೇರಿದೆ?", options: ["ಭದ್ರಾ (ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು)", "ಲಿಂಗನಮಕ್ಕಿ", "ಸುಪಾ", "ಮಾರಕನಹಳ್ಳಿ"], correct: 0, explanation: "ಲಕ್ಷ್ಮವಳ್ಳಿ - ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು, ಭದ್ರಾ ನದಿ." },
+            { id: 19, question: "ಲಿಂಗನಮಕ್ಕಿ ಅಣೆಕಟ್ಟು ಯಾವ ನದಿಗೆ ಕಟ್ಟಲಾಗಿದೆ?", options: ["ಶರಾವತಿ", "ಕಾಳಿ", "ಶಿಂಷಾ", "ವಾರಾಹಿ"], correct: 0, explanation: "ಲಿಂಗನಮಕ್ಕಿ - ಸಾಗರ, ಶಿವಮೊಗ್ಗ, ಶರಾವತಿ ನದಿ." },
+            { id: 20, question: "ಸುಪಾ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿ ನೆಲೆಗೊಂಡಿದೆ?", options: ["ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ ನದಿ)", "ಕುಣಿಗಲ್, ತುಮಕೂರು (ಶಿಂಷಾ)", "ಕಲಬುರ್ಗಿ (ಗಂಡೋರಿನಾಲ)", "ಉಡುಪಿ (ವಾರಾಹಿ)"], correct: 0, explanation: "ಸುಪಾ ಅಣೆಕಟ್ಟು - ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ, ಕಾಳಿ ನದಿ." },
+            { id: 21, question: "ಮಾರಕನಹಳ್ಳಿ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕುಣಿಗಲ್, ತುಮಕೂರು (ಶಿಂಷಾ ನದಿ)", "ಕಲಬುರ್ಗಿ (ಗಂಡೋರಿನಾಲ)", "ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ (ವಾರಾಹಿ)", "ಯಗಚಿ, ಹಾಸನ (ಯಗಚಿ)"], correct: 0, explanation: "ಮಾರಕನಹಳ್ಳಿ - ಕುಣಿಗಲ್, ತುಮಕೂರು, ಶಿಂಷಾ ನದಿ." },
+            { id: 22, question: "ಗಂಡೋರಿನಾಲಾ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕಲಬುರ್ಗಿ, ಕಲಬುರ್ಗಿ", "ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ", "ಯಗಚಿ, ಹಾಸನ", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ"], correct: 0, explanation: "ಗಂಡೋರಿನಾಲಾ - ಕಲಬುರ್ಗಿ, ಕಲಬುರ್ಗಿ district, ಗಂಡೋರಿನಾಲ." },
+            { id: 23, question: "ವಾರಾಹಿ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ, ವಾರಾಹಿ ನದಿ", "ಯಗಚಿ, ಹಾಸನ, ಯಗಚಿ ನದಿ", "ಕುಣಿಗಲ್, ತುಮಕೂರು, ಶಿಂಷಾ", "ಸವದತ್ತಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ"], correct: 0, explanation: "ವಾರಾಹಿ ಯೋಜನೆ - ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ, ವಾರಾಹಿ ನದಿ." },
+            { id: 24, question: "ಯಗಚಿ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿ ಮತ್ತು ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಯಗಚಿ, ಹಾಸನ (ಯಗಚಿ ನದಿ)", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ)", "ಗೋರೂರು, ಹಾಸನ (ಹೇಮಾವತಿ)", "ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ (ವೇದಾವತಿ)"], correct: 0, explanation: "ಯಗಚಿ ಅಣೆಕಟ್ಟು - ಯಗಚಿ, ಹಾಸನ, ಯಗಚಿ ನದಿ." }
+        ];
+
+        let activeQuestions = [...rawQuestions], userAnswers = {}, currentIndex = 0, wrongTestCounter = 1, timerSeconds = 0, timerInterval = null;
+
+        function startTimer() {
+            clearInterval(timerInterval); timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                document.getElementById('timer').textContent = `${String(Math.floor(timerSeconds/60)).padStart(2,'0')}:${String(timerSeconds%60).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function initQuiz() { currentIndex = 0; renderPalette(); renderQuestion(); updateScore(); startTimer(); }
+
+        function renderPalette() {
+            const grid = document.getElementById('paletteGrid'); grid.innerHTML = '';
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn' + (index === currentIndex ? ' active' : '');
+                btn.textContent = q.id;
+                if (userAnswers.hasOwnProperty(q.id)) btn.classList.add(userAnswers[q.id] === q.correct ? 'correct' : 'wrong');
+                btn.onclick = () => { currentIndex = index; renderQuestion(); renderPalette(); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const currentQ = activeQuestions[currentIndex];
+            document.getElementById('questionText').textContent = `${currentQ.id}. ${currentQ.question}`;
+            const optionsContainer = document.getElementById('optionsContainer'); optionsContainer.innerHTML = '';
+            const isAnswered = userAnswers.hasOwnProperty(currentQ.id), selectedOpt = userAnswers[currentQ.id];
+
+            currentQ.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = optText;
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === currentQ.correct) btn.classList.add('correct');
+                    if (optIdx === selectedOpt && selectedOpt !== currentQ.correct) btn.classList.add('wrong');
+                } else { btn.onclick = () => selectOption(optIdx); }
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) { expBlock.textContent = `ವಿವರಣೆ: ${currentQ.explanation}`; expBlock.classList.add('visible'); }
+            else { expBlock.classList.remove('visible'); expBlock.textContent = ''; }
+
+            document.getElementById('prevBtn').disabled = (currentIndex === 0);
+            document.getElementById('nextBtn').disabled = (currentIndex === activeQuestions.length - 1);
+        }
+
+        function selectOption(optIndex) { userAnswers[activeQuestions[currentIndex].id] = optIndex; renderQuestion(); renderPalette(); updateScore(); }
+        function navigateQuestion(direction) { if (currentIndex + direction >= 0 && currentIndex + direction < activeQuestions.length) { currentIndex += direction; renderQuestion(); renderPalette(); } }
+        function updateScore() {
+            let score = rawQuestions.reduce((acc, q) => userAnswers[q.id] === q.correct ? acc + 1 : acc, 0);
+            document.getElementById('scoreVal').textContent = score; document.getElementById('totalVal').textContent = rawQuestions.length;
+        }
+        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter D: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು"; initQuiz(); }
+        function startWrongTest() {
+            const wrongQs = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
+            if (wrongQs.length === 0) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
+            wrongQs.forEach(q => delete userAnswers[q.id]); activeQuestions = wrongQs;
+            document.getElementById('testHeaderTitle').textContent = `Chapter D: Wrong Test-${wrongTestCounter++}`;
+            currentIndex = 0; renderPalette(); renderQuestion(); updateScore();
+        }
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>
