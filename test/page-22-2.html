@@ -1,110 +1,146 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ಸಾಹಿತ್ಯಿಕ ಕೃತಿಗಳು - Mock Test</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
-    header { background-color: #1a237e; color: #fff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .header-title { font-size: 1.2rem; font-weight: bold; }
-    .timer-container { background-color: #ffebee; color: #d32f2f; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 1.1rem; border: 1px solid #ffcdd2; box-shadow: 0 0 8px rgba(211, 47, 47, 0.4); }
-    .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
-    .quiz-card { flex: 3; background: #fff; border-radius: 10px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
-    .question-header { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #1a237e; border-bottom: 2px solid #e8eaf6; padding-bottom: 10px; }
-    .options-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-    .option-btn { padding: 14px 18px; border: 2px solid #e0e0e0; background-color: #fff; border-radius: 8px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; color: #424242; }
-    .option-btn:hover:not([disabled]) { background-color: #f5f5f5; border-color: #bdbdbd; }
-    .option-btn.correct { background-color: #e8f5e9 !important; border-color: #4caf50 !important; color: #1b5e20 !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
-    .option-btn.wrong { background-color: #ffebee !important; border-color: #f44336 !important; color: #b71c1c !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
-    .explanation-block { background-color: #e8eaf6; border-left: 5px solid #1a237e; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: none; font-size: 0.95rem; line-height: 1.5; }
-    .navigation-buttons { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
-    .nav-btn { padding: 10px 20px; border: none; border-radius: 6px; background-color: #3f51b5; color: white; font-weight: bold; cursor: pointer; }
-    .nav-btn:disabled { background-color: #c5cae9; cursor: not-allowed; }
-    .palette-panel { flex: 1; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; min-width: 280px; }
-    .score-box { background: #f5f5f5; padding: 12px; border-radius: 6px; text-align: center; font-weight: bold; margin-bottom: 15px; border: 1px solid #e0e0e0; }
-    .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 8px; max-height: 380px; overflow-y: auto; margin-bottom: 20px; }
-    .palette-btn { width: 100%; height: 40px; border: 1px solid #ccc; background-color: #fafafa; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    .palette-btn.active { border: 2px solid #2196f3 !important; box-shadow: 0 0 8px rgba(33, 150, 243, 0.8); }
-    .palette-btn.correct { background-color: #4caf50 !important; color: white; box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
-    .palette-btn.wrong { background-color: #f44336 !important; color: white; box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
-    .action-container { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-    .btn-retest { background-color: #4caf50; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
-    .btn-test-wrong { background-color: #f44336; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Chapter F</title>
+    <style>
+        :root { --primary-blue: #1a237e; --card-bg: #ffffff; --body-bg: #f4f6f9; --text-color: #333333; --correct-green: #2e7d32; --wrong-red: #c62828; --active-blue: #2196f3; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--primary-blue); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .test-title { font-size: 1.2rem; font-weight: bold; }
+        .timer-box { background-color: #ffffff; color: #d32f2f; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1rem; border: 2px solid #d32f2f; }
+        .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .quiz-section { flex: 3; display: flex; flex-direction: column; gap: 20px; }
+        .quiz-card { background: var(--card-bg); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background-color: #f8f9fa; border: 2px solid #e0e0e0; padding: 12px 18px; border-radius: 6px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background-color: #e8eaf6; border-color: var(--primary-blue); }
+        .option-btn:disabled { cursor: not-allowed; }
+        .option-btn.correct { background-color: #e8f5e9 !important; border-color: var(--correct-green) !important; color: var(--correct-green) !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .option-btn.wrong { background-color: #ffebee !important; border-color: var(--wrong-red) !important; color: var(--wrong-red) !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .explanation-block { margin-top: 20px; padding: 15px; background-color: #e8eaf6; border-left: 5px solid var(--primary-blue); border-radius: 4px; display: none; }
+        .explanation-block.visible { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 15px; }
+        .action-btn { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-nav { background-color: var(--primary-blue); color: white; }
+        .btn-nav:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .btn-retest { background-color: #4caf50; color: white; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .btn-wrong-test { background-color: #f44336; color: white; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .palette-card { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .score-display { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; text-align: center; padding: 10px; background-color: #f0f4f8; border-radius: 5px; }
+        .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .palette-btn { aspect-ratio: 1; border: 1px solid #ccc; background-color: #ffffff; border-radius: 5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .palette-btn.active { border: 3px solid var(--active-blue); transform: scale(1.05); }
+        .palette-btn.correct { background-color: #e8f5e9; border-color: var(--correct-green); color: var(--correct-green); box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
+        .palette-btn.wrong { background-color: #ffebee; border-color: var(--wrong-red); color: var(--wrong-red); box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
+        .global-controls { display: flex; flex-direction: column; gap: 10px; }
+        @media (max-width: 768px) { .main-container { flex-direction: column; } .sidebar { order: -1; } }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-title" id="test-title">ಸಾಹಿತ್ಯಿಕ ಕೃತಿಗಳು - Mock Test</div>
-    <div class="timer-container" id="timer">00:00</div>
-  </header>
-  <div class="main-container">
-    <div class="quiz-card">
-      <div>
-        <div class="question-header" id="question-text"></div>
-        <div class="options-container" id="options-container"></div>
-        <div class="explanation-block" id="explanation-block"></div>
-      </div>
-      <div class="navigation-buttons">
-        <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">Previous</button>
-        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Next</button>
-      </div>
-    </div>
-    <div class="palette-panel">
-      <div class="score-box" id="score-box">ಅಂಕಗಳು: 0 / 1</div>
-      <div class="palette-grid" id="palette-grid"></div>
-      <div class="action-container">
-        <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
-        <button class="btn-test-wrong" onclick="testWrongAnswers()">Test Wrong Answers</button>
-      </div>
-    </div>
-  </div>
-  <script>
-    const rawQuestions = [
-      {
-        id: 1,
-        q: "ಪು.ತಿ.ನ (18) ಅವರ ಪ್ರಸಿದ್ಧ ಕೃತಿ ಯಾವುದು?",
-        options: ["ಯದುಗಿರಿ", "ಧೀಮಂತ", "ಸಂಭಾವನೆ", "ಸಂಶೋಧನೆ"],
-        ans: 0,
-        exp: "ಪು.ತಿ.ನರವರ ಪ್ರಸಿದ್ಧ ಕೃತಿ 'ಯದುಗಿರಿ'."
-      }
-    ];
+    <header>
+        <div class="test-title" id="testHeaderTitle">Chapter F: ಅಭಿನಂದನಾ ಗ್ರಂಥಗಳು</div>
+        <div class="timer-box" id="timer">00:00</div>
+    </header>
 
-    let currentQuestionsList = [...rawQuestions], userAnswers = {}, currentActiveIndex = 0, wrongTestCounter = 1, timerInterval, totalSeconds = 0;
-    function startTimer() { clearInterval(timerInterval); totalSeconds = 0; timerInterval = setInterval(() => { totalSeconds++; timer.innerText = `${String(Math.floor(totalSeconds/60)).padStart(2,'0')}:${String(totalSeconds%60).padStart(2,'0')}`; }, 1000); }
-    function initTest() { userAnswers = {}; currentActiveIndex = 0; startTimer(); renderPalette(); loadQuestion(0); updateScore(); }
-    function loadQuestion(index) {
-      currentActiveIndex = index; const qData = currentQuestionsList[index];
-      questionText.innerText = `Q${qData.id}. ${qData.q}`; optionsContainer.innerHTML = ''; explanationBlock.style.display = 'none';
-      explanationBlock.innerText = `ವಿವರಣೆ: ${qData.exp}`; const answered = userAnswers.hasOwnProperty(qData.id);
-      qData.options.forEach((optText, optIdx) => {
-        const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = optText;
-        if (answered) { btn.disabled = true; if (optIdx === qData.ans) btn.classList.add('correct'); if (userAnswers[qData.id] === optIdx && optIdx !== qData.ans) btn.classList.add('wrong'); }
-        else { btn.onclick = () => { userAnswers[qData.id] = optIdx; updateScore(); renderPalette(); loadQuestion(currentActiveIndex); }; }
-        optionsContainer.appendChild(btn);
-      });
-      if (answered) explanationBlock.style.display = 'block';
-      prevBtn.disabled = index === 0; nextBtn.disabled = index === currentQuestionsList.length - 1; updatePaletteHighlight();
-    }
-    function renderPalette() {
-      paletteGrid.innerHTML = ''; currentQuestionsList.forEach((qData, idx) => {
-        const pBtn = document.createElement('button'); pBtn.className = 'palette-btn'; pBtn.innerText = qData.id;
-        if (userAnswers.hasOwnProperty(qData.id)) pBtn.classList.add(userAnswers[qData.id] === qData.ans ? 'correct' : 'wrong');
-        pBtn.onclick = () => loadQuestion(idx); paletteGrid.appendChild(pBtn);
-      });
-    }
-    function updatePaletteHighlight() { Array.from(paletteGrid.children).forEach((btn, idx) => btn.classList.toggle('active', idx === currentActiveIndex)); }
-    function prevQuestion() { if (currentActiveIndex > 0) loadQuestion(currentActiveIndex - 1); }
-    function nextQuestion() { if (currentActiveIndex < currentQuestionsList.length - 1) loadQuestion(currentActiveIndex + 1); }
-    function updateScore() { let score = rawQuestions.filter(q => userAnswers[q.id] === q.ans).length; scoreBox.innerText = `ಅಂಕಗಳು: ${score} / ${rawQuestions.length}`; }
-    function retestAll() { currentQuestionsList = [...rawQuestions]; userAnswers = {}; wrongTestCounter = 1; testTitle.innerText = "ಸಾಹಿತ್ಯಿಕ ಕೃತಿಗಳು - Mock Test"; initTest(); }
-    function testWrongAnswers() {
-      const wrong = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.ans);
-      if (!wrong.length) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳು ಕಂಡುಬಂದಿಲ್ಲ!");
-      wrong.forEach(q => delete userAnswers[q.id]); currentQuestionsList = wrong; testTitle.innerText = `Wrong Test-${wrongTestCounter++}`; currentActiveIndex = 0; renderPalette(); loadQuestion(0); updateScore();
-    }
-    window.onload = initTest;
-  </script>
+    <div class="main-container">
+        <main class="quiz-section">
+            <div class="quiz-card">
+                <div class="question-text" id="questionText">Loading...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-block" id="explanationBlock"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="action-btn btn-nav" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="action-btn btn-nav" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </main>
+        <aside class="sidebar">
+            <div class="palette-card">
+                <div class="score-display">Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
+                <div class="palette-grid" id="paletteGrid"></div>
+                <div class="global-controls">
+                    <button class="action-btn btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                    <button class="action-btn btn-wrong-test" onclick="startWrongTest()">Test Wrong Answers</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const rawQuestions = [
+            { id: 16, question: "ಬಿ.ಎಂ.ಶ್ರೀಕಂಠಯ್ಯ ಅವರ ಅಭಿನಂದನಾ ಗ್ರಂಥ ಯಾವುದು?", options: ["ಸಂಭಾವನೆ", "ಧೀಮಂತ", "ಯುದುಗಿರಿ", "ಭಾವ"], correct: 0, explanation: "ಬಿ.ಎಂ.ಶ್ರೀಕಂಠಯ್ಯ - 'ಸಂಭಾವನೆ'." },
+            { id: 17, question: "ಡಿ.ವಿ.ಗುಂಡಪ್ಪ ಅವರ ಅಭಿನಂದನಾ ಗ್ರಂಥ ಯಾವುದು?", options: ["ಧೀಮಂತ", "ಸಂಭಾವನೆ", "ಯುದುಗಿರಿ", "ಜೀವನ ರಸಿಕ"], correct: 0, explanation: "ಡಿ.ವಿ.ಗುಂಡಪ್ಪ - 'ಧೀಮಂತ'." },
+            { id: 18, question: "ಖಾ.ಡೀ.ನ. ಅವರ ಅಭಿನಂದನಾ ಗ್ರಂಥ ಯಾವುದು?", options: ["ಯುದುಗಿರಿ", "ಧೀಮಂತ", "ಸಂಭಾವನೆ", "ಹತ್ತು ವರ್ಷಗಳು"], correct: 0, explanation: "ಖಾ.ಡೀ.ನ. - 'ಯುದುಗಿರಿ'." }
+        ];
+
+        let activeQuestions = [...rawQuestions], userAnswers = {}, currentIndex = 0, wrongTestCounter = 1, timerSeconds = 0, timerInterval = null;
+
+        function startTimer() {
+            clearInterval(timerInterval); timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                document.getElementById('timer').textContent = `${String(Math.floor(timerSeconds/60)).padStart(2,'0')}:${String(timerSeconds%60).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function initQuiz() { currentIndex = 0; renderPalette(); renderQuestion(); updateScore(); startTimer(); }
+
+        function renderPalette() {
+            const grid = document.getElementById('paletteGrid'); grid.innerHTML = '';
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn' + (index === currentIndex ? ' active' : '');
+                btn.textContent = q.id;
+                if (userAnswers.hasOwnProperty(q.id)) btn.classList.add(userAnswers[q.id] === q.correct ? 'correct' : 'wrong');
+                btn.onclick = () => { currentIndex = index; renderQuestion(); renderPalette(); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const currentQ = activeQuestions[currentIndex];
+            document.getElementById('questionText').textContent = `${currentQ.id}. ${currentQ.question}`;
+            const optionsContainer = document.getElementById('optionsContainer'); optionsContainer.innerHTML = '';
+            const isAnswered = userAnswers.hasOwnProperty(currentQ.id), selectedOpt = userAnswers[currentQ.id];
+
+            currentQ.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = optText;
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === currentQ.correct) btn.classList.add('correct');
+                    if (optIdx === selectedOpt && selectedOpt !== currentQ.correct) btn.classList.add('wrong');
+                } else { btn.onclick = () => selectOption(optIdx); }
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) { expBlock.textContent = `ವಿವರಣೆ: ${currentQ.explanation}`; expBlock.classList.add('visible'); }
+            else { expBlock.classList.remove('visible'); expBlock.textContent = ''; }
+
+            document.getElementById('prevBtn').disabled = (currentIndex === 0);
+            document.getElementById('nextBtn').disabled = (currentIndex === activeQuestions.length - 1);
+        }
+
+        function selectOption(optIndex) { userAnswers[activeQuestions[currentIndex].id] = optIndex; renderQuestion(); renderPalette(); updateScore(); }
+        function navigateQuestion(direction) { if (currentIndex + direction >= 0 && currentIndex + direction < activeQuestions.length) { currentIndex += direction; renderQuestion(); renderPalette(); } }
+        function updateScore() {
+            let score = rawQuestions.reduce((acc, q) => userAnswers[q.id] === q.correct ? acc + 1 : acc, 0);
+            document.getElementById('scoreVal').textContent = score; document.getElementById('totalVal').textContent = rawQuestions.length;
+        }
+        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter F: ಅಭಿನಂದನಾ ಗ್ರಂಥಗಳು"; initQuiz(); }
+        function startWrongTest() {
+            const wrongQs = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
+            if (wrongQs.length === 0) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
+            wrongQs.forEach(q => delete userAnswers[q.id]); activeQuestions = wrongQs;
+            document.getElementById('testHeaderTitle').textContent = `Chapter F: Wrong Test-${wrongTestCounter++}`;
+            currentIndex = 0; renderPalette(); renderQuestion(); updateScore();
+        }
+        window.onload = initQuiz;
+    </script>
 </body>
 </html>
