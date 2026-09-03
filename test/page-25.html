@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1 - Vachanakararu & Ankitanama</title>
+    <style>
+        :root {
+            --primary-bg: #1a237e;
+            --correct-color: #4caf50;
+            --wrong-color: #f44336;
+            --active-color: #2196f3;
+            --light-bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-bg);
+            color: #ffffff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        #timer {
+            background-color: #ffffff;
+            color: var(--wrong-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            flex: 3;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #e8eaf6;
+            border-color: #c5cae9;
+        }
+
+        .option-btn.correct {
+            background-color: #e8f5e9;
+            border-color: var(--correct-color);
+            color: #2e7d32;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background-color: #ffebee;
+            border-color: var(--wrong-color);
+            color: #c62828;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+            font-weight: 600;
+        }
+
+        .explanation-block {
+            background-color: #eef2f7;
+            border-left: 4px solid var(--primary-bg);
+            padding: 15px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .nav-controls {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #5c6bc0;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background-color: #3f51b5;
+        }
+
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 280px;
+        }
+
+        .score-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .score-box h3 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .score-box p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-bg);
+        }
+
+        .palette-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .palette-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .palette-btn.active {
+            border: 2px solid var(--active-color);
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.8);
+        }
+
+        .palette-btn.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+        }
+
+        .palette-btn.wrong {
+            background-color: var(--wrong-color);
+            color: white;
+            border-color: var(--wrong-color);
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.7);
+        }
+
+        .action-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn-retest {
+            background-color: var(--correct-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        .btn-wrong-test {
+            background-color: var(--wrong-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.7);
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .side-panel { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="test-title">ಪ್ರಮುಖ ವಚನಕಾರರು ಮತ್ತು ಅಂಕಿತನಾಮ</h1>
+        <div id="timer">15:00</div>
+    </header>
+
+    <div class="container">
+        <main class="quiz-card">
+            <div class="question-number" id="q-number">ಪ್ರಶ್ನೆ 1</div>
+            <div class="question-text" id="q-text">Loading question...</div>
+            
+            <div class="options-container" id="options-box"></div>
+
+            <div class="explanation-block" id="explanation-box">
+                <strong>ವಿವರಣೆ:</strong> <span id="exp-text"></span>
+            </div>
+
+            <div class="nav-controls">
+                <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">Previous</button>
+                <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next</button>
+            </div>
+        </main>
+
+        <aside class="side-panel">
+            <div class="score-box">
+                <h3>ನಿಮ್ಮ ಅಂಕಗಳು</h3>
+                <p id="score-display">0 / 0</p>
+            </div>
+
+            <div>
+                <div class="palette-title">ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ</div>
+                <div class="question-palette" id="palette-box"></div>
+            </div>
+
+            <div class="action-controls">
+                <button class="btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                <button class="btn-wrong-test" onclick="testWrongAnswers()">Test Wrong Answers</button>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const masterQuestions = [
+            { id: 1, q: "ಬಸವಣ್ಣನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಕೂಡಲ ಸಂಗಮದೇವ", "ಚೆನ್ನಮಲ್ಲಿಕಾರ್ಜುನ", "ಅಮರೇಶ್ವರ ಲಿಂಗ", "ಗುಹೇಶ್ವರ"], ans: 0, exp: "ಬಸವಣ್ಣನವರ ಅಂಕಿತನಾಮ 'ಕೂಡಲ ಸಂಗಮದೇವ'." },
+            { id: 2, q: "ಅಕ್ಕಮಹಾದೇವಿಯವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಕಪಿಲಸಿದ್ಧ ಮಲ್ಲಿಕಾರ್ಜುನ", "ಚೆನ್ನಮಲ್ಲಿಕಾರ್ಜುನ", "ಸೌರಾಷ್ಟ್ರ ಸೋಮೇಶ್ವರ", "ನಾಸ್ತಿನಾಥ"], ans: 1, exp: "ಅಕ್ಕಮಹಾದೇವಿಯವರ ಅಂಕಿತನಾಮ 'ಚೆನ್ನಮಲ್ಲಿಕಾರ್ಜುನ'." },
+            { id: 3, q: "ಆಯ್ದಕ್ಕಿ ಲಕ್ಕಮ್ಮನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ನಿಷ್ಕಳಂಕ ಕೂಡಲ ಚೆನ್ನಸಂಗಮದೇವಾ", "ಅಮರೇಶ್ವರ ಲಿಂಗ", "ಅಮುಗೇಶ್ವರ", "ಕಾಮಹರ ಪ್ರಿಯ ರಾಮನಾಥ"], ans: 1, exp: "ಆಯ್ದಕ್ಕಿ ಲಕ್ಕಮ್ಮನವರ ಅಂಕಿತನಾಮ 'ಅಮರೇಶ್ವರ ಲಿಂಗ'." },
+            { id: 4, q: "ಅಮುಗೆರಾಯಮ್ಮನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಅಮುಗೇಶ್ವರ", "ಮಹಾಲಿಂಗಕಲ್ಲೇಶ್ವರ", "ಗುರುಬಸವೇಶ್ವರ", "ಗುಹೇಶ್ವರ"], ans: 0, exp: "ಅಮುಗೆರಾಯಮ್ಮನವರ ಅಂಕಿತನಾಮ 'ಅಮುಗೇಶ್ವರ'." },
+            { id: 5, q: "ಅಲ್ಲಮಪ್ರಭುಗಳ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಗುಹೇಶ್ವರ", "ನಿಷ್ಕಳಂಕ ಮಲ್ಲಿಕಾರ್ಜುನ", "ಕಾಮಭೀಮ – ಜೀವದೊಡೆಯ", "ರಾಮನಾಥ"], ans: 0, exp: "ಅಲ್ಲಮಪ್ರಭುಗಳ ಅಂಕಿತನಾಮ 'ಗುಹೇಶ್ವರ'." },
+            { id: 6, q: "ಸಿದ್ಧರಾಮರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಕಪಿಲಸಿದ್ಧ ಮಲ್ಲಿಕಾರ್ಜುನ", "ಸೌರಾಷ್ಟ್ರ ಸೋಮೇಶ್ವರ", "ಉಳಿಯುಮೇಶ್ವರ", "ಧರ್ಮೇಶ್ವರ ಲಿಂಗ"], ans: 0, exp: "ಸಿದ್ಧರಾಮರ ಅಂಕಿತನಾಮ 'ಕಪಿಲಸಿದ್ಧ ಮಲ್ಲಿಕಾರ್ಜುನ'." },
+            { id: 7, q: "ಸೂಳೆ ಸಂಕವ್ವನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ನಿರ್ಲಜ್ಜೇಶ್ವರ", "ಚಂದೇಶ್ವರಲಿಂಗ", "ಎಲೇಶ್ವರ ಲಿಂಗ", "ಆಚಾರವೇ ಪ್ರಾಣವಾದ ರಾಮೇಶ್ವರ ಲಿಂಗ"], ans: 0, exp: "ಸೂಳೆ ಸಂಕವ್ವನವರ ಅಂಕಿತನಾಮ 'ನಿರ್ಲಜ್ಜೇಶ್ವರ'." },
+            { id: 8, q: "ಅಂಬಿಗರ ಚೌಡಯ್ಯನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಅಂಬಿಗ ಚೌಡಯ್ಯ", "ಸಿಮ್ಮಲಿಗೆಯ ಚೆನ್ನರಾಮ", "ಕೂಡಲ ಚೆನ್ನಸಂಗಮದೇವ", "ಕಲದೇವರ ದೇವಾ"], ans: 0, exp: "ಅಂಬಿಗರ ಚೌಡಯ್ಯನವರ ಅಂಕಿತನಾಮ 'ಅಂಬಿಗ ಚೌಡಯ್ಯ'." },
+            { id: 9, q: "ಮಡಿವಾಳ ಮಾಚಯ್ಯನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಕಲದೇವರ ದೇವಾ", "ರಾಮನಾಥ", "ಅಜಗಣ್ಣಿ", "ಆತುರ ವೈರಿ ಮಾದೇಶ್ವರ"], ans: 0, exp: "ಮಡಿವಾಳ ಮಾಚಯ್ಯನವರ ಅಂಕಿತನಾಮ 'ಕಲದೇವರ ದೇವಾ'." },
+            { id: 10, q: "ಚೆನ್ನ ಬಸವಣ್ಣನವರ ಅಂಕಿತನಾಮ ಯಾವುದು?", options: ["ಕೂಡಲ ಚೆನ್ನಸಂಗಮದೇವ", "ಚೆನ್ನ ಬಸವಣ್ಣಪ್ರಿಯ", "ಸಕಲೇಶ್ವರ ದೇವ", "ಕಮಟೇಶ್ವರ ಲಿಂಗ"], ans: 0, exp: "ಚೆನ್ನ ಬಸವಣ್ಣನವರ ಅಂಕಿತನಾಮ 'ಕೂಡಲ ಚೆನ್ನಸಂಗಮದೇವ'." }
+        ];
+
+        let activeQuestions = [...masterQuestions];
+        let userAnswers = {};
+        let currentActiveIndex = 0;
+        let wrongTestCounter = 1;
+        let timerInterval;
+        let totalSeconds = 15 * 60;
+
+        function initTest() {
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up!");
+                    return;
+                }
+                totalSeconds--;
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                document.getElementById('timer').innerText = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function loadQuestion(index) {
+            if (index < 0 || index >= activeQuestions.length) return;
+            currentActiveIndex = index;
+            const qData = activeQuestions[index];
+
+            document.getElementById('q-number').innerText = `ಪ್ರಶ್ನೆ ${index + 1} (Original ID: #${qData.id})`;
+            document.getElementById('q-text').innerText = qData.q;
+
+            const optionsBox = document.getElementById('options-box');
+            optionsBox.innerHTML = '';
+
+            const isAnswered = userAnswers.hasOwnProperty(qData.id);
+            const selectedOpt = userAnswers[qData.id];
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (idx === qData.ans) btn.classList.add('correct');
+                    if (selectedOpt === idx && selectedOpt !== qData.ans) btn.classList.add('wrong');
+                } else {
+                    btn.onclick = () => selectOption(qData.id, idx);
+                }
+                optionsBox.appendChild(btn);
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            if (isAnswered) {
+                document.getElementById('exp-text').innerText = qData.exp;
+                expBox.style.display = 'block';
+            } else {
+                expBox.style.display = 'none';
+            }
+
+            document.getElementById('prev-btn').disabled = (index === 0);
+            document.getElementById('next-btn').disabled = (index === activeQuestions.length - 1);
+            updatePaletteHighlight();
+        }
+
+        function selectOption(qId, selectedIdx) {
+            userAnswers[qId] = selectedIdx;
+            loadQuestion(currentActiveIndex);
+            updateScore();
+            renderPalette();
+        }
+
+        function navigate(direction) {
+            loadQuestion(currentActiveIndex + direction);
+        }
+
+        function updateScore() {
+            let score = 0;
+            activeQuestions.forEach(q => {
+                if (userAnswers[q.id] === q.ans) score++;
+            });
+            document.getElementById('score-display').innerText = `${score} / ${activeQuestions.length}`;
+        }
+
+        function renderPalette() {
+            const paletteBox = document.getElementById('palette-box');
+            paletteBox.innerHTML = '';
+
+            activeQuestions.forEach((qData, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn';
+                btn.innerText = qData.id;
+
+                if (userAnswers.hasOwnProperty(qData.id)) {
+                    btn.classList.add(userAnswers[qData.id] === qData.ans ? 'correct' : 'wrong');
+                }
+
+                btn.onclick = () => loadQuestion(idx);
+                paletteBox.appendChild(btn);
+            });
+            updatePaletteHighlight();
+        }
+
+        function updatePaletteHighlight() {
+            document.querySelectorAll('.palette-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === currentActiveIndex);
+            });
+        }
+
+        function retestAll() {
+            activeQuestions = [...masterQuestions];
+            userAnswers = {};
+            wrongTestCounter = 1;
+            document.getElementById('test-title').innerText = "ಪ್ರಮುಖ ವಚನಕಾರರು ಮತ್ತು ಅಂಕಿತನಾಮ";
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        function testWrongAnswers() {
+            const wrongQs = activeQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.ans);
+            if (wrongQs.length === 0) {
+                alert("No wrong answers found to re-test!");
+                return;
+            }
+            wrongQs.forEach(q => delete userAnswers[q.id]);
+            activeQuestions = wrongQs;
+            document.getElementById('test-title').innerText = `Wrong Test-${wrongTestCounter++}`;
+            renderPalette();
+            loadQuestion(0);
+            updateScore();
+        }
+
+        window.onload = initTest;
+    </script>
+</body>
+</html>
