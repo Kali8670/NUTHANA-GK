@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Mock Test - Chapter I</title>
+    <style>
+        :root { --primary-blue: #1a237e; --card-bg: #ffffff; --body-bg: #f4f6f9; --text-color: #333333; --correct-green: #2e7d32; --wrong-red: #c62828; --active-blue: #2196f3; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--body-bg); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background-color: var(--primary-blue); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .test-title { font-size: 1.2rem; font-weight: bold; }
+        .timer-box { background-color: #ffffff; color: #d32f2f; padding: 8px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1rem; border: 2px solid #d32f2f; }
+        .main-container { display: flex; flex: 1; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .quiz-section { flex: 3; display: flex; flex-direction: column; gap: 20px; }
+        .quiz-card { background: var(--card-bg); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background-color: #f8f9fa; border: 2px solid #e0e0e0; padding: 12px 18px; border-radius: 6px; text-align: left; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background-color: #e8eaf6; border-color: var(--primary-blue); }
+        .option-btn:disabled { cursor: not-allowed; }
+        .option-btn.correct { background-color: #e8f5e9 !important; border-color: var(--correct-green) !important; color: var(--correct-green) !important; font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .option-btn.wrong { background-color: #ffebee !important; border-color: var(--wrong-red) !important; color: var(--wrong-red) !important; font-weight: bold; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .explanation-block { margin-top: 20px; padding: 15px; background-color: #e8eaf6; border-left: 5px solid var(--primary-blue); border-radius: 4px; display: none; }
+        .explanation-block.visible { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 15px; }
+        .action-btn { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-nav { background-color: var(--primary-blue); color: white; }
+        .btn-nav:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .btn-retest { background-color: #4caf50; color: white; box-shadow: 0 0 10px rgba(76, 175, 80, 0.7); }
+        .btn-wrong-test { background-color: #f44336; color: white; box-shadow: 0 0 10px rgba(244, 67, 54, 0.7); }
+        .sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .palette-card { background: var(--card-bg); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .score-display { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; text-align: center; padding: 10px; background-color: #f0f4f8; border-radius: 5px; }
+        .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .palette-btn { aspect-ratio: 1; border: 1px solid #ccc; background-color: #ffffff; border-radius: 5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .palette-btn.active { border: 3px solid var(--active-blue); transform: scale(1.05); }
+        .palette-btn.correct { background-color: #e8f5e9; border-color: var(--correct-green); color: var(--correct-green); box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
+        .palette-btn.wrong { background-color: #ffebee; border-color: var(--wrong-red); color: var(--wrong-red); box-shadow: 0 0 8px rgba(244, 67, 54, 0.7); }
+        .global-controls { display: flex; flex-direction: column; gap: 10px; }
+        @media (max-width: 768px) { .main-container { flex-direction: column; } .sidebar { order: -1; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="test-title" id="testHeaderTitle">Chapter I: ಪ್ರಮುಖ ವ್ಯಕ್ತಿಗಳ ಬಿರುದುಗಳು</div>
+        <div class="timer-box" id="timer">00:00</div>
+    </header>
+
+    <div class="main-container">
+        <main class="quiz-section">
+            <div class="quiz-card">
+                <div class="question-text" id="questionText">Loading...</div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="explanation-block" id="explanationBlock"></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="action-btn btn-nav" id="prevBtn" onclick="navigateQuestion(-1)">Previous</button>
+                <button class="action-btn btn-nav" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+            </div>
+        </main>
+        <aside class="sidebar">
+            <div class="palette-card">
+                <div class="score-display">Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
+                <div class="palette-grid" id="paletteGrid"></div>
+                <div class="global-controls">
+                    <button class="action-btn btn-retest" onclick="retestAll()">ಮರುಪರೀಕ್ಷೆ (Retest All)</button>
+                    <button class="action-btn btn-wrong-test" onclick="startWrongTest()">Test Wrong Answers</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const rawQuestions = [
+            { id: 1, question: "ದಿನಕರ ದೇಸಾಯಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಚುಟುಕು ಬ್ರಹ್ಮ", "ಅಭಿನವ ಪಂಪ", "ಕನ್ನಡ ಕೋಗಿಲೆ", "ದಾನ ಚಿಂತಾಮಣಿ"], correct: 0, explanation: "ದಿನಕರ ದೇಸಾಯಿ - 'ಚುಟುಕು ಬ್ರಹ್ಮ'." },
+            { id: 2, question: "ನಾಗಚಂದ್ರ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ಅಭಿನವ ಪಂಪ", "ಚುಟುಕು ಬ್ರಹ್ಮ", "ಕನ್ನಡ ಕುಲಪುರೋಹಿತ", "ಕನ್ನಡದ ಷೇಕ್ಸ್‌ಪಿಯರ್"], correct: 0, explanation: "ನಾಗಚಂದ್ರ - 'ಅಭಿನವ ಪಂಪ'." },
+            { id: 3, question: "ಪಿ.ಕಾಳಿಂಗರಾವ್ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡ ಕೋಗಿಲೆ", "ದಾನ ಚಿಂತಾಮಣಿ", "ಕನ್ನಡದ ವರ್ಡ್ಸ್‌ವರ್ತ್", "ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ"], correct: 0, explanation: "ಪಿ.ಕಾಳಿಂಗರಾವ್ - 'ಕನ್ನಡ ಕೋಗಿಲೆ'." },
+            { id: 4, question: "ಅತ್ತಿಮಬ್ಬೆ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ದಾನ ಚಿಂತಾಮಣಿ", "ಕನ್ನಡ ಕೋಗಿಲೆ", "ನಾಟಕ ರತ್ನ", "ಪ್ರೇಮಕವಿ"], correct: 0, explanation: "ಅತ್ತಿಮಬ್ಬೆ - 'ದಾನ ಚಿಂತಾಮಣಿ'." },
+            { id: 5, question: "ಆಲೂರು ವೆಂಕಟರಾಯರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡ ಕುಲಪುರೋಹಿತ", "ಕನ್ನಡದ ಷೇಕ್ಸ್‌ಪಿಯರ್", "ಕರ್ನಾಟಕ ಪ್ರಹಸನ ಪಿತಾಮಹ", "ಕನ್ನಡದ ಸಿಂಹ"], correct: 0, explanation: "ಆಲೂರು ವೆಂಕಟರಾಯರು - 'ಕನ್ನಡ ಕುಲಪುರೋಹಿತ'." },
+            { id: 6, question: "ಕಂದಗಲ್ ಹನುಮಂತರಾಯರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ಷೇಕ್ಸ್‌ಪಿಯರ್", "ಕನ್ನಡದ ವರ್ಡ್ಸ್‌ವರ್ತ್", "ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ", "ನಾಟಕ ರತ್ನ"], correct: 0, explanation: "ಕಂದಗಲ್ ಹನುಮಂತರಾಯರು - 'ಕನ್ನಡದ ಷೇಕ್ಸ್‌ಪಿಯರ್'." },
+            { id: 7, question: "ಕುವೆಂಪು ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ವರ್ಡ್ಸ್‌ವರ್ತ್", "ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ", "ಪ್ರೇಮಕವಿ", "ವರಕವಿ"], correct: 0, explanation: "ಕುವೆಂಪು - 'ಕನ್ನಡದ ವರ್ಡ್ಸ್‌ವರ್ತ್' (ಹಾಗೂ ರಸಋಷಿ)." },
+            { id: 8, question: "ಆ.ನ.ಕೃಷ್ಣರಾಯರ ಬಿರುದು ಯಾವುದು?", options: ["ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ", "ಕಾದಂಬರಿ ಪಿತಾಮಹ", "ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ", "ಸಂತಕವಿ"], correct: 0, explanation: "ಆ.ನ.ಕೃಷ್ಣರಾಯರು - 'ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ'." },
+            { id: 9, question: "ಟಿ.ಪಿ.ಕೈಲಾಸಂ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕರ್ನಾಟಕ ಪ್ರಹಸನ ಪಿತಾಮಹ", "ಕನ್ನಡದ ಸಿಂಹ", "ನಾಟಕ ರತ್ನ", "ಕರ್ನಾಟಕ ಸಂಗೀತ ಪಿತಾಮಹ"], correct: 0, explanation: "ಟಿ.ಪಿ.ಕೈಲಾಸಂ - 'ಕರ್ನಾಟಕ ಪ್ರಹಸನ ಪಿತಾಮಹ'." },
+            { id: 10, question: "ಗಂಗಾಧರರಾವ್ ದೇಶಪಾಂಡೆ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ಸಿಂಹ / ಕರ್ನಾಟಕ ಕೇಸರಿ", "ನಾಟಕ ರತ್ನ", "ಕನ್ನಡ ಕುಲಪುರೋಹಿತ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ"], correct: 0, explanation: "ಗಂಗಾಧರರಾವ್ ದೇಶಪಾಂಡೆ - 'ಕನ್ನಡದ ಸಿಂಹ / ಕರ್ನಾಟಕ ಕೇಸರಿ'." },
+            { id: 11, question: "ಗುಬ್ಬಿವೀರಣ್ಣ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ನಾಟಕ ರತ್ನ", "ಪ್ರೇಮಕವಿ", "ಕಾದಂಬರಿ ಪಿತಾಮಹ", "ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ"], correct: 0, explanation: "ಗುಬ್ಬಿವೀರಣ್ಣ - 'ನಾಟಕ ರತ್ನ'." },
+            { id: 12, question: "ಪುರಂದರದಾಸರ ಬಿರುದು ಯಾವುದು?", options: ["ಕರ್ನಾಟಕ ಸಂಗೀತ ಪಿತಾಮಹ", "ಹರಿದಾಸ ಪಿತಾಮಹ", "ವಚನ ಸಾಹಿತ್ಯ ಪಿತಾಮಹ", "ಸಂತಕವಿ"], correct: 0, explanation: "ಪುರಂದರದಾಸರು - 'ಕರ್ನಾಟಕ ಸಂಗೀತ ಪಿತಾಮಹ'." },
+            { id: 13, question: "ಬಸವಣ್ಣನವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕರ್ನಾಟಕದ ಮಾರ್ಟಿನ್ ಲೂಥರ್", "ವಚನ ಬ್ರಹ್ಮ", "ಸಂತಕವಿ", "ರಗಳೆಯ ಕವಿ"], correct: 0, explanation: "ಬಸವಣ್ಣ - 'ಕರ್ನಾಟಕದ ಮಾರ್ಟಿನ್ ಲೂಥರ್'." },
+            { id: 14, question: "ಕೆ.ಎಸ್. ನರಸಿಂಹಸ್ವಾಮಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಪ್ರೇಮಕವಿ", "ವರಕವಿ", "ಕವಿರಾಜಮಲ್ಲ", "ರಾಷ್ಟ್ರಕವಿ"], correct: 0, explanation: "ಕೆ.ಎಸ್. ನರಸಿಂಹಸ್ವಾಮಿ - 'ಪ್ರೇಮಕವಿ'." },
+            { id: 15, question: "ಗಳಗನಾಥ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕಾದಂಬರಿ ಪಿತಾಮಹ", "ಕಾದಂಬರಿ ಸಾರ್ವಭೌಮ", "ಕನ್ನಡದ ಶಾಸನ ಪಿತಾಮಹ", "ಕನ್ನಡದ ಕಣ್ವ"], correct: 0, explanation: "ಗಳಗನಾಥ - 'ಕಾದಂಬರಿ ಪಿತಾಮಹ'." },
+            { id: 16, question: "ಸರ್ವಜ್ಞ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ", "ಕವಿಚಕ್ರವರ್ತಿ", "ರಗಳೆಯ ಕವಿ"], correct: 0, explanation: "ಸರ್ವಜ್ಞ - 'ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ'." },
+            { id: 17, question: "ಮು.ತಿ.ನರಸಿಂಹಾಚಾರ್ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಸಂತಕವಿ", "ಪ್ರೇಮಕವಿ", "ಅಪರೂಪದ ಕವಿ", "ವರಕವಿ"], correct: 0, explanation: "ಮು.ತಿ.ನರಸಿಂಹಾಚಾರ್ - 'ಸಂತಕವಿ'." },
+            { id: 18, question: "ರಾಘವಾಂಕ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ", "ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ", "ವಚನ ಬ್ರಹ್ಮ", "ಕವಿಚಕ್ರವರ್ತಿ"], correct: 0, explanation: "ರಾಘವಾಂಕ - 'ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ'." },
+            { id: 19, question: "ಮುಳಿಯ ತಿಮ್ಮಪ್ಪಯ್ಯ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ನಾಡೋಜ", "ಸಣ್ಣ ಕಥೆಗಳ ಜನಕ", "ಕನ್ನಡದ ಕಣ್ವ", "ರಾಷ್ಟ್ರಕವಿ"], correct: 0, explanation: "ಮುಳಿಯ ತಿಮ್ಮಪ್ಪಯ್ಯ - 'ಕನ್ನಡದ ನಾಡೋಜ'." },
+            { id: 20, question: "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಸಣ್ಣ ಕಥೆಗಳ ಜನಕ", "ಕನ್ನಡದ ನಾಡೋಜ", "ಕನ್ನಡದ ಶಾಸನ ಪಿತಾಮಹ", "ಹರಿದಾಸ ಪಿತಾಮಹ"], correct: 0, explanation: "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್ - 'ಸಣ್ಣ ಕಥೆಗಳ ಜನಕ'." },
+            { id: 21, question: "ಜಿ.ಎಲ್.ರೈಸ್ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕರ್ನಾಟಕ ಶಾಸನ ಪಿತಾಮಹ", "ಕನ್ನಡದ ಕಣ್ವ", "ಕನ್ನಡದ ಸೇನಾನಿ", "ಇತಿಹಾಸ ತಜ್ಞ"], correct: 0, explanation: "ಜಿ.ಎಲ್.ರೈಸ್ - 'ಕರ್ನಾಟಕ ಶಾಸನ ಪಿತಾಮಹ'." },
+            { id: 22, question: "ಶ್ರೀಪಾದರಾಯರ ಬಿರುದು ಯಾವುದು?", options: ["ಹರಿದಾಸ ಪಿತಾಮಹ", "ಕರ್ನಾಟಕ ಸಂಗೀತ ಪಿತಾಮಹ", "ವಚನ ಸಾಹಿತ್ಯ ಪಿತಾಮಹ", "ವಚನ ಬ್ರಹ್ಮ"], correct: 0, explanation: "ಶ್ರೀಪಾದರಾಯರು - 'ಹರಿದಾಸ ಪಿತಾಮಹ'." },
+            { id: 23, question: "ರತ್ನಾಕರವರ್ಣಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಅಭಿನವ ಸರ್ವಜ್ಞ", "ಅಭಿನವ ಪಂಪ", "ಅಪರೂಪದ ಕವಿ", "ವರಕವಿ"], correct: 0, explanation: "ರತ್ನಾಕರವರ್ಣಿ - 'ಅಭಿನವ ಸರ್ವಜ್ಞ'." },
+            { id: 24, question: "ಫ.ಗು.ಹಳಕಟ್ಟಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ವಚನ ಸಾಹಿತ್ಯ ಪಿತಾಮಹ", "ವಚನ ಬ್ರಹ್ಮ", "ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ", "ಕನ್ನಡದ ಕಣ್ವ"], correct: 0, explanation: "ಫ.ಗು.ಹಳಕಟ್ಟಿ - 'ವಚನ ಸಾಹಿತ್ಯ ಪಿತಾಮಹ'." },
+            { id: 25, question: "ಜಡಭರತ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ವಚನ ಬ್ರಹ್ಮ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ", "ಚುಟುಕು ಬ್ರಹ್ಮ", "ಕವಿಚಕ್ರವರ್ತಿ"], correct: 0, explanation: "ಜಡಭರತ - 'ವಚನ ಬ್ರಹ್ಮ'." },
+            { id: 26, question: "ರನ್ನ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ಕವಿಚಕ್ರವರ್ತಿ", "ಅಭಿನವ ಪಂಪ", "ಆದಿಕವಿ", "ರಗಳೆಯ ಕವಿ"], correct: 0, explanation: "ರನ್ನ - 'ಕವಿಚಕ್ರವರ್ತಿ'." },
+            { id: 27, question: "ಪಂಪ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ಆದಿಕವಿ", "ಕವಿಚಕ್ರವರ್ತಿ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ", "ವರಕವಿ"], correct: 0, explanation: "ಪಂಪ - 'ಕನ್ನಡದ ಆದಿಕವಿ'." },
+            { id: 28, question: "ರನ್ನ ಕವಿಗೆ ಇರುವ ಇನ್ನೊಂದು ಬಿರುದು ಯಾವುದು?", options: ["ಉಭಯ ಚಕ್ರವರ್ತಿ / ಶಕ್ತಿ ಕವಿ", "ಅಪರೂಪದ ಕವಿ", "ರಗಳೆಯ ಕವಿ", "ಕನ್ನಡದ ಸೇನಾನಿ"], correct: 0, explanation: "ರನ್ನ - 'ಉಭಯ ಚಕ್ರವರ್ತಿ / ಶಕ್ತಿ ಕವಿ'." },
+            { id: 29, question: "ಜನ್ನ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ಅಪರೂಪದ ಕವಿ", "ರಗಳೆಯ ಕವಿ", "ಸಂತಕವಿ", "ಪ್ರೇಮಕವಿ"], correct: 0, explanation: "ಜನ್ನ - 'ಅಪರೂಪದ ಕವಿ'." },
+            { id: 30, question: "ಹರಿಹರ ಕವಿಯ ಬಿರುದು ಯಾವುದು?", options: ["ರಗಳೆಯ ಕವಿ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ", "ತ್ರಿಪದಿ ಚಕ್ರವರ್ತಿ", "ಕವಿರಾಜಮಲ್ಲ"], correct: 0, explanation: "ಹರಿಹರ - 'ರಗಳೆಯ ಕವಿ'." },
+            { id: 31, question: "ಬಿ.ಎಂ.ಶ್ರೀಕಂಠಯ್ಯ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ಕಣ್ವ", "ರಾಷ್ಟ್ರಕವಿ", "ಕನ್ನಡದ ಸೇನಾನಿ", "ಇತಿಹಾಸ ತಜ್ಞ"], correct: 0, explanation: "ಬಿ.ಎಂ.ಶ್ರೀಕಂಠಯ್ಯ - 'ಕನ್ನಡದ ಕಣ್ವ'." },
+            { id: 32, question: "ಎಂ. ಗೋವಿಂದಪೈ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ರಾಷ್ಟ್ರಕವಿ", "ಕನ್ನಡದ ಕಣ್ವ", "ಕನ್ನಡದ ಸೇನಾನಿ", "ವರಕವಿ"], correct: 0, explanation: "ಎಂ. ಗೋವಿಂದಪೈ - 'ರಾಷ್ಟ್ರಕವಿ'." },
+            { id: 33, question: "ವಿ.ಆರ್.ಕೃಷ್ಣಶಾಸ್ತ್ರಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕನ್ನಡದ ಸೇನಾನಿ", "ಇತಿಹಾಸ ತಜ್ಞ", "ಪತ್ರಿಕಾ ರಂಗದ ಭೀಷ್ಮ", "ಕವಿರಾಜಮಲ್ಲ"], correct: 0, explanation: "ವಿ.ಆರ್.ಕೃಷ್ಣಶಾಸ್ತ್ರಿ - 'ಕನ್ನಡದ ಸೇನಾನಿ'." },
+            { id: 34, question: "ಹೆಚ್.ಕೃಷ್ಣಶಾಸ್ತ್ರಿ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಇತಿಹಾಸ ತಜ್ಞ", "ಪತ್ರಿಕಾ ರಂಗದ ಭೀಷ್ಮ", "ಕವಿರಾಜಮಲ್ಲ", "ಯಲಹಂಕ ನಾಡಪ್ರಭು"], correct: 0, explanation: "ಹೆಚ್.ಕೃಷ್ಣಶಾಸ್ತ್ರಿ - 'ಇತಿಹಾಸ ತಜ್ಞ'." },
+            { id: 35, question: "ಕೆ.ಶಾಮರಾವ್ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಪತ್ರಿಕಾ ರಂಗದ ಭೀಷ್ಮ", "ಇತಿಹಾಸ ತಜ್ಞ", "ಕನ್ನಡದ ನಾಡೋಜ", "ಕನ್ನಡದ ಶಾಸನ ಪಿತಾಮಹ"], correct: 0, explanation: "ಕೆ.ಶಾಮರಾವ್ - 'ಪತ್ರಿಕಾ ರಂಗದ ಭೀಷ್ಮ'." },
+            { id: 36, question: "ನೇಮಿಚಂದ್ರ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಕವಿರಾಜಮಲ್ಲ", "ಅಪರೂಪದ ಕವಿ", "ಕವಿಚಕ್ರವರ್ತಿ", "ಷಟ್ಪದಿಯ ಬ್ರಹ್ಮ"], correct: 0, explanation: "ನೇಮಿಚಂದ್ರ - 'ಕವಿರಾಜಮಲ್ಲ'." },
+            { id: 37, question: "ಕೆಂಪೇಗೌಡ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಯಲಹಂಕ ನಾಡಪ್ರಭು", "ರಾಜರ್ಷಿ", "ರಸಋಷಿ", "ವರಕವಿ"], correct: 0, explanation: "ಕೆಂಪೇಗೌಡ - 'ಯಲಹಂಕ ನಾಡಪ್ರಭು'." },
+            { id: 38, question: "ಕೃಷ್ಣರಾಜ ಒಡೆಯರು ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ರಾಜರ್ಷಿ", "ರಸಋಷಿ", "ಚಲಿಸುವ ವಿಶ್ವಕೋಶ", "ಕನ್ನಡದ ಸಿಂಹ"], correct: 0, explanation: "ಕೃಷ್ಣರಾಜ ಒಡೆಯರು - 'ರಾಜರ್ಷಿ'." },
+            { id: 39, question: "ಕುವೆಂಪು ಅವರ ಮತ್ತೊಂದು ಬಿರುದು ಯಾವುದು?", options: ["ರಸಋಷಿ", "ರಾಜರ್ಷಿ", "ವರಕವಿ", "ಚಲಿಸುವ ವಿಶ್ವಕೋಶ"], correct: 0, explanation: "ಕುವೆಂಪು - 'ರಸಋಷಿ'." },
+            { id: 40, question: "ದ.ರಾ. ಬೇಂದ್ರೆ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ವರಕವಿ", "ರಸಋಷಿ", "ಕನ್ನಡದ ವರ್ಡ್ಸ್‌ವರ್ತ್", "ಚಲಿಸುವ ವಿಶ್ವಕೋಶ"], correct: 0, explanation: "ದ.ರಾ. ಬೇಂದ್ರೆ - 'ವರಕವಿ'." },
+            { id: 41, question: "ಶಿವರಾಮ ಕಾರಂತ ಅವರ ಬಿರುದು ಯಾವುದು?", options: ["ಚಲಿಸುವ ವಿಶ್ವಕೋಶ", "ವರಕವಿ", "ರಸಋಷಿ", "ಕನ್ನಡದ ಕಣ್ವ"], correct: 0, explanation: "ಶಿವರಾಮ ಕಾರಂತ - 'ಚಲಿಸುವ ವಿಶ್ವಕೋಶ'." }
+        ];
+
+        let activeQuestions = [...rawQuestions], userAnswers = {}, currentIndex = 0, wrongTestCounter = 1, timerSeconds = 0, timerInterval = null;
+
+        function startTimer() {
+            clearInterval(timerInterval); timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                document.getElementById('timer').textContent = `${String(Math.floor(timerSeconds/60)).padStart(2,'0')}:${String(timerSeconds%60).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function initQuiz() { currentIndex = 0; renderPalette(); renderQuestion(); updateScore(); startTimer(); }
+
+        function renderPalette() {
+            const grid = document.getElementById('paletteGrid'); grid.innerHTML = '';
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-btn' + (index === currentIndex ? ' active' : '');
+                btn.textContent = q.id;
+                if (userAnswers.hasOwnProperty(q.id)) btn.classList.add(userAnswers[q.id] === q.correct ? 'correct' : 'wrong');
+                btn.onclick = () => { currentIndex = index; renderQuestion(); renderPalette(); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const currentQ = activeQuestions[currentIndex];
+            document.getElementById('questionText').textContent = `${currentQ.id}. ${currentQ.question}`;
+            const optionsContainer = document.getElementById('optionsContainer'); optionsContainer.innerHTML = '';
+            const isAnswered = userAnswers.hasOwnProperty(currentQ.id), selectedOpt = userAnswers[currentQ.id];
+
+            currentQ.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = optText;
+                if (isAnswered) {
+                    btn.disabled = true;
+                    if (optIdx === currentQ.correct) btn.classList.add('correct');
+                    if (optIdx === selectedOpt && selectedOpt !== currentQ.correct) btn.classList.add('wrong');
+                } else { btn.onclick = () => selectOption(optIdx); }
+                optionsContainer.appendChild(btn);
+            });
+
+            const expBlock = document.getElementById('explanationBlock');
+            if (isAnswered) { expBlock.textContent = `ವಿವರಣೆ: ${currentQ.explanation}`; expBlock.classList.add('visible'); }
+            else { expBlock.classList.remove('visible'); expBlock.textContent = ''; }
+
+            document.getElementById('prevBtn').disabled = (currentIndex === 0);
+            document.getElementById('nextBtn').disabled = (currentIndex === activeQuestions.length - 1);
+        }
+
+        function selectOption(optIndex) { userAnswers[activeQuestions[currentIndex].id] = optIndex; renderQuestion(); renderPalette(); updateScore(); }
+        function navigateQuestion(direction) { if (currentIndex + direction >= 0 && currentIndex + direction < activeQuestions.length) { currentIndex += direction; renderQuestion(); renderPalette(); } }
+        function updateScore() {
+            let score = rawQuestions.reduce((acc, q) => userAnswers[q.id] === q.correct ? acc + 1 : acc, 0);
+            document.getElementById('scoreVal').textContent = score; document.getElementById('totalVal').textContent = rawQuestions.length;
+        }
+        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter I: ಪ್ರಮುಖ ವ್ಯಕ್ತಿಗಳ ಬಿರುದುಗಳು"; initQuiz(); }
+        function startWrongTest() {
+            const wrongQs = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
+            if (wrongQs.length === 0) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
+            wrongQs.forEach(q => delete userAnswers[q.id]); activeQuestions = wrongQs;
+            document.getElementById('testHeaderTitle').textContent = `Chapter I: Wrong Test-${wrongTestCounter++}`;
+            currentIndex = 0; renderPalette(); renderQuestion(); updateScore();
+        }
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
