@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBT Mock Test - Chapter C</title>
+    <title>CBT Mock Test - Chapter D</title>
     <style>
         :root { --primary-blue: #1a237e; --card-bg: #ffffff; --body-bg: #f4f6f9; --text-color: #333333; --correct-green: #2e7d32; --wrong-red: #c62828; --active-blue: #2196f3; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -43,7 +43,7 @@
 </head>
 <body>
     <header>
-        <div class="test-title" id="testHeaderTitle">Chapter C: ಪ್ರಸಿದ್ಧ ಸ್ಥಳಗಳು - ಪ್ರಸಿದ್ಧ ಉದ್ಯಮಗಳು / ಸರಕುಗಳು</div>
+        <div class="test-title" id="testHeaderTitle">Chapter D: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು</div>
         <div class="timer-box" id="timer">00:00</div>
     </header>
 
@@ -73,11 +73,30 @@
 
     <script>
         const rawQuestions = [
-            { id: 23, question: "ತಿಪಟೂರು ಯಾವ ಸರಕಿಗೆ/ವಸ್ತುವಿಗೆ ಪ್ರಸಿದ್ಧಿಯಾಗಿದೆ?", options: ["ಕಿತ್ತಳೆ", "ಕೊಬ್ಬರಿ (ತೆಂಗಿನಕಾಯಿ)", "ದಾಳಿಂಬೆ", "ಕೆಂಪುಮಲ್ಲಿಗೆ"], correct: 1, explanation: "ತಿಪಟೂರು ಕೊಬ್ಬರಿ (ತೆಂಗಿನಕಾಯಿ) ಉತ್ಪಾದನೆಗೆ ಪ್ರಸಿದ್ಧವಾಗಿದೆ." },
-            { id: 24, question: "ಕೊಡಗು ಜಿಲ್ಲೆ ಯಾವ ಬೆಳೆಗೆ ಅತ್ಯಂತ ಪ್ರಸಿದ್ಧವಾಗಿದೆ?", options: ["ಕಿತ್ತಳೆ", "ದಾಳಿಂಬೆ", "ಬಿದರಿ ಕೆತ್ತನೆ", "ಕೊಬ್ಬರಿ"], correct: 0, explanation: "ಕೊಡಗು ಜಿಲ್ಲೆ ಕಿತ್ತಳೆ ಬೆಳೆಗೆ ಹೆಸರುವಾಸಿಯಾಗಿದೆ." },
-            { id: 25, question: "ಮಧುಗಿರಿ ಯಾವ ಹಣ್ಣಿಗೆ ಪ್ರಸಿದ್ಧ ಪಡೆದಿದೆ?", options: ["ಕಿತ್ತಳೆ", "ಕೆಂಪುಮಲ್ಲಿಗೆ", "ದಾಳಿಂಬೆ", "ಕೊಬ್ಬರಿ"], correct: 2, explanation: "ಮಧುಗಿರಿ ಸ್ಥಳವು ದಾಳಿಂಬೆ ಬೆಳೆಗೆ ಪ್ರಸಿದ್ಧಿಯಾಗಿದೆ." },
-            { id: 27, question: "ಬೀದರ್ ಜಿಲ್ಲೆಯು ಯಾವ ಕಲೆ/ಉದ್ಯಮಕ್ಕೆ ಪ್ರಸಿದ್ಧವಾಗಿದೆ?", options: ["ಬಿದರಿ ಕೆತ್ತನೆ", "ಕೆಂಪುಮಲ್ಲಿಗೆ", "ದಾಳಿಂಬೆ", "ಕಿತ್ತಳೆ"], correct: 0, explanation: "ಬೀದರ್ ತಾನಿ ವಿಶಿಷ್ಟ 'ಬಿದರಿ ಕೆತ್ತನೆ' ಕಲೆಗೆ ಪ್ರಸಿದ್ಧವಾಗಿದೆ." },
-            { id: 28, question: "ಕುಂದಾಪುರ ಪ್ರದೇಶವು ಯಾವುದಕ್ಕೆ ಹೆಸರಾಗಿದೆ?", options: ["ದಾಳಿಂಬೆ", "ಕೊಬ್ಬರಿ", "ಕೆಂಪುಮಲ್ಲಿಗೆ", "ಬಿದರಿ ಕೆತ್ತನೆ"], correct: 2, explanation: "ಕುಂದಾಪುರ ಪ್ರದೇಶವು ಕೆಂಪುಮಲ್ಲಿಗೆಗೆ ಪ್ರಸಿದ್ಧವಾಗಿದೆ." }
+            { id: 1, question: "ಭದ್ರಾ ಯೋಜನೆಯು ಯಾವ ಸ್ಥಳ, ಜಿಲ್ಲೆ ಮತ್ತು ನದಿಗೆ ಸಂಬಂಧಿಸಿದೆ?", options: ["ಸ್ಥಳ: ಲಕ್ಕವಳ್ಳಿ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ, ನದಿ: ತುಂಗಾ", "ಸ್ಥಳ: ಬೀಚನಹಳ್ಳಿ, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ಕಬಿನಿ", "ಸ್ಥಳ: ತರೀಕೆರೆ, ಜಿಲ್ಲೆ: ಚಿಕ್ಕಮಗಳೂರು, ನದಿ: ಭದ್ರಾ"], correct: 0, explanation: "ಭದ್ರಾ ಯೋಜನೆ - ಲಕ್ಕವಳ್ಳಿ, ಚಿಕ್ಕಮಗಳೂರು ಜಿಲ್ಲೆ, ತುಂಗಾ ನದಿ." },
+            { id: 2, question: "ತುಂಗಾ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿದೆ?", options: ["ಸ್ಥಳ: ಬಿರುವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು", "ಸ್ಥಳ: ಗಾಜನೂರು, ಜಿಲ್ಲೆ: ಶಿವಮೊಗ್ಗ", "ಸ್ಥಳ: ಹಿಡಕಲ್, ಜಿಲ್ಲೆ: ಬೆಳಗಾವಿ", "ಸ್ಥಳ: ಹದಗೂರು, ಜಿಲ್ಲೆ: ಕೊಡಗು"], correct: 1, explanation: "ತುಂಗಾ ಅಣೆಕಟ್ಟು - ಗಾಜನೂರು, ಶಿವಮೊಗ್ಗ ಜಿಲ್ಲೆ, ತುಂಗಾ ನದಿ." },
+            { id: 3, question: "ಕಬಿನಿ ಯೋಜನೆಯು ಯಾವ ನದಿಗೆ ಕಟ್ಟಲಾಗಿದೆ?", options: ["ನುಗು", "ಕಬಿನಿ", "ಘಟಪ್ರಭಾ", "ಹಾರಂಗಿ"], correct: 1, explanation: "ಕಬಿನಿ ಯೋಜನೆ - ಬೀಚನಹಳ್ಳಿ, ಮೈಸೂರು ಜಿಲ್ಲೆ, ಕಬಿನಿ ನದಿ." },
+            { id: 4, question: "ನುಗು ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಸ್ಥಳ: ಬಿರುವಾಳು, ಜಿಲ್ಲೆ: ಮೈಸೂರು, ನದಿ: ನುಗು", "ಸ್ಥಳ: ಮಾರಿಕಣಿವೆ, ಜಿಲ್ಲೆ: ಚಿತ್ರದುರ್ಗ, ನದಿ: ವೇದಾವತಿ", "ಸ್ಥಳ: ಕನ್ನಂಬಾಡಿ, ಜಿಲ್ಲೆ: ಮಂಡ್ಯ, ನದಿ: ಕಾವೇರಿ", "ಸ್ಥಳ: ಮಲ್ಲಾಪುರ, ಜಿಲ್ಲೆ: ವಿಜಯನಗರ, ನದಿ: ತುಂಗಭದ್ರಾ"], correct: 0, explanation: "ನುಗು ಯೋಜನೆ - ಬಿರುವಾಳು, ಮೈಸೂರು district, ನುಗು ನದಿ." },
+            { id: 5, question: "ಘಟಪ್ರಭಾ ಯೋಜನೆ ಯಾವ ಸ್ಥಳ ಮತ್ತು ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಹಿಡಕಲ್, ಬೆಳಗಾವಿ", "ಹದಗೂರು, ಕೊಡಗು", "ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ", "ಗೋರೂರು, ಹಾಸನ"], correct: 0, explanation: "ಘಟಪ್ರಭಾ ಯೋಜನೆ - ಹಿಡಕಲ್, ಬೆಳಗಾವಿ ಜಿಲ್ಲೆ, ಘಟಪ್ರಭಾ ನದಿ." },
+            { id: 6, question: "ಹಾರಂಗಿ ಯೋಜನೆ ಯಾವ ನದಿಗೆ ಸಂಬಂದಿಸಿದೆ?", options: ["ವೇದಾವತಿ", "ಕಾವೇರಿ", "ಹಾರಂಗಿ ನದಿ", "ಹೇಮಾವತಿ"], correct: 2, explanation: "ಹಾರಂಗಿ ಯೋಜನೆ - ಹದಗೂರು, ಕೊಡಗು ಜಿಲ್ಲೆ, ಹಾರಂಗಿ ನದಿ." },
+            { id: 7, question: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆ ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ವೇದಾವತಿ ನದಿ", "ತುಂಗಭದ್ರಾ", "ಮಾಂಜ್ರಾನದಿ", "ಕೃಷ್ಣಾ"], correct: 0, explanation: "ವಾಣಿವಿಲಾಸ ಸಾಗರ ಯೋಜನೆ - ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ ಜಿಲ್ಲೆ, ವೇದಾವತಿ ನದಿ." },
+            { id: 8, question: "ಕೃಷ್ಣರಾಜಸಾಗರ (KRS) ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕನ್ನಂಬಾಡಿ, ಮಂಡ್ಯ (ಕಾವೇರಿ ನದಿ)", "ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ (ತುಂಗಭದ್ರಾ)", "ಗೋರೂರು, ಹಾಸನ (ಹೇಮಾವತಿ)", "ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ (ಮಾಂಜ್ರಾನದಿ)"], correct: 0, explanation: "ಕೃಷ್ಣರಾಜಸಾಗರ ಯೋಜನೆ - ಕನ್ನಂಬಾಡಿ, ಮಂಡ್ಯ ಜಿಲ್ಲೆ, ಕಾವೇರಿ ನದಿ." },
+            { id: 9, question: "ತುಂಗಭದ್ರಾ ಯೋಜನೆ ಸ್ಥಳ ಯಾವುದು?", options: ["ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ", "ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ", "ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ", "ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ"], correct: 0, explanation: "ತುಂಗಭದ್ರಾ ಯೋಜನೆ - ಮಲ್ಲಾಪುರ, ವಿಜಯನಗರ district, ತುಂಗಭದ್ರಾ ನದಿ." },
+            { id: 10, question: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು ಇರುವ ಸ್ಥಳ ಮತ್ತು ಜಿಲ್ಲೆ ಯಾವುದು?", options: ["ಗೋರೂರು, ಹಾಸನ", "ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ", "ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ", "ಹೇರೂರು, ಕಲಬುರ್ಗಿ"], correct: 0, explanation: "ಹೇಮಾವತಿ ಅಣೆಕಟ್ಟು - ಗೋರೂರು, ಹಾಸನ ಜಿಲ್ಲೆ, ಹೇಮಾವತಿ ನದಿ." },
+            { id: 11, question: "ಕಾರಂಜಾ ಯೋಜನೆ ಯಾವ ನದಿಗೆ ಸೇರಿದೆ?", options: ["ಮಾಂಜ್ರಾನದಿ", "ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಚಿಕ್ಕಹೊಳೆ"], correct: 0, explanation: "ಕಾರಂಜಾ ಯೋಜನೆ - ಬ್ಯಾಲಹಳ್ಳಿ, ಬೀದರ ಜಿಲ್ಲೆ, ಮಾಂಜ್ರಾನದಿ." },
+            { id: 12, question: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು (ಆಲಮಟ್ಟಿ) ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಬೆಣ್ಣೆತೊರೆ", "ಶರಾವತಿ"], correct: 0, explanation: "ಲಾಲ್ ಬಹದ್ದೂರ್ ಶಾಸ್ತ್ರಿ ಅಣೆಕಟ್ಟು - ಆಲಮಟ್ಟಿ, ವಿಜಯಪುರ, ಕೃಷ್ಣಾ ನದಿ." },
+            { id: 13, question: "ಮಲಪ್ರಭಾ ಯೋಜನೆ ಎಲ್ಲಿ ನಿರ್ಮಿಸಲಾಗಿದೆ?", options: ["ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ", "ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ", "ಹೇರೂರು, ಕಲಬುರ್ಗಿ", "ಸವದತ್ತಿ, ಬೆಳಗಾವಿ"], correct: 0, explanation: "ಮಲಪ್ರಭಾ ಯೋಜನೆ - ಮುನವಳ್ಳಿ, ಬೆಳಗಾವಿ ಜಿಲ್ಲೆ, ಮಲಪ್ರಭಾ ನದಿ." },
+            { id: 14, question: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ", "ನಾರಾಯಣಪುರ, ಯಾದಗಿರಿ", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ"], correct: 0, explanation: "ಚಿಕ್ಕಹೊಳೆ ಯೋಜನೆ - ಅಬ್ಬಗೂಳೂರು, ಚಾಮರಾಜನಗರ, ಚಿಕ್ಕಹೊಳೆ ನದಿ." },
+            { id: 15, question: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಹೇರೂರು, ಕಲಬುರ್ಗಿ", "ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು", "ಕುಣಿಗಲ್, ತುಮಕೂರು", "ಯಗಚಿ, ಹಾಸನ"], correct: 0, explanation: "ಬೆಣ್ಣೆತೊರೆ ಯೋಜನೆ - ಹೇರೂರು, ಕಲಬುರ್ಗಿ, ಬೆಣ್ಣೆತೊರೆ ನದಿ." },
+            { id: 16, question: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು ಯಾವ ನದಿಗೆ ಅಡ್ಡಲಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ?", options: ["ಕೃಷ್ಣಾ", "ಮಲಪ್ರಭಾ", "ಭದ್ರಾ", "ಕಾಳಿ ನದಿ"], correct: 0, explanation: "ನಾರಾಯಣಪುರ ಅಣೆಕಟ್ಟು - ನಾರಾಯಣಪುರ, ಯಾದಗಿರಿ, ಕೃಷ್ಣಾ ನದಿ." },
+            { id: 17, question: "ನವಿಲುತೀರ್ಥ ಯೋಜನೆ ಎಲ್ಲಿ ಮತ್ತು ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಸವದತ್ತಿ, ಬೆಳಗಾವಿ (ಮಲಪ್ರಭಾ)", "ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು (ಭದ್ರಾ)", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ (ಶರಾವತಿ)", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ)"], correct: 0, explanation: "ನವಿಲುತೀರ್ಥ - ಸವದತ್ತಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ ನದಿ." },
+            { id: 18, question: "ಲಕ್ಷ್ಮವಳ್ಳಿ ಸ್ಥಳವು ಯಾವ ಯೋಜನೆಗೆ ಸೇರಿದೆ?", options: ["ಭದ್ರಾ (ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು)", "ಲಿಂಗನಮಕ್ಕಿ", "ಸುಪಾ", "ಮಾರಕನಹಳ್ಳಿ"], correct: 0, explanation: "ಲಕ್ಷ್ಮವಳ್ಳಿ - ತರೀಕೆರೆ, ಚಿಕ್ಕಮಗಳೂರು, ಭದ್ರಾ ನದಿ." },
+            { id: 19, question: "ಲಿಂಗನಮಕ್ಕಿ ಅಣೆಕಟ್ಟು ಯಾವ ನದಿಗೆ ಕಟ್ಟಲಾಗಿದೆ?", options: ["ಶರಾವತಿ", "ಕಾಳಿ", "ಶಿಂಷಾ", "ವಾರಾಹಿ"], correct: 0, explanation: "ಲಿಂಗನಮಕ್ಕಿ - ಸಾಗರ, ಶಿವಮೊಗ್ಗ, ಶರಾವತಿ ನದಿ." },
+            { id: 20, question: "ಸುಪಾ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿ ನೆಲೆಗೊಂಡಿದೆ?", options: ["ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ ನದಿ)", "ಕುಣಿಗಲ್, ತುಮಕೂರು (ಶಿಂಷಾ)", "ಕಲಬುರ್ಗಿ (ಗಂಡೋರಿನಾಲ)", "ಉಡುಪಿ (ವಾರಾಹಿ)"], correct: 0, explanation: "ಸುಪಾ ಅಣೆಕಟ್ಟು - ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ, ಕಾಳಿ ನದಿ." },
+            { id: 21, question: "ಮಾರಕನಹಳ್ಳಿ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕುಣಿಗಲ್, ತುಮಕೂರು (ಶಿಂಷಾ ನದಿ)", "ಕಲಬುರ್ಗಿ (ಗಂಡೋರಿನಾಲ)", "ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ (ವಾರಾಹಿ)", "ಯಗಚಿ, ಹಾಸನ (ಯಗಚಿ)"], correct: 0, explanation: "ಮಾರಕನಹಳ್ಳಿ - ಕುಣಿಗಲ್, ತುಮಕೂರು, ಶಿಂಷಾ ನದಿ." },
+            { id: 22, question: "ಗಂಡೋರಿನಾಲಾ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಕಲಬುರ್ಗಿ, ಕಲಬುರ್ಗಿ", "ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ", "ಯಗಚಿ, ಹಾಸನ", "ಸಾಗರ, ಶಿವಮೊಗ್ಗ"], correct: 0, explanation: "ಗಂಡೋರಿನಾಲಾ - ಕಲಬುರ್ಗಿ, ಕಲಬುರ್ಗಿ district, ಗಂಡೋರಿನಾಲ." },
+            { id: 23, question: "ವಾರಾಹಿ ಯೋಜನೆ ಎಲ್ಲಿದೆ?", options: ["ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ, ವಾರಾಹಿ ನದಿ", "ಯಗಚಿ, ಹಾಸನ, ಯಗಚಿ ನದಿ", "ಕುಣಿಗಲ್, ತುಮಕೂರು, ಶಿಂಷಾ", "ಸವದತ್ತಿ, ಬೆಳಗಾವಿ, ಮಲಪ್ರಭಾ"], correct: 0, explanation: "ವಾರಾಹಿ ಯೋಜನೆ - ಪಶ್ಚಿಮಘಟ್ಟ, ಉಡುಪಿ, ವಾರಾಹಿ ನದಿ." },
+            { id: 24, question: "ಯಗಚಿ ಅಣೆಕಟ್ಟು ಎಲ್ಲಿ ಮತ್ತು ಯಾವ ನದಿಯಲ್ಲಿದೆ?", options: ["ಯಗಚಿ, ಹಾಸನ (ಯಗಚಿ ನದಿ)", "ಜೋಯ್ಡಾ, ಉತ್ತರಕನ್ನಡ (ಕಾಳಿ)", "ಗೋರೂರು, ಹಾಸನ (ಹೇಮಾವತಿ)", "ಮಾರಿಕಣಿವೆ, ಚಿತ್ರದುರ್ಗ (ವೇದಾವತಿ)"], correct: 0, explanation: "ಯಗಚಿ ಅಣೆಕಟ್ಟು - ಯಗಚಿ, ಹಾಸನ, ಯಗಚಿ ನದಿ." }
         ];
 
         let activeQuestions = [...rawQuestions], userAnswers = {}, currentIndex = 0, wrongTestCounter = 1, timerSeconds = 0, timerInterval = null;
@@ -134,12 +153,12 @@
             let score = rawQuestions.reduce((acc, q) => userAnswers[q.id] === q.correct ? acc + 1 : acc, 0);
             document.getElementById('scoreVal').textContent = score; document.getElementById('totalVal').textContent = rawQuestions.length;
         }
-        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter C: ಪ್ರಸಿದ್ಧ ಸ್ಥಳಗಳು - ಪ್ರಸಿದ್ಧ ಉದ್ಯಮಗಳು / ಸರಕುಗಳು"; initQuiz(); }
+        function retestAll() { userAnswers = {}; activeQuestions = [...rawQuestions]; wrongTestCounter = 1; document.getElementById('testHeaderTitle').textContent = "Chapter D: ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ನದಿ ಯೋಜನೆಗಳು"; initQuiz(); }
         function startWrongTest() {
             const wrongQs = rawQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.correct);
             if (wrongQs.length === 0) return alert("ಯಾವುದೇ ತಪ್ಪಾದ ಉತ್ತರಗಳಿಲ್ಲ! (No wrong answers found!)");
             wrongQs.forEach(q => delete userAnswers[q.id]); activeQuestions = wrongQs;
-            document.getElementById('testHeaderTitle').textContent = `Chapter C: Wrong Test-${wrongTestCounter++}`;
+            document.getElementById('testHeaderTitle').textContent = `Chapter D: Wrong Test-${wrongTestCounter++}`;
             currentIndex = 0; renderPalette(); renderQuestion(); updateScore();
         }
         window.onload = initQuiz;
